@@ -1,0 +1,20 @@
+# Supply-chain guard: don't install package versions published less than 3 days ago.
+minimumReleaseAge: 4320
+
+# Audit exceptions need a sign-off, a reason and a review date in audit-exceptions.json
+# (CI checks both lists match, the date hasn't passed, and the package isn't a production dependency).
+
+# Audit exceptions need the owner's sign-off, a reason and a review date in audit-exceptions.json.
+auditConfig:
+  ignoreGhsas:
+    # picomatch <=4.0.7 glob-matching DoS; no patched version exists (2026-11-17), time-boxed to
+    # 2026-12-01 (x-picomatch-ghsa-fc5q-39xc-vjpf-time-boxed-audit-ignore). Build-time only (astro check / unstorage / eslint globbing), never ships, no untrusted input; recheck 2026-12-01.
+    - GHSA-fc5q-39xc-vjpf
+
+# minimatch < 11.0.1 globparts DoS advisory (#404; dev-only via eslint and typescript-eslint). No advisory id here:
+# check-audit-exceptions.mjs counts every id in this file as an ignore entry.
+# force the patched version everywhere instead of an audit exception.
+overrides:
+  minimatch: ">=11.0.1"
+patchedDependencies:
+  eslint-plugin-jsx-a11y@6.10.2: patches/eslint-plugin-jsx-a11y@6.10.2.patch

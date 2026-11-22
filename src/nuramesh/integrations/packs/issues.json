@@ -1,0 +1,75 @@
+{
+  "name": "issues",
+  "pack_version": 1,
+  "data_kind": "code",
+  "tools": [
+    {
+      "tool": "search_issues",
+      "kind": "read",
+      "allowed_args": [
+        "project",
+        "query"
+      ],
+      "effects": [],
+      "paid": false
+    },
+    {
+      "tool": "get_issue",
+      "kind": "read",
+      "allowed_args": [
+        "project",
+        "id"
+      ],
+      "effects": [],
+      "paid": false
+    },
+    {
+      "tool": "create_issue",
+      "kind": "write",
+      "allowed_args": [
+        "project",
+        "title",
+        "body"
+      ],
+      "effects": [
+        {
+          "kind": "external_message",
+          "arg": "project"
+        }
+      ],
+      "paid": false
+    },
+    {
+      "tool": "update_issue_status",
+      "kind": "write",
+      "allowed_args": [
+        "project",
+        "id",
+        "status"
+      ],
+      "effects": [
+        {
+          "kind": "external_message",
+          "arg": "project"
+        }
+      ],
+      "paid": false
+    },
+    {
+      "tool": "add_issue_comment",
+      "kind": "write",
+      "allowed_args": [
+        "project",
+        "id",
+        "body"
+      ],
+      "effects": [
+        {
+          "kind": "external_message",
+          "arg": "project"
+        }
+      ],
+      "paid": false
+    }
+  ]
+}

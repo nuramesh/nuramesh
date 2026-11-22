@@ -1,0 +1,146 @@
+[project]
+name = "nuramesh"
+version = "0.1.0"
+description = "Build and run AI agent teams you can trust: verification gates, evals, budgets, canon, ledger and autonomy policies on top of LangGraph."
+readme = "README.md"
+authors = [
+    { name = "AI Collective Labs", email = "opensource@nuramesh.com" }
+]
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md"]
+keywords = ["ai-agents", "verification", "governance", "ledger", "budgets", "langgraph"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.14.3,<3",
+]
+
+[project.optional-dependencies]
+yaml = [
+    "pyyaml>=6.0.3,<7",
+]
+client = [
+    "httpx>=0.28,<1",
+]
+langgraph = [
+    "langgraph>=1.2.22,<2",
+    "langchain-core>=1.8.0,<2",
+    "langsmith>=0.14.17,<1",
+]
+server = [
+    "fastapi>=0.162.7,<1",
+    "uvicorn[standard]>=0.54,<1",
+    "cryptography>=50,<51",
+]
+local = [
+    "pyyaml>=6.0.3,<7",
+    "fastapi>=0.162.7,<1",
+    "uvicorn[standard]>=0.54,<1",
+    "cryptography>=50,<51",
+]
+anchors = [
+    "cryptography>=50,<51",
+]
+content = [
+    "cryptography>=50,<51",
+]
+postgres = [
+    "psycopg[binary]>=3.2,<4",
+]
+azure = [
+    "azure-identity>=1.27.0,<2",
+]
+temporal = [
+    "temporalio==1.36.1",
+]
+otel = [
+    "opentelemetry-api==1.45.2",
+    "opentelemetry-sdk==1.45.2",
+    "opentelemetry-exporter-otlp-proto-http==1.45.2",
+]
+
+[project.scripts]
+nuramesh = "nuramesh.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13.1,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "coverage>=7.17.3",
+    "cyclonedx-bom==7.6.0",
+    "httpx>=0.28,<1",
+    "mypy>=2.4.1",
+    "pip-audit>=2.10.1",
+    "pytest>=9.1.1",
+    "pytest-cov==7.1.0",
+    "pytest-timeout==2.4.0",
+    "pytest-xdist==3.8.0",
+    "rfc8785==0.1.4",
+    "ruff>=0.17.5",
+    "types-pyyaml>=6.0.12",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["commercial"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+files = [
+    "src",
+    "tests",
+    "spec",
+    "verifier",
+    "scripts/infra",
+    "scripts/check_old_name.py",
+    "scripts/runguard/testguard.py",
+    "scripts/check_timeout_overrides.py",
+    "scripts/check_tier3_label.py",
+    "scripts/check_postgres_skips.py",
+    "scripts/check_coverage.py",
+    "scripts/licence_inventory.py",
+    "scripts/third_party_notices.py",
+    "scripts/check_conflict_markers.py",
+    "scripts/release",
+    "scripts/ci",
+    "scripts/check_name_spelling.py",
+    "perf",
+]
+mypy_path = "scripts/ci:scripts/infra:scripts:scripts/release"
+exclude = ["src/nuramesh/templates/"]  # sample projects shipped as data, not our code
+strict = true
+
+[[tool.mypy.overrides]]
+module = ["azure.*"]  # the optional `azure` extra (keyless Entra ID access); not installed everywhere
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+faulthandler_timeout = 300  # a hung test prints every thread's stack trace (pytest built-in)
+timeout_method = "thread"  # a hung test ends the process (os._exit) so the shard fails fast: the signal method is swallowed by a stuck asyncio cancel or a blocked main thread (merge-queue runs 41722987549, 41730816338)
+timeout = 300  # pytest-timeout (ND119): a test over 300 s fails; a per-test override needs a justification comment
+markers = [
+    "serial: the test must not overlap another serial test on another xdist worker; needs a '# serial: <reason>' comment (tests/serial_marks.py)",
+    "real_server: the test starts a real uvicorn server (otherwise tests/conftest.py blocks it)",
+    "docker: the test needs a live Docker daemon (ND328); deselected on the self-hosted runner, run by the python-docker job on GitHub-hosted ubuntu-latest",
+    "host_privileged: the test sets setuid/setgid/sticky mode bits, which the self-hosted runner sandbox forbids (RestrictSUIDSGID, ND328); deselected there, run by the python-docker job on GitHub-hosted ubuntu-latest",
+    "live_model: calls the real Claude API (Part of #963); deselected by default; runs only with -m live_model and NURAMESH_LIVE_BEARER set, never in PR CI",
+    "quiet: measures speed against a wall-clock bound; runs only with NURAMESH_QUIET_LANE=1 (T189)",
+    "real_server_fixed_port: the test binds a nonzero port on purpose (a free one it picked); tests/net.py lets it",
+]

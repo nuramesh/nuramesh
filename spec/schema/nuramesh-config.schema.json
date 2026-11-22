@@ -1,0 +1,1883 @@
+{
+  "$defs": {
+    "ActionKind": {
+      "description": "What kind of thing an agent wants to do.",
+      "enum": [
+        "delegate",
+        "call_model",
+        "use_tool",
+        "run_command",
+        "write_file",
+        "spend",
+        "external_message",
+        "merge",
+        "network"
+      ],
+      "title": "ActionKind",
+      "type": "string"
+    },
+    "Agent": {
+      "additionalProperties": false,
+      "description": "One member of the organization. `reports_to` is its manager's id; `None` for the root.\n`checks` lists the agents whose work this agent verifies (the verification line: only agents\nwhose role is a verifier may check, and never inside their own reporting chain).",
+      "properties": {
+        "checks": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+            "type": "string"
+          },
+          "maxItems": 200,
+          "title": "Checks",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "name": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "reports_to": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reports To"
+        },
+        "role": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "role"
+      ],
+      "title": "Agent",
+      "type": "object"
+    },
+    "BreachMode": {
+      "description": "What a breach (spending over the limit) does to a windowed budget at the next window.",
+      "enum": [
+        "reset",
+        "hold"
+      ],
+      "title": "BreachMode",
+      "type": "string"
+    },
+    "BreakerAction": {
+      "description": "What a tripped (non dry-run) rule does.",
+      "enum": [
+        "halt_org",
+        "pause_role"
+      ],
+      "title": "BreakerAction",
+      "type": "string"
+    },
+    "BreakerRule": {
+      "additionalProperties": false,
+      "description": "One breaker. Exactly one of `max_events` (count signals) or `max_spend` (spend).",
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/BreakerAction",
+          "default": "halt_org"
+        },
+        "dry_run": {
+          "default": false,
+          "title": "Dry Run",
+          "type": "boolean"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "max_events": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Events"
+        },
+        "max_spend": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Money"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "role": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Role"
+        },
+        "signal": {
+          "$ref": "#/$defs/Signal"
+        },
+        "window_seconds": {
+          "maximum": 86400,
+          "minimum": 1,
+          "title": "Window Seconds",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "signal",
+        "window_seconds"
+      ],
+      "title": "BreakerRule",
+      "type": "object"
+    },
+    "BreakersConfig": {
+      "additionalProperties": false,
+      "description": "The `breakers:` section (E19, ND106, `spec/e19/README.md` section 7): how often the server\nevaluates, when a failing evaluation halts the organization, and the rules.",
+      "properties": {
+        "halt_after_failed_ticks": {
+          "default": 3,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Halt After Failed Ticks",
+          "type": "integer"
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/$defs/BreakerRule"
+          },
+          "maxItems": 100,
+          "title": "Rules",
+          "type": "array"
+        },
+        "tick_seconds": {
+          "default": 10,
+          "maximum": 3600,
+          "minimum": 1,
+          "title": "Tick Seconds",
+          "type": "integer"
+        }
+      },
+      "title": "BreakersConfig",
+      "type": "object"
+    },
+    "Budget": {
+      "additionalProperties": false,
+      "description": "A spending cap for one scope. `scope_id` is the run, task or agent id (team: its lead;\norg: the org's id). With a `window` the cap applies per UTC day or month.",
+      "properties": {
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "limit": {
+          "$ref": "#/$defs/Money"
+        },
+        "on_breach": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BreachMode"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "scope": {
+          "$ref": "#/$defs/BudgetScope"
+        },
+        "scope_id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Scope Id",
+          "type": "string"
+        },
+        "window": {
+          "$ref": "#/$defs/BudgetWindow",
+          "default": "none"
+        }
+      },
+      "required": [
+        "id",
+        "scope",
+        "scope_id",
+        "limit"
+      ],
+      "title": "Budget",
+      "type": "object"
+    },
+    "BudgetScope": {
+      "description": "What a budget caps.",
+      "enum": [
+        "run",
+        "task",
+        "agent",
+        "team",
+        "org"
+      ],
+      "title": "BudgetScope",
+      "type": "string"
+    },
+    "BudgetWindow": {
+      "description": "How long a budget's balance lives (T56). UTC calendar windows.",
+      "enum": [
+        "none",
+        "day",
+        "month"
+      ],
+      "title": "BudgetWindow",
+      "type": "string"
+    },
+    "CalibrationConfig": {
+      "additionalProperties": false,
+      "description": "All suites of an organization (the `calibration:` section).",
+      "properties": {
+        "suites": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CalibrationSuite"
+          },
+          "title": "Suites",
+          "type": "array"
+        }
+      },
+      "title": "CalibrationConfig",
+      "type": "object"
+    },
+    "CalibrationSample": {
+      "additionalProperties": false,
+      "description": "One labelled output. `defect_criteria` are the criteria a `bad` sample really fails.",
+      "properties": {
+        "critical": {
+          "default": false,
+          "title": "Critical",
+          "type": "boolean"
+        },
+        "defect_criteria": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+            "type": "string"
+          },
+          "title": "Defect Criteria",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "$ref": "#/$defs/Label"
+        },
+        "output": {
+          "title": "Output"
+        }
+      },
+      "required": [
+        "id",
+        "output",
+        "label"
+      ],
+      "title": "CalibrationSample",
+      "type": "object"
+    },
+    "CalibrationSuite": {
+      "additionalProperties": false,
+      "description": "Labelled samples for the criteria of a verifier gate, with the bar to clear.",
+      "properties": {
+        "canon": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CanonDocument"
+          },
+          "title": "Canon",
+          "type": "array"
+        },
+        "criteria": {
+          "items": {
+            "$ref": "#/$defs/Criterion"
+          },
+          "minItems": 1,
+          "title": "Criteria",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "max_output_tokens": {
+          "default": 1500,
+          "maximum": 16000,
+          "minimum": 1,
+          "title": "Max Output Tokens",
+          "type": "integer"
+        },
+        "notes": {
+          "default": "",
+          "maxLength": 5000,
+          "title": "Notes",
+          "type": "string"
+        },
+        "samples": {
+          "items": {
+            "$ref": "#/$defs/CalibrationSample"
+          },
+          "title": "Samples",
+          "type": "array"
+        },
+        "task": {
+          "$ref": "#/$defs/CalibrationTask"
+        },
+        "thresholds": {
+          "$ref": "#/$defs/CalibrationThresholds",
+          "default": {
+            "max_false_accept_rate": "0.0500",
+            "min_accept_rate": "0.8000",
+            "min_catch_rate": "0.9500"
+          }
+        },
+        "valid_days": {
+          "default": 30,
+          "maximum": 365,
+          "minimum": 1,
+          "title": "Valid Days",
+          "type": "integer"
+        },
+        "version": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "task",
+        "criteria",
+        "samples"
+      ],
+      "title": "CalibrationSuite",
+      "type": "object"
+    },
+    "CalibrationTask": {
+      "additionalProperties": false,
+      "description": "The task text the verifier is shown with every sample.",
+      "properties": {
+        "instructions": {
+          "default": "",
+          "maxLength": 100000,
+          "title": "Instructions",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "title": "CalibrationTask",
+      "type": "object"
+    },
+    "CalibrationThresholds": {
+      "additionalProperties": false,
+      "description": "The bar: at most 4 decimal places (more is refused, never rounded).",
+      "properties": {
+        "max_false_accept_rate": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": "0.0500",
+          "title": "Max False Accept Rate"
+        },
+        "min_accept_rate": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "maximum": 1.0,
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": "0.8000",
+          "title": "Min Accept Rate"
+        },
+        "min_catch_rate": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "maximum": 1.0,
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": "0.9500",
+          "title": "Min Catch Rate"
+        }
+      },
+      "title": "CalibrationThresholds",
+      "type": "object"
+    },
+    "CanonDocument": {
+      "additionalProperties": false,
+      "description": "One document of the organization's canon (R1.12 will supply them from Git, pinned).",
+      "properties": {
+        "name": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[^\\x00-\\x1f\\x7f<>]+$",
+          "title": "Name",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 1000000,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "text"
+      ],
+      "title": "CanonDocument",
+      "type": "object"
+    },
+    "CanonSource": {
+      "additionalProperties": false,
+      "description": "Where the canon lives: a local repository path, a pinned commit and path patterns.",
+      "properties": {
+        "commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "title": "Commit",
+          "type": "string"
+        },
+        "paths": {
+          "items": {
+            "maxLength": 300,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 50,
+          "minItems": 1,
+          "title": "Paths",
+          "type": "array"
+        },
+        "repository": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Repository",
+          "type": "string"
+        }
+      },
+      "required": [
+        "repository",
+        "commit",
+        "paths"
+      ],
+      "title": "CanonSource",
+      "type": "object"
+    },
+    "CatalogEntry": {
+      "additionalProperties": false,
+      "description": "One model an organization may use: who serves it, its family and where it is processed.",
+      "properties": {
+        "endpoint_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9][a-z0-9-]{0,39}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Endpoint Id"
+        },
+        "family": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Family",
+          "type": "string"
+        },
+        "model": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@+-]{0,199}$",
+          "title": "Model",
+          "type": "string"
+        },
+        "processing": {
+          "title": "Processing",
+          "type": "string"
+        },
+        "provider": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Provider",
+          "type": "string"
+        },
+        "status": {
+          "default": "approved",
+          "enum": [
+            "approved",
+            "paused",
+            "retired"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "model",
+        "family",
+        "processing"
+      ],
+      "title": "CatalogEntry",
+      "type": "object"
+    },
+    "Contains": {
+      "additionalProperties": false,
+      "description": "The text contains `value`.",
+      "properties": {
+        "case_sensitive": {
+          "default": true,
+          "title": "Case Sensitive",
+          "type": "boolean"
+        },
+        "type": {
+          "const": "contains",
+          "title": "Type",
+          "type": "string"
+        },
+        "value": {
+          "maxLength": 10000,
+          "minLength": 1,
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ],
+      "title": "Contains",
+      "type": "object"
+    },
+    "ContentSettings": {
+      "additionalProperties": false,
+      "description": "An organization's content setting (`content:` in its configuration, ND52).\n\n`retention_days` is how long a task output is kept **after its task is final**: the default is\n30 days; **0 means delete it when the task is final**. Hosted deployments cap it at the 90-day\nhosted maximum (`problems`); self-hosted ones set their own value.\n\n`reason_days` is how long a person's reason (an approval answer, a stop reason, an unblock or\noverride reason) is kept: unset means the default, 396 days (13 months) self-hosted and the\n90-day maximum hosted (ND195 b); a value above 90 is refused on a hosted deployment. It can\nonly raise the default: a value below 396 is refused (R11b).",
+      "properties": {
+        "reason_days": {
+          "anyOf": [
+            {
+              "maximum": 36500,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason Days"
+        },
+        "retention_days": {
+          "default": 30,
+          "maximum": 36500,
+          "minimum": 0,
+          "title": "Retention Days",
+          "type": "integer"
+        }
+      },
+      "title": "ContentSettings",
+      "type": "object"
+    },
+    "Criterion": {
+      "additionalProperties": false,
+      "description": "One item of a definition of done, written so a checker can say met or not met.",
+      "properties": {
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 20000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "title": "Criterion",
+      "type": "object"
+    },
+    "Currency": {
+      "description": "ISO 4217 codes accepted today.",
+      "enum": [
+        "USD"
+      ],
+      "title": "Currency",
+      "type": "string"
+    },
+    "Decision": {
+      "description": "What a policy says about an action.",
+      "enum": [
+        "allow",
+        "ask",
+        "deny"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "EvalCase": {
+      "additionalProperties": false,
+      "description": "One question for the agent and the rules a good answer meets.",
+      "properties": {
+        "critical": {
+          "default": false,
+          "title": "Critical",
+          "type": "boolean"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "prompt": {
+          "maxLength": 20000,
+          "minLength": 1,
+          "title": "Prompt",
+          "type": "string"
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/$defs/Rule"
+          },
+          "maxItems": 50,
+          "minItems": 1,
+          "title": "Rules",
+          "type": "array"
+        },
+        "weight": {
+          "default": 1,
+          "maximum": 100,
+          "minimum": 1,
+          "title": "Weight",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "prompt",
+        "rules"
+      ],
+      "title": "EvalCase",
+      "type": "object"
+    },
+    "EvalConfig": {
+      "additionalProperties": false,
+      "description": "All suites and which roles require which.",
+      "properties": {
+        "requirements": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EvalRequirement"
+          },
+          "title": "Requirements",
+          "type": "array"
+        },
+        "suites": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EvalSuite"
+          },
+          "title": "Suites",
+          "type": "array"
+        }
+      },
+      "title": "EvalConfig",
+      "type": "object"
+    },
+    "EvalRequirement": {
+      "additionalProperties": false,
+      "description": "The suites a role's agents must have passed to take new work.",
+      "properties": {
+        "role": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Role",
+          "type": "string"
+        },
+        "suites": {
+          "items": {
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+            "type": "string"
+          },
+          "maxItems": 50,
+          "minItems": 1,
+          "title": "Suites",
+          "type": "array"
+        }
+      },
+      "required": [
+        "role",
+        "suites"
+      ],
+      "title": "EvalRequirement",
+      "type": "object"
+    },
+    "EvalSuite": {
+      "additionalProperties": false,
+      "description": "The cases for one role, with the bar to clear and how long a pass stays valid.",
+      "properties": {
+        "cases": {
+          "items": {
+            "$ref": "#/$defs/EvalCase"
+          },
+          "maxItems": 200,
+          "minItems": 1,
+          "title": "Cases",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "pass_threshold": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "maximum": 1.0,
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "default": "0.8000",
+          "title": "Pass Threshold"
+        },
+        "role": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Role",
+          "type": "string"
+        },
+        "valid_days": {
+          "default": 30,
+          "maximum": 365,
+          "minimum": 1,
+          "title": "Valid Days",
+          "type": "integer"
+        },
+        "version": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "cases"
+      ],
+      "title": "EvalSuite",
+      "type": "object"
+    },
+    "GateKind": {
+      "description": "How a gate checks work. Deterministic kinds run before verifier agents (D.5).",
+      "enum": [
+        "test_command",
+        "rule",
+        "schema",
+        "verifier",
+        "human",
+        "custom"
+      ],
+      "title": "GateKind",
+      "type": "string"
+    },
+    "GatePreset": {
+      "additionalProperties": false,
+      "description": "A named, ordered list of gate templates and the eval suites that go with them.",
+      "properties": {
+        "description": {
+          "default": "",
+          "maxLength": 500,
+          "title": "Description",
+          "type": "string"
+        },
+        "evals": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+            "type": "string"
+          },
+          "title": "Evals",
+          "type": "array"
+        },
+        "gates": {
+          "items": {
+            "$ref": "#/$defs/GateTemplate"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Gates",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "gates"
+      ],
+      "title": "GatePreset",
+      "type": "object"
+    },
+    "GateTemplate": {
+      "additionalProperties": false,
+      "description": "A gate without its criteria: the task using the preset says what each gate checks.",
+      "properties": {
+        "config": {
+          "additionalProperties": true,
+          "title": "Config",
+          "type": "object"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/GateKind"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "kind"
+      ],
+      "title": "GateTemplate",
+      "type": "object"
+    },
+    "Label": {
+      "description": "What a sample is: an output that meets its criteria, or one that does not.",
+      "enum": [
+        "good",
+        "bad"
+      ],
+      "title": "Label",
+      "type": "string"
+    },
+    "LengthBetween": {
+      "additionalProperties": false,
+      "description": "The text has between `min` and `max` characters (inclusive).",
+      "properties": {
+        "max": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max"
+        },
+        "min": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Min",
+          "type": "integer"
+        },
+        "type": {
+          "const": "length_between",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "LengthBetween",
+      "type": "object"
+    },
+    "Matches": {
+      "additionalProperties": false,
+      "description": "The text matches the regular expression `pattern` somewhere.",
+      "properties": {
+        "pattern": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Pattern",
+          "type": "string"
+        },
+        "type": {
+          "const": "matches",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "pattern"
+      ],
+      "title": "Matches",
+      "type": "object"
+    },
+    "ModelCatalog": {
+      "additionalProperties": false,
+      "description": "The approved catalog (configuration part `models`, and the ledger's folded state).",
+      "properties": {
+        "customer_regions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Customer Regions",
+          "type": "array"
+        },
+        "entries": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/CatalogEntry"
+          },
+          "maxItems": 1000,
+          "title": "Entries",
+          "type": "array"
+        }
+      },
+      "title": "ModelCatalog",
+      "type": "object"
+    },
+    "Money": {
+      "additionalProperties": false,
+      "description": "An exact amount of money. Immutable; +, -, comparison and `sum` within one currency.",
+      "properties": {
+        "amount": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Amount"
+        },
+        "currency": {
+          "$ref": "#/$defs/Currency",
+          "default": "USD"
+        }
+      },
+      "required": [
+        "amount"
+      ],
+      "title": "Money",
+      "type": "object"
+    },
+    "NotContains": {
+      "additionalProperties": false,
+      "description": "The text doesn't contain `value`.",
+      "properties": {
+        "case_sensitive": {
+          "default": true,
+          "title": "Case Sensitive",
+          "type": "boolean"
+        },
+        "type": {
+          "const": "not_contains",
+          "title": "Type",
+          "type": "string"
+        },
+        "value": {
+          "maxLength": 10000,
+          "minLength": 1,
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ],
+      "title": "NotContains",
+      "type": "object"
+    },
+    "OrgGraph": {
+      "additionalProperties": false,
+      "description": "A valid organization: it can't exist while any error remains.\n\nUse `OrgGraph.build(data)` to get an `OrgValidationError` listing every issue. Direct\nconstruction or `model_validate` raise pydantic's `ValidationError` instead. `model_copy`\nre-validates; never use `model_construct`, which skips validation.",
+      "properties": {
+        "agents": {
+          "items": {
+            "$ref": "#/$defs/Agent"
+          },
+          "minItems": 1,
+          "title": "Agents",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "roles": {
+          "items": {
+            "$ref": "#/$defs/Role"
+          },
+          "minItems": 1,
+          "title": "Roles",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "roles",
+        "agents"
+      ],
+      "title": "OrgGraph",
+      "type": "object"
+    },
+    "PathEquals": {
+      "additionalProperties": false,
+      "description": "Structured output has exactly `value` at `path`.",
+      "properties": {
+        "path": {
+          "maxLength": 500,
+          "pattern": "^[A-Za-z_][A-Za-z0-9_-]*(\\.[A-Za-z_][A-Za-z0-9_-]*|\\[\\d+\\])*$",
+          "title": "Path",
+          "type": "string"
+        },
+        "type": {
+          "const": "path_equals",
+          "title": "Type",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value"
+        }
+      },
+      "required": [
+        "type",
+        "path",
+        "value"
+      ],
+      "title": "PathEquals",
+      "type": "object"
+    },
+    "PathExists": {
+      "additionalProperties": false,
+      "description": "Structured output has a value at `path`.",
+      "properties": {
+        "path": {
+          "maxLength": 500,
+          "pattern": "^[A-Za-z_][A-Za-z0-9_-]*(\\.[A-Za-z_][A-Za-z0-9_-]*|\\[\\d+\\])*$",
+          "title": "Path",
+          "type": "string"
+        },
+        "type": {
+          "const": "path_exists",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "path"
+      ],
+      "title": "PathExists",
+      "type": "object"
+    },
+    "Policy": {
+      "additionalProperties": false,
+      "description": "The rules for one role, and optionally which humans may answer its approval requests.",
+      "properties": {
+        "approvers": {
+          "default": [],
+          "items": {
+            "pattern": "^human:[A-Za-z0-9_-]{1,64}$",
+            "type": "string"
+          },
+          "title": "Approvers",
+          "type": "array"
+        },
+        "role": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Role",
+          "type": "string"
+        },
+        "rules": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/PolicyRule"
+          },
+          "maxItems": 500,
+          "title": "Rules",
+          "type": "array"
+        }
+      },
+      "required": [
+        "role"
+      ],
+      "title": "Policy",
+      "type": "object"
+    },
+    "PolicyPreset": {
+      "additionalProperties": false,
+      "description": "A named set of permission rules.",
+      "properties": {
+        "description": {
+          "default": "",
+          "maxLength": 500,
+          "title": "Description",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "rules": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/PolicyRule"
+          },
+          "maxItems": 200,
+          "title": "Rules",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "PolicyPreset",
+      "type": "object"
+    },
+    "PolicyRule": {
+      "additionalProperties": false,
+      "description": "allow, ask or deny one kind of action whose target matches `target`.",
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/ActionKind"
+        },
+        "decision": {
+          "$ref": "#/$defs/Decision"
+        },
+        "over": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Money"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reason": {
+          "default": "",
+          "maxLength": 500,
+          "title": "Reason",
+          "type": "string"
+        },
+        "target": {
+          "default": "*",
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action",
+        "decision"
+      ],
+      "title": "PolicyRule",
+      "type": "object"
+    },
+    "PolicySet": {
+      "additionalProperties": false,
+      "description": "Every role's policy. A role with no policy can do nothing (default deny).",
+      "properties": {
+        "policies": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Policy"
+          },
+          "title": "Policies",
+          "type": "array"
+        },
+        "solo_approvals_per_hour": {
+          "maximum": 30,
+          "minimum": 1,
+          "title": "Solo Approvals Per Hour",
+          "type": "integer"
+        }
+      },
+      "title": "PolicySet",
+      "type": "object"
+    },
+    "PresetAssignment": {
+      "additionalProperties": false,
+      "description": "The presets one role uses.",
+      "properties": {
+        "gate_preset": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gate Preset"
+        },
+        "policy_presets": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+            "type": "string"
+          },
+          "title": "Policy Presets",
+          "type": "array"
+        },
+        "role": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role"
+      ],
+      "title": "PresetAssignment",
+      "type": "object"
+    },
+    "PresetConfig": {
+      "additionalProperties": false,
+      "description": "All presets and their assignments (the `presets` key of a configuration).",
+      "properties": {
+        "assignments": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/PresetAssignment"
+          },
+          "maxItems": 1000,
+          "title": "Assignments",
+          "type": "array"
+        },
+        "gate": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/GatePreset"
+          },
+          "maxItems": 500,
+          "title": "Gate",
+          "type": "array"
+        },
+        "policy": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/PolicyPreset"
+          },
+          "maxItems": 500,
+          "title": "Policy",
+          "type": "array"
+        }
+      },
+      "title": "PresetConfig",
+      "type": "object"
+    },
+    "Price": {
+      "additionalProperties": false,
+      "description": "What one model costs per 1M tokens, from `effective_from` until a newer price replaces it.\n\nOptional rates (`cached_input_per_million`, `cache_write_per_million`) are unknown when absent;\na call that uses those token kinds then has an unknown cost.",
+      "properties": {
+        "bound_endpoint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bound Endpoint"
+        },
+        "bound_epoch": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bound Epoch"
+        },
+        "cache_write_per_million": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cache Write Per Million"
+        },
+        "cached_input_per_million": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cached Input Per Million"
+        },
+        "currency": {
+          "$ref": "#/$defs/Currency",
+          "default": "USD"
+        },
+        "effective_from": {
+          "format": "date-time",
+          "title": "Effective From",
+          "type": "string"
+        },
+        "endpoint_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9][a-z0-9-]{0,39}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Endpoint Id"
+        },
+        "input_per_million": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Input Per Million"
+        },
+        "model": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@+-]{0,199}$",
+          "title": "Model",
+          "type": "string"
+        },
+        "output_per_million": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Output Per Million"
+        },
+        "provider": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Provider",
+          "type": "string"
+        },
+        "source": {
+          "maxLength": 500,
+          "minLength": 3,
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "model",
+        "input_per_million",
+        "output_per_million",
+        "effective_from",
+        "source"
+      ],
+      "title": "Price",
+      "type": "object"
+    },
+    "PriceBook": {
+      "additionalProperties": false,
+      "description": "Every known price. `lookup` returns the one in effect at a moment.",
+      "properties": {
+        "prices": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Price"
+          },
+          "title": "Prices",
+          "type": "array"
+        }
+      },
+      "title": "PriceBook",
+      "type": "object"
+    },
+    "PriceOverride": {
+      "additionalProperties": false,
+      "description": "An approved provisional price for a model with no known price.\n\nBoth rates are required, so budgets can still reserve and stop. Costs computed with it are\nrecorded as `provisional`, and each use is a ledger event naming who set it and when.",
+      "properties": {
+        "currency": {
+          "$ref": "#/$defs/Currency",
+          "default": "USD"
+        },
+        "endpoint_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9][a-z0-9-]{0,39}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Endpoint Id"
+        },
+        "input_per_million": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Input Per Million"
+        },
+        "model": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/@+-]{0,199}$",
+          "title": "Model",
+          "type": "string"
+        },
+        "output_per_million": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Output Per Million"
+        },
+        "provider": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Provider",
+          "type": "string"
+        },
+        "reason": {
+          "maxLength": 2000,
+          "minLength": 3,
+          "title": "Reason",
+          "type": "string"
+        },
+        "set_at": {
+          "format": "date-time",
+          "title": "Set At",
+          "type": "string"
+        },
+        "set_by": {
+          "pattern": "^human:[A-Za-z0-9_-]{1,64}$",
+          "title": "Set By",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "model",
+        "input_per_million",
+        "output_per_million",
+        "set_by",
+        "set_at",
+        "reason"
+      ],
+      "title": "PriceOverride",
+      "type": "object"
+    },
+    "Role": {
+      "additionalProperties": false,
+      "description": "A job description shared by one or more agents.",
+      "properties": {
+        "default_model": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Default Model"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 2000,
+          "title": "Description",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "instructions": {
+          "default": "",
+          "maxLength": 50000,
+          "title": "Instructions",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/RoleKind",
+          "default": "worker"
+        },
+        "max_tokens": {
+          "anyOf": [
+            {
+              "maximum": 1000000000000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Tokens"
+        },
+        "name": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "tools": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+            "type": "string"
+          },
+          "title": "Tools",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Role",
+      "type": "object"
+    },
+    "RoleKind": {
+      "description": "What a role is for. Exactly one agent, the root, has the Chief of Staff role.",
+      "enum": [
+        "chief_of_staff",
+        "worker",
+        "verifier"
+      ],
+      "title": "RoleKind",
+      "type": "string"
+    },
+    "Rule": {
+      "additionalProperties": false,
+      "description": "One check and the criterion it is evidence for.",
+      "properties": {
+        "check": {
+          "discriminator": {
+            "mapping": {
+              "contains": "#/$defs/Contains",
+              "length_between": "#/$defs/LengthBetween",
+              "matches": "#/$defs/Matches",
+              "not_contains": "#/$defs/NotContains",
+              "path_equals": "#/$defs/PathEquals",
+              "path_exists": "#/$defs/PathExists"
+            },
+            "propertyName": "type"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Contains"
+            },
+            {
+              "$ref": "#/$defs/NotContains"
+            },
+            {
+              "$ref": "#/$defs/Matches"
+            },
+            {
+              "$ref": "#/$defs/LengthBetween"
+            },
+            {
+              "$ref": "#/$defs/PathExists"
+            },
+            {
+              "$ref": "#/$defs/PathEquals"
+            }
+          ],
+          "title": "Check"
+        },
+        "criterion": {
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,62}$",
+          "title": "Criterion",
+          "type": "string"
+        }
+      },
+      "required": [
+        "criterion",
+        "check"
+      ],
+      "title": "Rule",
+      "type": "object"
+    },
+    "Signal": {
+      "description": "What a breaker counts.",
+      "enum": [
+        "policy_denied",
+        "gate_failed",
+        "model_blocked",
+        "model_called",
+        "spend"
+      ],
+      "title": "Signal",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A valid configuration (see the module docstring).",
+  "properties": {
+    "breakers": {
+      "$ref": "#/$defs/BreakersConfig",
+      "default": {
+        "halt_after_failed_ticks": 3,
+        "rules": [],
+        "tick_seconds": 10
+      }
+    },
+    "budgets": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Budget"
+      },
+      "maxItems": 10000,
+      "title": "Budgets",
+      "type": "array"
+    },
+    "calibration": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CalibrationConfig"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "canon": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CanonSource"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "content": {
+      "$ref": "#/$defs/ContentSettings",
+      "default": {
+        "reason_days": null,
+        "retention_days": 30
+      }
+    },
+    "evals": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/EvalConfig"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "models": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ModelCatalog"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "org": {
+      "$ref": "#/$defs/OrgGraph"
+    },
+    "policies": {
+      "$ref": "#/$defs/PolicySet",
+      "default": {
+        "policies": []
+      }
+    },
+    "presets": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PresetConfig"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "price_overrides": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/PriceOverride"
+      },
+      "maxItems": 1000,
+      "title": "Price Overrides",
+      "type": "array"
+    },
+    "prices": {
+      "$ref": "#/$defs/PriceBook",
+      "default": {
+        "prices": []
+      }
+    },
+    "version": {
+      "const": 1,
+      "default": 1,
+      "title": "Version",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "org"
+  ],
+  "title": "NuraMesh configuration",
+  "type": "object"
+}

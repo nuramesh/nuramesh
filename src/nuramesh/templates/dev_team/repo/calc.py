@@ -1,0 +1,11 @@
+"""A tiny calculator with one bug, for the NuraMesh demo."""
+
+
+def add(a: int, b: int) -> int:
+    """Return the sum of a and b."""
+    return a - b  # the bug: should be a + b
+
+
+def multiply(a: int, b: int) -> int:
+    """Return the product of a and b."""
+    return a * b

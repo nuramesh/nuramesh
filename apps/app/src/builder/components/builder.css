@@ -1,0 +1,15 @@
+/* Line styles for the org builder canvas: verification lines (accent) and approval lines (warm). */
+.react-flow__edge.ng-edge-verify .react-flow__edge-path {
+  stroke: var(--t-link);
+}
+
+.react-flow__edge.ng-edge-approve .react-flow__edge-path {
+  stroke: var(--t-warm);
+}
+
+.react-flow__edge.ng-edge-verify .react-flow__edge-text,
+.react-flow__edge.ng-edge-approve .react-flow__edge-text {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  fill: var(--t-small);
+}

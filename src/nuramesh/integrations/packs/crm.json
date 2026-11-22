@@ -1,0 +1,81 @@
+{
+  "name": "crm",
+  "pack_version": 1,
+  "data_kind": "personal",
+  "tools": [
+    {
+      "tool": "search_contacts",
+      "kind": "read",
+      "allowed_args": [
+        "query"
+      ],
+      "effects": [],
+      "paid": false
+    },
+    {
+      "tool": "get_contact",
+      "kind": "read",
+      "allowed_args": [
+        "contact_id"
+      ],
+      "effects": [],
+      "paid": false
+    },
+    {
+      "tool": "get_account",
+      "kind": "read",
+      "allowed_args": [
+        "account_id"
+      ],
+      "effects": [],
+      "paid": false
+    },
+    {
+      "tool": "log_note",
+      "kind": "write",
+      "allowed_args": [
+        "contact_id",
+        "body"
+      ],
+      "effects": [
+        {
+          "kind": "external_message",
+          "arg": "contact_id"
+        }
+      ],
+      "paid": false
+    },
+    {
+      "tool": "update_contact_field",
+      "kind": "write",
+      "allowed_args": [
+        "contact_id",
+        "field",
+        "value"
+      ],
+      "effects": [
+        {
+          "kind": "external_message",
+          "arg": "contact_id"
+        }
+      ],
+      "paid": false
+    },
+    {
+      "tool": "create_followup_task",
+      "kind": "write",
+      "allowed_args": [
+        "contact_id",
+        "title",
+        "due"
+      ],
+      "effects": [
+        {
+          "kind": "external_message",
+          "arg": "contact_id"
+        }
+      ],
+      "paid": false
+    }
+  ]
+}

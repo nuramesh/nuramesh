@@ -1,0 +1,3043 @@
+{
+ "add_entry": {
+  "body": {
+   "already": false,
+   "entry": {
+    "family": "openai",
+    "model": "gpt-5.4-nano",
+    "processing": "canada",
+    "provider": "azure-openai",
+    "status": "paused"
+   },
+   "events": [
+    "model.catalog_entry_added"
+   ],
+   "ledger_seq": 4
+  },
+  "status": 201
+ },
+ "add_entry_again": {
+  "body": {
+   "code": "already_exists",
+   "detail": "'azure-openai/gpt-5.4-nano' is already in the model catalog",
+   "problems": [
+    {
+     "message": "'azure-openai/gpt-5.4-nano' is already in the model catalog",
+     "path": "$"
+    }
+   ],
+   "status": 409,
+   "title": "already_exists",
+   "type": "urn:nuramesh:already_exists"
+  },
+  "status": 409
+ },
+ "add_entry_bad_processing": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "processing scope 'mars' is not canada, global or region:<id>",
+   "problems": [
+    {
+     "message": "processing scope 'mars' is not canada, global or region:<id>",
+     "path": "$.processing"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "add_entry_short_reason": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "a reason (3 to 500 characters) is required",
+   "problems": [
+    {
+     "message": "a reason (3 to 500 characters) is required",
+     "path": "$.reason"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "anonymous_catalog": {
+  "body": {
+   "code": "authentication_required",
+   "detail": "sign in, or send an API token",
+   "status": 401,
+   "title": "authentication_required",
+   "type": "urn:nuramesh:authentication_required"
+  },
+  "status": 401
+ },
+ "approve": {
+  "body": {
+   "already": false,
+   "entry": {
+    "family": "openai",
+    "model": "gpt-5.4-nano",
+    "processing": "canada",
+    "provider": "azure-openai",
+    "status": "approved"
+   },
+   "events": [
+    "model.catalog_approved"
+   ],
+   "ledger_seq": 6,
+   "previous": "paused"
+  },
+  "status": 200
+ },
+ "approve_again": {
+  "body": {
+   "already": true,
+   "entry": {
+    "family": "openai",
+    "model": "gpt-5.4-nano",
+    "processing": "canada",
+    "provider": "azure-openai",
+    "status": "approved"
+   },
+   "events": [],
+   "ledger_seq": null
+  },
+  "status": 200
+ },
+ "approve_for_widen": {
+  "body": {
+   "already": true,
+   "entry": {
+    "family": "openai",
+    "model": "gpt-5.4-ca",
+    "processing": "global",
+    "provider": "azure-openai",
+    "status": "approved"
+   },
+   "events": [],
+   "ledger_seq": null
+  },
+  "status": 200
+ },
+ "approve_regional": {
+  "body": {
+   "already": true,
+   "entry": {
+    "family": "mistral",
+    "model": "Mistral-Large",
+    "processing": "region:eu-west",
+    "provider": "azure-ai",
+    "status": "approved"
+   },
+   "events": [],
+   "ledger_seq": null
+  },
+  "status": 200
+ },
+ "approve_seeded_already": {
+  "body": {
+   "already": true,
+   "entry": {
+    "family": "openai",
+    "model": "gpt-5.4-mini",
+    "processing": "global",
+    "provider": "azure-openai",
+    "status": "approved"
+   },
+   "events": [],
+   "ledger_seq": null
+  },
+  "status": 200
+ },
+ "approve_unpriced": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "'azure-openai/gpt-5.4-nano' is approved but has no price: add it to the price book (a price is never guessed) or pause the entry",
+   "problems": [
+    {
+     "message": "'azure-openai/gpt-5.4-nano' is approved but has no price: add it to the price book (a price is never guessed) or pause the entry",
+     "path": "$.models.entries[6]"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "assign": {
+  "body": {
+   "already": false,
+   "assignment": {
+    "id": "dana",
+    "model": "azure-openai/gpt-5.4-mini",
+    "scope": "agent"
+   },
+   "events": [
+    "model.assignment_set"
+   ],
+   "ledger_seq": 14,
+   "previous": "fake/dev-1"
+  },
+  "status": 201
+ },
+ "assign_unapproved": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "model 'azure-ai/Llama-4-Maverick' is paused in the approved catalog",
+   "problems": [
+    {
+     "message": "model 'azure-ai/Llama-4-Maverick' is paused in the approved catalog",
+     "path": "$.org.agents[1].model"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "assign_unknown_agent": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "no agent 'nobody' in the organization",
+   "problems": [
+    {
+     "message": "no agent 'nobody' in the organization",
+     "path": "$.id"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "assignments": {
+  "body": {
+   "assignments": [
+    {
+     "id": "chief",
+     "level": null,
+     "ref": null,
+     "role": "cos",
+     "scope": "agent",
+     "source": null,
+     "subject": "agent=chief"
+    },
+    {
+     "id": "dana",
+     "level": "role",
+     "ref": "fake/dev-1",
+     "role": "developer",
+     "scope": "agent",
+     "source": "config",
+     "subject": "agent=dana"
+    },
+    {
+     "id": "theo",
+     "level": "role",
+     "ref": "fake/dev-1",
+     "role": "tester",
+     "scope": "agent",
+     "source": "config",
+     "subject": "agent=theo"
+    },
+    {
+     "id": "rhea",
+     "level": "role",
+     "ref": "fake/reviewer-1",
+     "role": "reviewer",
+     "scope": "agent",
+     "source": "config",
+     "subject": "agent=rhea"
+    },
+    {
+     "id": "omar",
+     "level": "role",
+     "ref": "fake/dev-1",
+     "role": "devops",
+     "scope": "agent",
+     "source": "config",
+     "subject": "agent=omar"
+    }
+   ]
+  },
+  "status": 200
+ },
+ "assignments_after": {
+  "body": {
+   "assignments": [
+    {
+     "id": "chief",
+     "level": null,
+     "ref": null,
+     "role": "cos",
+     "scope": "agent",
+     "source": null,
+     "subject": "agent=chief"
+    },
+    {
+     "id": "dana",
+     "level": "agent",
+     "ref": "azure-openai/gpt-5.4-mini",
+     "role": "developer",
+     "scope": "agent",
+     "source": "ledger",
+     "subject": "agent=dana"
+    },
+    {
+     "id": "theo",
+     "level": "role",
+     "ref": "fake/dev-1",
+     "role": "tester",
+     "scope": "agent",
+     "source": "config",
+     "subject": "agent=theo"
+    },
+    {
+     "id": "rhea",
+     "level": "role",
+     "ref": "fake/reviewer-1",
+     "role": "reviewer",
+     "scope": "agent",
+     "source": "config",
+     "subject": "agent=rhea"
+    },
+    {
+     "id": "omar",
+     "level": "role",
+     "ref": "fake/dev-1",
+     "role": "devops",
+     "scope": "agent",
+     "source": "config",
+     "subject": "agent=omar"
+    }
+   ]
+  },
+  "status": 200
+ },
+ "catalog_after": {
+  "body": {
+   "config_drift": false,
+   "customer_regions": [],
+   "entries": [
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "fake-a",
+     "model": "dev-1",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-01-01T00:00:00+00:00",
+      "input_per_million": "3",
+      "origin": "operator",
+      "output_per_million": "15",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "demo price list (fake model)",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "fake",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "fake-b",
+     "model": "reviewer-1",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-01-01T00:00:00+00:00",
+      "input_per_million": "3",
+      "origin": "operator",
+      "output_per_million": "15",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "demo price list (fake model)",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "fake",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-mini",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "global",
+     "provider": "azure-openai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-ca",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "azure-openai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "meta",
+     "model": "Llama-4-Maverick",
+     "origin": "seed",
+     "price": null,
+     "processing": "global",
+     "provider": "azure-ai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "mistral",
+     "model": "Mistral-Large",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "region:eu-west",
+     "provider": "azure-ai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-nano",
+     "origin": "api",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.10",
+      "origin": "operator",
+      "output_per_million": "0.40",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "vendor price list",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "azure-openai",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    }
+   ],
+   "ignored_events": 0,
+   "seeded": true
+  },
+  "status": 200
+ },
+ "catalog_seeded": {
+  "body": {
+   "config_drift": false,
+   "customer_regions": [],
+   "entries": [
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "fake-a",
+     "model": "dev-1",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-01-01T00:00:00+00:00",
+      "input_per_million": "3",
+      "origin": "operator",
+      "output_per_million": "15",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "demo price list (fake model)",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "fake",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "fake-b",
+     "model": "reviewer-1",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-01-01T00:00:00+00:00",
+      "input_per_million": "3",
+      "origin": "operator",
+      "output_per_million": "15",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "demo price list (fake model)",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "fake",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-mini",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "global",
+     "provider": "azure-openai",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-ca",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "azure-openai",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "meta",
+     "model": "Llama-4-Maverick",
+     "origin": "seed",
+     "price": null,
+     "processing": "global",
+     "provider": "azure-ai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "mistral",
+     "model": "Mistral-Large",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "region:eu-west",
+     "provider": "azure-ai",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    }
+   ],
+   "ignored_events": 0,
+   "seeded": true
+  },
+  "status": 200
+ },
+ "connect": {
+  "body": {
+   "auth": "entra",
+   "endpoint": "https://example-openai.openai.azure.com",
+   "provider": "azure-openai",
+   "repaused": [],
+   "seq": 7,
+   "set_at": "2026-10-25T12:00:00+00:00",
+   "set_by": "human:u_0a0a0a0a0a0a0a0a0a0a",
+   "status": "active"
+  },
+  "status": 201
+ },
+ "connect_ai": {
+  "body": {
+   "auth": "entra",
+   "endpoint": "https://example-ai-services.cognitiveservices.azure.com",
+   "provider": "azure-ai",
+   "repaused": [],
+   "seq": 22,
+   "set_at": "2026-10-25T12:00:22+00:00",
+   "set_by": "human:u_0a0a0a0a0a0a0a0a0a0a",
+   "status": "active"
+  },
+  "status": 201
+ },
+ "connect_bad_endpoint": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "the endpoint must be https://<name>.openai.azure.com (or .cognitiveservices.azure.com)",
+   "problems": [
+    {
+     "message": "the endpoint must be https://<name>.openai.azure.com (or .cognitiveservices.azure.com)",
+     "path": "$.endpoint"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "connect_needs_key": {
+  "body": {
+   "code": "key_required",
+   "detail": "this provider needs a stored key, which is not available; supported providers: azure-openai, azure-ai, anthropic, openai-compatible",
+   "problems": [
+    {
+     "message": "this provider needs a stored key, which is not available; supported providers: azure-openai, azure-ai, anthropic, openai-compatible",
+     "path": "$.provider"
+    }
+   ],
+   "status": 422,
+   "title": "key_required",
+   "type": "urn:nuramesh:key_required"
+  },
+  "status": 422
+ },
+ "connections": {
+  "body": {
+   "connections": [
+    {
+     "auth": "entra",
+     "endpoint": "https://example-openai.openai.azure.com",
+     "provider": "azure-openai",
+     "seq": 7,
+     "set_at": "2026-10-25T12:00:00+00:00",
+     "set_by": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "status": "active"
+    }
+   ]
+  },
+  "status": 200
+ },
+ "connections_after": {
+  "body": {
+   "connections": [
+    {
+     "auth": "entra",
+     "endpoint": "https://example-openai.openai.azure.com",
+     "provider": "azure-openai",
+     "seq": 7,
+     "set_at": "2026-10-25T12:00:00+00:00",
+     "set_by": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "status": "active"
+    }
+   ]
+  },
+  "status": 200
+ },
+ "connections_none": {
+  "body": {
+   "connections": []
+  },
+  "status": 200
+ },
+ "disable": {
+  "body": {
+   "auth": "entra",
+   "endpoint": "https://ais-other.cognitiveservices.azure.com",
+   "provider": "azure-ai",
+   "repaused": [],
+   "seq": 26,
+   "set_at": "2026-10-25T12:00:22+00:00",
+   "set_by": "human:u_0a0a0a0a0a0a0a0a0a0a",
+   "status": "disabled"
+  },
+  "status": 200
+ },
+ "disconnect": {
+  "body": {
+   "provider": "azure-ai",
+   "removed": true
+  },
+  "status": 200
+ },
+ "disconnect_again": {
+  "body": {
+   "code": "not_found",
+   "detail": "no such connection",
+   "status": 404,
+   "title": "not_found",
+   "type": "urn:nuramesh:not_found"
+  },
+  "status": 404
+ },
+ "edit_narrow": {
+  "body": {
+   "already": false,
+   "entry": {
+    "family": "openai",
+    "model": "gpt-5.4-ca",
+    "processing": "global",
+    "provider": "azure-openai",
+    "status": "approved"
+   },
+   "events": [
+    "model.catalog_entry_edited"
+   ],
+   "ledger_seq": 16,
+   "repaused": false
+  },
+  "status": 200
+ },
+ "edit_widen": {
+  "body": {
+   "already": false,
+   "entry": {
+    "family": "openai",
+    "model": "gpt-5.4-ca",
+    "processing": "canada",
+    "provider": "azure-openai",
+    "status": "paused"
+   },
+   "events": [
+    "model.catalog_entry_edited",
+    "model.catalog_paused"
+   ],
+   "ledger_seq": 17,
+   "paused_because": "processing_widened",
+   "repaused": true
+  },
+  "status": 200
+ },
+ "events": {
+  "body": {
+   "events": [
+    {
+     "actor": "system:catalog-seed",
+     "at": "2026-10-25T12:00:00+00:00",
+     "payload": {
+      "config_hash": "f85caf2243d9cb3c407b46221a38c64ea43f90501d508b002a1a5c1168f8227d",
+      "customer_regions": [],
+      "entries": [
+       {
+        "family": "fake-a",
+        "model": "dev-1",
+        "processing": "canada",
+        "provider": "fake",
+        "status": "approved"
+       },
+       {
+        "family": "fake-b",
+        "model": "reviewer-1",
+        "processing": "canada",
+        "provider": "fake",
+        "status": "approved"
+       },
+       {
+        "family": "openai",
+        "model": "gpt-5.4-mini",
+        "processing": "global",
+        "provider": "azure-openai",
+        "status": "approved"
+       },
+       {
+        "family": "openai",
+        "model": "gpt-5.4-ca",
+        "processing": "canada",
+        "provider": "azure-openai",
+        "status": "approved"
+       },
+       {
+        "family": "meta",
+        "model": "Llama-4-Maverick",
+        "processing": "global",
+        "provider": "azure-ai",
+        "status": "paused"
+       },
+       {
+        "family": "mistral",
+        "model": "Mistral-Large",
+        "processing": "region:eu-west",
+        "provider": "azure-ai",
+        "status": "approved"
+       }
+      ],
+      "source": "config"
+     },
+     "reason": null,
+     "seq": 3,
+     "type": "model.catalog_seeded"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:00+00:00",
+     "payload": {
+      "family": "openai",
+      "model": "gpt-5.4-nano",
+      "processing": "canada",
+      "provider": "azure-openai",
+      "status": "paused",
+      "via": "api"
+     },
+     "reason": "cheap tier",
+     "seq": 4,
+     "type": "model.catalog_entry_added"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:00+00:00",
+     "payload": {
+      "cache_write_per_million": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00Z",
+      "input_per_million": "0.10",
+      "model": "gpt-5.4-nano",
+      "output_per_million": "0.40",
+      "provider": "azure-openai",
+      "source": "vendor price list",
+      "via": "api"
+     },
+     "reason": "list price",
+     "seq": 5,
+     "type": "model.catalog_price_set"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:00+00:00",
+     "payload": {
+      "model": "gpt-5.4-nano",
+      "previous": "paused",
+      "provider": "azure-openai",
+      "via": "api"
+     },
+     "reason": "looks good",
+     "seq": 6,
+     "type": "model.catalog_approved"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "id": "dana",
+      "model": "azure-openai/gpt-5.4-mini",
+      "previous": "fake/dev-1",
+      "scope": "agent",
+      "via": "api"
+     },
+     "reason": "try it",
+     "seq": 14,
+     "type": "model.assignment_set"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "model": "gpt-5.4-mini",
+      "previous": "approved",
+      "provider": "azure-openai",
+      "via": "api"
+     },
+     "reason": "under review",
+     "seq": 15,
+     "type": "model.catalog_paused"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "model": "gpt-5.4-ca",
+      "processing": "global",
+      "provider": "azure-openai",
+      "via": "api"
+     },
+     "reason": "global only",
+     "seq": 16,
+     "type": "model.catalog_entry_edited"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "model": "gpt-5.4-ca",
+      "processing": "canada",
+      "provider": "azure-openai",
+      "via": "api"
+     },
+     "reason": "canada only",
+     "seq": 17,
+     "type": "model.catalog_entry_edited"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "because": "processing_widened",
+      "model": "gpt-5.4-ca",
+      "previous": "approved",
+      "provider": "azure-openai",
+      "via": "api"
+     },
+     "reason": "canada only",
+     "seq": 18,
+     "type": "model.catalog_paused"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "customer_regions": [
+       "eu-west"
+      ],
+      "via": "api"
+     },
+     "reason": "EU customers",
+     "seq": 19,
+     "type": "model.catalog_regions_set"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "because": "regions_widened",
+      "model": "Mistral-Large",
+      "previous": "approved",
+      "provider": "azure-ai",
+      "via": "api"
+     },
+     "reason": "EU customers",
+     "seq": 20,
+     "type": "model.catalog_paused"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "customer_regions": [],
+      "via": "api"
+     },
+     "reason": "no customers",
+     "seq": 21,
+     "type": "model.catalog_regions_set"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "model": "Mistral-Large",
+      "previous": "paused",
+      "provider": "azure-ai",
+      "via": "api"
+     },
+     "reason": "eu model again",
+     "seq": 23,
+     "type": "model.catalog_approved"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "because": "endpoint_changed",
+      "model": "Mistral-Large",
+      "old_endpoint": "https://example-ai-services.cognitiveservices.azure.com",
+      "old_key": null,
+      "previous": "approved",
+      "provider": "azure-ai",
+      "via": "api"
+     },
+     "reason": "moved to the other resource",
+     "seq": 25,
+     "type": "model.catalog_paused"
+    }
+   ],
+   "next_before": null
+  },
+  "status": 200
+ },
+ "events_seed_only": {
+  "body": {
+   "events": [
+    {
+     "actor": "system:catalog-seed",
+     "at": "2026-10-25T12:00:00+00:00",
+     "payload": {
+      "config_hash": "f85caf2243d9cb3c407b46221a38c64ea43f90501d508b002a1a5c1168f8227d",
+      "customer_regions": [],
+      "entries": [
+       {
+        "family": "fake-a",
+        "model": "dev-1",
+        "processing": "canada",
+        "provider": "fake",
+        "status": "approved"
+       },
+       {
+        "family": "fake-b",
+        "model": "reviewer-1",
+        "processing": "canada",
+        "provider": "fake",
+        "status": "approved"
+       },
+       {
+        "family": "openai",
+        "model": "gpt-5.4-mini",
+        "processing": "global",
+        "provider": "azure-openai",
+        "status": "approved"
+       },
+       {
+        "family": "openai",
+        "model": "gpt-5.4-ca",
+        "processing": "canada",
+        "provider": "azure-openai",
+        "status": "approved"
+       },
+       {
+        "family": "meta",
+        "model": "Llama-4-Maverick",
+        "processing": "global",
+        "provider": "azure-ai",
+        "status": "paused"
+       },
+       {
+        "family": "mistral",
+        "model": "Mistral-Large",
+        "processing": "region:eu-west",
+        "provider": "azure-ai",
+        "status": "approved"
+       }
+      ],
+      "source": "config"
+     },
+     "reason": null,
+     "seq": 3,
+     "type": "model.catalog_seeded"
+    }
+   ],
+   "next_before": null
+  },
+  "status": 200
+ },
+ "oc_add_entry": {
+  "body": {
+   "already": false,
+   "entry": {
+    "endpoint_id": "local-one",
+    "family": "meta",
+    "model": "llama3.1",
+    "processing": "canada",
+    "provider": "openai-compatible",
+    "status": "paused"
+   },
+   "events": [
+    "model.catalog_entry_added"
+   ],
+   "ledger_seq": 42
+  },
+  "status": 201
+ },
+ "oc_add_entry_no_endpoint": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "openai-compatible: this provider needs an endpoint id (openai-compatible/<endpoint id>/<model>)",
+   "problems": [
+    {
+     "message": "openai-compatible: this provider needs an endpoint id (openai-compatible/<endpoint id>/<model>)",
+     "path": "$.endpoint_id"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "oc_add_entry_other_provider": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "endpoint_id_not_allowed",
+   "problems": [
+    {
+     "message": "endpoint_id_not_allowed",
+     "path": "$.endpoint_id"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "oc_approve": {
+  "body": {
+   "already": false,
+   "entry": {
+    "endpoint_id": "local-one",
+    "family": "meta",
+    "model": "llama3.1",
+    "processing": "canada",
+    "provider": "openai-compatible",
+    "status": "approved"
+   },
+   "events": [
+    "model.catalog_approved"
+   ],
+   "ledger_seq": 45,
+   "previous": "paused"
+  },
+  "status": 200
+ },
+ "oc_approve_unpriced": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "'openai-compatible/local-one/llama3.1' is approved but has no price: add it to the price book (a price is never guessed) or pause the entry",
+   "problems": [
+    {
+     "message": "'openai-compatible/local-one/llama3.1' is approved but has no price: add it to the price book (a price is never guessed) or pause the entry",
+     "path": "$.models.entries[7]"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "oc_assign": {
+  "body": {
+   "already": false,
+   "assignment": {
+    "id": "theo",
+    "model": "openai-compatible/local-one/llama3.1",
+    "scope": "agent"
+   },
+   "events": [
+    "model.assignment_set"
+   ],
+   "ledger_seq": 46,
+   "previous": "fake/dev-1"
+  },
+  "status": 201
+ },
+ "oc_assignments": {
+  "body": {
+   "assignments": [
+    {
+     "id": "chief",
+     "level": null,
+     "ref": null,
+     "role": "cos",
+     "scope": "agent",
+     "source": null,
+     "subject": "agent=chief"
+    },
+    {
+     "id": "dana",
+     "level": "agent",
+     "ref": "azure-openai/gpt-5.4-mini",
+     "role": "developer",
+     "scope": "agent",
+     "source": "ledger",
+     "subject": "agent=dana"
+    },
+    {
+     "id": "theo",
+     "level": "agent",
+     "ref": "openai-compatible/local-one/llama3.1",
+     "role": "tester",
+     "scope": "agent",
+     "source": "ledger",
+     "subject": "agent=theo"
+    },
+    {
+     "id": "rhea",
+     "level": "role",
+     "ref": "fake/reviewer-1",
+     "role": "reviewer",
+     "scope": "agent",
+     "source": "config",
+     "subject": "agent=rhea"
+    },
+    {
+     "id": "omar",
+     "level": "role",
+     "ref": "fake/dev-1",
+     "role": "devops",
+     "scope": "agent",
+     "source": "config",
+     "subject": "agent=omar"
+    }
+   ]
+  },
+  "status": 200
+ },
+ "oc_catalog": {
+  "body": {
+   "config_drift": false,
+   "customer_regions": [],
+   "entries": [
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "fake-a",
+     "model": "dev-1",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-01-01T00:00:00+00:00",
+      "input_per_million": "3",
+      "origin": "operator",
+      "output_per_million": "15",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "demo price list (fake model)",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "fake",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "fake-b",
+     "model": "reviewer-1",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-01-01T00:00:00+00:00",
+      "input_per_million": "3",
+      "origin": "operator",
+      "output_per_million": "15",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "demo price list (fake model)",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "fake",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-mini",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "global",
+     "provider": "azure-openai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-ca",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "azure-openai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "meta",
+     "model": "Llama-4-Maverick",
+     "origin": "seed",
+     "price": null,
+     "processing": "global",
+     "provider": "azure-ai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "mistral",
+     "model": "Mistral-Large",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "region:eu-west",
+     "provider": "azure-ai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-nano",
+     "origin": "api",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.10",
+      "origin": "operator",
+      "output_per_million": "0.40",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "vendor price list",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "azure-openai",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "endpoint_id": "local-one",
+     "family": "meta",
+     "model": "llama3.1",
+     "origin": "api",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-04-01T00:00:00+00:00",
+      "input_per_million": "0",
+      "origin": "operator",
+      "output_per_million": "0",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "declared free (local)",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "openai-compatible",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    }
+   ],
+   "ignored_events": 0,
+   "seeded": true
+  },
+  "status": 200
+ },
+ "oc_catalog_unpriced": {
+  "body": {
+   "config_drift": false,
+   "customer_regions": [],
+   "entries": [
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "fake-a",
+     "model": "dev-1",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-01-01T00:00:00+00:00",
+      "input_per_million": "3",
+      "origin": "operator",
+      "output_per_million": "15",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "demo price list (fake model)",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "fake",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "fake-b",
+     "model": "reviewer-1",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-01-01T00:00:00+00:00",
+      "input_per_million": "3",
+      "origin": "operator",
+      "output_per_million": "15",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "demo price list (fake model)",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "fake",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-mini",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "global",
+     "provider": "azure-openai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-ca",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "azure-openai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "meta",
+     "model": "Llama-4-Maverick",
+     "origin": "seed",
+     "price": null,
+     "processing": "global",
+     "provider": "azure-ai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "mistral",
+     "model": "Mistral-Large",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "region:eu-west",
+     "provider": "azure-ai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-nano",
+     "origin": "api",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.10",
+      "origin": "operator",
+      "output_per_million": "0.40",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "vendor price list",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "azure-openai",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "endpoint_id": "local-one",
+     "family": "meta",
+     "model": "llama3.1",
+     "origin": "api",
+     "price": null,
+     "processing": "canada",
+     "provider": "openai-compatible",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    }
+   ],
+   "ignored_events": 0,
+   "seeded": true
+  },
+  "status": 200
+ },
+ "oc_connect": {
+  "body": {
+   "auth": "none",
+   "endpoint": "http://127.0.0.1:11434/v1",
+   "endpoint_id": "local-one",
+   "provider": "openai-compatible",
+   "repaused": [],
+   "residency_violations": [],
+   "seq": 41,
+   "set_at": "2026-10-25T12:00:22+00:00",
+   "set_by": "human:u_0a0a0a0a0a0a0a0a0a0a",
+   "status": "active"
+  },
+  "status": 201
+ },
+ "oc_edit": {
+  "body": {
+   "already": false,
+   "entry": {
+    "endpoint_id": "local-one",
+    "family": "llama",
+    "model": "llama3.1",
+    "processing": "canada",
+    "provider": "openai-compatible",
+    "status": "approved"
+   },
+   "events": [
+    "model.catalog_entry_edited"
+   ],
+   "ledger_seq": 47,
+   "repaused": false
+  },
+  "status": 200
+ },
+ "oc_events": {
+  "body": {
+   "events": [
+    {
+     "actor": "system:catalog-seed",
+     "at": "2026-10-25T12:00:00+00:00",
+     "payload": {
+      "config_hash": "f85caf2243d9cb3c407b46221a38c64ea43f90501d508b002a1a5c1168f8227d",
+      "customer_regions": [],
+      "entries": [
+       {
+        "family": "fake-a",
+        "model": "dev-1",
+        "processing": "canada",
+        "provider": "fake",
+        "status": "approved"
+       },
+       {
+        "family": "fake-b",
+        "model": "reviewer-1",
+        "processing": "canada",
+        "provider": "fake",
+        "status": "approved"
+       },
+       {
+        "family": "openai",
+        "model": "gpt-5.4-mini",
+        "processing": "global",
+        "provider": "azure-openai",
+        "status": "approved"
+       },
+       {
+        "family": "openai",
+        "model": "gpt-5.4-ca",
+        "processing": "canada",
+        "provider": "azure-openai",
+        "status": "approved"
+       },
+       {
+        "family": "meta",
+        "model": "Llama-4-Maverick",
+        "processing": "global",
+        "provider": "azure-ai",
+        "status": "paused"
+       },
+       {
+        "family": "mistral",
+        "model": "Mistral-Large",
+        "processing": "region:eu-west",
+        "provider": "azure-ai",
+        "status": "approved"
+       }
+      ],
+      "source": "config"
+     },
+     "reason": null,
+     "seq": 3,
+     "type": "model.catalog_seeded"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:00+00:00",
+     "payload": {
+      "family": "openai",
+      "model": "gpt-5.4-nano",
+      "processing": "canada",
+      "provider": "azure-openai",
+      "status": "paused",
+      "via": "api"
+     },
+     "reason": "cheap tier",
+     "seq": 4,
+     "type": "model.catalog_entry_added"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:00+00:00",
+     "payload": {
+      "cache_write_per_million": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00Z",
+      "input_per_million": "0.10",
+      "model": "gpt-5.4-nano",
+      "output_per_million": "0.40",
+      "provider": "azure-openai",
+      "source": "vendor price list",
+      "via": "api"
+     },
+     "reason": "list price",
+     "seq": 5,
+     "type": "model.catalog_price_set"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:00+00:00",
+     "payload": {
+      "model": "gpt-5.4-nano",
+      "previous": "paused",
+      "provider": "azure-openai",
+      "via": "api"
+     },
+     "reason": "looks good",
+     "seq": 6,
+     "type": "model.catalog_approved"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "id": "dana",
+      "model": "azure-openai/gpt-5.4-mini",
+      "previous": "fake/dev-1",
+      "scope": "agent",
+      "via": "api"
+     },
+     "reason": "try it",
+     "seq": 14,
+     "type": "model.assignment_set"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "model": "gpt-5.4-mini",
+      "previous": "approved",
+      "provider": "azure-openai",
+      "via": "api"
+     },
+     "reason": "under review",
+     "seq": 15,
+     "type": "model.catalog_paused"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "model": "gpt-5.4-ca",
+      "processing": "global",
+      "provider": "azure-openai",
+      "via": "api"
+     },
+     "reason": "global only",
+     "seq": 16,
+     "type": "model.catalog_entry_edited"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "model": "gpt-5.4-ca",
+      "processing": "canada",
+      "provider": "azure-openai",
+      "via": "api"
+     },
+     "reason": "canada only",
+     "seq": 17,
+     "type": "model.catalog_entry_edited"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "because": "processing_widened",
+      "model": "gpt-5.4-ca",
+      "previous": "approved",
+      "provider": "azure-openai",
+      "via": "api"
+     },
+     "reason": "canada only",
+     "seq": 18,
+     "type": "model.catalog_paused"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "customer_regions": [
+       "eu-west"
+      ],
+      "via": "api"
+     },
+     "reason": "EU customers",
+     "seq": 19,
+     "type": "model.catalog_regions_set"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "because": "regions_widened",
+      "model": "Mistral-Large",
+      "previous": "approved",
+      "provider": "azure-ai",
+      "via": "api"
+     },
+     "reason": "EU customers",
+     "seq": 20,
+     "type": "model.catalog_paused"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "customer_regions": [],
+      "via": "api"
+     },
+     "reason": "no customers",
+     "seq": 21,
+     "type": "model.catalog_regions_set"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "model": "Mistral-Large",
+      "previous": "paused",
+      "provider": "azure-ai",
+      "via": "api"
+     },
+     "reason": "eu model again",
+     "seq": 23,
+     "type": "model.catalog_approved"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "because": "endpoint_changed",
+      "model": "Mistral-Large",
+      "old_endpoint": "https://example-ai-services.cognitiveservices.azure.com",
+      "old_key": null,
+      "previous": "approved",
+      "provider": "azure-ai",
+      "via": "api"
+     },
+     "reason": "moved to the other resource",
+     "seq": 25,
+     "type": "model.catalog_paused"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "endpoint_id": "local-one",
+      "family": "meta",
+      "model": "llama3.1",
+      "processing": "canada",
+      "provider": "openai-compatible",
+      "status": "paused",
+      "via": "api"
+     },
+     "reason": "our local model",
+     "seq": 42,
+     "type": "model.catalog_entry_added"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "cache_write_per_million": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00Z",
+      "endpoint_id": "local-one",
+      "input_per_million": "0.20",
+      "model": "llama3.1",
+      "output_per_million": "0.60",
+      "provider": "openai-compatible",
+      "source": "our hosting cost sheet",
+      "via": "api"
+     },
+     "reason": "cost of our own server",
+     "seq": 43,
+     "type": "model.catalog_price_set"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "bound_endpoint": "http://127.0.0.1:11434/v1",
+      "bound_epoch": 41,
+      "cache_write_per_million": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-04-01T00:00:00Z",
+      "endpoint_id": "local-one",
+      "input_per_million": "0",
+      "model": "llama3.1",
+      "output_per_million": "0",
+      "provider": "openai-compatible",
+      "source": "declared free (local)",
+      "via": "api"
+     },
+     "reason": "cost of our own server",
+     "seq": 44,
+     "type": "model.catalog_price_set"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "endpoint_id": "local-one",
+      "fingerprint": "57d1128f13ec7ac0d569df91ae31275cdc26ef9b10dad5770be4a9b8cd2245c8",
+      "model": "llama3.1",
+      "previous": "paused",
+      "provider": "openai-compatible",
+      "via": "api"
+     },
+     "reason": "looks good",
+     "seq": 45,
+     "type": "model.catalog_approved"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "id": "theo",
+      "model": "openai-compatible/local-one/llama3.1",
+      "previous": "fake/dev-1",
+      "scope": "agent",
+      "via": "api"
+     },
+     "reason": "try it",
+     "seq": 46,
+     "type": "model.assignment_set"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "endpoint_id": "local-one",
+      "family": "llama",
+      "model": "llama3.1",
+      "provider": "openai-compatible",
+      "via": "api"
+     },
+     "reason": "its family",
+     "seq": 47,
+     "type": "model.catalog_entry_edited"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "endpoint_id": "local-one",
+      "model": "llama3.1",
+      "previous": "approved",
+      "provider": "openai-compatible",
+      "via": "api"
+     },
+     "reason": "under review",
+     "seq": 48,
+     "type": "model.catalog_paused"
+    },
+    {
+     "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "at": "2026-10-25T12:00:22+00:00",
+     "payload": {
+      "endpoint_id": "local-one",
+      "model": "llama3.1",
+      "previous": "paused",
+      "provider": "openai-compatible",
+      "via": "api"
+     },
+     "reason": "replaced",
+     "seq": 49,
+     "type": "model.catalog_retired"
+    }
+   ],
+   "next_before": null
+  },
+  "status": 200
+ },
+ "oc_pause": {
+  "body": {
+   "affected": [
+    "agent=theo"
+   ],
+   "already": false,
+   "entry": {
+    "endpoint_id": "local-one",
+    "family": "llama",
+    "model": "llama3.1",
+    "processing": "canada",
+    "provider": "openai-compatible",
+    "status": "paused"
+   },
+   "events": [
+    "model.catalog_paused"
+   ],
+   "ledger_seq": 48,
+   "previous": "approved"
+  },
+  "status": 200
+ },
+ "oc_price_declared_free": {
+  "body": {
+   "already": false,
+   "events": [
+    "model.catalog_price_set"
+   ],
+   "ledger_seq": 44,
+   "price": {
+    "effective_from": "2026-04-01T00:00:00+00:00",
+    "input_per_million": "0",
+    "model": "llama3.1",
+    "output_per_million": "0",
+    "provider": "openai-compatible",
+    "source": "declared free (local)"
+   }
+  },
+  "status": 201
+ },
+ "oc_price_no_endpoint": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "openai-compatible: this provider needs an endpoint id (openai-compatible/<endpoint id>/<model>)",
+   "problems": [
+    {
+     "message": "openai-compatible: this provider needs an endpoint id (openai-compatible/<endpoint id>/<model>)",
+     "path": "$.endpoint_id"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "oc_price_set": {
+  "body": {
+   "already": false,
+   "events": [
+    "model.catalog_price_set"
+   ],
+   "ledger_seq": 43,
+   "price": {
+    "effective_from": "2026-03-01T00:00:00+00:00",
+    "input_per_million": "0.20",
+    "model": "llama3.1",
+    "output_per_million": "0.60",
+    "provider": "openai-compatible",
+    "source": "our hosting cost sheet"
+   }
+  },
+  "status": 201
+ },
+ "oc_price_zero_not_declared": {
+  "body": {
+   "code": "invalid_request",
+   "detail": ": Value error, openai-compatible: a zero price must be declared free for a local connection (source \"declared free (local)\" and a bound endpoint)",
+   "problems": [
+    {
+     "message": ": Value error, openai-compatible: a zero price must be declared free for a local connection (source \"declared free (local)\" and a bound endpoint)",
+     "path": "$"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "oc_remove_in_use": {
+  "body": {
+   "code": "in_use",
+   "detail": "'openai-compatible/local-one/llama3.1' is still assigned to agent=theo; reassign them first",
+   "problems": [
+    {
+     "message": "'openai-compatible/local-one/llama3.1' is still assigned to agent=theo; reassign them first",
+     "path": "$"
+    }
+   ],
+   "status": 409,
+   "title": "in_use",
+   "type": "urn:nuramesh:in_use"
+  },
+  "status": 409
+ },
+ "oc_retire": {
+  "body": {
+   "affected": [
+    "agent=theo"
+   ],
+   "already": false,
+   "entry": {
+    "endpoint_id": "local-one",
+    "family": "llama",
+    "model": "llama3.1",
+    "processing": "canada",
+    "provider": "openai-compatible",
+    "status": "retired"
+   },
+   "events": [
+    "model.catalog_retired"
+   ],
+   "ledger_seq": 49,
+   "previous": "paused"
+  },
+  "status": 200
+ },
+ "owner_no_csrf": {
+  "body": {
+   "code": "csrf_invalid",
+   "detail": "missing or wrong CSRF token",
+   "status": 403,
+   "title": "csrf_invalid",
+   "type": "urn:nuramesh:csrf_invalid"
+  },
+  "status": 403
+ },
+ "pause_assigned": {
+  "body": {
+   "affected": [
+    "agent=dana"
+   ],
+   "already": false,
+   "entry": {
+    "family": "openai",
+    "model": "gpt-5.4-mini",
+    "processing": "global",
+    "provider": "azure-openai",
+    "status": "paused"
+   },
+   "events": [
+    "model.catalog_paused"
+   ],
+   "ledger_seq": 15,
+   "previous": "approved"
+  },
+  "status": 200
+ },
+ "price_bad_instant": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "effective_from must be an ISO 8601 UTC instant like 2026-03-01T00:00:00Z",
+   "problems": [
+    {
+     "message": "effective_from must be an ISO 8601 UTC instant like 2026-03-01T00:00:00Z",
+     "path": "$.effective_from"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "price_duplicate": {
+  "body": {
+   "code": "price_version_exists",
+   "detail": "a price version for 'azure-openai/gpt-5.4-nano' effective from 2026-03-01T00:00:00Z already exists: prices are added, never edited; add a version with a later effective_from",
+   "problems": [
+    {
+     "message": "a price version for 'azure-openai/gpt-5.4-nano' effective from 2026-03-01T00:00:00Z already exists: prices are added, never edited; add a version with a later effective_from",
+     "path": "$"
+    }
+   ],
+   "status": 409,
+   "title": "price_version_exists",
+   "type": "urn:nuramesh:price_version_exists"
+  },
+  "status": 409
+ },
+ "price_set": {
+  "body": {
+   "already": false,
+   "events": [
+    "model.catalog_price_set"
+   ],
+   "ledger_seq": 5,
+   "price": {
+    "effective_from": "2026-03-01T00:00:00+00:00",
+    "input_per_million": "0.10",
+    "model": "gpt-5.4-nano",
+    "output_per_million": "0.40",
+    "provider": "azure-openai",
+    "source": "vendor price list"
+   }
+  },
+  "status": 201
+ },
+ "regions_bad": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "'Not A Region' is not a lower-case region id",
+   "problems": [
+    {
+     "message": "'Not A Region' is not a lower-case region id",
+     "path": "$.customer_regions[0]"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "regions_narrow": {
+  "body": {
+   "already": false,
+   "customer_regions": [],
+   "events": [
+    "model.catalog_regions_set"
+   ],
+   "ledger_seq": 21,
+   "repaused": []
+  },
+  "status": 200
+ },
+ "regions_same": {
+  "body": {
+   "already": true,
+   "customer_regions": [
+    "eu-west"
+   ],
+   "events": [],
+   "ledger_seq": null,
+   "repaused": []
+  },
+  "status": 200
+ },
+ "regions_widen": {
+  "body": {
+   "already": false,
+   "customer_regions": [
+    "eu-west"
+   ],
+   "events": [
+    "model.catalog_regions_set",
+    "model.catalog_paused"
+   ],
+   "ledger_seq": 19,
+   "paused_because": "regions_widened",
+   "repaused": [
+    "azure-ai/Mistral-Large"
+   ]
+  },
+  "status": 200
+ },
+ "remove_approved": {
+  "body": {
+   "code": "not_paused",
+   "detail": "'azure-openai/gpt-5.4-mini' must be paused or retired before it is removed",
+   "problems": [
+    {
+     "message": "'azure-openai/gpt-5.4-mini' must be paused or retired before it is removed",
+     "path": "$"
+    }
+   ],
+   "status": 409,
+   "title": "not_paused",
+   "type": "urn:nuramesh:not_paused"
+  },
+  "status": 409
+ },
+ "remove_in_use": {
+  "body": {
+   "code": "in_use",
+   "detail": "'azure-openai/gpt-5.4-mini' is still assigned to agent=dana; reassign them first",
+   "problems": [
+    {
+     "message": "'azure-openai/gpt-5.4-mini' is still assigned to agent=dana; reassign them first",
+     "path": "$"
+    }
+   ],
+   "status": 409,
+   "title": "in_use",
+   "type": "urn:nuramesh:in_use"
+  },
+  "status": 409
+ },
+ "repoint": {
+  "body": {
+   "auth": "entra",
+   "endpoint": "https://ais-other.cognitiveservices.azure.com",
+   "provider": "azure-ai",
+   "repaused": [
+    "azure-ai/Mistral-Large"
+   ],
+   "seq": 24,
+   "set_at": "2026-10-25T12:00:22+00:00",
+   "set_by": "human:u_0a0a0a0a0a0a0a0a0a0a",
+   "status": "active"
+  },
+  "status": 200
+ },
+ "repoint_no_reason": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "a reason (3 to 500 characters) is required to repoint a connection",
+   "problems": [
+    {
+     "message": "a reason (3 to 500 characters) is required to repoint a connection",
+     "path": "$.reason"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "resolution_bad_class": {
+  "body": {
+   "code": "invalid_request",
+   "detail": "data_class is synthetic or customer",
+   "problems": [
+    {
+     "message": "data_class is synthetic or customer",
+     "path": "$.data_class"
+    }
+   ],
+   "status": 422,
+   "title": "invalid_request",
+   "type": "urn:nuramesh:invalid_request"
+  },
+  "status": 422
+ },
+ "resolution_blocked": {
+  "body": {
+   "blocks": [
+    {
+     "agent": "dana",
+     "detail": "'azure-openai/gpt-5.4-mini' is paused in the approved catalog",
+     "model": "gpt-5.4-mini",
+     "provider": "azure-openai",
+     "reason": "model_paused",
+     "role": "developer",
+     "subject": "agent=dana",
+     "text": "model blocked [model_paused] agent=dana: 'azure-openai/gpt-5.4-mini' is paused in the approved catalog"
+    }
+   ],
+   "ok": false,
+   "resolutions": []
+  },
+  "status": 200
+ },
+ "resolution_customer": {
+  "body": {
+   "blocks": [
+    {
+     "agent": "dana",
+     "detail": "'azure-openai/gpt-5.4-mini' is processed in global and may not receive customer data: this deployment may process data outside Canada (global): it accepts only synthetic, non-customer data; customer data must go to a Canadian or customer-chosen region",
+     "model": "gpt-5.4-mini",
+     "provider": "azure-openai",
+     "reason": "residency_refused",
+     "role": "developer",
+     "subject": "agent=dana",
+     "text": "model blocked [residency_refused] agent=dana: 'azure-openai/gpt-5.4-mini' is processed in global and may not receive customer data: this deployment may process data outside Canada (global): it accepts only synthetic, non-customer data; customer data must go to a Canadian or customer-chosen region"
+    }
+   ],
+   "ok": false,
+   "resolutions": []
+  },
+  "status": 200
+ },
+ "resolution_synthetic": {
+  "body": {
+   "blocks": [],
+   "ok": true,
+   "resolutions": [
+    {
+     "connection_seq": null,
+     "endpoint": null,
+     "family": "fake-a",
+     "price_basis": "book",
+     "processing": null,
+     "ref": "fake/dev-1",
+     "set_at": null,
+     "set_by": null,
+     "subject": "agent=dana"
+    },
+    {
+     "connection_seq": null,
+     "endpoint": null,
+     "family": "fake-a",
+     "price_basis": "book",
+     "processing": null,
+     "ref": "fake/dev-1",
+     "set_at": null,
+     "set_by": null,
+     "subject": "agent=theo"
+    },
+    {
+     "connection_seq": null,
+     "endpoint": null,
+     "family": "fake-b",
+     "price_basis": "book",
+     "processing": null,
+     "ref": "fake/reviewer-1",
+     "set_at": null,
+     "set_by": null,
+     "subject": "agent=rhea"
+    },
+    {
+     "connection_seq": null,
+     "endpoint": null,
+     "family": "fake-a",
+     "price_basis": "book",
+     "processing": null,
+     "ref": "fake/dev-1",
+     "set_at": null,
+     "set_by": null,
+     "subject": "agent=omar"
+    }
+   ]
+  },
+  "status": 200
+ },
+ "resolution_synthetic_real": {
+  "body": {
+   "blocks": [],
+   "ok": true,
+   "resolutions": [
+    {
+     "connection_seq": 7,
+     "endpoint": "https://example-openai.openai.azure.com",
+     "family": "openai",
+     "price_basis": "book",
+     "processing": "global",
+     "ref": "azure-openai/gpt-5.4-mini",
+     "set_at": "2026-10-25T12:00:00+00:00",
+     "set_by": "human:u_0a0a0a0a0a0a0a0a0a0a",
+     "subject": "agent=dana"
+    },
+    {
+     "connection_seq": null,
+     "endpoint": null,
+     "family": "fake-a",
+     "price_basis": "book",
+     "processing": null,
+     "ref": "fake/dev-1",
+     "set_at": null,
+     "set_by": null,
+     "subject": "agent=theo"
+    },
+    {
+     "connection_seq": null,
+     "endpoint": null,
+     "family": "fake-b",
+     "price_basis": "book",
+     "processing": null,
+     "ref": "fake/reviewer-1",
+     "set_at": null,
+     "set_by": null,
+     "subject": "agent=rhea"
+    },
+    {
+     "connection_seq": null,
+     "endpoint": null,
+     "family": "fake-a",
+     "price_basis": "book",
+     "processing": null,
+     "ref": "fake/dev-1",
+     "set_at": null,
+     "set_by": null,
+     "subject": "agent=omar"
+    }
+   ]
+  },
+  "status": 200
+ },
+ "retire_missing": {
+  "body": {
+   "code": "not_found",
+   "detail": "'azure-openai/nope' is not in the model catalog",
+   "problems": [
+    {
+     "message": "'azure-openai/nope' is not in the model catalog",
+     "path": "$"
+    }
+   ],
+   "status": 404,
+   "title": "not_found",
+   "type": "urn:nuramesh:not_found"
+  },
+  "status": 404
+ },
+ "session_none": {
+  "body": {
+   "code": "session_invalid",
+   "detail": "sign in again",
+   "status": 401,
+   "title": "session_invalid",
+   "type": "urn:nuramesh:session_invalid"
+  },
+  "status": 401
+ },
+ "session_owner": {
+  "body": {
+   "csrf_token": "csrf-token",
+   "session": {
+    "absolute_expires_at": "2026-11-01T12:00:00+00:00",
+    "id": "session-id"
+   },
+   "user": {
+    "display_name": "Ada Example",
+    "email": "ada@example.org",
+    "email_verified": false,
+    "id": "human:u_0a0a0a0a0a0a0a0a0a0a",
+    "org_id": "demo",
+    "role": "owner"
+   }
+  },
+  "status": 200
+ },
+ "session_viewer": {
+  "body": {
+   "csrf_token": "csrf-token",
+   "session": {
+    "absolute_expires_at": "2026-11-01T12:00:00+00:00",
+    "id": "session-id"
+   },
+   "user": {
+    "display_name": "Val Viewer",
+    "email": "val@example.org",
+    "email_verified": false,
+    "id": "human:u_0b0b0b0b0b0b0b0b0b0b",
+    "org_id": "demo",
+    "role": "viewer"
+   }
+  },
+  "status": 200
+ },
+ "test_auth_failed": {
+  "body": {
+   "code": "auth_failed",
+   "latency_ms": 0,
+   "ledger_seq": 11,
+   "ok": false,
+   "provider": "azure-openai",
+   "text": "the endpoint refused the Entra login (HTTP 401 or 403): check the role assignment on the account"
+  },
+  "status": 200
+ },
+ "test_missing": {
+  "body": {
+   "code": "not_found",
+   "detail": "no connection for provider 'azure-ai'",
+   "status": 404,
+   "title": "not_found",
+   "type": "urn:nuramesh:not_found"
+  },
+  "status": 404
+ },
+ "test_ok": {
+  "body": {
+   "code": "ok",
+   "latency_ms": 0,
+   "ledger_seq": 9,
+   "ok": true,
+   "provider": "azure-openai",
+   "text": "the endpoint answered and accepted the Entra login"
+  },
+  "status": 200
+ },
+ "test_rate_limited": {
+  "body": {
+   "code": "rate_limited",
+   "detail": "connection test limit reached: try again in 10 s",
+   "retry_after_seconds": 10,
+   "status": 429,
+   "title": "rate_limited",
+   "type": "urn:nuramesh:rate_limited"
+  },
+  "status": 429
+ },
+ "test_unreachable": {
+  "body": {
+   "code": "unreachable",
+   "latency_ms": 0,
+   "ledger_seq": 13,
+   "ok": false,
+   "provider": "azure-openai",
+   "text": "the endpoint could not be reached (connection failed or timed out after 10 seconds)"
+  },
+  "status": 200
+ },
+ "viewer_approve": {
+  "body": {
+   "code": "forbidden",
+   "detail": "your role doesn't allow this",
+   "status": 403,
+   "title": "forbidden",
+   "type": "urn:nuramesh:forbidden"
+  },
+  "status": 403
+ },
+ "viewer_assignments": {
+  "body": {
+   "assignments": [
+    {
+     "id": "chief",
+     "level": null,
+     "ref": null,
+     "role": "cos",
+     "scope": "agent",
+     "source": null,
+     "subject": "agent=chief"
+    },
+    {
+     "id": "dana",
+     "level": "agent",
+     "ref": "azure-openai/gpt-5.4-mini",
+     "role": "developer",
+     "scope": "agent",
+     "source": "ledger",
+     "subject": "agent=dana"
+    },
+    {
+     "id": "theo",
+     "level": "role",
+     "ref": "fake/dev-1",
+     "role": "tester",
+     "scope": "agent",
+     "source": "config",
+     "subject": "agent=theo"
+    },
+    {
+     "id": "rhea",
+     "level": "role",
+     "ref": "fake/reviewer-1",
+     "role": "reviewer",
+     "scope": "agent",
+     "source": "config",
+     "subject": "agent=rhea"
+    },
+    {
+     "id": "omar",
+     "level": "role",
+     "ref": "fake/dev-1",
+     "role": "devops",
+     "scope": "agent",
+     "source": "config",
+     "subject": "agent=omar"
+    }
+   ]
+  },
+  "status": 200
+ },
+ "viewer_catalog": {
+  "body": {
+   "config_drift": false,
+   "customer_regions": [],
+   "entries": [
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "fake-a",
+     "model": "dev-1",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-01-01T00:00:00+00:00",
+      "input_per_million": "3",
+      "origin": "operator",
+      "output_per_million": "15",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "demo price list (fake model)",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "fake",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "fake-b",
+     "model": "reviewer-1",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-01-01T00:00:00+00:00",
+      "input_per_million": "3",
+      "origin": "operator",
+      "output_per_million": "15",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "demo price list (fake model)",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "fake",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-mini",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "global",
+     "provider": "azure-openai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-ca",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "azure-openai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "meta",
+     "model": "Llama-4-Maverick",
+     "origin": "seed",
+     "price": null,
+     "processing": "global",
+     "provider": "azure-ai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "system:catalog-seed"
+    },
+    {
+     "connected": false,
+     "data_classes": [
+      "synthetic"
+     ],
+     "family": "mistral",
+     "model": "Mistral-Large",
+     "origin": "seed",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.75",
+      "origin": "operator",
+      "output_per_million": "4.50",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "test price list",
+      "stale": false
+     },
+     "processing": "region:eu-west",
+     "provider": "azure-ai",
+     "status": "paused",
+     "updated_at": "2026-10-25T12:00:22+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    },
+    {
+     "connected": true,
+     "data_classes": [
+      "synthetic",
+      "customer"
+     ],
+     "family": "openai",
+     "model": "gpt-5.4-nano",
+     "origin": "api",
+     "price": {
+      "age_days": null,
+      "cached_input_per_million": null,
+      "currency": "USD",
+      "effective_from": "2026-03-01T00:00:00+00:00",
+      "input_per_million": "0.10",
+      "origin": "operator",
+      "output_per_million": "0.40",
+      "provisional": false,
+      "retrieved_on": null,
+      "source": "vendor price list",
+      "stale": false
+     },
+     "processing": "canada",
+     "provider": "azure-openai",
+     "status": "approved",
+     "updated_at": "2026-10-25T12:00:00+00:00",
+     "updated_by": "human:u_0a0a0a0a0a0a0a0a0a0a"
+    }
+   ],
+   "ignored_events": 0,
+   "seeded": true
+  },
+  "status": 200
+ },
+ "viewer_connect": {
+  "body": {
+   "code": "forbidden",
+   "detail": "your role doesn't allow this",
+   "status": 403,
+   "title": "forbidden",
+   "type": "urn:nuramesh:forbidden"
+  },
+  "status": 403
+ },
+ "viewer_connections": {
+  "body": {
+   "code": "forbidden",
+   "detail": "your role doesn't allow this",
+   "status": 403,
+   "title": "forbidden",
+   "type": "urn:nuramesh:forbidden"
+  },
+  "status": 403
+ },
+ "viewer_events": {
+  "body": {
+   "code": "forbidden",
+   "detail": "your role doesn't allow this",
+   "status": 403,
+   "title": "forbidden",
+   "type": "urn:nuramesh:forbidden"
+  },
+  "status": 403
+ },
+ "viewer_resolution": {
+  "body": {
+   "code": "forbidden",
+   "detail": "your role doesn't allow this",
+   "status": 403,
+   "title": "forbidden",
+   "type": "urn:nuramesh:forbidden"
+  },
+  "status": 403
+ }
+}

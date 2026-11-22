@@ -1,0 +1,94 @@
+# The Dev team on a REAL worker model and a VERIFIER FROM A DIFFERENT MODEL FAMILY (ND48), keyless:
+# worker gpt-5.4-mini (Azure OpenAI), reviewer Llama-4-Maverick (Meta, on an Azure AI Services
+# account), both Canada East, GlobalStandard (processing may be outside Canada: synthetic data only).
+# Run it (you do, after both accounts exist; the agent never runs it). Its organization is
+# `demo-azure`, not `demo`, so its catalog never mixes with the fake demo's in the same store
+# (spec/model-governance section 10.1a). The `models:` part below seeds the approved catalog the
+# first time a process opens the store; after that the ledger is in force (change it with the admin
+# API or `nuramesh models pause|retire`). The connections are made by an admin, never by an
+# environment variable (no endpoint is read from the environment):
+#   az login
+#   serve the API (`nuramesh serve examples/dev-team --config ...` with auth) and, as the owner,
+#   PUT /v1/models/connections/azure-openai   {"endpoint": "https://example-openai.openai.azure.com"}
+#   PUT /v1/models/connections/azure-ai       {"endpoint": "https://example-ai-services.cognitiveservices.azure.com"}
+#   nuramesh models check examples/dev-team --config real-azure-verifier.yaml --data synthetic
+#   nuramesh try examples/dev-team --config real-azure-verifier.yaml \
+#       --data synthetic --confirm-cap 2.00 --approve-as human:you
+version: 1
+org:
+  id: demo-azure
+  name: Demo dev team
+  roles:
+    - {id: cos, name: Chief of Staff, kind: chief_of_staff}
+    - {id: developer, name: Developer, default_model: azure-openai/gpt-5.4-mini}
+    - {id: tester, name: Tester, default_model: azure-openai/gpt-5.4-mini}
+    - {id: reviewer, name: Independent reviewer, kind: verifier, default_model: azure-ai/Llama-4-Maverick-17B-128E-Instruct-FP8}
+    - {id: devops, name: DevOps engineer, default_model: azure-openai/gpt-5.4-mini}
+  agents:
+    - {id: chief, name: Chief of Staff, role: cos}
+    - {id: dana, name: Dana (developer), role: developer, reports_to: chief}
+    - {id: theo, name: Theo (tester), role: tester, reports_to: chief}
+    - {id: rhea, name: Rhea (reviewer), role: reviewer, reports_to: chief}
+    - {id: omar, name: Omar (DevOps), role: devops, reports_to: chief}
+policies:
+  policies:
+    - role: cos
+      rules:
+        - {action: delegate, decision: allow, target: "*"}
+    - role: developer
+      rules:
+        - {action: call_model, decision: allow, target: "azure-openai/*"}
+        - {action: spend, decision: allow}
+        - {action: write_file, decision: allow, target: "*.py"}
+    - role: tester
+      rules:
+        - {action: run_command, decision: allow, target: "python -m unittest **"}
+    - role: reviewer
+      rules:
+        - {action: call_model, decision: allow, target: "azure-ai/*"}
+        - {action: spend, decision: allow}
+    - role: devops
+      rules:
+        - {action: merge, decision: ask, target: "*"}
+models:
+  entries:
+    - {provider: azure-openai, model: gpt-5.4-mini, family: openai, processing: global,
+       status: approved}
+    - {provider: azure-ai, model: Llama-4-Maverick-17B-128E-Instruct-FP8, family: meta,
+       processing: global, status: approved}
+budgets:
+  - {id: dana-monthly, scope: agent, scope_id: dana, limit: {amount: "5.00", currency: USD}}
+  - {id: rhea-monthly, scope: agent, scope_id: rhea, limit: {amount: "5.00", currency: USD}}
+  - {id: org-daily, scope: org, scope_id: demo-azure, window: day, limit: {amount: "30.00", currency: USD}}
+prices:
+  prices:
+    # Azure Retail Prices API (https://prices.azure.com/api/retail/prices, serviceName "Foundry
+    # Models", GlobalStandard meters), read 2026-10-23, effective 2026-03-01, US$ per million tokens.
+    - {provider: azure-openai, model: gpt-5.4-mini, input_per_million: "0.75",
+       output_per_million: "4.50", cached_input_per_million: "0.075",
+       effective_from: "2026-03-01T00:00:00Z",
+       source: "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"}
+    # Llama 4 Maverick, global meters: US$0.00025 per 1K input and US$0.001 per 1K output, effective
+    # 2025-06-01 (Azure Retail Prices API, serviceName "Foundry Models", read 2026-10-23).
+    - {provider: azure-ai, model: Llama-4-Maverick-17B-128E-Instruct-FP8, input_per_million: "0.25",
+       output_per_million: "1.00", effective_from: "2025-06-01T00:00:00Z",
+       source: "Azure Retail Prices API, Llama 4 Maverick 17B global, read 2026-10-23"}
+evals:
+  suites:
+    - id: dev-basics
+      role: developer
+      pass_threshold: "0.8"
+      valid_days: 30
+      cases:
+        - id: fixes-the-sum
+          prompt: "Reply with the corrected Python function add(a, b) that returns the sum of its arguments."
+          rules:
+            - {criterion: has-fix, check: {type: contains, value: "return a + b"}}
+        - id: keeps-the-signature
+          prompt: "Reply with a Python function add(a, b) (keep the name `add`) that returns the sum."
+          rules:
+            - {criterion: signature, check: {type: contains, value: "def add("}}
+          critical: true
+  # To require passing evals before an agent gets work, add:
+  # requirements:
+  #   - {role: developer, suites: [dev-basics]}

@@ -1,0 +1,436 @@
+# NuraMesh self-hosting stack (R1.29, spec/r129). One machine, Docker Compose v2.
+#
+#   sh deploy/compose/init-secrets.sh       # first: generates secrets/ (never committed)
+#   cp deploy/compose/env.example deploy/compose/.env   # then edit NURAMESH_COMPOSE_TEAM_PATH
+#   sh scripts/images/build.sh api worker && sh deploy/compose/build-web.sh
+#   docker compose -f deploy/compose/compose.yml up -d --wait
+#   open https://127.0.0.1:8443        (self-signed certificate: docs/self-hosting.md)
+#
+# Engine (ND399 OD-3): runs started from the app or the API execute on the built-in light engine,
+# the `runner` service, which is the supported default for a small team's server. Its limits:
+# one runner per database, no horizontal scaling, no automatic failover (a standby takes over
+# only after the 60 s lease), and nothing runs while the server is down. `GET /v1/health` names
+# the engine (`engine`, `light_engine`: active or absent). Temporal is an opt-in profile
+# (`COMPOSE_PROFILES=temporal` or `--profile temporal`: worker, temporal, temporal-db).
+# The Temporal dev server in this stack is for evaluation only; production needs a real Temporal cluster.
+# The Docker Compose stack uses PostgreSQL only; SQLite single-user mode is the local install and is not part of this stack.
+#
+# Rules this file keeps (each is checked by tests/test_compose_static.py):
+#  - only `web` publishes a port, on 127.0.0.1; `api` is never published and listens on a fixed
+#    address of the internal `app` network that only `web` can reach (ND188 Q5/N1);
+#  - every service: cap_drop ALL, no-new-privileges, non-root user, read-only root, tmpfs /tmp
+#    (named exceptions are commented where they occur);
+#  - secrets are Docker secret files, mounted only where needed (ND188 N2): the owner role
+#    password reaches only `postgres` (initdb) and the one-shot `migrate`;
+#  - third-party images are pinned by tag and digest; `nuramesh-*` images are built locally from
+#    this repository (scripts/images/build.sh) and never pulled.
+name: nuramesh
+
+x-nuramesh-common: &nuramesh-common
+  pull_policy: never # built locally: scripts/images/build.sh
+  user: "10001"
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: ["no-new-privileges:true"]
+  tmpfs: ["/tmp"]
+  restart: unless-stopped
+
+x-nuramesh-env: &nuramesh-env
+  NURAMESH_REQUIRE_DATABASE: "1"
+  NURAMESH_DB_HOST: postgres
+  NURAMESH_DB_PORT: "5432"
+  NURAMESH_DB_NAME: ${NURAMESH_DB_NAME:?set NURAMESH_DB_NAME in .env}
+  NURAMESH_DB_PASSWORD_FILE: /run/secrets/nuramesh_app_password
+  NURAMESH_KEY_DIR: /keys
+  NURAMESH_TEAM_DIR: /data/team
+
+services:
+  postgres:
+    # Exception (3.4): starts as the image user 70, no capabilities added; the named volume copies
+    # up the image's uid-70 directory, so initdb needs none.
+    image: postgres:16.11-alpine@sha256:4327b9fd295502f326f44153a1045a7170ddbfffed1c3829798328556cfd09e2
+    user: "70"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
+    command: ["postgres", "-c", "log_connections=on"]
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: ${NURAMESH_DB_NAME:?set NURAMESH_DB_NAME in .env}
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256 --auth-local=scram-sha-256
+    secrets: [postgres_password, nuramesh_owner_password, nuramesh_app_password]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+    tmpfs: ["/var/run/postgresql", "/tmp"]
+    networks: [db]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ${NURAMESH_DB_NAME}"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  migrate:
+    <<: *nuramesh-common
+    image: nuramesh-api:${NURAMESH_COMPOSE_IMAGE_TAG:-local}
+    restart: "no"
+    entrypoint: ["nuramesh-env", "nuramesh"]
+    # the only service that runs DDL: as the owner role; then the least-privilege grants (5.6)
+    command: ["db", "migrate", "--team", "/data/team", "--grant-to", "nuramesh_app"]
+    environment:
+      <<: *nuramesh-env
+      NURAMESH_DB_USER: nuramesh_owner
+      NURAMESH_DB_PASSWORD_FILE: /run/secrets/nuramesh_owner_password
+      # a not-additive migration refuses without it (issue 897): the highest pending number,
+      # set in .env only after the backup of docs/upgrade-notes.md exists
+      NURAMESH_MIGRATE_ACK: ${NURAMESH_MIGRATE_ACK:-}
+    secrets: [nuramesh_owner_password]
+    volumes:
+      - team:/data/team:ro
+      - keys:/keys
+    networks: [db]
+    depends_on:
+      postgres: {condition: service_healthy}
+
+  api:
+    <<: *nuramesh-common
+    image: nuramesh-api:${NURAMESH_COMPOSE_IMAGE_TAG:-local}
+    entrypoint: ["nuramesh-env", "nuramesh"]
+    # --host is the fixed address of `app` (7.3), never 0.0.0.0 (it would also listen on `db`)
+    command:
+      - serve
+      - /data/team
+      - --host
+      - 172.29.40.10
+      - --port
+      - "8765"
+      - --auth
+      - --trusted-proxy
+      - --allowed-host
+      - 127.0.0.1
+      - --allowed-host
+      - localhost
+      - --allowed-host
+      - 172.29.40.10
+    environment:
+      <<: *nuramesh-env
+      NURAMESH_DB_USER: nuramesh_app
+      # forwarded headers are believed only from this network: the `app` network, whose only
+      # other member is the web proxy (R1.30 review 1); --trusted-proxy alone refuses to start
+      NURAMESH_TRUSTED_PROXIES: 172.29.40.0/24
+      # private, loopback and link-local model hosts are refused unless the owner turns this on
+      # (the `local-model` profile needs it: its model is on this container's loopback). Default
+      # off; when on, every start writes the ledger entry network.private_allowed (R1.30 review 1)
+      NURAMESH_ALLOW_PRIVATE_NETWORK: ${NURAMESH_ALLOW_PRIVATE_NETWORK:-0}
+      # refresh grace window (T109): on by default; 0 turns it off. The key is a file secret that
+      # nuramesh-env turns into NURAMESH_REFRESH_SUCCESSOR_KEY for this process only (#994)
+      NURAMESH_REFRESH_GRACE_SECONDS: ${NURAMESH_REFRESH_GRACE_SECONDS:-30}
+      NURAMESH_REFRESH_SUCCESSOR_KEY_FILE: /run/secrets/refresh_successor_key
+      # the engine that takes POST /v1/runs: the light runner below (ND399 OD-3)
+      NURAMESH_RUN_ENGINE: light
+      # the host's region for the optional local-model profile (ND266 section 3): read only by
+      # `nuramesh models local-model`; empty means "not set" (that command then refuses)
+      NURAMESH_LOCAL_MODEL_PROCESSING: ${NURAMESH_LOCAL_MODEL_PROCESSING:-}
+    secrets: [nuramesh_app_password, refresh_successor_key]
+    volumes:
+      - team:/data/team:ro
+      - keys:/keys
+    networks:
+      db: {}
+      app:
+        ipv4_address: 172.29.40.10
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request as u; u.urlopen('http://172.29.40.10:8765/v1/health', timeout=3)"
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+
+  runner:
+    <<: *nuramesh-common
+    image: nuramesh-worker:${NURAMESH_COMPOSE_IMAGE_TAG:-local}
+    entrypoint: ["nuramesh-env", "nuramesh"]
+    # the light engine's runner (ND347, ND399 OD-3): the one process that runs the team's code for
+    # runs started through the API; it needs no Temporal. Never scale it: one runner per database
+    # (a second one waits as a standby and takes over only after the 60 s lease), no horizontal
+    # scaling, no automatic failover. Fake model only until the sandbox work lands.
+    command: ["worker", "--engine", "light", "--fake"]
+    environment:
+      <<: *nuramesh-env
+      NURAMESH_DB_USER: nuramesh_app
+      NURAMESH_RUN_ENGINE: light
+    secrets: [nuramesh_app_password]
+    volumes:
+      - team:/data/team:ro
+      - keys:/keys
+    networks: [db]
+    stop_grace_period: 45s
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    # no runner heartbeat endpoint: the image check proves the engine code loads; whether a runner
+    # holds the lease is `light_engine` in GET /v1/health
+    healthcheck:
+      test: ["CMD", "python", "-c", "import nuramesh.engine.light"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  worker:
+    # the Temporal worker: opt-in profile `temporal` (not the default engine, ND399 OD-3)
+    profiles: [temporal]
+    <<: *nuramesh-common
+    image: nuramesh-worker:${NURAMESH_COMPOSE_IMAGE_TAG:-local}
+    entrypoint: ["nuramesh-env", "nuramesh"]
+    command: ["worker", "--fake"]
+    environment:
+      <<: *nuramesh-env
+      NURAMESH_DB_USER: nuramesh_app
+      NURAMESH_TEMPORAL_ADDRESS: temporal:7233
+      # The dev Temporal has no TLS and sits on the internal-only `temporal` network (no route
+      # out, no published port). The worker refuses a non-loopback plaintext address unless this
+      # explicit dev allowance is set; it writes the ledger entry network.temporal_plaintext_allowed
+      # at every start (evaluation only; a real cluster uses NURAMESH_TEMPORAL_TLS=1 and credentials).
+      NURAMESH_TEMPORAL_ALLOW_PLAINTEXT: "1"
+      NURAMESH_TEMPORAL_NAMESPACE: ${NURAMESH_TEMPORAL_NAMESPACE:-default}
+      NURAMESH_TEMPORAL_TASK_QUEUE: ${NURAMESH_TEMPORAL_TASK_QUEUE:-nuramesh}
+    secrets: [nuramesh_app_password]
+    volumes:
+      - team:/data/team:ro
+      - keys:/keys
+    networks: [db, temporal]
+    stop_grace_period: 30s
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      temporal: {condition: service_healthy}
+    # no worker heartbeat exists: the health is the image's own HEALTHCHECK
+    healthcheck:
+      test: ["CMD", "python", "-c", "import nuramesh.temporal.worker"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  retention:
+    <<: *nuramesh-common
+    image: nuramesh-api:${NURAMESH_COMPOSE_IMAGE_TAG:-local}
+    # hourly (8.6): content past its retention, then ended sessions and the security log
+    entrypoint:
+      - sh
+      - -c
+      - >-
+        while true; do
+        nuramesh-env nuramesh content expire --team /data/team
+        && nuramesh-env nuramesh auth purge-sessions --team /data/team
+        && touch /tmp/last-ok;
+        sleep 3600 & wait $$!;
+        done
+    environment:
+      <<: *nuramesh-env
+      NURAMESH_DB_USER: nuramesh_app
+    secrets: [nuramesh_app_password]
+    volumes:
+      - team:/data/team:ro
+      - keys:/keys
+    networks: [db]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD-SHELL", "find /tmp/last-ok -mmin -120 2>/dev/null | grep -q ."]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+
+  temporal-db:
+    profiles: [temporal]
+    # Exception (3.4): image user 70, as `postgres`.
+    image: postgres:16.11-alpine@sha256:4327b9fd295502f326f44153a1045a7170ddbfffed1c3829798328556cfd09e2
+    user: "70"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: temporal
+      POSTGRES_DB: temporal
+      POSTGRES_PASSWORD_FILE: /run/secrets/temporal_db_password
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256 --auth-local=scram-sha-256
+    secrets: [temporal_db_password]
+    volumes:
+      - temporal-pgdata:/var/lib/postgresql/data
+    tmpfs: ["/var/run/postgresql", "/tmp"]
+    networks: [temporal]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U temporal -d temporal"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  temporal:
+    profiles: [temporal]
+    # Exception (3.4): the auto-setup image runs as its own user (uid 1000) and writes its
+    # rendered config under /etc/temporal, so its root filesystem is not read-only.
+    image: temporalio/auto-setup:1.29.7@sha256:f14912b699cf73015ad5c4fc18d522d4b014db90e794039214dfb7c022c2644f
+    user: "1000"
+    read_only: false
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
+    # auto-setup reads only a plain POSTGRES_PWD: read the secret file inside the container
+    # process so the value is not in `docker inspect` config.
+    entrypoint:
+      - sh
+      - -c
+      - POSTGRES_PWD="$$(cat /run/secrets/temporal_db_password)" exec /etc/temporal/entrypoint.sh autosetup
+    environment:
+      DB: postgres12
+      DB_PORT: "5432"
+      POSTGRES_USER: temporal
+      POSTGRES_SEEDS: temporal-db
+      DEFAULT_NAMESPACE: ${NURAMESH_TEMPORAL_NAMESPACE:-default}
+    secrets: [temporal_db_password]
+    tmpfs: ["/tmp"]
+    networks: [temporal]
+    depends_on:
+      temporal-db: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD-SHELL", "tctl --address $$(hostname -i):7233 cluster health | grep -q SERVING"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 40s
+
+  web:
+    # Exception (3.4): nginx-unprivileged (uid 101); tmpfs for its cache and pid files.
+    image: nuramesh-web:${NURAMESH_COMPOSE_IMAGE_TAG:-local}
+    pull_policy: never
+    user: "101"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
+    tmpfs: ["/tmp", "/var/cache/nginx", "/var/run"]
+    secrets: [web_tls_key, web_tls_cert]
+    ports:
+      # the TLS listener: loopback only (7.1); the only published port of the stack
+      - "127.0.0.1:${WEB_PORT:-8443}:8443"
+    networks: [app, edge]
+    depends_on:
+      api: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-check-certificate -q -O /dev/null https://127.0.0.1:8443/"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+
+  # --- optional `local-model` profile (ND266): off by default; `docker compose up` never starts it.
+  # Ollama shares the api's network namespace, so it listens on that namespace's loopback only
+  # (the base URL is http://127.0.0.1:11434/v1; the spec's HTTP-to-loopback rule is not widened)
+  # and publishes nothing. The outbound guard refuses a loopback model by default, so the api
+  # needs NURAMESH_ALLOW_PRIVATE_NETWORK=1 (set it in .env; the api records it in the ledger). The api's networks are internal, so it cannot download anything: the
+  # model comes from `ollama-pull` below, run by hand (docs/self-hosting.md).
+  ollama:
+    profiles: [local-model]
+    image: ollama/ollama:0.40.13@sha256:b2f0122c476bc9fe7ce679d8bb4bd555351e25e2554eefb156f61cb0a89cf429
+    user: "10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
+    network_mode: "service:api"
+    # serve.sh verifies the model against the pins (local-model/pins.sh) and refuses to serve an
+    # unverified or missing one; the healthcheck verifies it again and needs the model to be present.
+    # Pull first (`ollama-pull`): the volume is read-only here, so OLLAMA_NOPRUNE keeps Ollama from
+    # writing to it at start-up.
+    entrypoint: ["sh", "/local-model/serve.sh"]
+    environment:
+      OLLAMA_HOST: 127.0.0.1:11434
+      OLLAMA_MODELS: /models
+      OLLAMA_NOPRUNE: "1"
+      NURAMESH_LOCAL_MODEL: ${NURAMESH_LOCAL_MODEL:-qwen3:8b}
+      HOME: /tmp
+    volumes:
+      - ollama-models:/models:ro
+      - ./local-model:/local-model:ro
+    tmpfs: ["/tmp"]
+    depends_on:
+      api: {condition: service_healthy}
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - sh /local-model/verify.sh "$$NURAMESH_LOCAL_MODEL" && ollama list | grep -q "$$NURAMESH_LOCAL_MODEL"
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 120s # serve.sh hashes the weights before it starts the server
+
+  ollama-pull:
+    # Exception (3.4): runs as root without any capability (it must write the root-owned model
+    # volume that `ollama` reads as uid 10001), has a route out (`edge`), publishes nothing, and
+    # exits. Started only by hand; never in CI.
+    profiles: [local-model-pull]
+    image: ollama/ollama:0.40.13@sha256:b2f0122c476bc9fe7ce679d8bb4bd555351e25e2554eefb156f61cb0a89cf429
+    user: "0"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: "no"
+    entrypoint: ["sh", "/local-model/pull.sh"]
+    environment:
+      NURAMESH_LOCAL_MODEL: ${NURAMESH_LOCAL_MODEL:-qwen3:8b}
+      OLLAMA_MODELS: /models
+      HOME: /tmp
+    volumes:
+      - ollama-models:/models
+      - ./local-model:/local-model:ro
+    tmpfs: ["/tmp"]
+    networks: [edge]
+
+secrets:
+  postgres_password: {file: ./secrets/postgres_password}
+  nuramesh_owner_password: {file: ./secrets/nuramesh_owner_password}
+  nuramesh_app_password: {file: ./secrets/nuramesh_app_password}
+  temporal_db_password: {file: ./secrets/temporal_db_password}
+  web_tls_key: {file: ./secrets/web_tls_key}
+  web_tls_cert: {file: ./secrets/web_tls_cert}
+  refresh_successor_key: {file: ./secrets/refresh_successor_key}
+
+volumes:
+  pgdata: {}
+  temporal-pgdata: {}
+  keys: {}
+  # the optional local-model profile's weights (pulled by hand, never in the repository)
+  ollama-models: {}
+  # the team configuration folder: a bind mount of the operator's folder (NURAMESH_COMPOSE_TEAM_PATH)
+  team:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${NURAMESH_COMPOSE_TEAM_PATH:?set NURAMESH_COMPOSE_TEAM_PATH in .env (an absolute path)}
+
+networks:
+  db: {internal: true}
+  temporal: {internal: true}
+  # internal: no route out; gateway_mode_ipv4 isolated: no gateway address on the host either, so
+  # a host process cannot reach the api address (checked by check-docker.sh; ND188 N1)
+  app:
+    internal: true
+    driver_opts:
+      com.docker.network.bridge.gateway_mode_ipv4: isolated
+    ipam:
+      config:
+        - subnet: 172.29.40.0/24
+  # carries only the loopback publish of `web`: Docker publishes nothing for a container that is
+  # on internal networks only (7.8)
+  edge: {}

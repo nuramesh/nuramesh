@@ -1,0 +1,91 @@
+{
+  "name": "github",
+  "pack_version": 1,
+  "data_kind": "code",
+  "tools": [
+    {
+      "tool": "get_pull_request",
+      "kind": "read",
+      "allowed_args": [
+        "repo",
+        "number"
+      ],
+      "effects": [],
+      "paid": false
+    },
+    {
+      "tool": "list_pull_request_files",
+      "kind": "read",
+      "allowed_args": [
+        "repo",
+        "number"
+      ],
+      "effects": [],
+      "paid": false
+    },
+    {
+      "tool": "get_check_runs",
+      "kind": "read",
+      "allowed_args": [
+        "repo",
+        "ref"
+      ],
+      "effects": [],
+      "paid": false
+    },
+    {
+      "tool": "comment_on_pull_request",
+      "kind": "write",
+      "allowed_args": [
+        "repo",
+        "number",
+        "body"
+      ],
+      "effects": [
+        {
+          "kind": "external_message",
+          "arg": "repo"
+        }
+      ],
+      "paid": false
+    },
+    {
+      "tool": "create_pull_request",
+      "kind": "write",
+      "allowed_args": [
+        "repo",
+        "head",
+        "base",
+        "title",
+        "body"
+      ],
+      "effects": [
+        {
+          "kind": "external_message",
+          "arg": "repo"
+        }
+      ],
+      "paid": false
+    },
+    {
+      "tool": "merge_pull_request",
+      "kind": "write",
+      "allowed_args": [
+        "repo",
+        "number",
+        "branch"
+      ],
+      "effects": [
+        {
+          "kind": "merge",
+          "arg": "branch"
+        },
+        {
+          "kind": "external_message",
+          "arg": "repo"
+        }
+      ],
+      "paid": false
+    }
+  ]
+}

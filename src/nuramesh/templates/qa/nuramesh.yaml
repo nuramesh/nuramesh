@@ -1,0 +1,51 @@
+# The QA and testing team template (R2.06): QA lead delegates; Test designer and Test runner do the work; Test reviewer is an
+# independent verifier that checks Test designer. Default deny: only the listed actions are allowed.
+# Run it:  nuramesh init my-team --template qa && nuramesh try my-team --fake
+version: 1
+org:
+  id: qa
+  name: QA and testing team
+  roles:
+    - {id: qa-lead, name: QA lead, kind: chief_of_staff}
+    - {id: test-designer, name: Test designer, default_model: fake/worker-1}
+    - {id: test-runner, name: Test runner, default_model: fake/worker-1}
+    - {id: test-reviewer, name: Test reviewer, kind: verifier, default_model: fake/reviewer-1}
+  agents:
+    - {id: qa-lead, name: QA lead, role: qa-lead}
+    - {id: test-designer, name: Test designer, role: test-designer, reports_to: qa-lead}
+    - {id: test-runner, name: Test runner, role: test-runner, reports_to: qa-lead}
+    - {id: test-reviewer, name: Test reviewer, role: test-reviewer, reports_to: qa-lead, checks: [test-designer]}
+policies:
+  policies:
+    - role: qa-lead
+      rules:
+        - {action: delegate, decision: allow, target: "*"}
+    - role: test-designer
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+        - {action: write_file, decision: deny, target: "**", reason: "designing tests changes no files"}
+        - {action: external_message, decision: deny, target: "*", reason: "no outside contact"}
+    - role: test-runner
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+        - {action: run_command, decision: allow, target: "pytest **", reason: "test execution only"}
+        - {action: write_file, decision: deny, target: "**", reason: "running tests changes no files"}
+        - {action: merge, decision: deny, target: "*", reason: "a tester never merges"}
+        - {action: external_message, decision: deny, target: "*", reason: "no outside contact"}
+        - {action: use_tool, decision: deny, target: "*", reason: "only the test command is allowed"}
+    - role: test-reviewer
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+budgets:
+  - {id: test-designer-monthly, scope: agent, scope_id: test-designer, limit: {amount: "5.00", currency: USD}}
+  - {id: test-runner-monthly, scope: agent, scope_id: test-runner, limit: {amount: "5.00", currency: USD}}
+  - {id: test-reviewer-monthly, scope: agent, scope_id: test-reviewer, limit: {amount: "5.00", currency: USD}}
+prices:
+  prices:
+    - {provider: fake, model: worker-1, input_per_million: "3", output_per_million: "15",
+       effective_from: "2026-01-01T00:00:00Z", source: "template price list (fake model)"}
+    - {provider: fake, model: reviewer-1, input_per_million: "3", output_per_million: "15",
+       effective_from: "2026-01-01T00:00:00Z", source: "template price list (fake model)"}

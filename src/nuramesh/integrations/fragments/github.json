@@ -1,0 +1,32 @@
+[
+  {
+    "action": "use_tool",
+    "target": "mcp:github/get_pull_request",
+    "decision": "allow"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:github/list_pull_request_files",
+    "decision": "allow"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:github/get_check_runs",
+    "decision": "allow"
+  },
+  {
+    "action": "external_message",
+    "target": "*",
+    "decision": "ask"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:github/comment_on_pull_request",
+    "decision": "ask"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:github/create_pull_request",
+    "decision": "ask"
+  }
+]

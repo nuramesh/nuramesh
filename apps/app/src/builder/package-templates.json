@@ -1,0 +1,421 @@
+[
+  {
+    "id": "code-review",
+    "roles": [
+      {
+        "id": "chief-of-staff",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "change-summarizer",
+        "kind": "worker"
+      },
+      {
+        "id": "code-reviewer",
+        "kind": "verifier"
+      },
+      {
+        "id": "security-reviewer",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "chief-of-staff",
+        "role": "chief-of-staff",
+        "reports_to": null
+      },
+      {
+        "id": "change-summarizer",
+        "role": "change-summarizer",
+        "reports_to": "chief-of-staff"
+      },
+      {
+        "id": "code-reviewer",
+        "role": "code-reviewer",
+        "reports_to": "chief-of-staff"
+      },
+      {
+        "id": "security-reviewer",
+        "role": "security-reviewer",
+        "reports_to": "chief-of-staff"
+      }
+    ]
+  },
+  {
+    "id": "dev-team",
+    "roles": [
+      {
+        "id": "cos",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "developer",
+        "kind": "worker"
+      },
+      {
+        "id": "tester",
+        "kind": "worker"
+      },
+      {
+        "id": "reviewer",
+        "kind": "verifier"
+      },
+      {
+        "id": "devops",
+        "kind": "worker"
+      }
+    ],
+    "agents": [
+      {
+        "id": "chief",
+        "role": "cos",
+        "reports_to": null
+      },
+      {
+        "id": "dana",
+        "role": "developer",
+        "reports_to": "chief"
+      },
+      {
+        "id": "theo",
+        "role": "tester",
+        "reports_to": "chief"
+      },
+      {
+        "id": "rhea",
+        "role": "reviewer",
+        "reports_to": "chief"
+      },
+      {
+        "id": "omar",
+        "role": "devops",
+        "reports_to": "chief"
+      }
+    ]
+  },
+  {
+    "id": "devops",
+    "roles": [
+      {
+        "id": "ops-lead",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "change-planner",
+        "kind": "worker"
+      },
+      {
+        "id": "staging-checker",
+        "kind": "worker"
+      },
+      {
+        "id": "change-reviewer",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "ops-lead",
+        "role": "ops-lead",
+        "reports_to": null
+      },
+      {
+        "id": "change-planner",
+        "role": "change-planner",
+        "reports_to": "ops-lead"
+      },
+      {
+        "id": "staging-checker",
+        "role": "staging-checker",
+        "reports_to": "ops-lead"
+      },
+      {
+        "id": "change-reviewer",
+        "role": "change-reviewer",
+        "reports_to": "ops-lead"
+      }
+    ]
+  },
+  {
+    "id": "kanban",
+    "roles": [
+      {
+        "id": "flow-lead",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "developer",
+        "kind": "worker"
+      },
+      {
+        "id": "tester",
+        "kind": "worker"
+      },
+      {
+        "id": "reviewer",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "flow-lead",
+        "role": "flow-lead",
+        "reports_to": null
+      },
+      {
+        "id": "developer",
+        "role": "developer",
+        "reports_to": "flow-lead"
+      },
+      {
+        "id": "tester",
+        "role": "tester",
+        "reports_to": "flow-lead"
+      },
+      {
+        "id": "reviewer",
+        "role": "reviewer",
+        "reports_to": "flow-lead"
+      }
+    ]
+  },
+  {
+    "id": "qa",
+    "roles": [
+      {
+        "id": "qa-lead",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "test-designer",
+        "kind": "worker"
+      },
+      {
+        "id": "test-runner",
+        "kind": "worker"
+      },
+      {
+        "id": "test-reviewer",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "qa-lead",
+        "role": "qa-lead",
+        "reports_to": null
+      },
+      {
+        "id": "test-designer",
+        "role": "test-designer",
+        "reports_to": "qa-lead"
+      },
+      {
+        "id": "test-runner",
+        "role": "test-runner",
+        "reports_to": "qa-lead"
+      },
+      {
+        "id": "test-reviewer",
+        "role": "test-reviewer",
+        "reports_to": "qa-lead"
+      }
+    ]
+  },
+  {
+    "id": "review-board",
+    "roles": [
+      {
+        "id": "chair",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "change-summarizer",
+        "kind": "worker"
+      },
+      {
+        "id": "correctness-reviewer",
+        "kind": "verifier"
+      },
+      {
+        "id": "security-reviewer",
+        "kind": "verifier"
+      },
+      {
+        "id": "maintainability-reviewer",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "chair",
+        "role": "chair",
+        "reports_to": null
+      },
+      {
+        "id": "change-summarizer",
+        "role": "change-summarizer",
+        "reports_to": "chair"
+      },
+      {
+        "id": "correctness-reviewer",
+        "role": "correctness-reviewer",
+        "reports_to": "chair"
+      },
+      {
+        "id": "security-reviewer",
+        "role": "security-reviewer",
+        "reports_to": "chair"
+      },
+      {
+        "id": "maintainability-reviewer",
+        "role": "maintainability-reviewer",
+        "reports_to": "chair"
+      }
+    ]
+  },
+  {
+    "id": "sales",
+    "roles": [
+      {
+        "id": "sales-lead",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "qualifier",
+        "kind": "worker"
+      },
+      {
+        "id": "outreach-writer",
+        "kind": "worker"
+      },
+      {
+        "id": "claims-checker",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "sales-lead",
+        "role": "sales-lead",
+        "reports_to": null
+      },
+      {
+        "id": "qualifier",
+        "role": "qualifier",
+        "reports_to": "sales-lead"
+      },
+      {
+        "id": "outreach-writer",
+        "role": "outreach-writer",
+        "reports_to": "sales-lead"
+      },
+      {
+        "id": "claims-checker",
+        "role": "claims-checker",
+        "reports_to": "sales-lead"
+      }
+    ]
+  },
+  {
+    "id": "scrum",
+    "roles": [
+      {
+        "id": "product-owner",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "scrum-master",
+        "kind": "worker"
+      },
+      {
+        "id": "developer",
+        "kind": "worker"
+      },
+      {
+        "id": "tester",
+        "kind": "worker"
+      },
+      {
+        "id": "reviewer",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "product-owner",
+        "role": "product-owner",
+        "reports_to": null
+      },
+      {
+        "id": "scrum-master",
+        "role": "scrum-master",
+        "reports_to": "product-owner"
+      },
+      {
+        "id": "developer-1",
+        "role": "developer",
+        "reports_to": "product-owner"
+      },
+      {
+        "id": "developer-2",
+        "role": "developer",
+        "reports_to": "product-owner"
+      },
+      {
+        "id": "tester",
+        "role": "tester",
+        "reports_to": "product-owner"
+      },
+      {
+        "id": "reviewer",
+        "role": "reviewer",
+        "reports_to": "product-owner"
+      }
+    ]
+  },
+  {
+    "id": "support",
+    "roles": [
+      {
+        "id": "support-lead",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "triager",
+        "kind": "worker"
+      },
+      {
+        "id": "responder",
+        "kind": "worker"
+      },
+      {
+        "id": "reply-checker",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "support-lead",
+        "role": "support-lead",
+        "reports_to": null
+      },
+      {
+        "id": "triager",
+        "role": "triager",
+        "reports_to": "support-lead"
+      },
+      {
+        "id": "responder",
+        "role": "responder",
+        "reports_to": "support-lead"
+      },
+      {
+        "id": "reply-checker",
+        "role": "reply-checker",
+        "reports_to": "support-lead"
+      }
+    ]
+  }
+]

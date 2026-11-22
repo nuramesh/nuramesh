@@ -1,0 +1,37 @@
+[
+  {
+    "action": "use_tool",
+    "target": "mcp:crm/search_contacts",
+    "decision": "allow"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:crm/get_contact",
+    "decision": "allow"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:crm/get_account",
+    "decision": "allow"
+  },
+  {
+    "action": "external_message",
+    "target": "*",
+    "decision": "ask"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:crm/log_note",
+    "decision": "ask"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:crm/update_contact_field",
+    "decision": "ask"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:crm/create_followup_task",
+    "decision": "ask"
+  }
+]

@@ -1,0 +1,852 @@
+{
+ "ceiling_allow": {
+  "body": {
+   "entry": "org:acme#4",
+   "kind": "write_file",
+   "role": "dev",
+   "value": "allow"
+  },
+  "status": 200
+ },
+ "decide_every_criterion": {
+  "body": {
+   "code": "invalid_decision",
+   "detail": "a decision must cover exactly the criteria ['approved']",
+   "status": 422,
+   "title": "invalid_decision",
+   "type": "urn:nuramesh:invalid_decision"
+  },
+  "status": 422
+ },
+ "decide_no_acknowledgement": {
+  "body": {
+   "code": "acknowledge_required",
+   "detail": "you are the only person who can decide this: acknowledge the solo decision",
+   "status": 403,
+   "title": "acknowledge_required",
+   "type": "urn:nuramesh:acknowledge_required"
+  },
+  "status": 403
+ },
+ "decide_ok": {
+  "body": {
+   "already_recorded": false,
+   "attempt": 1,
+   "decision_hash": "c426413111b4e9a65404e9d195c0cc4d66d77af326a1a52095d7f3e31598214e",
+   "gate": "deploy",
+   "held": false,
+   "outcome": "passed",
+   "run_id": "r1",
+   "submission": 1,
+   "task_id": "t1",
+   "woken": null
+  },
+  "status": 201
+ },
+ "decide_other_answer": {
+  "body": {
+   "code": "already_decided",
+   "detail": "the gate already has a decision in this round",
+   "status": 409,
+   "title": "already_decided",
+   "type": "urn:nuramesh:already_decided"
+  },
+  "status": 409
+ },
+ "grant_not_proposable": {
+  "body": {
+   "code": "not_proposable",
+   "detail": "the cell is not proposable",
+   "reasons": [
+    "approved_below_min",
+    "verdicts_below_min"
+   ],
+   "status": 409,
+   "title": "not_proposable",
+   "type": "urn:nuramesh:not_proposable"
+  },
+  "status": 409
+ },
+ "org_status": {
+  "body": {
+   "at": null,
+   "by": null,
+   "can_act": true,
+   "cause": null,
+   "error_class": null,
+   "failed_ticks": null,
+   "failing_rule": null,
+   "halted": false,
+   "ledger_seq": null,
+   "phase": null,
+   "roles": [
+    {
+     "at": null,
+     "by": null,
+     "cause": null,
+     "in_config": true,
+     "ledger_seq": null,
+     "paused": false,
+     "role": "cos",
+     "rule": null
+    },
+    {
+     "at": null,
+     "by": null,
+     "cause": null,
+     "in_config": true,
+     "ledger_seq": null,
+     "paused": false,
+     "role": "dev",
+     "rule": null
+    },
+    {
+     "at": null,
+     "by": null,
+     "cause": null,
+     "in_config": true,
+     "ledger_seq": null,
+     "paused": false,
+     "role": "ver",
+     "rule": null
+    }
+   ],
+   "rule": null,
+   "solo_approval": {
+    "approved": 0,
+    "approved_solo": 0,
+    "approved_solo_after_removal": 0,
+    "limit_per_hour": 30,
+    "solo_now": true,
+    "solo_share": null,
+    "window_days": 30
+   },
+   "warnings": []
+  },
+  "status": 200
+ },
+ "proposals_ceiling": {
+  "body": {
+   "as_of": "2026-10-25T12:00:00+00:00",
+   "items": [
+    {
+     "cell": {
+      "role": "dev",
+      "rule_key": 2
+     },
+     "evidence": {
+      "approval_ids": [],
+      "approved_asks": 0,
+      "as_of": "2026-10-25T12:00:00.000000Z",
+      "cell": {
+       "role": "dev",
+       "rule_key": 2
+      },
+      "denied_asks": 0,
+      "linked_tasks": [],
+      "passed": 0,
+      "policy_contract": 3,
+      "rule_hash": "73d9a45347d37e1c66cd6b69467d693148347ca47766d8e9ddd74cda9faf11ce",
+      "scorecard_version": 1,
+      "subject": {
+       "id": "dev",
+       "kind": "role"
+      },
+      "verdict_entries": [],
+      "verdicts": 0,
+      "window": {
+       "from": "2026-09-25T12:00:00.000000Z",
+       "to": "2026-10-25T12:00:00.000000Z"
+      }
+     },
+     "evidence_hash": "b1795bb04143410a8d153e84e24fbd4ab4cd48fa264d797d03e4ddc3cde6440f",
+     "kind": "write_file",
+     "reasons": [
+      "ceiling_none",
+      "approved_below_min",
+      "verdicts_below_min"
+     ],
+     "solo": {
+      "approved_asks_solo": 0,
+      "solo_share": null
+     },
+     "status": "ceiling",
+     "subject": {
+      "id": "dev",
+      "kind": "role"
+     }
+    }
+   ],
+   "ledger_position": 26
+  },
+  "status": 200
+ },
+ "proposals_no_ask_rule": {
+  "body": {
+   "as_of": "2026-10-25T12:00:00+00:00",
+   "items": [],
+   "ledger_position": 26
+  },
+  "status": 200
+ },
+ "proposals_not_enough": {
+  "body": {
+   "as_of": "2026-10-25T12:00:00+00:00",
+   "items": [
+    {
+     "cell": {
+      "role": "dev",
+      "rule_key": 2
+     },
+     "evidence": {
+      "approval_ids": [],
+      "approved_asks": 0,
+      "as_of": "2026-10-25T12:00:00.000000Z",
+      "cell": {
+       "role": "dev",
+       "rule_key": 2
+      },
+      "denied_asks": 0,
+      "linked_tasks": [],
+      "passed": 0,
+      "policy_contract": 3,
+      "rule_hash": "73d9a45347d37e1c66cd6b69467d693148347ca47766d8e9ddd74cda9faf11ce",
+      "scorecard_version": 1,
+      "subject": {
+       "id": "dev",
+       "kind": "role"
+      },
+      "verdict_entries": [],
+      "verdicts": 0,
+      "window": {
+       "from": "2026-09-25T12:00:00.000000Z",
+       "to": "2026-10-25T12:00:00.000000Z"
+      }
+     },
+     "evidence_hash": "b1795bb04143410a8d153e84e24fbd4ab4cd48fa264d797d03e4ddc3cde6440f",
+     "kind": "write_file",
+     "reasons": [
+      "approved_below_min",
+      "verdicts_below_min"
+     ],
+     "solo": {
+      "approved_asks_solo": 0,
+      "solo_share": null
+     },
+     "status": "not_enough_evidence",
+     "subject": {
+      "id": "dev",
+      "kind": "role"
+     }
+    }
+   ],
+   "ledger_position": 27
+  },
+  "status": 200
+ },
+ "proposals_unknown_role": {
+  "body": {
+   "code": "not_found",
+   "detail": "role 'Developer' is not in the organization",
+   "status": 404,
+   "title": "not_found",
+   "type": "urn:nuramesh:not_found"
+  },
+  "status": 404
+ },
+ "reason_codes": {
+  "body": [
+   "never_grantable",
+   "no_such_rule",
+   "ceiling_none",
+   "already_granted",
+   "approved_below_min",
+   "verdicts_below_min",
+   "denied_in_window",
+   "pass_rate_below_min",
+   "eval_blocked",
+   "eval_failed_in_cooldown",
+   "breach_in_cooldown",
+   "demotion_in_cooldown"
+  ],
+  "status": 0
+ },
+ "run_decided": {
+  "body": {
+   "approvals": [],
+   "budget_alerts": [],
+   "budgets": [
+    {
+     "available": {
+      "amount": "0.998281",
+      "currency": "USD"
+     },
+     "blocked": false,
+     "definition": {
+      "id": "run",
+      "limit": {
+       "amount": "1",
+       "currency": "USD"
+      },
+      "on_breach": null,
+      "org_id": "acme",
+      "scope": "run",
+      "scope_id": "r1",
+      "window": "none"
+     },
+     "id": "run",
+     "limit": {
+      "amount": "1",
+      "currency": "USD"
+     },
+     "on_breach": "hold",
+     "reserved": {
+      "amount": "0.000000",
+      "currency": "USD"
+     },
+     "scope": "run",
+     "scope_id": "r1",
+     "spent": {
+      "amount": "0.001719",
+      "currency": "USD"
+     },
+     "version": 5,
+     "window": "none",
+     "window_start": null
+    }
+   ],
+   "canon_commit": null,
+   "chief_of_staff": "boss",
+   "ended_at": null,
+   "events": 23,
+   "gates": {
+    "error": 0,
+    "failed": 0,
+    "passed": 2,
+    "total": 2
+   },
+   "head": "e1c55bc5de3d1a86bdcc7bfcd4dd757c860bbe574d21494db687b098a91a1a2b",
+   "ledger": {
+    "head": "e1c55bc5de3d1a86bdcc7bfcd4dd757c860bbe574d21494db687b098a91a1a2b",
+    "ok": true,
+    "seq": 23,
+    "stream": "run:r1"
+   },
+   "org": "acme",
+   "run_id": "r1",
+   "spend": {
+    "at_least": null,
+    "by_agent": [
+     {
+      "agent": "ada",
+      "calls": 1,
+      "total": {
+       "amount": "0.000123",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     {
+      "agent": "vera",
+      "calls": 1,
+      "total": {
+       "amount": "0.001596",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     }
+    ],
+    "by_model": [
+     {
+      "calls": 1,
+      "model": "fake/verifier-1",
+      "total": {
+       "amount": "0.001596",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     {
+      "calls": 1,
+      "model": "fake/worker-1",
+      "total": {
+       "amount": "0.000123",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     }
+    ],
+    "calls": 2,
+    "cost_unknown_calls": 0,
+    "total": {
+     "amount": "0.001719",
+     "currency": "USD"
+    },
+    "unknown_cost_calls": 0
+   },
+   "started_at": "2026-10-25T12:00:00+00:00",
+   "started_by": "system",
+   "status": "running",
+   "stop": null,
+   "task_counts": {
+    "by_status": {
+     "verifying": 1
+    },
+    "total": 1
+   },
+   "tasks": [
+    {
+     "assignee": "ada",
+     "attempt": 1,
+     "attempts": [
+      {
+       "attempt": 1,
+       "gates": [
+        {
+         "at": "2026-10-25T12:00:00+00:00",
+         "checked_by": "gate:rule",
+         "gate": "rule",
+         "hash_key_id": "2628933b45f7365b",
+         "hash_scheme": "hmac-v1",
+         "kind": "rule",
+         "ledger_seq": 14,
+         "outcome": "passed",
+         "required": true,
+         "result_hash": "141b220e6e879cb696ff03b581df4bf39ce30c20c3f74aee2fc213ac3c7eeb94",
+         "verdicts": [
+          {
+           "criterion": "fixed",
+           "text": "The function returns the sum",
+           "verdict": "met"
+          }
+         ]
+        },
+        {
+         "at": "2026-10-25T12:00:00+00:00",
+         "checked_by": "agent:vera",
+         "gate": "verify",
+         "hash_key_id": "2628933b45f7365b",
+         "hash_scheme": "hmac-v1",
+         "kind": "verifier",
+         "ledger_seq": 21,
+         "outcome": "passed",
+         "required": true,
+         "result_hash": "eba84e2d0c33d1ae26d49a87b7f99cc0fb22ed9b3abf97ee319e5f8fc25160ae",
+         "verdicts": [
+          {
+           "criterion": "reviewed",
+           "text": "An independent reviewer agrees it is correct",
+           "verdict": "met"
+          }
+         ]
+        }
+       ],
+       "moved_to": null,
+       "reason": null,
+       "submission": 1,
+       "verification": []
+      }
+     ],
+     "definition_of_done": {
+      "criteria": [
+       {
+        "id": "fixed",
+        "text": "The function returns the sum"
+       },
+       {
+        "id": "reviewed",
+        "text": "An independent reviewer agrees it is correct"
+       },
+       {
+        "id": "approved",
+        "text": "A human approves the deploy"
+       }
+      ],
+      "gates": [
+       {
+        "checks": [
+         "fixed"
+        ],
+        "id": "rule",
+        "kind": "rule",
+        "required": true
+       },
+       {
+        "checks": [
+         "reviewed"
+        ],
+        "id": "verify",
+        "kind": "verifier",
+        "required": true
+       },
+       {
+        "checks": [
+         "approved"
+        ],
+        "id": "deploy",
+        "kind": "human",
+        "required": true
+       }
+      ]
+     },
+     "id": "t1",
+     "latest_gates": [
+      {
+       "at": "2026-10-25T12:00:00+00:00",
+       "checked_by": "gate:rule",
+       "gate": "rule",
+       "hash_key_id": "2628933b45f7365b",
+       "hash_scheme": "hmac-v1",
+       "kind": "rule",
+       "ledger_seq": 14,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "141b220e6e879cb696ff03b581df4bf39ce30c20c3f74aee2fc213ac3c7eeb94",
+       "verdicts": [
+        {
+         "criterion": "fixed",
+         "text": "The function returns the sum",
+         "verdict": "met"
+        }
+       ]
+      },
+      {
+       "at": "2026-10-25T12:00:00+00:00",
+       "checked_by": "agent:vera",
+       "gate": "verify",
+       "hash_key_id": "2628933b45f7365b",
+       "hash_scheme": "hmac-v1",
+       "kind": "verifier",
+       "ledger_seq": 21,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "eba84e2d0c33d1ae26d49a87b7f99cc0fb22ed9b3abf97ee319e5f8fc25160ae",
+       "verdicts": [
+        {
+         "criterion": "reviewed",
+         "text": "An independent reviewer agrees it is correct",
+         "verdict": "met"
+        }
+       ]
+      }
+     ],
+     "max_attempts": 3,
+     "note": "running gates",
+     "spend": {
+      "calls": 2,
+      "total": {
+       "amount": "0.001719",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     "status": "verifying",
+     "submission": 1,
+     "title": "Task t1",
+     "version": 5,
+     "wait_warning": null
+    }
+   ],
+   "updated": "2026-10-25T12:00:00+00:00"
+  },
+  "status": 200
+ },
+ "run_waiting": {
+  "body": {
+   "approvals": [],
+   "budget_alerts": [],
+   "budgets": [
+    {
+     "available": {
+      "amount": "0.998281",
+      "currency": "USD"
+     },
+     "blocked": false,
+     "definition": {
+      "id": "run",
+      "limit": {
+       "amount": "1",
+       "currency": "USD"
+      },
+      "on_breach": null,
+      "org_id": "acme",
+      "scope": "run",
+      "scope_id": "r1",
+      "window": "none"
+     },
+     "id": "run",
+     "limit": {
+      "amount": "1",
+      "currency": "USD"
+     },
+     "on_breach": "hold",
+     "reserved": {
+      "amount": "0.000000",
+      "currency": "USD"
+     },
+     "scope": "run",
+     "scope_id": "r1",
+     "spent": {
+      "amount": "0.001719",
+      "currency": "USD"
+     },
+     "version": 5,
+     "window": "none",
+     "window_start": null
+    }
+   ],
+   "canon_commit": null,
+   "chief_of_staff": "boss",
+   "ended_at": null,
+   "events": 22,
+   "gates": {
+    "error": 0,
+    "failed": 0,
+    "passed": 2,
+    "total": 2
+   },
+   "head": "41e99712bf9a9bd4f317538516f94375dd2b2883f6c40e7fe599eaf90ff53e21",
+   "ledger": {
+    "head": "41e99712bf9a9bd4f317538516f94375dd2b2883f6c40e7fe599eaf90ff53e21",
+    "ok": true,
+    "seq": 22,
+    "stream": "run:r1"
+   },
+   "org": "acme",
+   "run_id": "r1",
+   "spend": {
+    "at_least": null,
+    "by_agent": [
+     {
+      "agent": "ada",
+      "calls": 1,
+      "total": {
+       "amount": "0.000123",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     {
+      "agent": "vera",
+      "calls": 1,
+      "total": {
+       "amount": "0.001596",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     }
+    ],
+    "by_model": [
+     {
+      "calls": 1,
+      "model": "fake/verifier-1",
+      "total": {
+       "amount": "0.001596",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     {
+      "calls": 1,
+      "model": "fake/worker-1",
+      "total": {
+       "amount": "0.000123",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     }
+    ],
+    "calls": 2,
+    "cost_unknown_calls": 0,
+    "total": {
+     "amount": "0.001719",
+     "currency": "USD"
+    },
+    "unknown_cost_calls": 0
+   },
+   "started_at": "2026-10-25T12:00:00+00:00",
+   "started_by": "system",
+   "status": "running",
+   "stop": null,
+   "task_counts": {
+    "by_status": {
+     "verifying": 1
+    },
+    "total": 1
+   },
+   "tasks": [
+    {
+     "assignee": "ada",
+     "attempt": 1,
+     "attempts": [
+      {
+       "attempt": 1,
+       "gates": [
+        {
+         "at": "2026-10-25T12:00:00+00:00",
+         "checked_by": "gate:rule",
+         "gate": "rule",
+         "hash_key_id": "2628933b45f7365b",
+         "hash_scheme": "hmac-v1",
+         "kind": "rule",
+         "ledger_seq": 14,
+         "outcome": "passed",
+         "required": true,
+         "result_hash": "141b220e6e879cb696ff03b581df4bf39ce30c20c3f74aee2fc213ac3c7eeb94",
+         "verdicts": [
+          {
+           "criterion": "fixed",
+           "text": "The function returns the sum",
+           "verdict": "met"
+          }
+         ]
+        },
+        {
+         "at": "2026-10-25T12:00:00+00:00",
+         "checked_by": "agent:vera",
+         "gate": "verify",
+         "hash_key_id": "2628933b45f7365b",
+         "hash_scheme": "hmac-v1",
+         "kind": "verifier",
+         "ledger_seq": 21,
+         "outcome": "passed",
+         "required": true,
+         "result_hash": "eba84e2d0c33d1ae26d49a87b7f99cc0fb22ed9b3abf97ee319e5f8fc25160ae",
+         "verdicts": [
+          {
+           "criterion": "reviewed",
+           "text": "An independent reviewer agrees it is correct",
+           "verdict": "met"
+          }
+         ]
+        }
+       ],
+       "moved_to": null,
+       "reason": null,
+       "submission": 1,
+       "verification": []
+      }
+     ],
+     "definition_of_done": {
+      "criteria": [
+       {
+        "id": "fixed",
+        "text": "The function returns the sum"
+       },
+       {
+        "id": "reviewed",
+        "text": "An independent reviewer agrees it is correct"
+       },
+       {
+        "id": "approved",
+        "text": "A human approves the deploy"
+       }
+      ],
+      "gates": [
+       {
+        "checks": [
+         "fixed"
+        ],
+        "id": "rule",
+        "kind": "rule",
+        "required": true
+       },
+       {
+        "checks": [
+         "reviewed"
+        ],
+        "id": "verify",
+        "kind": "verifier",
+        "required": true
+       },
+       {
+        "checks": [
+         "approved"
+        ],
+        "id": "deploy",
+        "kind": "human",
+        "required": true
+       }
+      ]
+     },
+     "id": "t1",
+     "latest_gates": [
+      {
+       "at": "2026-10-25T12:00:00+00:00",
+       "checked_by": "gate:rule",
+       "gate": "rule",
+       "hash_key_id": "2628933b45f7365b",
+       "hash_scheme": "hmac-v1",
+       "kind": "rule",
+       "ledger_seq": 14,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "141b220e6e879cb696ff03b581df4bf39ce30c20c3f74aee2fc213ac3c7eeb94",
+       "verdicts": [
+        {
+         "criterion": "fixed",
+         "text": "The function returns the sum",
+         "verdict": "met"
+        }
+       ]
+      },
+      {
+       "at": "2026-10-25T12:00:00+00:00",
+       "checked_by": "agent:vera",
+       "gate": "verify",
+       "hash_key_id": "2628933b45f7365b",
+       "hash_scheme": "hmac-v1",
+       "kind": "verifier",
+       "ledger_seq": 21,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "eba84e2d0c33d1ae26d49a87b7f99cc0fb22ed9b3abf97ee319e5f8fc25160ae",
+       "verdicts": [
+        {
+         "criterion": "reviewed",
+         "text": "An independent reviewer agrees it is correct",
+         "verdict": "met"
+        }
+       ]
+      }
+     ],
+     "max_attempts": 3,
+     "note": "running gates",
+     "spend": {
+      "calls": 2,
+      "total": {
+       "amount": "0.001719",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     "status": "verifying",
+     "submission": 1,
+     "title": "Task t1",
+     "version": 5,
+     "wait_warning": null
+    }
+   ],
+   "updated": "2026-10-25T12:00:00+00:00"
+  },
+  "status": 200
+ },
+ "session_owner": {
+  "body": {
+   "csrf_token": "csrf-token",
+   "session": {
+    "absolute_expires_at": "2026-11-01T12:00:00+00:00",
+    "id": "session-id"
+   },
+   "user": {
+    "display_name": "Ada Example",
+    "email": "ada@example.org",
+    "email_verified": false,
+    "id": "human:u_0a0a0a0a0a0a0a0a0a0a",
+    "org_id": "acme",
+    "role": "owner"
+   }
+  },
+  "status": 200
+ }
+}

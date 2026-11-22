@@ -1,0 +1,32 @@
+[
+  {
+    "action": "use_tool",
+    "target": "mcp:helpdesk/list_tickets",
+    "decision": "allow"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:helpdesk/get_ticket",
+    "decision": "allow"
+  },
+  {
+    "action": "external_message",
+    "target": "*",
+    "decision": "ask"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:helpdesk/add_internal_note",
+    "decision": "ask"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:helpdesk/reply_to_ticket",
+    "decision": "ask"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:helpdesk/set_ticket_status",
+    "decision": "ask"
+  }
+]

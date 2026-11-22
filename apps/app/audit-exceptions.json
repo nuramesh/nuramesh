@@ -1,0 +1,12 @@
+{
+  "_comment": "Every pnpm audit exception (ignoreGhsas in pnpm-workspace.yaml) must be listed here with a review date and the owner's sign-off. See scripts/check-audit-exceptions.mjs.",
+  "exceptions": [
+    {
+      "ghsa": "GHSA-fc5q-39xc-vjpf",
+      "package": "picomatch",
+      "scope": "build-time only (astro check, unstorage, eslint globbing)",
+      "reviewBy": "2026-12-01",
+      "reason": "Build-time only (astro check / unstorage / eslint globbing), never ships to the live site, no untrusted input; recheck 2026-12-01. No patched version as of 2026-11-17. The time-boxed audit-ignore decision record has the details."
+    }
+  ]
+}

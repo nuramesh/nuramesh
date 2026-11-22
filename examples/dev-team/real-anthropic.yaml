@@ -1,0 +1,106 @@
+# EXAMPLE, verify before use: the prices in this file are an example read, not a source of truth.
+#   Re-read the provider's pricing page and set your own price entries before the first real run;
+#   the code has no built-in price and refuses to run a model without an explicit one (ND223).
+# The Dev team with the WORKER on Azure OpenAI (keyless) and the VERIFIER on Claude from a different
+# model family (ND48): worker gpt-5.4-mini, reviewer anthropic/claude-sonnet-5-5 through the direct
+# Anthropic API (synthetic data only: it is processed globally; an organization with a chosen data
+# location is refused). The agent never runs this. Its organization is `demo-anthropic`, so its
+# catalog never mixes with the other examples in the same store.
+# The Anthropic key is a FILE, never an environment variable, a repository file or chat (ND156):
+#   the owner writes it to a 0600 (or 0400) file owned by a dedicated server user that is not the
+#   agent user, outside every repository, and the server is started with
+#   NURAMESH_ANTHROPIC_KEY_FILE=<that path> (self-hosted only; hosted is refused for now).
+#   az login
+#   PUT /v1/models/connections/azure-openai {"endpoint": "https://example-openai.openai.azure.com"}
+#   PUT /v1/models/connections/anthropic    {}      (the endpoint is fixed; sending one is refused)
+#   nuramesh models check examples/dev-team --config real-anthropic.yaml --data synthetic
+#   nuramesh try examples/dev-team --config real-anthropic.yaml \
+#       --data synthetic --confirm-cap 2.00 --approve-as human:you
+# Only a flat-rate model has a price entry here: a model whose published price is tiered by prompt
+# size (claude-haiku-5-5 today) gets none, so it is blocked as unknown_price (spec r114b 11.7).
+version: 1
+org:
+  id: demo-anthropic
+  name: Demo dev team
+  roles:
+    - {id: cos, name: Chief of Staff, kind: chief_of_staff}
+    - {id: developer, name: Developer, default_model: azure-openai/gpt-5.4-mini}
+    - {id: tester, name: Tester, default_model: azure-openai/gpt-5.4-mini}
+    - {id: reviewer, name: Independent reviewer, kind: verifier, default_model: anthropic/claude-sonnet-5-5}
+    - {id: devops, name: DevOps engineer, default_model: azure-openai/gpt-5.4-mini}
+  agents:
+    - {id: chief, name: Chief of Staff, role: cos}
+    - {id: dana, name: Dana (developer), role: developer, reports_to: chief}
+    - {id: theo, name: Theo (tester), role: tester, reports_to: chief}
+    - {id: rhea, name: Rhea (reviewer), role: reviewer, reports_to: chief}
+    - {id: omar, name: Omar (DevOps), role: devops, reports_to: chief}
+policies:
+  policies:
+    - role: cos
+      rules:
+        - {action: delegate, decision: allow, target: "*"}
+    - role: developer
+      rules:
+        - {action: call_model, decision: allow, target: "azure-openai/*"}
+        - {action: spend, decision: allow}
+        - {action: write_file, decision: allow, target: "*.py"}
+    - role: tester
+      rules:
+        - {action: run_command, decision: allow, target: "python -m unittest **"}
+    - role: reviewer
+      rules:
+        - {action: call_model, decision: allow, target: "anthropic/*"}
+        - {action: spend, decision: allow}
+    - role: devops
+      rules:
+        - {action: merge, decision: ask, target: "*"}
+models:
+  entries:
+    - {provider: azure-openai, model: gpt-5.4-mini, family: openai, processing: global,
+       status: approved}
+    - {provider: anthropic, model: claude-sonnet-5-5, family: anthropic, processing: global,
+       status: approved}
+budgets:
+  - {id: dana-monthly, scope: agent, scope_id: dana, limit: {amount: "5.00", currency: USD}}
+  - {id: rhea-monthly, scope: agent, scope_id: rhea, limit: {amount: "5.00", currency: USD}}
+  - {id: org-daily, scope: org, scope_id: demo-anthropic, window: day, limit: {amount: "30.00", currency: USD}}
+prices:
+  prices:
+    # Azure Retail Prices API (https://prices.azure.com/api/retail/prices, serviceName "Foundry
+    # Models", GlobalStandard meters), read 2026-10-23, effective 2026-03-01, US$ per million tokens.
+    - {provider: azure-openai, model: gpt-5.4-mini, input_per_million: "0.75",
+       output_per_million: "4.50", cached_input_per_million: "0.075",
+       effective_from: "2026-03-01T00:00:00Z",
+       source: "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"}
+    # EXAMPLE, verify before use.
+    # claude.com/pricing, read 2026-10-22, US$ per million
+    # tokens. Re-read the page before the first real run: a price is never guessed. No cache-write
+    # price is given (the adapter never asks for caching), so a cache write would be unknown_price.
+    - {provider: anthropic, model: claude-sonnet-5-5, input_per_million: "2",
+       output_per_million: "10", cached_input_per_million: "0.10",
+       effective_from: "2026-10-22T00:00:00Z",
+       source: "claude.com/pricing, Sonnet 5.5, read 2026-10-22"}
+    # Llama 4 Maverick, global meters: US$0.00025 per 1K input and US$0.001 per 1K output, effective
+    # 2025-06-01 (Azure Retail Prices API, serviceName "Foundry Models", read 2026-10-23).
+    - {provider: azure-ai, model: Llama-4-Maverick-17B-128E-Instruct-FP8, input_per_million: "0.25",
+       output_per_million: "1.00", effective_from: "2025-06-01T00:00:00Z",
+       source: "Azure Retail Prices API, Llama 4 Maverick 17B global, read 2026-10-23"}
+evals:
+  suites:
+    - id: dev-basics
+      role: developer
+      pass_threshold: "0.8"
+      valid_days: 30
+      cases:
+        - id: fixes-the-sum
+          prompt: "Reply with the corrected Python function add(a, b) that returns the sum of its arguments."
+          rules:
+            - {criterion: has-fix, check: {type: contains, value: "return a + b"}}
+        - id: keeps-the-signature
+          prompt: "Reply with a Python function add(a, b) (keep the name `add`) that returns the sum."
+          rules:
+            - {criterion: signature, check: {type: contains, value: "def add("}}
+          critical: true
+  # To require passing evals before an agent gets work, add:
+  # requirements:
+  #   - {role: developer, suites: [dev-basics]}

@@ -1,0 +1,370 @@
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Dark mode follows the `dark` class on <html>, set before first paint by public/theme-init.js. */
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design tokens from docs/design/nuramesh-app-v1/SPEC-app-v1.md §1 (same brand as nuramesh.com).
+ * Light is the bare :root; `.dark` swaps every role. The shadcn/ui names (--background, --card,
+ * --primary …) are mapped onto the spec's names so every component picks the brand up, and the
+ * spec's own roles (canvas, panel-2, small, line, link, warm, brand …) are available as utilities.
+ * Status meaning is fixed everywhere: link = done/passed/allow, warm = running/waiting/ask,
+ * danger = failed/blocked/deny, small = idle/not started.
+ */
+:root {
+  --radius: 0.625rem;
+  /* spec names (light values: docs/design/DESIGN-TOKENS.md is the source of truth; a test checks this file against it) */
+  --t-bg: #eef1f7;
+  --t-canvas: #e9edf5;
+  --t-panel: #ffffff;
+  --t-pane: #ffffff;
+  --t-panel2: #f4f6fb;
+  --t-panel3: #eef1f8;
+  --t-border: #d5dbe7;
+  --t-card-border: #cbd3e1;
+  --t-border-strong: #7c889f;
+  --t-text: #0f172a;
+  --t-muted: #475569;
+  --t-small: #5b6b82;
+  --t-line: #7c889f;
+  --t-link: #1f5fbf;
+  --t-link-soft: rgb(31 95 191 / 10%);
+  --t-btn: #312e81;
+  --t-btn-ink: #ffffff;
+  --t-warm: #9a5208;
+  --t-warm-ink: #ffffff;
+  --t-warm-soft: rgb(154 82 8 / 12%);
+  --t-danger: #b42318;
+  --t-danger-soft: rgb(180 35 24 / 10%);
+  --t-brand: #4338ca;
+  --t-track: #e9edf4;
+  --t-node: #ffffff;
+  --t-node-border: #7c889f;
+  --t-node-shadow: 0 1px 2px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.07);
+  --t-grid-dot: rgba(51, 65, 85, 0.3);
+  --t-nav-active-bg: #e4e7ff;
+  --t-nav-active-text: #312e81;
+  --t-nav-active-bar: #4f46e5;
+  --t-tabs-track: #e9edf4;
+  --t-live: #15803d;
+  --t-live-on-active: #166534;
+  --t-approvals: #b45309;
+  --logo-tile: #141833;
+  --logo-mark: #ffffff;
+  --t-role-chief-bg: #e0e7ff;
+  --t-role-chief-text: #3730a3;
+  --t-role-chief-dot: #4f46e5;
+  --t-role-worker-bg: #dceefb;
+  --t-role-worker-text: #0b4f7c;
+  --t-role-worker-dot: #0284c7;
+  --t-role-verifier-bg: #fdecc8;
+  --t-role-verifier-text: #8a3b06;
+  --t-role-verifier-dot: #c2410c;
+  --t-card-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --t-table-head-bg: #f8fafc;
+  --t-pill-bg: #ffffff;
+  --t-pill-border: #7f8ba3;
+  --t-pill-text: #334155;
+  --t-pill-on-bg: #312e81;
+  --t-pill-on-text: #ffffff;
+  --t-pill-on-border: #312e81;
+  --t-callout-warning-bar: #d97706;
+  --t-callout-warning-bg: #ffffff;
+  --t-callout-warning-border: #cbd3e1;
+  --t-callout-danger-bg: #ffffff;
+  --t-callout-danger-border: #cbd3e1;
+  --t-callout-danger-bar: #dc2626;
+  --t-callout-success-bg: #ffffff;
+  --t-callout-success-border: #cbd3e1;
+  --t-callout-success-bar: #16a34a;
+  --t-chip-success-bg: #dcfce7;
+  --t-chip-success-text: #166534;
+  --t-chip-success-border: #86efac;
+  --t-chip-warning-bg: #fef3c7;
+  --t-chip-warning-text: #92400e;
+  --t-chip-warning-border: #fcd34d;
+  --t-chip-danger-bg: #fee2e2;
+  --t-chip-danger-text: #991b1b;
+  --t-chip-danger-border: #fca5a5;
+  --t-chip-info-bg: #e0e7ff;
+  --t-chip-info-text: #3730a3;
+  --t-chip-info-border: #a5b4fc;
+  --t-chip-neutral-bg: #f1f5f9;
+  --t-chip-neutral-text: #334155;
+  --t-chip-neutral-border: #cbd5e1;
+  /* shadcn names */
+  --background: var(--t-bg);
+  --foreground: var(--t-text);
+  --card: var(--t-panel);
+  --card-foreground: var(--t-text);
+  --popover: var(--t-panel);
+  --popover-foreground: var(--t-text);
+  --primary: var(--t-btn);
+  --primary-foreground: var(--t-btn-ink);
+  --secondary: var(--t-panel2);
+  --secondary-foreground: var(--t-text);
+  --muted: var(--t-panel2);
+  --muted-foreground: var(--t-muted);
+  --accent: var(--t-panel3);
+  --accent-foreground: var(--t-text);
+  --destructive: var(--t-danger);
+  --warning: var(--t-warm);
+  --border: var(--t-border);
+  --input: var(--t-border-strong);
+  --ring: var(--t-link);
+  color-scheme: light;
+}
+
+.dark {
+  --t-bg: #050a17;
+  --t-canvas: #060c1b;
+  --t-panel: #0a1324;
+  --t-panel2: #0f1a2f;
+  --t-panel3: #16243f;
+  --t-border: #1b2840;
+  --t-border-strong: #617088;
+  --t-text: #e6eef8;
+  --t-muted: #9dadc6;
+  --t-small: #8293ae;
+  --t-line: #4a6082;
+  --t-link: #8ec5ff;
+  --t-link-soft: rgb(142 197 255 / 12%);
+  --t-btn: #ddebff;
+  --t-btn-ink: #061024;
+  --t-warm: #f2c46b;
+  --t-warm-ink: #1a1405;
+  --t-warm-soft: rgb(242 196 107 / 12%);
+  --t-danger: #ff9b9b;
+  --t-danger-soft: rgb(255 155 155 / 12%);
+  --t-brand: #8b93ff;
+  --t-track: #1b2840;
+  /* Tokens added by the design update: in the dark theme they repeat what the app already showed. */
+  --t-pane: #050a17;
+  --t-card-border: #1b2840;
+  --t-node: #0a1324;
+  --t-node-border: #617088;
+  --t-node-shadow: none;
+  --t-grid-dot: #617088;
+  --t-nav-active-bg: #16243f;
+  --t-nav-active-text: #e6eef8;
+  --t-nav-active-bar: transparent;
+  --t-tabs-track: #0f1a2f;
+  --t-live: #f2c46b;
+  --t-live-on-active: #f2c46b;
+  --t-approvals: #f2c46b;
+  --logo-tile: #f3f4f8;
+  --logo-mark: #141833;
+  --t-role-chief-bg: #26245e;
+  --t-role-chief-text: #c7d2fe;
+  --t-role-chief-dot: #818cf8;
+  --t-role-worker-bg: #0b2e4a;
+  --t-role-worker-text: #bae6fd;
+  --t-role-worker-dot: #38bdf8;
+  --t-role-verifier-bg: #3b2508;
+  --t-role-verifier-text: #fde0a8;
+  --t-role-verifier-dot: #fb923c;
+  --t-card-shadow: none;
+  --t-table-head-bg: transparent;
+  --t-pill-bg: transparent;
+  --t-pill-border: #617088;
+  --t-pill-text: #9dadc6;
+  --t-pill-on-bg: rgb(142 197 255 / 12%);
+  --t-pill-on-text: #8ec5ff;
+  --t-pill-on-border: #8ec5ff;
+  --t-callout-warning-bar: #f2c46b;
+  --t-callout-warning-bg: rgb(242 196 107 / 12%);
+  --t-callout-warning-border: rgb(242 196 107 / 40%);
+  --t-callout-danger-bg: rgb(255 155 155 / 12%);
+  --t-callout-danger-border: #ff9b9b;
+  --t-callout-danger-bar: #ff9b9b;
+  --t-callout-success-bg: rgb(142 197 255 / 12%);
+  --t-callout-success-border: #8ec5ff;
+  --t-callout-success-bar: #8ec5ff;
+  /* Chips keep the dark look they had (soft fill, tone text); the border is invisible. */
+  --t-chip-success-bg: rgb(142 197 255 / 12%);
+  --t-chip-success-text: #8ec5ff;
+  --t-chip-success-border: transparent;
+  --t-chip-warning-bg: rgb(242 196 107 / 12%);
+  --t-chip-warning-text: #f2c46b;
+  --t-chip-warning-border: transparent;
+  --t-chip-danger-bg: rgb(255 155 155 / 12%);
+  --t-chip-danger-text: #ff9b9b;
+  --t-chip-danger-border: transparent;
+  --t-chip-info-bg: #26245e;
+  --t-chip-info-text: #c7d2fe;
+  --t-chip-info-border: transparent;
+  --t-chip-neutral-bg: #0f1a2f;
+  --t-chip-neutral-text: #e6eef8;
+  --t-chip-neutral-border: transparent;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: "Geist Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-warning: var(--warning);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  /* the spec's own roles */
+  --color-canvas: var(--t-canvas);
+  --color-panel: var(--t-panel);
+  --color-panel-2: var(--t-panel2);
+  --color-panel-3: var(--t-panel3);
+  --color-border-strong: var(--t-border-strong);
+  --color-small: var(--t-small);
+  --color-line: var(--t-line);
+  --color-link: var(--t-link);
+  --color-link-soft: var(--t-link-soft);
+  --color-warm: var(--t-warm);
+  --color-warm-ink: var(--t-warm-ink);
+  --color-warm-soft: var(--t-warm-soft);
+  --color-danger: var(--t-danger);
+  --color-danger-soft: var(--t-danger-soft);
+  --color-brand: var(--t-brand);
+  --color-track: var(--t-track);
+  --color-pane: var(--t-pane);
+  --color-card-border: var(--t-card-border);
+  --color-node: var(--t-node);
+  --color-node-border: var(--t-node-border);
+  --color-nav-active: var(--t-nav-active-bg);
+  --color-nav-active-text: var(--t-nav-active-text);
+  --color-nav-bar: var(--t-nav-active-bar);
+  --color-tabs-track: var(--t-tabs-track);
+  --color-live: var(--t-live);
+  --color-live-on-active: var(--t-live-on-active);
+  --color-approvals: var(--t-approvals);
+  --color-table-head: var(--t-table-head-bg);
+  --color-pill: var(--t-pill-bg);
+  --color-pill-border: var(--t-pill-border);
+  --color-pill-text: var(--t-pill-text);
+  --color-pill-on: var(--t-pill-on-bg);
+  --color-pill-on-text: var(--t-pill-on-text);
+  --color-pill-on-border: var(--t-pill-on-border);
+  --shadow-card: var(--t-card-shadow);
+  --color-role-chief-bg: var(--t-role-chief-bg);
+  --color-role-chief-text: var(--t-role-chief-text);
+  --color-role-chief-dot: var(--t-role-chief-dot);
+  --color-role-worker-bg: var(--t-role-worker-bg);
+  --color-role-worker-text: var(--t-role-worker-text);
+  --color-role-worker-dot: var(--t-role-worker-dot);
+  --color-role-verifier-bg: var(--t-role-verifier-bg);
+  --color-role-verifier-text: var(--t-role-verifier-text);
+  --color-role-verifier-dot: var(--t-role-verifier-dot);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+  /* Keyboard focus is always visible. */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+}
+
+/* React Flow, in the app's tokens: canvas ground, connector lines and controls. */
+.react-flow {
+  --xy-background-color: var(--t-canvas);
+  --xy-edge-stroke: var(--t-line);
+  --xy-edge-stroke-selected: var(--t-link);
+  --xy-connectionline-stroke: var(--t-link);
+  --xy-controls-button-background-color: var(--t-panel);
+  --xy-controls-button-background-color-hover: var(--t-panel3);
+  --xy-controls-button-color: var(--t-text);
+  --xy-controls-button-border-color: var(--t-border);
+}
+
+/* Agent cards carry the node shadow (light theme only; dark has none). The shadow sits on React
+   Flow's wrapper because the card itself uses paint containment, which would clip it. */
+.react-flow__node-agent {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--t-node-shadow);
+}
+
+/*
+ * Status chips: one component for every status-like label in the app (run status, approval state,
+ * budget state, gate verdict, validity, template origin). Five tones, each a background, a text
+ * colour and a 1px border from the tokens above. The word always says the status; colour only helps.
+ */
+@layer components {
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 9999px;
+    padding: 0.0625rem 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    white-space: nowrap;
+  }
+  .chip-success { background: var(--t-chip-success-bg); color: var(--t-chip-success-text); border-color: var(--t-chip-success-border); }
+  .chip-warning { background: var(--t-chip-warning-bg); color: var(--t-chip-warning-text); border-color: var(--t-chip-warning-border); }
+  .chip-danger { background: var(--t-chip-danger-bg); color: var(--t-chip-danger-text); border-color: var(--t-chip-danger-border); }
+  .chip-info { background: var(--t-chip-info-bg); color: var(--t-chip-info-text); border-color: var(--t-chip-info-border); }
+  .chip-neutral { background: var(--t-chip-neutral-bg); color: var(--t-chip-neutral-text); border-color: var(--t-chip-neutral-border); }
+}
+
+@layer components {
+  /* Table header row: pale slate fill, 11px semibold sans labels (monospace is for ids, hashes, times, amounts). */
+  .table-head {
+    background: var(--t-table-head-bg);
+    color: var(--t-small);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-align: left;
+    text-transform: uppercase;
+  }
+  .table-head th {
+    font-weight: 600;
+  }
+}
+
+@layer components {
+  /* A callout: a white card with a 3px coloured bar at the left (not a tinted fill). */
+  .callout-warning,
+  .callout-danger,
+  .callout-success {
+    border-style: solid;
+    border-width: 1px 1px 1px 3px;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--t-card-shadow);
+  }
+  .callout-warning { background: var(--t-callout-warning-bg); border-color: var(--t-callout-warning-border); border-left-color: var(--t-callout-warning-bar); }
+  .callout-danger { background: var(--t-callout-danger-bg); border-color: var(--t-callout-danger-border); border-left-color: var(--t-callout-danger-bar); }
+  .callout-success { background: var(--t-callout-success-bg); border-color: var(--t-callout-success-border); border-left-color: var(--t-callout-success-bar); }
+}

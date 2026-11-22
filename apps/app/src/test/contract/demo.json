@@ -1,0 +1,5431 @@
+{
+ "approvals_empty": {
+  "body": [],
+  "status": 200
+ },
+ "budget_detail": {
+  "body": {
+   "available": {
+    "amount": "4.99477250",
+    "currency": "USD"
+   },
+   "blocked": false,
+   "definition": {
+    "id": "dana-monthly",
+    "limit": {
+     "amount": "5.00",
+     "currency": "USD"
+    },
+    "on_breach": null,
+    "org_id": null,
+    "scope": "agent",
+    "scope_id": "dana",
+    "window": "none"
+   },
+   "history": [],
+   "history_truncated": false,
+   "id": "dana-monthly",
+   "limit": {
+    "amount": "5.00",
+    "currency": "USD"
+   },
+   "on_breach": "hold",
+   "reserved": {
+    "amount": "0.00000000",
+    "currency": "USD"
+   },
+   "scope": "agent",
+   "scope_id": "dana",
+   "spent": {
+    "amount": "0.00522750",
+    "currency": "USD"
+   },
+   "version": 13,
+   "window": "none",
+   "window_start": null
+  },
+  "status": 200
+ },
+ "budgets": {
+  "body": [
+   {
+    "available": {
+     "amount": "4.99477250",
+     "currency": "USD"
+    },
+    "blocked": false,
+    "definition": {
+     "id": "dana-monthly",
+     "limit": {
+      "amount": "5.00",
+      "currency": "USD"
+     },
+     "on_breach": null,
+     "org_id": null,
+     "scope": "agent",
+     "scope_id": "dana",
+     "window": "none"
+    },
+    "id": "dana-monthly",
+    "limit": {
+     "amount": "5.00",
+     "currency": "USD"
+    },
+    "on_breach": "hold",
+    "reserved": {
+     "amount": "0.00000000",
+     "currency": "USD"
+    },
+    "scope": "agent",
+    "scope_id": "dana",
+    "spent": {
+     "amount": "0.00522750",
+     "currency": "USD"
+    },
+    "version": 13,
+    "window": "none",
+    "window_start": null
+   },
+   {
+    "available": {
+     "amount": "1.996709",
+     "currency": "USD"
+    },
+    "blocked": false,
+    "definition": {
+     "id": "rb-90b2fb50b0fb",
+     "limit": {
+      "amount": "2.00",
+      "currency": "USD"
+     },
+     "on_breach": null,
+     "org_id": null,
+     "scope": "run",
+     "scope_id": "run-20261023-180824-ff3c",
+     "window": "none"
+    },
+    "id": "rb-90b2fb50b0fb",
+    "limit": {
+     "amount": "2.00",
+     "currency": "USD"
+    },
+    "on_breach": "hold",
+    "reserved": {
+     "amount": "0.000000",
+     "currency": "USD"
+    },
+    "scope": "run",
+    "scope_id": "run-20261023-180824-ff3c",
+    "spent": {
+     "amount": "0.003291",
+     "currency": "USD"
+    },
+    "version": 5,
+    "window": "none",
+    "window_start": null
+   },
+   {
+    "available": {
+     "amount": "1.998776",
+     "currency": "USD"
+    },
+    "blocked": false,
+    "definition": {
+     "id": "rb-a3626db1736f",
+     "limit": {
+      "amount": "2.00",
+      "currency": "USD"
+     },
+     "on_breach": null,
+     "org_id": null,
+     "scope": "run",
+     "scope_id": "run-20261023-145904-5045",
+     "window": "none"
+    },
+    "id": "rb-a3626db1736f",
+    "limit": {
+     "amount": "2.00",
+     "currency": "USD"
+    },
+    "on_breach": "hold",
+    "reserved": {
+     "amount": "0.000000",
+     "currency": "USD"
+    },
+    "scope": "run",
+    "scope_id": "run-20261023-145904-5045",
+    "spent": {
+     "amount": "0.001224",
+     "currency": "USD"
+    },
+    "version": 3,
+    "window": "none",
+    "window_start": null
+   },
+   {
+    "available": {
+     "amount": "1.996709",
+     "currency": "USD"
+    },
+    "blocked": false,
+    "definition": {
+     "id": "rb-d10bd96cd364",
+     "limit": {
+      "amount": "2.00",
+      "currency": "USD"
+     },
+     "on_breach": null,
+     "org_id": null,
+     "scope": "run",
+     "scope_id": "run-20261023-145912-1338",
+     "window": "none"
+    },
+    "id": "rb-d10bd96cd364",
+    "limit": {
+     "amount": "2.00",
+     "currency": "USD"
+    },
+    "on_breach": "hold",
+    "reserved": {
+     "amount": "0.000000",
+     "currency": "USD"
+    },
+    "scope": "run",
+    "scope_id": "run-20261023-145912-1338",
+    "spent": {
+     "amount": "0.003291",
+     "currency": "USD"
+    },
+    "version": 5,
+    "window": "none",
+    "window_start": null
+   },
+   {
+    "available": {
+     "amount": "4.99523000",
+     "currency": "USD"
+    },
+    "blocked": false,
+    "definition": {
+     "id": "rhea-monthly",
+     "limit": {
+      "amount": "5.00",
+      "currency": "USD"
+     },
+     "on_breach": null,
+     "org_id": null,
+     "scope": "agent",
+     "scope_id": "rhea",
+     "window": "none"
+    },
+    "id": "rhea-monthly",
+    "limit": {
+     "amount": "5.00",
+     "currency": "USD"
+    },
+    "on_breach": "hold",
+    "reserved": {
+     "amount": "0.00000000",
+     "currency": "USD"
+    },
+    "scope": "agent",
+    "scope_id": "rhea",
+    "spent": {
+     "amount": "0.00477000",
+     "currency": "USD"
+    },
+    "version": 7,
+    "window": "none",
+    "window_start": null
+   },
+   {
+    "available": {
+     "amount": "1.99890350",
+     "currency": "USD"
+    },
+    "blocked": false,
+    "definition": {
+     "id": "rb-15003783e301",
+     "limit": {
+      "amount": "2.00",
+      "currency": "USD"
+     },
+     "on_breach": null,
+     "org_id": "demo",
+     "scope": "run",
+     "scope_id": "run-20261023-193432-f5e5",
+     "window": "none"
+    },
+    "id": "rb-15003783e301",
+    "limit": {
+     "amount": "2.00",
+     "currency": "USD"
+    },
+    "on_breach": "hold",
+    "reserved": {
+     "amount": "0.00000000",
+     "currency": "USD"
+    },
+    "scope": "run",
+    "scope_id": "run-20261023-193432-f5e5",
+    "spent": {
+     "amount": "0.00109650",
+     "currency": "USD"
+    },
+    "version": 5,
+    "window": "none",
+    "window_start": null
+   },
+   {
+    "available": {
+     "amount": "1.99890500",
+     "currency": "USD"
+    },
+    "blocked": false,
+    "definition": {
+     "id": "rb-9c2aeb60cd4c",
+     "limit": {
+      "amount": "2.00",
+      "currency": "USD"
+     },
+     "on_breach": null,
+     "org_id": "demo",
+     "scope": "run",
+     "scope_id": "run-20261023-193348-ef9e",
+     "window": "none"
+    },
+    "id": "rb-9c2aeb60cd4c",
+    "limit": {
+     "amount": "2.00",
+     "currency": "USD"
+    },
+    "on_breach": "hold",
+    "reserved": {
+     "amount": "0.00000000",
+     "currency": "USD"
+    },
+    "scope": "run",
+    "scope_id": "run-20261023-193348-ef9e",
+    "spent": {
+     "amount": "0.00109500",
+     "currency": "USD"
+    },
+    "version": 5,
+    "window": "none",
+    "window_start": null
+   }
+  ],
+  "status": 200
+ },
+ "health": {
+  "body": {
+   "auth_required": false,
+   "humans_enabled": false,
+   "mail_enabled": false,
+   "org": "demo",
+   "status": "ok",
+   "streams": 2,
+   "warnings": []
+  },
+  "status": 200
+ },
+ "ledger_stream_tail": {
+  "body": {
+   "events": [
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:52.179762Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "be63f4daffe42b1ba9c65e654aed117703450cd4ffa0d79aef027995bbec30f1",
+     "payload": {
+      "assignee": "omar",
+      "attempt_after": 0,
+      "attempt_before": 0,
+      "closed_attempt": false,
+      "from": "proposed",
+      "max_attempts": 3,
+      "reason": "cancelled: dependency run-20261023-193348-ef9e-test-suite is, or depends on, a task waiting for a human (cancelled); runs can't resume yet (R1.20), so plan this task again, as a new task, after the human decides",
+      "submission": 0,
+      "to": "cancelled"
+     },
+     "prev_hash": "84b7770adc2ca6e00d206cef43dbd27396ed02f3a9734cb99326a2c8cc094dbc",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 31,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-deploy",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:52.180082Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "7356616571f543841ffa0c1e607064890f029c14be8c1a6438a4482f1c761d77",
+     "payload": {
+      "counts": {
+       "cancelled": 2,
+       "needs_human": 1
+      }
+     },
+     "prev_hash": "be63f4daffe42b1ba9c65e654aed117703450cd4ffa0d79aef027995bbec30f1",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 32,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": null,
+     "type": "run.ended"
+    }
+   ],
+   "head": "7356616571f543841ffa0c1e607064890f029c14be8c1a6438a4482f1c761d77",
+   "head_seq": 32,
+   "next_after_seq": 32,
+   "stream": "run:run-20261023-193348-ef9e"
+  },
+  "status": 200
+ },
+ "ledger_toc": {
+  "body": {
+   "streams": [
+    {
+     "head": "7356616571f543841ffa0c1e607064890f029c14be8c1a6438a4482f1c761d77",
+     "seq": 32,
+     "stream": "run:run-20261023-193348-ef9e",
+     "updated": "2026-10-23T19:33:52.180082+00:00"
+    },
+    {
+     "head": "9d7fdbe78bd9b3e2010039b4c3450ba1e8539ddb9694499e094948ea50f9852c",
+     "seq": 41,
+     "stream": "run:run-20261023-193432-f5e5",
+     "updated": "2026-10-23T19:34:36.750963+00:00"
+    }
+   ],
+   "truncated": false
+  },
+  "status": 200
+ },
+ "noanchors_verify_all": {
+  "body": {
+   "anchors": {
+    "configured": false
+   },
+   "chain_ok": true,
+   "next_after": null,
+   "note": "chains are checked against the database's own head; anchors prove history",
+   "ok": true,
+   "streams": [
+    {
+     "anchors": null,
+     "at_seq": null,
+     "checked": 32,
+     "head": "7356616571f543841ffa0c1e607064890f029c14be8c1a6438a4482f1c761d77",
+     "ok": true,
+     "problem": null,
+     "stream": "run:run-20261023-193348-ef9e"
+    },
+    {
+     "anchors": null,
+     "at_seq": null,
+     "checked": 41,
+     "head": "9d7fdbe78bd9b3e2010039b4c3450ba1e8539ddb9694499e094948ea50f9852c",
+     "ok": true,
+     "problem": null,
+     "stream": "run:run-20261023-193432-f5e5"
+    }
+   ],
+   "truncated": false,
+   "verified": false
+  },
+  "status": 200
+ },
+ "noanchors_verify_run": {
+  "body": {
+   "anchors": {
+    "configured": false
+   },
+   "chain_ok": true,
+   "note": "chains are checked against the database's own head; anchors prove history",
+   "ok": true,
+   "streams": [
+    {
+     "anchors": null,
+     "at_seq": null,
+     "checked": 41,
+     "head": "9d7fdbe78bd9b3e2010039b4c3450ba1e8539ddb9694499e094948ea50f9852c",
+     "ok": true,
+     "problem": null,
+     "stream": "run:run-20261023-193432-f5e5"
+    }
+   ],
+   "verified": false
+  },
+  "status": 200
+ },
+ "noanchors_verify_stream": {
+  "body": {
+   "anchor_status": {
+    "configured": false
+   },
+   "anchors": null,
+   "at_seq": null,
+   "chain_ok": true,
+   "checked": 41,
+   "head": "9d7fdbe78bd9b3e2010039b4c3450ba1e8539ddb9694499e094948ea50f9852c",
+   "note": "chains are checked against the database's own head; anchors prove history",
+   "ok": true,
+   "problem": null,
+   "stream": "run:run-20261023-193432-f5e5",
+   "verified": false
+  },
+  "status": 200
+ },
+ "openapi": {
+  "body": {
+   "/v1/agent-credentials": [
+    "GET"
+   ],
+   "/v1/agents": [
+    "GET"
+   ],
+   "/v1/agents/{agent_id}/credentials": [
+    "GET",
+    "POST"
+   ],
+   "/v1/agents/{agent_id}/credentials/revoke-all": [
+    "POST"
+   ],
+   "/v1/agents/{agent_id}/credentials/{credential_id}/revoke": [
+    "POST"
+   ],
+   "/v1/agents/{agent_id}/credentials/{credential_id}/rotate": [
+    "POST"
+   ],
+   "/v1/agents/{agent_id}/eligibility": [
+    "GET"
+   ],
+   "/v1/approvals": [
+    "GET"
+   ],
+   "/v1/approvals/{approval_id}": [
+    "GET"
+   ],
+   "/v1/approvals/{approval_id}/approve": [
+    "POST"
+   ],
+   "/v1/approvals/{approval_id}/decision": [
+    "POST"
+   ],
+   "/v1/approvals/{approval_id}/reject": [
+    "POST"
+   ],
+   "/v1/auth/email/status": [
+    "GET"
+   ],
+   "/v1/auth/email/verify": [
+    "POST"
+   ],
+   "/v1/auth/invites": [
+    "GET",
+    "POST"
+   ],
+   "/v1/auth/invites/accept": [
+    "POST"
+   ],
+   "/v1/auth/invites/inspect": [
+    "POST"
+   ],
+   "/v1/auth/invites/{invite_id}/resend": [
+    "POST"
+   ],
+   "/v1/auth/invites/{invite_id}/revoke": [
+    "POST"
+   ],
+   "/v1/auth/login": [
+    "POST"
+   ],
+   "/v1/auth/login/mfa": [
+    "POST"
+   ],
+   "/v1/auth/login/mfa/enroll": [
+    "POST"
+   ],
+   "/v1/auth/login/mfa/enroll/confirm": [
+    "POST"
+   ],
+   "/v1/auth/logout": [
+    "POST"
+   ],
+   "/v1/auth/me/email": [
+    "POST"
+   ],
+   "/v1/auth/mfa": [
+    "GET"
+   ],
+   "/v1/auth/mfa/disable": [
+    "POST"
+   ],
+   "/v1/auth/mfa/enroll": [
+    "POST"
+   ],
+   "/v1/auth/mfa/enroll/confirm": [
+    "POST"
+   ],
+   "/v1/auth/mfa/recovery-codes": [
+    "POST"
+   ],
+   "/v1/auth/password-reset/redeem": [
+    "POST"
+   ],
+   "/v1/auth/password-reset/request": [
+    "POST"
+   ],
+   "/v1/auth/password/confirm": [
+    "POST"
+   ],
+   "/v1/auth/refresh": [
+    "POST"
+   ],
+   "/v1/auth/session": [
+    "GET"
+   ],
+   "/v1/auth/settings": [
+    "GET"
+   ],
+   "/v1/auth/settings/mfa": [
+    "PUT"
+   ],
+   "/v1/auth/setup/redeem": [
+    "POST"
+   ],
+   "/v1/auth/setup/status": [
+    "GET"
+   ],
+   "/v1/auth/tokens": [
+    "GET",
+    "POST"
+   ],
+   "/v1/auth/tokens/revoke-by-link": [
+    "POST"
+   ],
+   "/v1/auth/tokens/{token_id}": [
+    "DELETE",
+    "PATCH"
+   ],
+   "/v1/auth/tokens/{token_id}/revoke": [
+    "POST"
+   ],
+   "/v1/auth/users": [
+    "GET"
+   ],
+   "/v1/auth/users/{user_id}/agent-credentials": [
+    "GET"
+   ],
+   "/v1/auth/users/{user_id}/disable": [
+    "POST"
+   ],
+   "/v1/auth/users/{user_id}/enable": [
+    "POST"
+   ],
+   "/v1/auth/users/{user_id}/mfa/reset": [
+    "POST"
+   ],
+   "/v1/auth/users/{user_id}/password-reset": [
+    "POST"
+   ],
+   "/v1/auth/users/{user_id}/role": [
+    "PUT"
+   ],
+   "/v1/autonomy/ceilings/{role}/{kind}": [
+    "PUT"
+   ],
+   "/v1/autonomy/grants": [
+    "GET",
+    "POST"
+   ],
+   "/v1/autonomy/grants/{grant_id}/revoke": [
+    "POST"
+   ],
+   "/v1/autonomy/model-change-floor/{role}": [
+    "PUT"
+   ],
+   "/v1/autonomy/proposals": [
+    "GET"
+   ],
+   "/v1/autonomy/settings/{name}": [
+    "PUT"
+   ],
+   "/v1/budgets": [
+    "GET"
+   ],
+   "/v1/budgets/{budget_id}": [
+    "GET"
+   ],
+   "/v1/budgets/{budget_id}/unblock": [
+    "POST"
+   ],
+   "/v1/config/validate": [
+    "POST"
+   ],
+   "/v1/content/{org_id}/{content_hash}": [
+    "GET"
+   ],
+   "/v1/costs/calls": [
+    "GET"
+   ],
+   "/v1/costs/per-result": [
+    "GET"
+   ],
+   "/v1/costs/quote": [
+    "POST"
+   ],
+   "/v1/costs/spend": [
+    "GET"
+   ],
+   "/v1/dashboards/approvals": [
+    "GET"
+   ],
+   "/v1/dashboards/cost-latency": [
+    "GET"
+   ],
+   "/v1/dashboards/verification": [
+    "GET"
+   ],
+   "/v1/dashboards/verifiers": [
+    "GET"
+   ],
+   "/v1/health": [
+    "GET"
+   ],
+   "/v1/ledger": [
+    "GET"
+   ],
+   "/v1/ledger/verify": [
+    "GET"
+   ],
+   "/v1/ledger/{stream}": [
+    "GET"
+   ],
+   "/v1/ledger/{stream}/verify": [
+    "GET"
+   ],
+   "/v1/models/assignments": [
+    "GET",
+    "POST"
+   ],
+   "/v1/models/assignments/{scope}/{subject}": [
+    "PUT"
+   ],
+   "/v1/models/catalog": [
+    "GET"
+   ],
+   "/v1/models/catalog/approve": [
+    "POST"
+   ],
+   "/v1/models/catalog/edit": [
+    "POST"
+   ],
+   "/v1/models/catalog/entries": [
+    "POST"
+   ],
+   "/v1/models/catalog/entries/approve": [
+    "POST"
+   ],
+   "/v1/models/catalog/entries/edit": [
+    "POST"
+   ],
+   "/v1/models/catalog/entries/pause": [
+    "POST"
+   ],
+   "/v1/models/catalog/entries/remove": [
+    "POST"
+   ],
+   "/v1/models/catalog/entries/retire": [
+    "POST"
+   ],
+   "/v1/models/catalog/events": [
+    "GET"
+   ],
+   "/v1/models/catalog/pause": [
+    "POST"
+   ],
+   "/v1/models/catalog/prices": [
+    "POST"
+   ],
+   "/v1/models/catalog/regions": [
+    "POST",
+    "PUT"
+   ],
+   "/v1/models/catalog/remove": [
+    "POST"
+   ],
+   "/v1/models/catalog/retire": [
+    "POST"
+   ],
+   "/v1/models/connections": [
+    "GET"
+   ],
+   "/v1/models/connections/events": [
+    "GET"
+   ],
+   "/v1/models/connections/{provider}": [
+    "PUT"
+   ],
+   "/v1/models/connections/{provider}/key": [
+    "DELETE",
+    "GET",
+    "PUT"
+   ],
+   "/v1/models/connections/{provider}/remove": [
+    "POST"
+   ],
+   "/v1/models/connections/{provider}/test": [
+    "POST"
+   ],
+   "/v1/models/keys/health": [
+    "GET"
+   ],
+   "/v1/models/resolution": [
+    "GET"
+   ],
+   "/v1/org/breakers": [
+    "GET"
+   ],
+   "/v1/org/breakers/{name}/disable": [
+    "POST"
+   ],
+   "/v1/org/breakers/{name}/enable": [
+    "POST"
+   ],
+   "/v1/org/breakers/{name}/reset": [
+    "POST"
+   ],
+   "/v1/org/halt": [
+    "GET",
+    "POST"
+   ],
+   "/v1/org/prompt-cache": [
+    "PUT"
+   ],
+   "/v1/org/resume": [
+    "POST"
+   ],
+   "/v1/org/roles/{role}/pause": [
+    "POST"
+   ],
+   "/v1/org/roles/{role}/resume": [
+    "POST"
+   ],
+   "/v1/org/status": [
+    "GET"
+   ],
+   "/v1/reports/downgrade": [
+    "GET"
+   ],
+   "/v1/runs": [
+    "GET",
+    "POST"
+   ],
+   "/v1/runs/{run_id}": [
+    "GET"
+   ],
+   "/v1/runs/{run_id}/ledger": [
+    "GET"
+   ],
+   "/v1/runs/{run_id}/ledger/verify": [
+    "GET"
+   ],
+   "/v1/runs/{run_id}/report": [
+    "GET"
+   ],
+   "/v1/runs/{run_id}/stop": [
+    "GET",
+    "POST"
+   ],
+   "/v1/runs/{run_id}/tasks": [
+    "GET"
+   ],
+   "/v1/runs/{run_id}/tasks/{task_id}/audit": [
+    "GET"
+   ],
+   "/v1/runs/{run_id}/tasks/{task_id}/gates/{gate_id}/decision": [
+    "POST"
+   ],
+   "/v1/runs/{run_id}/tasks/{task_id}/gates/{gate_id}/decisions": [
+    "POST"
+   ],
+   "/v1/runs/{run_id}/tasks/{task_id}/timeline": [
+    "GET"
+   ],
+   "/v1/savings/tokens": [
+    "GET"
+   ],
+   "/v1/schema/config": [
+    "GET"
+   ],
+   "/v1/scorecards": [
+    "GET"
+   ],
+   "/v1/verifiers/{agent_id}/calibration": [
+    "GET"
+   ]
+  },
+  "status": 200
+ },
+ "openapi_deprecated": {
+  "body": [
+   "GET /v1/org/halt",
+   "POST /v1/approvals/{approval_id}/decision",
+   "POST /v1/models/assignments",
+   "POST /v1/models/catalog/approve",
+   "POST /v1/models/catalog/edit",
+   "POST /v1/models/catalog/pause",
+   "POST /v1/models/catalog/regions",
+   "POST /v1/models/catalog/remove",
+   "POST /v1/models/catalog/retire",
+   "POST /v1/runs/{run_id}/tasks/{task_id}/gates/{gate_id}/decision"
+  ],
+  "status": 200
+ },
+ "run_done": {
+  "body": {
+   "approvals": [],
+   "budget_alerts": [],
+   "budgets": [
+    {
+     "available": {
+      "amount": "1.99890350",
+      "currency": "USD"
+     },
+     "blocked": false,
+     "definition": {
+      "id": "rb-15003783e301",
+      "limit": {
+       "amount": "2.00",
+       "currency": "USD"
+      },
+      "on_breach": null,
+      "org_id": "demo",
+      "scope": "run",
+      "scope_id": "run-20261023-193432-f5e5",
+      "window": "none"
+     },
+     "id": "rb-15003783e301",
+     "limit": {
+      "amount": "2.00",
+      "currency": "USD"
+     },
+     "on_breach": "hold",
+     "reserved": {
+      "amount": "0.00000000",
+      "currency": "USD"
+     },
+     "scope": "run",
+     "scope_id": "run-20261023-193432-f5e5",
+     "spent": {
+      "amount": "0.00109650",
+      "currency": "USD"
+     },
+     "version": 5,
+     "window": "none",
+     "window_start": null
+    },
+    {
+     "available": {
+      "amount": "4.99477250",
+      "currency": "USD"
+     },
+     "blocked": false,
+     "definition": {
+      "id": "dana-monthly",
+      "limit": {
+       "amount": "5.00",
+       "currency": "USD"
+      },
+      "on_breach": null,
+      "org_id": null,
+      "scope": "agent",
+      "scope_id": "dana",
+      "window": "none"
+     },
+     "id": "dana-monthly",
+     "limit": {
+      "amount": "5.00",
+      "currency": "USD"
+     },
+     "on_breach": "hold",
+     "reserved": {
+      "amount": "0.00000000",
+      "currency": "USD"
+     },
+     "scope": "agent",
+     "scope_id": "dana",
+     "spent": {
+      "amount": "0.00522750",
+      "currency": "USD"
+     },
+     "version": 13,
+     "window": "none",
+     "window_start": null
+    },
+    {
+     "available": {
+      "amount": "4.99523000",
+      "currency": "USD"
+     },
+     "blocked": false,
+     "definition": {
+      "id": "rhea-monthly",
+      "limit": {
+       "amount": "5.00",
+       "currency": "USD"
+      },
+      "on_breach": null,
+      "org_id": null,
+      "scope": "agent",
+      "scope_id": "rhea",
+      "window": "none"
+     },
+     "id": "rhea-monthly",
+     "limit": {
+      "amount": "5.00",
+      "currency": "USD"
+     },
+     "on_breach": "hold",
+     "reserved": {
+      "amount": "0.00000000",
+      "currency": "USD"
+     },
+     "scope": "agent",
+     "scope_id": "rhea",
+     "spent": {
+      "amount": "0.00477000",
+      "currency": "USD"
+     },
+     "version": 7,
+     "window": "none",
+     "window_start": null
+    }
+   ],
+   "canon_commit": null,
+   "chief_of_staff": "chief",
+   "ended_at": "2026-10-23T19:34:36.750963+00:00",
+   "events": 41,
+   "gates": {
+    "error": 0,
+    "failed": 0,
+    "passed": 5,
+    "total": 5
+   },
+   "head": "9d7fdbe78bd9b3e2010039b4c3450ba1e8539ddb9694499e094948ea50f9852c",
+   "ledger": {
+    "head": "9d7fdbe78bd9b3e2010039b4c3450ba1e8539ddb9694499e094948ea50f9852c",
+    "ok": true,
+    "seq": 41,
+    "stream": "run:run-20261023-193432-f5e5"
+   },
+   "org": "demo",
+   "run_id": "run-20261023-193432-f5e5",
+   "spend": {
+    "at_least": null,
+    "by_agent": [
+     {
+      "agent": "dana",
+      "calls": 1,
+      "total": {
+       "amount": "0.00046050",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     {
+      "agent": "rhea",
+      "calls": 1,
+      "total": {
+       "amount": "0.00063600",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     }
+    ],
+    "by_model": [
+     {
+      "calls": 2,
+      "model": "azure-openai/gpt-5.4-mini",
+      "total": {
+       "amount": "0.00109650",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     }
+    ],
+    "calls": 2,
+    "cost_unknown_calls": 0,
+    "total": {
+     "amount": "0.00109650",
+     "currency": "USD"
+    },
+    "unknown_cost_calls": 0
+   },
+   "started_at": "2026-10-23T19:34:32.664300+00:00",
+   "started_by": "system",
+   "status": "done",
+   "stop": null,
+   "task_counts": {
+    "by_status": {
+     "done": 3
+    },
+    "total": 3
+   },
+   "tasks": [
+    {
+     "assignee": "dana",
+     "attempt": 1,
+     "attempts": [
+      {
+       "attempt": 1,
+       "gates": [
+        {
+         "at": "2026-10-23T19:34:34.268218+00:00",
+         "checked_by": "gate:rule",
+         "gate": "has-fix",
+         "hash_key_id": null,
+         "hash_scheme": null,
+         "kind": "rule",
+         "ledger_seq": 16,
+         "outcome": "passed",
+         "required": true,
+         "result_hash": "8d86fc2ad172d979c1c5ff28bdde6a49285d839b8e8e02556fbe42c8edeebf9d",
+         "verdicts": [
+          {
+           "criterion": "fixed",
+           "text": "calc.py returns a + b in add()",
+           "verdict": "met"
+          }
+         ]
+        },
+        {
+         "at": "2026-10-23T19:34:34.618134+00:00",
+         "checked_by": "gate:test_command",
+         "gate": "tests",
+         "hash_key_id": null,
+         "hash_scheme": null,
+         "kind": "test_command",
+         "ledger_seq": 17,
+         "outcome": "passed",
+         "required": true,
+         "result_hash": "436feb3a1d97560e8f7a9267530e0c3f4cb6990ad193bcc7a40fe9179bdd6604",
+         "verdicts": [
+          {
+           "criterion": "tests-pass",
+           "text": "The project's tests pass in the sandbox",
+           "verdict": "met"
+          }
+         ]
+        },
+        {
+         "at": "2026-10-23T19:34:36.432099+00:00",
+         "checked_by": "agent:rhea",
+         "gate": "review",
+         "hash_key_id": null,
+         "hash_scheme": null,
+         "kind": "verifier",
+         "ledger_seq": 23,
+         "outcome": "passed",
+         "required": true,
+         "result_hash": "59acfed8be99c3e8bfa055382c52e89327b699e54bdf198f48fc446e862de79f",
+         "verdicts": [
+          {
+           "criterion": "safe-change",
+           "text": "Only add() changed; no public API changed",
+           "verdict": "met"
+          }
+         ]
+        }
+       ],
+       "moved_to": "done",
+       "reason": "all required gates passed",
+       "submission": 1,
+       "verification": [
+        {
+         "deciding_results": [
+          "8d86fc2ad172d979c1c5ff28bdde6a49285d839b8e8e02556fbe42c8edeebf9d"
+         ],
+         "gate": "has-fix",
+         "required": true,
+         "state": "passed"
+        },
+        {
+         "deciding_results": [
+          "436feb3a1d97560e8f7a9267530e0c3f4cb6990ad193bcc7a40fe9179bdd6604"
+         ],
+         "gate": "tests",
+         "required": true,
+         "state": "passed"
+        },
+        {
+         "deciding_results": [
+          "59acfed8be99c3e8bfa055382c52e89327b699e54bdf198f48fc446e862de79f"
+         ],
+         "gate": "review",
+         "required": true,
+         "state": "passed"
+        }
+       ]
+      }
+     ],
+     "definition_of_done": {
+      "criteria": [
+       {
+        "id": "fixed",
+        "text": "calc.py returns a + b in add()"
+       },
+       {
+        "id": "tests-pass",
+        "text": "The project's tests pass in the sandbox"
+       },
+       {
+        "id": "safe-change",
+        "text": "Only add() changed; no public API changed"
+       }
+      ],
+      "gates": [
+       {
+        "checks": [
+         "fixed"
+        ],
+        "id": "has-fix",
+        "kind": "rule",
+        "required": true
+       },
+       {
+        "checks": [
+         "tests-pass"
+        ],
+        "id": "tests",
+        "kind": "test_command",
+        "required": true
+       },
+       {
+        "checks": [
+         "safe-change"
+        ],
+        "id": "review",
+        "kind": "verifier",
+        "required": true
+       }
+      ]
+     },
+     "id": "run-20261023-193432-f5e5-fix-add",
+     "latest_gates": [
+      {
+       "at": "2026-10-23T19:34:34.268218+00:00",
+       "checked_by": "gate:rule",
+       "gate": "has-fix",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "rule",
+       "ledger_seq": 16,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "8d86fc2ad172d979c1c5ff28bdde6a49285d839b8e8e02556fbe42c8edeebf9d",
+       "verdicts": [
+        {
+         "criterion": "fixed",
+         "text": "calc.py returns a + b in add()",
+         "verdict": "met"
+        }
+       ]
+      },
+      {
+       "at": "2026-10-23T19:34:34.618134+00:00",
+       "checked_by": "gate:test_command",
+       "gate": "tests",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "test_command",
+       "ledger_seq": 17,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "436feb3a1d97560e8f7a9267530e0c3f4cb6990ad193bcc7a40fe9179bdd6604",
+       "verdicts": [
+        {
+         "criterion": "tests-pass",
+         "text": "The project's tests pass in the sandbox",
+         "verdict": "met"
+        }
+       ]
+      },
+      {
+       "at": "2026-10-23T19:34:36.432099+00:00",
+       "checked_by": "agent:rhea",
+       "gate": "review",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "verifier",
+       "ledger_seq": 23,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "59acfed8be99c3e8bfa055382c52e89327b699e54bdf198f48fc446e862de79f",
+       "verdicts": [
+        {
+         "criterion": "safe-change",
+         "text": "Only add() changed; no public API changed",
+         "verdict": "met"
+        }
+       ]
+      }
+     ],
+     "max_attempts": 2,
+     "note": null,
+     "spend": {
+      "calls": 2,
+      "total": {
+       "amount": "0.00109650",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     "status": "done",
+     "submission": 1,
+     "title": "Fix the failing add() test in calc.py",
+     "version": 6,
+     "wait_warning": null
+    },
+    {
+     "assignee": "theo",
+     "attempt": 1,
+     "attempts": [
+      {
+       "attempt": 1,
+       "gates": [
+        {
+         "at": "2026-10-23T19:34:36.747416+00:00",
+         "checked_by": "gate:rule",
+         "gate": "green",
+         "hash_key_id": null,
+         "hash_scheme": null,
+         "kind": "rule",
+         "ledger_seq": 31,
+         "outcome": "passed",
+         "required": true,
+         "result_hash": "5c055e5d5f7befd154531c3af68670395ad94c8dffd5b1cd9d475c87e2b78adc",
+         "verdicts": [
+          {
+           "criterion": "suite-green",
+           "text": "Every test passes",
+           "verdict": "met"
+          }
+         ]
+        }
+       ],
+       "moved_to": "done",
+       "reason": "all required gates passed",
+       "submission": 1,
+       "verification": [
+        {
+         "deciding_results": [
+          "5c055e5d5f7befd154531c3af68670395ad94c8dffd5b1cd9d475c87e2b78adc"
+         ],
+         "gate": "green",
+         "required": true,
+         "state": "passed"
+        }
+       ]
+      }
+     ],
+     "definition_of_done": {
+      "criteria": [
+       {
+        "id": "suite-green",
+        "text": "Every test passes"
+       }
+      ],
+      "gates": [
+       {
+        "checks": [
+         "suite-green"
+        ],
+        "id": "green",
+        "kind": "rule",
+        "required": true
+       }
+      ]
+     },
+     "id": "run-20261023-193432-f5e5-test-suite",
+     "latest_gates": [
+      {
+       "at": "2026-10-23T19:34:36.747416+00:00",
+       "checked_by": "gate:rule",
+       "gate": "green",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "rule",
+       "ledger_seq": 31,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "5c055e5d5f7befd154531c3af68670395ad94c8dffd5b1cd9d475c87e2b78adc",
+       "verdicts": [
+        {
+         "criterion": "suite-green",
+         "text": "Every test passes",
+         "verdict": "met"
+        }
+       ]
+      }
+     ],
+     "max_attempts": 3,
+     "note": null,
+     "spend": {
+      "calls": 0,
+      "total": {
+       "amount": "0",
+       "currency": "USD"
+      }
+     },
+     "status": "done",
+     "submission": 1,
+     "title": "Run the whole test suite on the fix",
+     "version": 6,
+     "wait_warning": null
+    },
+    {
+     "assignee": "omar",
+     "attempt": 1,
+     "attempts": [
+      {
+       "attempt": 1,
+       "gates": [
+        {
+         "at": "2026-10-23T19:34:36.749951+00:00",
+         "checked_by": "human:demo",
+         "gate": "approve-deploy",
+         "hash_key_id": null,
+         "hash_scheme": null,
+         "kind": "human",
+         "ledger_seq": 39,
+         "outcome": "passed",
+         "required": true,
+         "result_hash": "e32e4261e300000eeff1dad4d1916bffe97a2d725f44cdddba3cbc39484f6436",
+         "verdicts": [
+          {
+           "criterion": "approved",
+           "text": "A human approved this deploy",
+           "verdict": "met"
+          }
+         ]
+        }
+       ],
+       "moved_to": "done",
+       "reason": "all required gates passed",
+       "submission": 1,
+       "verification": [
+        {
+         "deciding_results": [
+          "e32e4261e300000eeff1dad4d1916bffe97a2d725f44cdddba3cbc39484f6436"
+         ],
+         "gate": "approve-deploy",
+         "required": true,
+         "state": "passed"
+        }
+       ]
+      }
+     ],
+     "definition_of_done": {
+      "criteria": [
+       {
+        "id": "approved",
+        "text": "A human approved this deploy"
+       }
+      ],
+      "gates": [
+       {
+        "checks": [
+         "approved"
+        ],
+        "id": "approve-deploy",
+        "kind": "human",
+        "required": true
+       }
+      ]
+     },
+     "id": "run-20261023-193432-f5e5-deploy",
+     "latest_gates": [
+      {
+       "at": "2026-10-23T19:34:36.749951+00:00",
+       "checked_by": "human:demo",
+       "gate": "approve-deploy",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "human",
+       "ledger_seq": 39,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "e32e4261e300000eeff1dad4d1916bffe97a2d725f44cdddba3cbc39484f6436",
+       "verdicts": [
+        {
+         "criterion": "approved",
+         "text": "A human approved this deploy",
+         "verdict": "met"
+        }
+       ]
+      }
+     ],
+     "max_attempts": 3,
+     "note": null,
+     "spend": {
+      "calls": 0,
+      "total": {
+       "amount": "0",
+       "currency": "USD"
+      }
+     },
+     "status": "done",
+     "submission": 1,
+     "title": "Deploy the fix to staging",
+     "version": 6,
+     "wait_warning": null
+    }
+   ],
+   "updated": "2026-10-23T19:34:36.750963+00:00"
+  },
+  "status": 200
+ },
+ "run_missing": {
+  "body": {
+   "code": "not_found",
+   "detail": "no such run",
+   "status": 404,
+   "title": "not_found",
+   "type": "urn:nuramesh:not_found"
+  },
+  "status": 404
+ },
+ "run_needs_human": {
+  "body": {
+   "approvals": [],
+   "budget_alerts": [],
+   "budgets": [
+    {
+     "available": {
+      "amount": "1.99890500",
+      "currency": "USD"
+     },
+     "blocked": false,
+     "definition": {
+      "id": "rb-9c2aeb60cd4c",
+      "limit": {
+       "amount": "2.00",
+       "currency": "USD"
+      },
+      "on_breach": null,
+      "org_id": "demo",
+      "scope": "run",
+      "scope_id": "run-20261023-193348-ef9e",
+      "window": "none"
+     },
+     "id": "rb-9c2aeb60cd4c",
+     "limit": {
+      "amount": "2.00",
+      "currency": "USD"
+     },
+     "on_breach": "hold",
+     "reserved": {
+      "amount": "0.00000000",
+      "currency": "USD"
+     },
+     "scope": "run",
+     "scope_id": "run-20261023-193348-ef9e",
+     "spent": {
+      "amount": "0.00109500",
+      "currency": "USD"
+     },
+     "version": 5,
+     "window": "none",
+     "window_start": null
+    },
+    {
+     "available": {
+      "amount": "4.99477250",
+      "currency": "USD"
+     },
+     "blocked": false,
+     "definition": {
+      "id": "dana-monthly",
+      "limit": {
+       "amount": "5.00",
+       "currency": "USD"
+      },
+      "on_breach": null,
+      "org_id": null,
+      "scope": "agent",
+      "scope_id": "dana",
+      "window": "none"
+     },
+     "id": "dana-monthly",
+     "limit": {
+      "amount": "5.00",
+      "currency": "USD"
+     },
+     "on_breach": "hold",
+     "reserved": {
+      "amount": "0.00000000",
+      "currency": "USD"
+     },
+     "scope": "agent",
+     "scope_id": "dana",
+     "spent": {
+      "amount": "0.00522750",
+      "currency": "USD"
+     },
+     "version": 13,
+     "window": "none",
+     "window_start": null
+    }
+   ],
+   "canon_commit": null,
+   "chief_of_staff": "chief",
+   "ended_at": "2026-10-23T19:33:52.180082+00:00",
+   "events": 32,
+   "gates": {
+    "error": 0,
+    "failed": 1,
+    "passed": 1,
+    "total": 2
+   },
+   "head": "7356616571f543841ffa0c1e607064890f029c14be8c1a6438a4482f1c761d77",
+   "ledger": {
+    "head": "7356616571f543841ffa0c1e607064890f029c14be8c1a6438a4482f1c761d77",
+    "ok": true,
+    "seq": 32,
+    "stream": "run:run-20261023-193348-ef9e"
+   },
+   "org": "demo",
+   "run_id": "run-20261023-193348-ef9e",
+   "spend": {
+    "at_least": null,
+    "by_agent": [
+     {
+      "agent": "dana",
+      "calls": 2,
+      "total": {
+       "amount": "0.00109500",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     }
+    ],
+    "by_model": [
+     {
+      "calls": 2,
+      "model": "azure-openai/gpt-5.4-mini",
+      "total": {
+       "amount": "0.00109500",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     }
+    ],
+    "calls": 2,
+    "cost_unknown_calls": 0,
+    "total": {
+     "amount": "0.00109500",
+     "currency": "USD"
+    },
+    "unknown_cost_calls": 0
+   },
+   "started_at": "2026-10-23T19:33:48.295324+00:00",
+   "started_by": "system",
+   "status": "needs_human",
+   "stop": null,
+   "task_counts": {
+    "by_status": {
+     "cancelled": 2,
+     "needs_human": 1
+    },
+    "total": 3
+   },
+   "tasks": [
+    {
+     "assignee": "dana",
+     "attempt": 2,
+     "attempts": [
+      {
+       "attempt": 1,
+       "gates": [
+        {
+         "at": "2026-10-23T19:33:50.031647+00:00",
+         "checked_by": "gate:rule",
+         "gate": "has-fix",
+         "hash_key_id": null,
+         "hash_scheme": null,
+         "kind": "rule",
+         "ledger_seq": 16,
+         "outcome": "passed",
+         "required": true,
+         "result_hash": "8766e69935a3349de2a6e7d1222750b294489643832df1e8ac5f51d3d908f5fd",
+         "verdicts": [
+          {
+           "criterion": "fixed",
+           "text": "calc.py returns a + b in add()",
+           "verdict": "met"
+          }
+         ]
+        },
+        {
+         "at": "2026-10-23T19:33:50.494130+00:00",
+         "checked_by": "gate:test_command",
+         "gate": "tests",
+         "hash_key_id": null,
+         "hash_scheme": null,
+         "kind": "test_command",
+         "ledger_seq": 17,
+         "outcome": "failed",
+         "required": true,
+         "result_hash": "a3d02124379077f93e7a0a825604efb2aeaf6e0589cbe09bfcb440c1bf9f0e1c",
+         "verdicts": [
+          {
+           "criterion": "tests-pass",
+           "text": "The project's tests pass in the sandbox",
+           "verdict": "not_met"
+          }
+         ]
+        }
+       ],
+       "moved_to": "in_progress",
+       "reason": "a required gate failed; another attempt",
+       "submission": 1,
+       "verification": [
+        {
+         "deciding_results": [
+          "8766e69935a3349de2a6e7d1222750b294489643832df1e8ac5f51d3d908f5fd"
+         ],
+         "gate": "has-fix",
+         "required": true,
+         "state": "passed"
+        },
+        {
+         "deciding_results": [
+          "a3d02124379077f93e7a0a825604efb2aeaf6e0589cbe09bfcb440c1bf9f0e1c"
+         ],
+         "gate": "tests",
+         "required": true,
+         "state": "failed"
+        },
+        {
+         "deciding_results": [],
+         "gate": "review",
+         "required": true,
+         "state": "missing"
+        }
+       ]
+      },
+      {
+       "attempt": 2,
+       "gates": [
+        {
+         "at": "2026-10-23T19:33:51.865462+00:00",
+         "checked_by": "gate:rule",
+         "gate": "has-fix",
+         "hash_key_id": null,
+         "hash_scheme": null,
+         "kind": "rule",
+         "ledger_seq": 27,
+         "outcome": "passed",
+         "required": true,
+         "result_hash": "a6fe90682f4c2d7a198cf7b8916279cdb9593ca5efb12491d298765548bed852",
+         "verdicts": [
+          {
+           "criterion": "fixed",
+           "text": "calc.py returns a + b in add()",
+           "verdict": "met"
+          }
+         ]
+        },
+        {
+         "at": "2026-10-23T19:33:52.177600+00:00",
+         "checked_by": "gate:test_command",
+         "gate": "tests",
+         "hash_key_id": null,
+         "hash_scheme": null,
+         "kind": "test_command",
+         "ledger_seq": 28,
+         "outcome": "failed",
+         "required": true,
+         "result_hash": "5d476030e05542f9a0e78617a256990898f22e92a68363d98a27efa18491f6e4",
+         "verdicts": [
+          {
+           "criterion": "tests-pass",
+           "text": "The project's tests pass in the sandbox",
+           "verdict": "not_met"
+          }
+         ]
+        }
+       ],
+       "moved_to": "needs_human",
+       "reason": "attempts used up; failed: tests",
+       "submission": 2,
+       "verification": [
+        {
+         "deciding_results": [
+          "a6fe90682f4c2d7a198cf7b8916279cdb9593ca5efb12491d298765548bed852"
+         ],
+         "gate": "has-fix",
+         "required": true,
+         "state": "passed"
+        },
+        {
+         "deciding_results": [
+          "5d476030e05542f9a0e78617a256990898f22e92a68363d98a27efa18491f6e4"
+         ],
+         "gate": "tests",
+         "required": true,
+         "state": "failed"
+        },
+        {
+         "deciding_results": [],
+         "gate": "review",
+         "required": true,
+         "state": "missing"
+        }
+       ]
+      }
+     ],
+     "definition_of_done": {
+      "criteria": [
+       {
+        "id": "fixed",
+        "text": "calc.py returns a + b in add()"
+       },
+       {
+        "id": "tests-pass",
+        "text": "The project's tests pass in the sandbox"
+       },
+       {
+        "id": "safe-change",
+        "text": "Only add() changed; no public API changed"
+       }
+      ],
+      "gates": [
+       {
+        "checks": [
+         "fixed"
+        ],
+        "id": "has-fix",
+        "kind": "rule",
+        "required": true
+       },
+       {
+        "checks": [
+         "tests-pass"
+        ],
+        "id": "tests",
+        "kind": "test_command",
+        "required": true
+       },
+       {
+        "checks": [
+         "safe-change"
+        ],
+        "id": "review",
+        "kind": "verifier",
+        "required": true
+       }
+      ]
+     },
+     "id": "run-20261023-193348-ef9e-fix-add",
+     "latest_gates": [
+      {
+       "at": "2026-10-23T19:33:51.865462+00:00",
+       "checked_by": "gate:rule",
+       "gate": "has-fix",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "rule",
+       "ledger_seq": 27,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "a6fe90682f4c2d7a198cf7b8916279cdb9593ca5efb12491d298765548bed852",
+       "verdicts": [
+        {
+         "criterion": "fixed",
+         "text": "calc.py returns a + b in add()",
+         "verdict": "met"
+        }
+       ]
+      },
+      {
+       "at": "2026-10-23T19:33:52.177600+00:00",
+       "checked_by": "gate:test_command",
+       "gate": "tests",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "test_command",
+       "ledger_seq": 28,
+       "outcome": "failed",
+       "required": true,
+       "result_hash": "5d476030e05542f9a0e78617a256990898f22e92a68363d98a27efa18491f6e4",
+       "verdicts": [
+        {
+         "criterion": "tests-pass",
+         "text": "The project's tests pass in the sandbox",
+         "verdict": "not_met"
+        }
+       ]
+      }
+     ],
+     "max_attempts": 2,
+     "note": "attempts used up; failed: tests",
+     "spend": {
+      "calls": 2,
+      "total": {
+       "amount": "0.00109500",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     "status": "needs_human",
+     "submission": 2,
+     "title": "Fix the failing add() test in calc.py",
+     "version": 9,
+     "wait_warning": null
+    },
+    {
+     "assignee": "theo",
+     "attempt": 0,
+     "attempts": [],
+     "definition_of_done": {
+      "criteria": [
+       {
+        "id": "suite-green",
+        "text": "Every test passes"
+       }
+      ],
+      "gates": [
+       {
+        "checks": [
+         "suite-green"
+        ],
+        "id": "green",
+        "kind": "rule",
+        "required": true
+       }
+      ]
+     },
+     "id": "run-20261023-193348-ef9e-test-suite",
+     "latest_gates": [],
+     "max_attempts": 3,
+     "note": "cancelled: dependency run-20261023-193348-ef9e-fix-add is, or depends on, a task waiting for a human (needs_human); runs can't resume yet (R1.20), so plan this task again, as a new task, after the human decides",
+     "spend": {
+      "calls": 0,
+      "total": {
+       "amount": "0",
+       "currency": "USD"
+      }
+     },
+     "status": "cancelled",
+     "submission": 0,
+     "title": "Run the whole test suite on the fix",
+     "version": 2,
+     "wait_warning": null
+    },
+    {
+     "assignee": "omar",
+     "attempt": 0,
+     "attempts": [],
+     "definition_of_done": {
+      "criteria": [
+       {
+        "id": "approved",
+        "text": "A human approved this deploy"
+       }
+      ],
+      "gates": [
+       {
+        "checks": [
+         "approved"
+        ],
+        "id": "approve-deploy",
+        "kind": "human",
+        "required": true
+       }
+      ]
+     },
+     "id": "run-20261023-193348-ef9e-deploy",
+     "latest_gates": [],
+     "max_attempts": 3,
+     "note": "cancelled: dependency run-20261023-193348-ef9e-test-suite is, or depends on, a task waiting for a human (cancelled); runs can't resume yet (R1.20), so plan this task again, as a new task, after the human decides",
+     "spend": {
+      "calls": 0,
+      "total": {
+       "amount": "0",
+       "currency": "USD"
+      }
+     },
+     "status": "cancelled",
+     "submission": 0,
+     "title": "Deploy the fix to staging",
+     "version": 2,
+     "wait_warning": null
+    }
+   ],
+   "updated": "2026-10-23T19:33:52.180082+00:00"
+  },
+  "status": 200
+ },
+ "run_needs_human_ledger": {
+  "body": {
+   "events": [
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:48.295324Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "4d94f93ccbdc3b7c71d173b05f0e9f330f6267764e47f631501ad098dc28c5f5",
+     "payload": {
+      "chief_of_staff": "chief",
+      "org": "demo",
+      "tasks": [
+       "run-20261023-193348-ef9e-fix-add",
+       "run-20261023-193348-ef9e-test-suite",
+       "run-20261023-193348-ef9e-deploy"
+      ]
+     },
+     "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 1,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": null,
+     "type": "run.started"
+    },
+    {
+     "actor": "agent:chief",
+     "at": "2026-10-23T19:33:48.295769Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "d0c8dbdf1b8fa359f20974c41ffc7597eaa697060d2f192477568958a7534881",
+     "payload": {
+      "definition_of_done": {
+       "criteria": [
+        {
+         "id": "fixed",
+         "text": "calc.py returns a + b in add()"
+        },
+        {
+         "id": "tests-pass",
+         "text": "The project's tests pass in the sandbox"
+        },
+        {
+         "id": "safe-change",
+         "text": "Only add() changed; no public API changed"
+        }
+       ],
+       "gates": [
+        {
+         "checks": [
+          "fixed"
+         ],
+         "config": {
+          "rules": [
+           {
+            "check": {
+             "type": "contains",
+             "value": "return a + b"
+            },
+            "criterion": "fixed"
+           }
+          ]
+         },
+         "id": "has-fix",
+         "kind": "rule",
+         "required": true
+        },
+        {
+         "checks": [
+          "tests-pass"
+         ],
+         "config": {
+          "command": [
+           "python",
+           "-m",
+           "unittest",
+           "-v"
+          ],
+          "image": "docker.io/library/python@sha256:92abd2ba1bdfb48b1e2ac224b582dd1558d0d4bb11c903b126b5bf9c448fd656",
+          "limits": {
+           "timeout_seconds": 120
+          }
+         },
+         "id": "tests",
+         "kind": "test_command",
+         "required": true
+        },
+        {
+         "checks": [
+          "safe-change"
+         ],
+         "config": {
+          "verifier": "rhea"
+         },
+         "id": "review",
+         "kind": "verifier",
+         "required": true
+        }
+       ]
+      },
+      "max_attempts": 2,
+      "parent_id": null,
+      "status": "proposed",
+      "title": "Fix the failing add() test in calc.py"
+     },
+     "prev_hash": "4d94f93ccbdc3b7c71d173b05f0e9f330f6267764e47f631501ad098dc28c5f5",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 2,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.created"
+    },
+    {
+     "actor": "agent:chief",
+     "at": "2026-10-23T19:33:48.296225Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "651ee75028e0c570fa004f3ce2618c492b157a6f6a3d4248117b24da93df61ce",
+     "payload": {
+      "definition_of_done": {
+       "criteria": [
+        {
+         "id": "suite-green",
+         "text": "Every test passes"
+        }
+       ],
+       "gates": [
+        {
+         "checks": [
+          "suite-green"
+         ],
+         "config": {
+          "rules": [
+           {
+            "check": {
+             "path": "passed",
+             "type": "path_equals",
+             "value": true
+            },
+            "criterion": "suite-green"
+           }
+          ]
+         },
+         "id": "green",
+         "kind": "rule",
+         "required": true
+        }
+       ]
+      },
+      "max_attempts": 3,
+      "parent_id": null,
+      "status": "proposed",
+      "title": "Run the whole test suite on the fix"
+     },
+     "prev_hash": "d0c8dbdf1b8fa359f20974c41ffc7597eaa697060d2f192477568958a7534881",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 3,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-test-suite",
+     "type": "task.created"
+    },
+    {
+     "actor": "agent:chief",
+     "at": "2026-10-23T19:33:48.296508Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "8be19dc09a2ac8e29cc0c6598ae8314837c7aada8e6abd588cf01647fc402b58",
+     "payload": {
+      "definition_of_done": {
+       "criteria": [
+        {
+         "id": "approved",
+         "text": "A human approved this deploy"
+        }
+       ],
+       "gates": [
+        {
+         "checks": [
+          "approved"
+         ],
+         "config": {
+          "instructions": "Approve the staging deploy of the add() fix."
+         },
+         "id": "approve-deploy",
+         "kind": "human",
+         "required": true
+        }
+       ]
+      },
+      "max_attempts": 3,
+      "parent_id": null,
+      "status": "proposed",
+      "title": "Deploy the fix to staging"
+     },
+     "prev_hash": "651ee75028e0c570fa004f3ce2618c492b157a6f6a3d4248117b24da93df61ce",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 4,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-deploy",
+     "type": "task.created"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:48.297229Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "bf2b26da7995110b43ec6b55d768bd358adeadbd5e822218418b49e88dd7731c",
+     "payload": {
+      "action": "delegate",
+      "agent": "chief",
+      "decision": "allow",
+      "reason": "rule 0 says allow",
+      "role": "cos",
+      "rule": 0,
+      "target": "dana"
+     },
+     "prev_hash": "8be19dc09a2ac8e29cc0c6598ae8314837c7aada8e6abd588cf01647fc402b58",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 5,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "agent:chief",
+     "at": "2026-10-23T19:33:48.297752Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "b51d287a24ba415275a54aa4d919d82772cd8a1f537a523f80a61ed2d79cbae6",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 0,
+      "attempt_before": 0,
+      "closed_attempt": false,
+      "from": "proposed",
+      "max_attempts": 2,
+      "reason": null,
+      "submission": 0,
+      "to": "assigned"
+     },
+     "prev_hash": "bf2b26da7995110b43ec6b55d768bd358adeadbd5e822218418b49e88dd7731c",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 6,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:33:48.298069Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "ee43da9a81de50a33fa775edcd9e638e6980d2bb70e84829f4299627b4c29810",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 1,
+      "attempt_before": 0,
+      "closed_attempt": false,
+      "from": "assigned",
+      "max_attempts": 2,
+      "reason": null,
+      "submission": 0,
+      "to": "in_progress"
+     },
+     "prev_hash": "b51d287a24ba415275a54aa4d919d82772cd8a1f537a523f80a61ed2d79cbae6",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 7,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:33:48.298314Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "24e1916f83c5f007d98e0266783339c76ef1fbe1e0572a31b2b8241f3352574c",
+     "payload": {
+      "action": "write_file",
+      "agent": "dana",
+      "decision": "allow",
+      "reason": null,
+      "role": "developer",
+      "rule": 2,
+      "target": "calc.py"
+     },
+     "prev_hash": "ee43da9a81de50a33fa775edcd9e638e6980d2bb70e84829f4299627b4c29810",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 8,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:48.298992Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "b42a530f2639826847802407536f2bb93f078758f8f235f7ae5683f5f1cee143",
+     "payload": {
+      "action": "call_model",
+      "agent": "dana",
+      "decision": "allow",
+      "reason": "rule 0 says allow",
+      "role": "developer",
+      "rule": 0,
+      "target": "azure-openai/gpt-5.4-mini"
+     },
+     "prev_hash": "24e1916f83c5f007d98e0266783339c76ef1fbe1e0572a31b2b8241f3352574c",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 9,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:48.299217Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "d8979deb75f3762033b3f1a22092b08fd7beac8d72c2d2e59112d3238aa03f08",
+     "payload": {
+      "action": "spend",
+      "agent": "dana",
+      "amount": "0.00210375",
+      "decision": "allow",
+      "reason": "rule 1 says allow",
+      "role": "developer",
+      "rule": 1
+     },
+     "prev_hash": "b42a530f2639826847802407536f2bb93f078758f8f235f7ae5683f5f1cee143",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 10,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:48.299675Z",
+     "cost": {
+      "amount": "0.00210375",
+      "currency": "USD"
+     },
+     "cost_basis": "reserved",
+     "hash": "2104d5d3c9a7ef7bfec7a93afabe06d0a018fc37cc93668ce5b428ff16e19631",
+     "payload": {
+      "agent": "dana",
+      "budgets": [
+       "dana-monthly",
+       "rb-9c2aeb60cd4c"
+      ],
+      "details": {
+       "model": "gpt-5.4-mini",
+       "price": {
+        "at": "2026-10-23T19:33:48.299121+00:00",
+        "basis": "known",
+        "cached_input_per_million": "0.075",
+        "currency": "USD",
+        "effective_from": "2026-03-01T00:00:00+00:00",
+        "input_per_million": "0.75",
+        "model": "gpt-5.4-mini",
+        "output_per_million": "4.50",
+        "provider": "azure-openai",
+        "source": "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"
+       },
+       "provider": "azure-openai"
+      },
+      "reservation": "run-20261023-193348-ef9e-fix-add-a1-c1"
+     },
+     "prev_hash": "d8979deb75f3762033b3f1a22092b08fd7beac8d72c2d2e59112d3238aa03f08",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 11,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "budget.reserved"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.029095Z",
+     "cost": {
+      "amount": "0.00052050",
+      "currency": "USD"
+     },
+     "cost_basis": "actual",
+     "hash": "9d0379b25146ea3f48755eb12621ede404827fcfd6c4eba81428a033e9f64a46",
+     "payload": {
+      "agent": "dana",
+      "budget_charge": "0.00052050",
+      "budgets": [
+       {
+        "available": "4.99580750",
+        "budget": "dana-monthly",
+        "overrun": "0",
+        "released": "0.00158325",
+        "spent": "0.00419250"
+       },
+       {
+        "available": "1.99947950",
+        "budget": "rb-9c2aeb60cd4c",
+        "overrun": "0",
+        "released": "0.00158325",
+        "spent": "0.00052050"
+       }
+      ],
+      "details": {
+       "model": "gpt-5.4-mini",
+       "price_basis": "known",
+       "provider": "azure-openai",
+       "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "input_tokens": 124,
+        "output_tokens": 95
+       }
+      },
+      "reservation": "run-20261023-193348-ef9e-fix-add-a1-c1",
+      "reserved": "0.00210375"
+     },
+     "prev_hash": "2104d5d3c9a7ef7bfec7a93afabe06d0a018fc37cc93668ce5b428ff16e19631",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 12,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "budget.settled"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.029790Z",
+     "cost": {
+      "amount": "0.00052050",
+      "currency": "USD"
+     },
+     "cost_basis": "actual",
+     "hash": "6a9a13431fb241da75079cbfaa11d495ffede72fea18ce6818d7d568cb1de3ad",
+     "payload": {
+      "agent": "dana",
+      "finish_reason": "stop",
+      "latency_ms": 1728,
+      "model": "gpt-5.4-mini",
+      "outcome": "ok",
+      "price": {
+       "at": "2026-10-23T19:33:48.299121+00:00",
+       "basis": "known",
+       "cached_input_per_million": "0.075",
+       "currency": "USD",
+       "effective_from": "2026-03-01T00:00:00+00:00",
+       "input_per_million": "0.75",
+       "model": "gpt-5.4-mini",
+       "output_per_million": "4.50",
+       "provider": "azure-openai",
+       "source": "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"
+      },
+      "prompt_hash": "b3a40bfbfb8e11cba017f10a24d877306abb754b3c532b57b44f1552c57ee05e",
+      "provider": "azure-openai",
+      "reservation": "run-20261023-193348-ef9e-fix-add-a1-c1",
+      "response_hash": "93f4ea0cb549bf4da4c47f75371c191e3465b48f8c473b9c6d07737898ed18fe",
+      "usage": {
+       "cache_write_tokens": 0,
+       "cached_input_tokens": 0,
+       "input_tokens": 124,
+       "output_tokens": 95
+      }
+     },
+     "prev_hash": "9d0379b25146ea3f48755eb12621ede404827fcfd6c4eba81428a033e9f64a46",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 13,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "model.called"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:33:50.030311Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "369727a75ce0d79b55ff5dc9b0a6a9db1424a541e9c550e9886683e2da53ce77",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 1,
+      "attempt_before": 1,
+      "closed_attempt": false,
+      "from": "in_progress",
+      "max_attempts": 2,
+      "reason": null,
+      "submission": 1,
+      "to": "submitted"
+     },
+     "prev_hash": "6a9a13431fb241da75079cbfaa11d495ffede72fea18ce6818d7d568cb1de3ad",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 14,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.030736Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "26fd7588d7235f37762eb0c224ce6149c38a36f71f6348330fb3545448c24931",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 1,
+      "attempt_before": 1,
+      "closed_attempt": false,
+      "from": "submitted",
+      "max_attempts": 2,
+      "reason": "running gates",
+      "submission": 1,
+      "to": "verifying"
+     },
+     "prev_hash": "369727a75ce0d79b55ff5dc9b0a6a9db1424a541e9c550e9886683e2da53ce77",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 15,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.031647Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "7dda526e264fba83a45dfc756f23c1b176f4674f84ad47201412226ca2d8daff",
+     "payload": {
+      "attempt": 1,
+      "checked_by": "gate:rule",
+      "gate": "has-fix",
+      "outcome": "passed",
+      "result_hash": "8766e69935a3349de2a6e7d1222750b294489643832df1e8ac5f51d3d908f5fd",
+      "submission": 1,
+      "verdicts": [
+       {
+        "criterion": "fixed",
+        "verdict": "met"
+       }
+      ]
+     },
+     "prev_hash": "26fd7588d7235f37762eb0c224ce6149c38a36f71f6348330fb3545448c24931",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 16,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "gate.completed"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.494130Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "6698674b6709913eeb47aa75cd5b07482f736f19cc32a5591e246bb9272e26f1",
+     "payload": {
+      "attempt": 1,
+      "checked_by": "gate:test_command",
+      "gate": "tests",
+      "outcome": "failed",
+      "result_hash": "a3d02124379077f93e7a0a825604efb2aeaf6e0589cbe09bfcb440c1bf9f0e1c",
+      "submission": 1,
+      "verdicts": [
+       {
+        "criterion": "tests-pass",
+        "verdict": "not_met"
+       }
+      ]
+     },
+     "prev_hash": "7dda526e264fba83a45dfc756f23c1b176f4674f84ad47201412226ca2d8daff",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 17,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "gate.completed"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.495169Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "b109083e787c7d8ad05b3f6405fb0de9b0166f0dd0c4a0c66de68561d166fdcf",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 2,
+      "attempt_before": 1,
+      "closed_attempt": true,
+      "from": "verifying",
+      "max_attempts": 2,
+      "reason": "a required gate failed; another attempt",
+      "submission": 1,
+      "to": "in_progress",
+      "verification": [
+       {
+        "deciding_results": [
+         "8766e69935a3349de2a6e7d1222750b294489643832df1e8ac5f51d3d908f5fd"
+        ],
+        "gate": "has-fix",
+        "required": true,
+        "state": "passed"
+       },
+       {
+        "deciding_results": [
+         "a3d02124379077f93e7a0a825604efb2aeaf6e0589cbe09bfcb440c1bf9f0e1c"
+        ],
+        "gate": "tests",
+        "required": true,
+        "state": "failed"
+       },
+       {
+        "deciding_results": [],
+        "gate": "review",
+        "required": true,
+        "state": "missing"
+       }
+      ]
+     },
+     "prev_hash": "6698674b6709913eeb47aa75cd5b07482f736f19cc32a5591e246bb9272e26f1",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 18,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:33:50.495669Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "664ec4f0adf361708083e2a7834b204cd9d189c8d3c6f8d8dfb71f45de7ff70e",
+     "payload": {
+      "action": "write_file",
+      "agent": "dana",
+      "decision": "allow",
+      "reason": null,
+      "role": "developer",
+      "rule": 2,
+      "target": "calc.py"
+     },
+     "prev_hash": "b109083e787c7d8ad05b3f6405fb0de9b0166f0dd0c4a0c66de68561d166fdcf",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 19,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.496056Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "6f8cc41ffb3c6562a0fe0c85c90f5b92a1797857cfb3b3f8319d8984aa43e172",
+     "payload": {
+      "action": "call_model",
+      "agent": "dana",
+      "decision": "allow",
+      "reason": "rule 0 says allow",
+      "role": "developer",
+      "rule": 0,
+      "target": "azure-openai/gpt-5.4-mini"
+     },
+     "prev_hash": "664ec4f0adf361708083e2a7834b204cd9d189c8d3c6f8d8dfb71f45de7ff70e",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 20,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.496309Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "f53fb36fd29e18bb17ef1147d747c8eb1ceab50d974aef2eb7d39e8ef25c70b1",
+     "payload": {
+      "action": "spend",
+      "agent": "dana",
+      "amount": "0.00249975",
+      "decision": "allow",
+      "reason": "rule 1 says allow",
+      "role": "developer",
+      "rule": 1
+     },
+     "prev_hash": "6f8cc41ffb3c6562a0fe0c85c90f5b92a1797857cfb3b3f8319d8984aa43e172",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 21,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.496628Z",
+     "cost": {
+      "amount": "0.00249975",
+      "currency": "USD"
+     },
+     "cost_basis": "reserved",
+     "hash": "652cc24283bda60a7f852624a7021e2bb2ac6ab2e939fb9606c3bc9cd63fd54f",
+     "payload": {
+      "agent": "dana",
+      "budgets": [
+       "dana-monthly",
+       "rb-9c2aeb60cd4c"
+      ],
+      "details": {
+       "model": "gpt-5.4-mini",
+       "price": {
+        "at": "2026-10-23T19:33:50.496210+00:00",
+        "basis": "known",
+        "cached_input_per_million": "0.075",
+        "currency": "USD",
+        "effective_from": "2026-03-01T00:00:00+00:00",
+        "input_per_million": "0.75",
+        "model": "gpt-5.4-mini",
+        "output_per_million": "4.50",
+        "provider": "azure-openai",
+        "source": "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"
+       },
+       "provider": "azure-openai"
+      },
+      "reservation": "run-20261023-193348-ef9e-fix-add-a2-c1"
+     },
+     "prev_hash": "f53fb36fd29e18bb17ef1147d747c8eb1ceab50d974aef2eb7d39e8ef25c70b1",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 22,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "budget.reserved"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:51.862891Z",
+     "cost": {
+      "amount": "0.00057450",
+      "currency": "USD"
+     },
+     "cost_basis": "actual",
+     "hash": "2b8dbe46226490ca6c928a46e008486c38bc91ba154ab821d622b4a3061ce2e1",
+     "payload": {
+      "agent": "dana",
+      "budget_charge": "0.00057450",
+      "budgets": [
+       {
+        "available": "4.99523300",
+        "budget": "dana-monthly",
+        "overrun": "0",
+        "released": "0.00192525",
+        "spent": "0.00476700"
+       },
+       {
+        "available": "1.99890500",
+        "budget": "rb-9c2aeb60cd4c",
+        "overrun": "0",
+        "released": "0.00192525",
+        "spent": "0.00109500"
+       }
+      ],
+      "details": {
+       "model": "gpt-5.4-mini",
+       "price_basis": "known",
+       "provider": "azure-openai",
+       "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "input_tokens": 256,
+        "output_tokens": 85
+       }
+      },
+      "reservation": "run-20261023-193348-ef9e-fix-add-a2-c1",
+      "reserved": "0.00249975"
+     },
+     "prev_hash": "652cc24283bda60a7f852624a7021e2bb2ac6ab2e939fb9606c3bc9cd63fd54f",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 23,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "budget.settled"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:51.863606Z",
+     "cost": {
+      "amount": "0.00057450",
+      "currency": "USD"
+     },
+     "cost_basis": "actual",
+     "hash": "56695e314d38682bcb17cc534d523b0a81fe56682917ef060005fbe1ef4795e2",
+     "payload": {
+      "agent": "dana",
+      "finish_reason": "stop",
+      "latency_ms": 1366,
+      "model": "gpt-5.4-mini",
+      "outcome": "ok",
+      "price": {
+       "at": "2026-10-23T19:33:50.496210+00:00",
+       "basis": "known",
+       "cached_input_per_million": "0.075",
+       "currency": "USD",
+       "effective_from": "2026-03-01T00:00:00+00:00",
+       "input_per_million": "0.75",
+       "model": "gpt-5.4-mini",
+       "output_per_million": "4.50",
+       "provider": "azure-openai",
+       "source": "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"
+      },
+      "prompt_hash": "2c927e73e83f36e3ea8d0d4d94e9ce87fda62f5b920bcf54e8eb2550d8398b6b",
+      "provider": "azure-openai",
+      "reservation": "run-20261023-193348-ef9e-fix-add-a2-c1",
+      "response_hash": "4c1557347cc21be6f1f46f514f49ff8386051d0d2f9920f00f06cf4a48182989",
+      "usage": {
+       "cache_write_tokens": 0,
+       "cached_input_tokens": 0,
+       "input_tokens": 256,
+       "output_tokens": 85
+      }
+     },
+     "prev_hash": "2b8dbe46226490ca6c928a46e008486c38bc91ba154ab821d622b4a3061ce2e1",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 24,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "model.called"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:33:51.864071Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "cdcc392e3c9876d41ba09eb48204c04dc580f4db2c641b7e42c152a132dc672d",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 2,
+      "attempt_before": 2,
+      "closed_attempt": false,
+      "from": "in_progress",
+      "max_attempts": 2,
+      "reason": null,
+      "submission": 2,
+      "to": "submitted"
+     },
+     "prev_hash": "56695e314d38682bcb17cc534d523b0a81fe56682917ef060005fbe1ef4795e2",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 25,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:51.864362Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "e895ad9115ac6b1c4a62af74944543b011ec99fbecb1eac43929ab7df7e74c8c",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 2,
+      "attempt_before": 2,
+      "closed_attempt": false,
+      "from": "submitted",
+      "max_attempts": 2,
+      "reason": "running gates",
+      "submission": 2,
+      "to": "verifying"
+     },
+     "prev_hash": "cdcc392e3c9876d41ba09eb48204c04dc580f4db2c641b7e42c152a132dc672d",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 26,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:51.865462Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "3263a7b691e8ad0db9a7e266250fc3991be59da8e79225e0ad0cc2a50c76f31d",
+     "payload": {
+      "attempt": 2,
+      "checked_by": "gate:rule",
+      "gate": "has-fix",
+      "outcome": "passed",
+      "result_hash": "a6fe90682f4c2d7a198cf7b8916279cdb9593ca5efb12491d298765548bed852",
+      "submission": 2,
+      "verdicts": [
+       {
+        "criterion": "fixed",
+        "verdict": "met"
+       }
+      ]
+     },
+     "prev_hash": "e895ad9115ac6b1c4a62af74944543b011ec99fbecb1eac43929ab7df7e74c8c",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 27,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "gate.completed"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:52.177600Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "4e6f73e51a37c7d69517bd39f170e3582088cbaeba26d2da9dfd5cf79f422402",
+     "payload": {
+      "attempt": 2,
+      "checked_by": "gate:test_command",
+      "gate": "tests",
+      "outcome": "failed",
+      "result_hash": "5d476030e05542f9a0e78617a256990898f22e92a68363d98a27efa18491f6e4",
+      "submission": 2,
+      "verdicts": [
+       {
+        "criterion": "tests-pass",
+        "verdict": "not_met"
+       }
+      ]
+     },
+     "prev_hash": "3263a7b691e8ad0db9a7e266250fc3991be59da8e79225e0ad0cc2a50c76f31d",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 28,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "gate.completed"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:52.179002Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "e75001403b11808125c28c38733dc6ee9d7a588d16da4995d0c446a55829b93d",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 2,
+      "attempt_before": 2,
+      "closed_attempt": true,
+      "from": "verifying",
+      "max_attempts": 2,
+      "reason": "attempts used up; failed: tests",
+      "submission": 2,
+      "to": "needs_human",
+      "verification": [
+       {
+        "deciding_results": [
+         "a6fe90682f4c2d7a198cf7b8916279cdb9593ca5efb12491d298765548bed852"
+        ],
+        "gate": "has-fix",
+        "required": true,
+        "state": "passed"
+       },
+       {
+        "deciding_results": [
+         "5d476030e05542f9a0e78617a256990898f22e92a68363d98a27efa18491f6e4"
+        ],
+        "gate": "tests",
+        "required": true,
+        "state": "failed"
+       },
+       {
+        "deciding_results": [],
+        "gate": "review",
+        "required": true,
+        "state": "missing"
+       }
+      ]
+     },
+     "prev_hash": "4e6f73e51a37c7d69517bd39f170e3582088cbaeba26d2da9dfd5cf79f422402",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 29,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:52.179497Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "84b7770adc2ca6e00d206cef43dbd27396ed02f3a9734cb99326a2c8cc094dbc",
+     "payload": {
+      "assignee": "theo",
+      "attempt_after": 0,
+      "attempt_before": 0,
+      "closed_attempt": false,
+      "from": "proposed",
+      "max_attempts": 3,
+      "reason": "cancelled: dependency run-20261023-193348-ef9e-fix-add is, or depends on, a task waiting for a human (needs_human); runs can't resume yet (R1.20), so plan this task again, as a new task, after the human decides",
+      "submission": 0,
+      "to": "cancelled"
+     },
+     "prev_hash": "e75001403b11808125c28c38733dc6ee9d7a588d16da4995d0c446a55829b93d",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 30,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-test-suite",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:52.179762Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "be63f4daffe42b1ba9c65e654aed117703450cd4ffa0d79aef027995bbec30f1",
+     "payload": {
+      "assignee": "omar",
+      "attempt_after": 0,
+      "attempt_before": 0,
+      "closed_attempt": false,
+      "from": "proposed",
+      "max_attempts": 3,
+      "reason": "cancelled: dependency run-20261023-193348-ef9e-test-suite is, or depends on, a task waiting for a human (cancelled); runs can't resume yet (R1.20), so plan this task again, as a new task, after the human decides",
+      "submission": 0,
+      "to": "cancelled"
+     },
+     "prev_hash": "84b7770adc2ca6e00d206cef43dbd27396ed02f3a9734cb99326a2c8cc094dbc",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 31,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-deploy",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:52.180082Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "7356616571f543841ffa0c1e607064890f029c14be8c1a6438a4482f1c761d77",
+     "payload": {
+      "counts": {
+       "cancelled": 2,
+       "needs_human": 1
+      }
+     },
+     "prev_hash": "be63f4daffe42b1ba9c65e654aed117703450cd4ffa0d79aef027995bbec30f1",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 32,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": null,
+     "type": "run.ended"
+    }
+   ],
+   "has_more": false,
+   "head": "7356616571f543841ffa0c1e607064890f029c14be8c1a6438a4482f1c761d77",
+   "head_seq": 32,
+   "next_after_seq": 32,
+   "stream": "run:run-20261023-193348-ef9e"
+  },
+  "status": 200
+ },
+ "run_needs_human_ledger_page": {
+  "body": {
+   "events": [
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.031647Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "7dda526e264fba83a45dfc756f23c1b176f4674f84ad47201412226ca2d8daff",
+     "payload": {
+      "attempt": 1,
+      "checked_by": "gate:rule",
+      "gate": "has-fix",
+      "outcome": "passed",
+      "result_hash": "8766e69935a3349de2a6e7d1222750b294489643832df1e8ac5f51d3d908f5fd",
+      "submission": 1,
+      "verdicts": [
+       {
+        "criterion": "fixed",
+        "verdict": "met"
+       }
+      ]
+     },
+     "prev_hash": "26fd7588d7235f37762eb0c224ce6149c38a36f71f6348330fb3545448c24931",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 16,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "gate.completed"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.494130Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "6698674b6709913eeb47aa75cd5b07482f736f19cc32a5591e246bb9272e26f1",
+     "payload": {
+      "attempt": 1,
+      "checked_by": "gate:test_command",
+      "gate": "tests",
+      "outcome": "failed",
+      "result_hash": "a3d02124379077f93e7a0a825604efb2aeaf6e0589cbe09bfcb440c1bf9f0e1c",
+      "submission": 1,
+      "verdicts": [
+       {
+        "criterion": "tests-pass",
+        "verdict": "not_met"
+       }
+      ]
+     },
+     "prev_hash": "7dda526e264fba83a45dfc756f23c1b176f4674f84ad47201412226ca2d8daff",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 17,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "gate.completed"
+    }
+   ],
+   "has_more": true,
+   "head": "7356616571f543841ffa0c1e607064890f029c14be8c1a6438a4482f1c761d77",
+   "head_seq": 32,
+   "next_after_seq": 17,
+   "stream": "run:run-20261023-193348-ef9e"
+  },
+  "status": 200
+ },
+ "runs": {
+  "body": {
+   "runs": [
+    {
+     "ended_at": "2026-10-23T19:34:36.750963+00:00",
+     "events": 41,
+     "gates": {
+      "error": 0,
+      "failed": 0,
+      "passed": 5,
+      "total": 5
+     },
+     "head": "9d7fdbe78bd9b3e2010039b4c3450ba1e8539ddb9694499e094948ea50f9852c",
+     "org": "demo",
+     "run_id": "run-20261023-193432-f5e5",
+     "spend": {
+      "calls": 2,
+      "total": {
+       "amount": "0.00109650",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     "started_at": "2026-10-23T19:34:32.664300+00:00",
+     "started_by": "system",
+     "status": "done",
+     "stop": null,
+     "tasks": {
+      "by_status": {
+       "done": 3
+      },
+      "total": 3
+     },
+     "updated": "2026-10-23T19:34:36.750963+00:00"
+    },
+    {
+     "ended_at": "2026-10-23T19:33:52.180082+00:00",
+     "events": 32,
+     "gates": {
+      "error": 0,
+      "failed": 1,
+      "passed": 1,
+      "total": 2
+     },
+     "head": "7356616571f543841ffa0c1e607064890f029c14be8c1a6438a4482f1c761d77",
+     "org": "demo",
+     "run_id": "run-20261023-193348-ef9e",
+     "spend": {
+      "calls": 2,
+      "total": {
+       "amount": "0.00109500",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     "started_at": "2026-10-23T19:33:48.295324+00:00",
+     "started_by": "system",
+     "status": "needs_human",
+     "stop": null,
+     "tasks": {
+      "by_status": {
+       "cancelled": 2,
+       "needs_human": 1
+      },
+      "total": 3
+     },
+     "updated": "2026-10-23T19:33:52.180082+00:00"
+    }
+   ],
+   "scanned": 2,
+   "truncated": false
+  },
+  "status": 200
+ },
+ "stop_finished": {
+  "body": {
+   "code": "run_finished",
+   "detail": "run 'run-20261023-193432-f5e5' has already ended; there is nothing to stop",
+   "status": 409,
+   "title": "run_finished",
+   "type": "urn:nuramesh:run_finished"
+  },
+  "status": 409
+ },
+ "stop_wrong_run": {
+  "body": {
+   "code": "not_found",
+   "detail": "no such run",
+   "status": 404,
+   "title": "not_found",
+   "type": "urn:nuramesh:not_found"
+  },
+  "status": 404
+ },
+ "task_audit_done": {
+  "body": {
+   "approvals": [],
+   "attempts": [
+    {
+     "attempt": 1,
+     "gates": [
+      {
+       "at": "2026-10-23T19:34:34.268218+00:00",
+       "checked_by": "gate:rule",
+       "gate": "has-fix",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "rule",
+       "ledger_seq": 16,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "8d86fc2ad172d979c1c5ff28bdde6a49285d839b8e8e02556fbe42c8edeebf9d",
+       "verdicts": [
+        {
+         "criterion": "fixed",
+         "text": "calc.py returns a + b in add()",
+         "verdict": "met"
+        }
+       ]
+      },
+      {
+       "at": "2026-10-23T19:34:34.618134+00:00",
+       "checked_by": "gate:test_command",
+       "gate": "tests",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "test_command",
+       "ledger_seq": 17,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "436feb3a1d97560e8f7a9267530e0c3f4cb6990ad193bcc7a40fe9179bdd6604",
+       "verdicts": [
+        {
+         "criterion": "tests-pass",
+         "text": "The project's tests pass in the sandbox",
+         "verdict": "met"
+        }
+       ]
+      },
+      {
+       "at": "2026-10-23T19:34:36.432099+00:00",
+       "checked_by": "agent:rhea",
+       "gate": "review",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "verifier",
+       "ledger_seq": 23,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "59acfed8be99c3e8bfa055382c52e89327b699e54bdf198f48fc446e862de79f",
+       "verdicts": [
+        {
+         "criterion": "safe-change",
+         "text": "Only add() changed; no public API changed",
+         "verdict": "met"
+        }
+       ]
+      }
+     ],
+     "moved_to": "done",
+     "reason": "all required gates passed",
+     "reason_hash": null,
+     "submission": 1,
+     "verification": [
+      {
+       "deciding_results": [
+        "8d86fc2ad172d979c1c5ff28bdde6a49285d839b8e8e02556fbe42c8edeebf9d"
+       ],
+       "gate": "has-fix",
+       "required": true,
+       "state": "passed"
+      },
+      {
+       "deciding_results": [
+        "436feb3a1d97560e8f7a9267530e0c3f4cb6990ad193bcc7a40fe9179bdd6604"
+       ],
+       "gate": "tests",
+       "required": true,
+       "state": "passed"
+      },
+      {
+       "deciding_results": [
+        "59acfed8be99c3e8bfa055382c52e89327b699e54bdf198f48fc446e862de79f"
+       ],
+       "gate": "review",
+       "required": true,
+       "state": "passed"
+      }
+     ]
+    }
+   ],
+   "chain": {
+    "head": "9d7fdbe78bd9b3e2010039b4c3450ba1e8539ddb9694499e094948ea50f9852c",
+    "head_seq": 41,
+    "ok": true
+   },
+   "decisions": [],
+   "entries": [
+    {
+     "actor": "agent:chief",
+     "at": "2026-10-23T19:34:32.664780Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "4ee3cd600c7a8cb24131d41f2f4ca1aac2af098e98751f1ae3f8b60b5e189e6a",
+     "payload": {
+      "definition_of_done": {
+       "criteria": [
+        {
+         "id": "fixed",
+         "text": "calc.py returns a + b in add()"
+        },
+        {
+         "id": "tests-pass",
+         "text": "The project's tests pass in the sandbox"
+        },
+        {
+         "id": "safe-change",
+         "text": "Only add() changed; no public API changed"
+        }
+       ],
+       "gates": [
+        {
+         "checks": [
+          "fixed"
+         ],
+         "config": {
+          "rules": [
+           {
+            "check": {
+             "type": "contains",
+             "value": "return a + b"
+            },
+            "criterion": "fixed"
+           }
+          ]
+         },
+         "id": "has-fix",
+         "kind": "rule",
+         "required": true
+        },
+        {
+         "checks": [
+          "tests-pass"
+         ],
+         "config": {
+          "command": [
+           "python",
+           "-m",
+           "unittest",
+           "-v"
+          ],
+          "image": "docker.io/library/python@sha256:92abd2ba1bdfb48b1e2ac224b582dd1558d0d4bb11c903b126b5bf9c448fd656",
+          "limits": {
+           "timeout_seconds": 120
+          }
+         },
+         "id": "tests",
+         "kind": "test_command",
+         "required": true
+        },
+        {
+         "checks": [
+          "safe-change"
+         ],
+         "config": {
+          "verifier": "rhea"
+         },
+         "id": "review",
+         "kind": "verifier",
+         "required": true
+        }
+       ]
+      },
+      "max_attempts": 2,
+      "parent_id": null,
+      "status": "proposed",
+      "title": "Fix the failing add() test in calc.py"
+     },
+     "prev_hash": "8c1f043f946c9314186438446da91d2c008aceaf37bfc0cce73837d268f47e9b",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 2,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "task.created"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:32.666121Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "31f9520f737c66489023d2fcb6fcd6558c24cd36eee3a71b37e477e24d0f4bb8",
+     "payload": {
+      "action": "delegate",
+      "agent": "chief",
+      "decision": "allow",
+      "reason": "rule 0 says allow",
+      "role": "cos",
+      "rule": 0,
+      "target": "dana"
+     },
+     "prev_hash": "3b521af6448c821009e7dd3e9572407df06f4161e89c3b9f80ee721acbf4c587",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 5,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "agent:chief",
+     "at": "2026-10-23T19:34:32.666628Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "5a426b4fb7ce3c522ea2932b1c56b673b46403244670c9064ccd702d203bb0ab",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 0,
+      "attempt_before": 0,
+      "closed_attempt": false,
+      "from": "proposed",
+      "max_attempts": 2,
+      "reason": null,
+      "submission": 0,
+      "to": "assigned"
+     },
+     "prev_hash": "31f9520f737c66489023d2fcb6fcd6558c24cd36eee3a71b37e477e24d0f4bb8",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 6,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:34:32.666907Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "6a0560ea8c486fee77337adf0fd27676c1a7b3d0e56dbf24ffaed1bbdf67b5a8",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 1,
+      "attempt_before": 0,
+      "closed_attempt": false,
+      "from": "assigned",
+      "max_attempts": 2,
+      "reason": null,
+      "submission": 0,
+      "to": "in_progress"
+     },
+     "prev_hash": "5a426b4fb7ce3c522ea2932b1c56b673b46403244670c9064ccd702d203bb0ab",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 7,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:34:32.667107Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "386c360c22d7db2f5f6f5db0ac174940e8406319d40372cb6d71c0a8d7d0f3a9",
+     "payload": {
+      "action": "write_file",
+      "agent": "dana",
+      "decision": "allow",
+      "reason": null,
+      "role": "developer",
+      "rule": 2,
+      "target": "calc.py"
+     },
+     "prev_hash": "6a0560ea8c486fee77337adf0fd27676c1a7b3d0e56dbf24ffaed1bbdf67b5a8",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 8,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:32.667385Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "20ce737863f26288c68c5d6806a54fcfa1754bb5522b94beaf6ca0de2771dc55",
+     "payload": {
+      "action": "call_model",
+      "agent": "dana",
+      "decision": "allow",
+      "reason": "rule 0 says allow",
+      "role": "developer",
+      "rule": 0,
+      "target": "azure-openai/gpt-5.4-mini"
+     },
+     "prev_hash": "386c360c22d7db2f5f6f5db0ac174940e8406319d40372cb6d71c0a8d7d0f3a9",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 9,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:32.667605Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "39c52dd5e4b788a9cd890126f056f2933dc3fcbcd30a32999fedcad98b907dca",
+     "payload": {
+      "action": "spend",
+      "agent": "dana",
+      "amount": "0.00222975",
+      "decision": "allow",
+      "reason": "rule 1 says allow",
+      "role": "developer",
+      "rule": 1
+     },
+     "prev_hash": "20ce737863f26288c68c5d6806a54fcfa1754bb5522b94beaf6ca0de2771dc55",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 10,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:32.668036Z",
+     "cost": {
+      "amount": "0.00222975",
+      "currency": "USD"
+     },
+     "cost_basis": "reserved",
+     "hash": "cefabc8687d3cbadde1b865aeef9defaa77154f90453e2bdd77bae30f1d25915",
+     "payload": {
+      "agent": "dana",
+      "budgets": [
+       "dana-monthly",
+       "rb-15003783e301"
+      ],
+      "details": {
+       "model": "gpt-5.4-mini",
+       "price": {
+        "at": "2026-10-23T19:34:32.667526+00:00",
+        "basis": "known",
+        "cached_input_per_million": "0.075",
+        "currency": "USD",
+        "effective_from": "2026-03-01T00:00:00+00:00",
+        "input_per_million": "0.75",
+        "model": "gpt-5.4-mini",
+        "output_per_million": "4.50",
+        "provider": "azure-openai",
+        "source": "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"
+       },
+       "provider": "azure-openai"
+      },
+      "reservation": "run-20261023-193432-f5e5-fix-add-a1-c1"
+     },
+     "prev_hash": "39c52dd5e4b788a9cd890126f056f2933dc3fcbcd30a32999fedcad98b907dca",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 11,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "budget.reserved"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:34.265788Z",
+     "cost": {
+      "amount": "0.00046050",
+      "currency": "USD"
+     },
+     "cost_basis": "actual",
+     "hash": "8e15e49d56236d3113ed39208a28001327ba716c03bf4302d3f11fea91c62fb5",
+     "payload": {
+      "agent": "dana",
+      "budget_charge": "0.00046050",
+      "budgets": [
+       {
+        "available": "4.99477250",
+        "budget": "dana-monthly",
+        "overrun": "0",
+        "released": "0.00176925",
+        "spent": "0.00522750"
+       },
+       {
+        "available": "1.99953950",
+        "budget": "rb-15003783e301",
+        "overrun": "0",
+        "released": "0.00176925",
+        "spent": "0.00046050"
+       }
+      ],
+      "details": {
+       "model": "gpt-5.4-mini",
+       "price_basis": "known",
+       "provider": "azure-openai",
+       "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "input_tokens": 158,
+        "output_tokens": 76
+       }
+      },
+      "reservation": "run-20261023-193432-f5e5-fix-add-a1-c1",
+      "reserved": "0.00222975"
+     },
+     "prev_hash": "cefabc8687d3cbadde1b865aeef9defaa77154f90453e2bdd77bae30f1d25915",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 12,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "budget.settled"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:34.266550Z",
+     "cost": {
+      "amount": "0.00046050",
+      "currency": "USD"
+     },
+     "cost_basis": "actual",
+     "hash": "8195be54cfd6ec655d1a90ae75637872350000c8fffc7f992ed343386fdc4360",
+     "payload": {
+      "agent": "dana",
+      "finish_reason": "stop",
+      "latency_ms": 1597,
+      "model": "gpt-5.4-mini",
+      "outcome": "ok",
+      "price": {
+       "at": "2026-10-23T19:34:32.667526+00:00",
+       "basis": "known",
+       "cached_input_per_million": "0.075",
+       "currency": "USD",
+       "effective_from": "2026-03-01T00:00:00+00:00",
+       "input_per_million": "0.75",
+       "model": "gpt-5.4-mini",
+       "output_per_million": "4.50",
+       "provider": "azure-openai",
+       "source": "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"
+      },
+      "prompt_hash": "f9249d59fcbbeb22634d5c1239990208335eb7892c915231220bb4e01ec97486",
+      "provider": "azure-openai",
+      "reservation": "run-20261023-193432-f5e5-fix-add-a1-c1",
+      "response_hash": "8d2b8209b94d91d160eeee5c9c3d60ce3308708fb2e63701cb1f0932cab7bf34",
+      "usage": {
+       "cache_write_tokens": 0,
+       "cached_input_tokens": 0,
+       "input_tokens": 158,
+       "output_tokens": 76
+      }
+     },
+     "prev_hash": "8e15e49d56236d3113ed39208a28001327ba716c03bf4302d3f11fea91c62fb5",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 13,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "model.called"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:34:34.267011Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "db3e13e9313f490533a6298f9045aff68bfdfa721ae8e0ab6c03b3ab2306891f",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 1,
+      "attempt_before": 1,
+      "closed_attempt": false,
+      "from": "in_progress",
+      "max_attempts": 2,
+      "reason": null,
+      "submission": 1,
+      "to": "submitted"
+     },
+     "prev_hash": "8195be54cfd6ec655d1a90ae75637872350000c8fffc7f992ed343386fdc4360",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 14,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:34.267337Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "b5e986a6b2e48cc0785a4b7a4d390ce68be0904ada91abe76f677661a0f5acc1",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 1,
+      "attempt_before": 1,
+      "closed_attempt": false,
+      "from": "submitted",
+      "max_attempts": 2,
+      "reason": "running gates",
+      "submission": 1,
+      "to": "verifying"
+     },
+     "prev_hash": "db3e13e9313f490533a6298f9045aff68bfdfa721ae8e0ab6c03b3ab2306891f",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 15,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:34.268218Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "e9c0240ff864713115ff0501619b5a44f77461453c79506910b2c892b4c99350",
+     "payload": {
+      "attempt": 1,
+      "checked_by": "gate:rule",
+      "gate": "has-fix",
+      "outcome": "passed",
+      "result_hash": "8d86fc2ad172d979c1c5ff28bdde6a49285d839b8e8e02556fbe42c8edeebf9d",
+      "submission": 1,
+      "verdicts": [
+       {
+        "criterion": "fixed",
+        "verdict": "met"
+       }
+      ]
+     },
+     "prev_hash": "b5e986a6b2e48cc0785a4b7a4d390ce68be0904ada91abe76f677661a0f5acc1",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 16,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "gate.completed"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:34.618134Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "bbfeeb026d20f85ec27ebd67886a81ac8e68b91a0f93fa38621c2b086ebfc9d4",
+     "payload": {
+      "attempt": 1,
+      "checked_by": "gate:test_command",
+      "gate": "tests",
+      "outcome": "passed",
+      "result_hash": "436feb3a1d97560e8f7a9267530e0c3f4cb6990ad193bcc7a40fe9179bdd6604",
+      "submission": 1,
+      "verdicts": [
+       {
+        "criterion": "tests-pass",
+        "verdict": "met"
+       }
+      ]
+     },
+     "prev_hash": "e9c0240ff864713115ff0501619b5a44f77461453c79506910b2c892b4c99350",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 17,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "gate.completed"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:34.618771Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "70a1ce81bd3e6a90164aa21e047de8787981bd80326a0bdd00a7ab189f022e4f",
+     "payload": {
+      "action": "call_model",
+      "agent": "rhea",
+      "decision": "allow",
+      "reason": "rule 0 says allow",
+      "role": "reviewer",
+      "rule": 0,
+      "target": "azure-openai/gpt-5.4-mini"
+     },
+     "prev_hash": "bbfeeb026d20f85ec27ebd67886a81ac8e68b91a0f93fa38621c2b086ebfc9d4",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 18,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:34.619050Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "76f97634f4e6a6d3c645e510c356f8c93ff67f9b73ea2616aff05559c8f5d1b4",
+     "payload": {
+      "action": "spend",
+      "agent": "rhea",
+      "amount": "0.00801300",
+      "decision": "allow",
+      "reason": "rule 1 says allow",
+      "role": "reviewer",
+      "rule": 1
+     },
+     "prev_hash": "70a1ce81bd3e6a90164aa21e047de8787981bd80326a0bdd00a7ab189f022e4f",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 19,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:34.619427Z",
+     "cost": {
+      "amount": "0.00801300",
+      "currency": "USD"
+     },
+     "cost_basis": "reserved",
+     "hash": "fd97c65416c3588ce8db4d245c09fcfc8cd89734fd3aa11f705e92340c726afa",
+     "payload": {
+      "agent": "rhea",
+      "budgets": [
+       "rb-15003783e301",
+       "rhea-monthly"
+      ],
+      "details": {
+       "model": "gpt-5.4-mini",
+       "price": {
+        "at": "2026-10-23T19:34:34.618930+00:00",
+        "basis": "known",
+        "cached_input_per_million": "0.075",
+        "currency": "USD",
+        "effective_from": "2026-03-01T00:00:00+00:00",
+        "input_per_million": "0.75",
+        "model": "gpt-5.4-mini",
+        "output_per_million": "4.50",
+        "provider": "azure-openai",
+        "source": "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"
+       },
+       "provider": "azure-openai"
+      },
+      "reservation": "run-20261023-193432-f5e5-fix-add-review-a1-s1"
+     },
+     "prev_hash": "76f97634f4e6a6d3c645e510c356f8c93ff67f9b73ea2616aff05559c8f5d1b4",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 20,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "budget.reserved"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:36.428960Z",
+     "cost": {
+      "amount": "0.00063600",
+      "currency": "USD"
+     },
+     "cost_basis": "actual",
+     "hash": "22864cd32c94891dadf769b8fe82d0404a80af0e5a9c33c8bedcb7b85a56f4ef",
+     "payload": {
+      "agent": "rhea",
+      "budget_charge": "0.00063600",
+      "budgets": [
+       {
+        "available": "1.99890350",
+        "budget": "rb-15003783e301",
+        "overrun": "0",
+        "released": "0.00737700",
+        "spent": "0.00109650"
+       },
+       {
+        "available": "4.99523000",
+        "budget": "rhea-monthly",
+        "overrun": "0",
+        "released": "0.00737700",
+        "spent": "0.00477000"
+       }
+      ],
+      "details": {
+       "model": "gpt-5.4-mini",
+       "price_basis": "known",
+       "provider": "azure-openai",
+       "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "input_tokens": 458,
+        "output_tokens": 65
+       }
+      },
+      "reservation": "run-20261023-193432-f5e5-fix-add-review-a1-s1",
+      "reserved": "0.00801300"
+     },
+     "prev_hash": "fd97c65416c3588ce8db4d245c09fcfc8cd89734fd3aa11f705e92340c726afa",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 21,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "budget.settled"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:36.430228Z",
+     "cost": {
+      "amount": "0.00063600",
+      "currency": "USD"
+     },
+     "cost_basis": "actual",
+     "hash": "22d6d9f56ca6c49acbfa2a92b93f8d57cd12bc7a05ac1e3dfaadeac5750fc1d2",
+     "payload": {
+      "agent": "rhea",
+      "finish_reason": "stop",
+      "latency_ms": 1808,
+      "model": "gpt-5.4-mini",
+      "outcome": "ok",
+      "price": {
+       "at": "2026-10-23T19:34:34.618930+00:00",
+       "basis": "known",
+       "cached_input_per_million": "0.075",
+       "currency": "USD",
+       "effective_from": "2026-03-01T00:00:00+00:00",
+       "input_per_million": "0.75",
+       "model": "gpt-5.4-mini",
+       "output_per_million": "4.50",
+       "provider": "azure-openai",
+       "source": "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"
+      },
+      "prompt_hash": "6d23c31767a2f927464c0c314746404b6d8bf6ed25123c375a3c2735311299aa",
+      "provider": "azure-openai",
+      "reservation": "run-20261023-193432-f5e5-fix-add-review-a1-s1",
+      "response_hash": "752a370be17483adeeec98c2d43453928458a6395ba12a7cb2ad34db301b413a",
+      "usage": {
+       "cache_write_tokens": 0,
+       "cached_input_tokens": 0,
+       "input_tokens": 458,
+       "output_tokens": 65
+      }
+     },
+     "prev_hash": "22864cd32c94891dadf769b8fe82d0404a80af0e5a9c33c8bedcb7b85a56f4ef",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 22,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "model.called"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:36.432099Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "024ba6ac997185a302adeb95db502ce27a2abbb55311191e1c85b118b51516f4",
+     "payload": {
+      "attempt": 1,
+      "checked_by": "agent:rhea",
+      "gate": "review",
+      "outcome": "passed",
+      "result_hash": "59acfed8be99c3e8bfa055382c52e89327b699e54bdf198f48fc446e862de79f",
+      "submission": 1,
+      "verdicts": [
+       {
+        "criterion": "safe-change",
+        "verdict": "met"
+       }
+      ]
+     },
+     "prev_hash": "22d6d9f56ca6c49acbfa2a92b93f8d57cd12bc7a05ac1e3dfaadeac5750fc1d2",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 23,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "gate.completed"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:34:36.433404Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "a3b32a3f9b840923f61568ff9da9bfcc5b7115b19af8868804b5bd9b94def8d9",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 1,
+      "attempt_before": 1,
+      "closed_attempt": false,
+      "from": "verifying",
+      "max_attempts": 2,
+      "reason": "all required gates passed",
+      "submission": 1,
+      "to": "done",
+      "verification": [
+       {
+        "deciding_results": [
+         "8d86fc2ad172d979c1c5ff28bdde6a49285d839b8e8e02556fbe42c8edeebf9d"
+        ],
+        "gate": "has-fix",
+        "required": true,
+        "state": "passed"
+       },
+       {
+        "deciding_results": [
+         "436feb3a1d97560e8f7a9267530e0c3f4cb6990ad193bcc7a40fe9179bdd6604"
+        ],
+        "gate": "tests",
+        "required": true,
+        "state": "passed"
+       },
+       {
+        "deciding_results": [
+         "59acfed8be99c3e8bfa055382c52e89327b699e54bdf198f48fc446e862de79f"
+        ],
+        "gate": "review",
+        "required": true,
+        "state": "passed"
+       }
+      ]
+     },
+     "prev_hash": "024ba6ac997185a302adeb95db502ce27a2abbb55311191e1c85b118b51516f4",
+     "run_id": "run-20261023-193432-f5e5",
+     "seq": 24,
+     "stream": "run:run-20261023-193432-f5e5",
+     "task_id": "run-20261023-193432-f5e5-fix-add",
+     "type": "task.transitioned"
+    }
+   ],
+   "rework": [],
+   "run_id": "run-20261023-193432-f5e5",
+   "spend": {
+    "at_least": null,
+    "calls": 2,
+    "cost_unknown_calls": 0,
+    "failed_calls_no_cost": 0,
+    "other_currency_calls": 0,
+    "price_unknown_calls": 0,
+    "total": {
+     "amount": "0.00109650",
+     "currency": "USD"
+    },
+    "unknown_cost_calls": 0
+   },
+   "spend_by_attempt": [
+    {
+     "at_least": null,
+     "attempt": 0,
+     "calls": 0,
+     "cost_unknown_calls": 0,
+     "failed_calls_no_cost": 0,
+     "other_currency_calls": 0,
+     "price_unknown_calls": 0,
+     "total": {
+      "amount": "0",
+      "currency": "USD"
+     },
+     "unknown_cost_calls": 0
+    },
+    {
+     "at_least": null,
+     "attempt": 1,
+     "calls": 2,
+     "cost_unknown_calls": 0,
+     "failed_calls_no_cost": 0,
+     "other_currency_calls": 0,
+     "price_unknown_calls": 0,
+     "total": {
+      "amount": "0.00109650",
+      "currency": "USD"
+     },
+     "unknown_cost_calls": 0
+    }
+   ],
+   "stream": "run:run-20261023-193432-f5e5",
+   "task": {
+    "assignee": "dana",
+    "attempt": 1,
+    "definition_of_done": {
+     "criteria": [
+      {
+       "id": "fixed",
+       "text": "calc.py returns a + b in add()"
+      },
+      {
+       "id": "tests-pass",
+       "text": "The project's tests pass in the sandbox"
+      },
+      {
+       "id": "safe-change",
+       "text": "Only add() changed; no public API changed"
+      }
+     ],
+     "gates": [
+      {
+       "checks": [
+        "fixed"
+       ],
+       "id": "has-fix",
+       "kind": "rule",
+       "required": true
+      },
+      {
+       "checks": [
+        "tests-pass"
+       ],
+       "id": "tests",
+       "kind": "test_command",
+       "required": true
+      },
+      {
+       "checks": [
+        "safe-change"
+       ],
+       "id": "review",
+       "kind": "verifier",
+       "required": true
+      }
+     ]
+    },
+    "id": "run-20261023-193432-f5e5-fix-add",
+    "max_attempts": 2,
+    "status": "done",
+    "submission": 1,
+    "title": "Fix the failing add() test in calc.py",
+    "version": 6,
+    "wait_warning": null
+   },
+   "total_entries": 21,
+   "truncated": false
+  },
+  "status": 200
+ },
+ "task_audit_missing_task": {
+  "body": {
+   "code": "not_found",
+   "detail": "no such task",
+   "status": 404,
+   "title": "not_found",
+   "type": "urn:nuramesh:not_found"
+  },
+  "status": 404
+ },
+ "task_audit_sent_back": {
+  "body": {
+   "approvals": [],
+   "attempts": [
+    {
+     "attempt": 1,
+     "gates": [
+      {
+       "at": "2026-10-23T19:33:50.031647+00:00",
+       "checked_by": "gate:rule",
+       "gate": "has-fix",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "rule",
+       "ledger_seq": 16,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "8766e69935a3349de2a6e7d1222750b294489643832df1e8ac5f51d3d908f5fd",
+       "verdicts": [
+        {
+         "criterion": "fixed",
+         "text": "calc.py returns a + b in add()",
+         "verdict": "met"
+        }
+       ]
+      },
+      {
+       "at": "2026-10-23T19:33:50.494130+00:00",
+       "checked_by": "gate:test_command",
+       "gate": "tests",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "test_command",
+       "ledger_seq": 17,
+       "outcome": "failed",
+       "required": true,
+       "result_hash": "a3d02124379077f93e7a0a825604efb2aeaf6e0589cbe09bfcb440c1bf9f0e1c",
+       "verdicts": [
+        {
+         "criterion": "tests-pass",
+         "text": "The project's tests pass in the sandbox",
+         "verdict": "not_met"
+        }
+       ]
+      }
+     ],
+     "moved_to": "in_progress",
+     "reason": "a required gate failed; another attempt",
+     "reason_hash": null,
+     "submission": 1,
+     "verification": [
+      {
+       "deciding_results": [
+        "8766e69935a3349de2a6e7d1222750b294489643832df1e8ac5f51d3d908f5fd"
+       ],
+       "gate": "has-fix",
+       "required": true,
+       "state": "passed"
+      },
+      {
+       "deciding_results": [
+        "a3d02124379077f93e7a0a825604efb2aeaf6e0589cbe09bfcb440c1bf9f0e1c"
+       ],
+       "gate": "tests",
+       "required": true,
+       "state": "failed"
+      },
+      {
+       "deciding_results": [],
+       "gate": "review",
+       "required": true,
+       "state": "missing"
+      }
+     ]
+    },
+    {
+     "attempt": 2,
+     "gates": [
+      {
+       "at": "2026-10-23T19:33:51.865462+00:00",
+       "checked_by": "gate:rule",
+       "gate": "has-fix",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "rule",
+       "ledger_seq": 27,
+       "outcome": "passed",
+       "required": true,
+       "result_hash": "a6fe90682f4c2d7a198cf7b8916279cdb9593ca5efb12491d298765548bed852",
+       "verdicts": [
+        {
+         "criterion": "fixed",
+         "text": "calc.py returns a + b in add()",
+         "verdict": "met"
+        }
+       ]
+      },
+      {
+       "at": "2026-10-23T19:33:52.177600+00:00",
+       "checked_by": "gate:test_command",
+       "gate": "tests",
+       "hash_key_id": null,
+       "hash_scheme": null,
+       "kind": "test_command",
+       "ledger_seq": 28,
+       "outcome": "failed",
+       "required": true,
+       "result_hash": "5d476030e05542f9a0e78617a256990898f22e92a68363d98a27efa18491f6e4",
+       "verdicts": [
+        {
+         "criterion": "tests-pass",
+         "text": "The project's tests pass in the sandbox",
+         "verdict": "not_met"
+        }
+       ]
+      }
+     ],
+     "moved_to": "needs_human",
+     "reason": "attempts used up; failed: tests",
+     "reason_hash": null,
+     "submission": 2,
+     "verification": [
+      {
+       "deciding_results": [
+        "a6fe90682f4c2d7a198cf7b8916279cdb9593ca5efb12491d298765548bed852"
+       ],
+       "gate": "has-fix",
+       "required": true,
+       "state": "passed"
+      },
+      {
+       "deciding_results": [
+        "5d476030e05542f9a0e78617a256990898f22e92a68363d98a27efa18491f6e4"
+       ],
+       "gate": "tests",
+       "required": true,
+       "state": "failed"
+      },
+      {
+       "deciding_results": [],
+       "gate": "review",
+       "required": true,
+       "state": "missing"
+      }
+     ]
+    }
+   ],
+   "chain": {
+    "head": "7356616571f543841ffa0c1e607064890f029c14be8c1a6438a4482f1c761d77",
+    "head_seq": 32,
+    "ok": true
+   },
+   "decisions": [],
+   "entries": [
+    {
+     "actor": "agent:chief",
+     "at": "2026-10-23T19:33:48.295769Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "d0c8dbdf1b8fa359f20974c41ffc7597eaa697060d2f192477568958a7534881",
+     "payload": {
+      "definition_of_done": {
+       "criteria": [
+        {
+         "id": "fixed",
+         "text": "calc.py returns a + b in add()"
+        },
+        {
+         "id": "tests-pass",
+         "text": "The project's tests pass in the sandbox"
+        },
+        {
+         "id": "safe-change",
+         "text": "Only add() changed; no public API changed"
+        }
+       ],
+       "gates": [
+        {
+         "checks": [
+          "fixed"
+         ],
+         "config": {
+          "rules": [
+           {
+            "check": {
+             "type": "contains",
+             "value": "return a + b"
+            },
+            "criterion": "fixed"
+           }
+          ]
+         },
+         "id": "has-fix",
+         "kind": "rule",
+         "required": true
+        },
+        {
+         "checks": [
+          "tests-pass"
+         ],
+         "config": {
+          "command": [
+           "python",
+           "-m",
+           "unittest",
+           "-v"
+          ],
+          "image": "docker.io/library/python@sha256:92abd2ba1bdfb48b1e2ac224b582dd1558d0d4bb11c903b126b5bf9c448fd656",
+          "limits": {
+           "timeout_seconds": 120
+          }
+         },
+         "id": "tests",
+         "kind": "test_command",
+         "required": true
+        },
+        {
+         "checks": [
+          "safe-change"
+         ],
+         "config": {
+          "verifier": "rhea"
+         },
+         "id": "review",
+         "kind": "verifier",
+         "required": true
+        }
+       ]
+      },
+      "max_attempts": 2,
+      "parent_id": null,
+      "status": "proposed",
+      "title": "Fix the failing add() test in calc.py"
+     },
+     "prev_hash": "4d94f93ccbdc3b7c71d173b05f0e9f330f6267764e47f631501ad098dc28c5f5",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 2,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.created"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:48.297229Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "bf2b26da7995110b43ec6b55d768bd358adeadbd5e822218418b49e88dd7731c",
+     "payload": {
+      "action": "delegate",
+      "agent": "chief",
+      "decision": "allow",
+      "reason": "rule 0 says allow",
+      "role": "cos",
+      "rule": 0,
+      "target": "dana"
+     },
+     "prev_hash": "8be19dc09a2ac8e29cc0c6598ae8314837c7aada8e6abd588cf01647fc402b58",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 5,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "agent:chief",
+     "at": "2026-10-23T19:33:48.297752Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "b51d287a24ba415275a54aa4d919d82772cd8a1f537a523f80a61ed2d79cbae6",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 0,
+      "attempt_before": 0,
+      "closed_attempt": false,
+      "from": "proposed",
+      "max_attempts": 2,
+      "reason": null,
+      "submission": 0,
+      "to": "assigned"
+     },
+     "prev_hash": "bf2b26da7995110b43ec6b55d768bd358adeadbd5e822218418b49e88dd7731c",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 6,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:33:48.298069Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "ee43da9a81de50a33fa775edcd9e638e6980d2bb70e84829f4299627b4c29810",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 1,
+      "attempt_before": 0,
+      "closed_attempt": false,
+      "from": "assigned",
+      "max_attempts": 2,
+      "reason": null,
+      "submission": 0,
+      "to": "in_progress"
+     },
+     "prev_hash": "b51d287a24ba415275a54aa4d919d82772cd8a1f537a523f80a61ed2d79cbae6",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 7,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:33:48.298314Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "24e1916f83c5f007d98e0266783339c76ef1fbe1e0572a31b2b8241f3352574c",
+     "payload": {
+      "action": "write_file",
+      "agent": "dana",
+      "decision": "allow",
+      "reason": null,
+      "role": "developer",
+      "rule": 2,
+      "target": "calc.py"
+     },
+     "prev_hash": "ee43da9a81de50a33fa775edcd9e638e6980d2bb70e84829f4299627b4c29810",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 8,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:48.298992Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "b42a530f2639826847802407536f2bb93f078758f8f235f7ae5683f5f1cee143",
+     "payload": {
+      "action": "call_model",
+      "agent": "dana",
+      "decision": "allow",
+      "reason": "rule 0 says allow",
+      "role": "developer",
+      "rule": 0,
+      "target": "azure-openai/gpt-5.4-mini"
+     },
+     "prev_hash": "24e1916f83c5f007d98e0266783339c76ef1fbe1e0572a31b2b8241f3352574c",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 9,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:48.299217Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "d8979deb75f3762033b3f1a22092b08fd7beac8d72c2d2e59112d3238aa03f08",
+     "payload": {
+      "action": "spend",
+      "agent": "dana",
+      "amount": "0.00210375",
+      "decision": "allow",
+      "reason": "rule 1 says allow",
+      "role": "developer",
+      "rule": 1
+     },
+     "prev_hash": "b42a530f2639826847802407536f2bb93f078758f8f235f7ae5683f5f1cee143",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 10,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:48.299675Z",
+     "cost": {
+      "amount": "0.00210375",
+      "currency": "USD"
+     },
+     "cost_basis": "reserved",
+     "hash": "2104d5d3c9a7ef7bfec7a93afabe06d0a018fc37cc93668ce5b428ff16e19631",
+     "payload": {
+      "agent": "dana",
+      "budgets": [
+       "dana-monthly",
+       "rb-9c2aeb60cd4c"
+      ],
+      "details": {
+       "model": "gpt-5.4-mini",
+       "price": {
+        "at": "2026-10-23T19:33:48.299121+00:00",
+        "basis": "known",
+        "cached_input_per_million": "0.075",
+        "currency": "USD",
+        "effective_from": "2026-03-01T00:00:00+00:00",
+        "input_per_million": "0.75",
+        "model": "gpt-5.4-mini",
+        "output_per_million": "4.50",
+        "provider": "azure-openai",
+        "source": "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"
+       },
+       "provider": "azure-openai"
+      },
+      "reservation": "run-20261023-193348-ef9e-fix-add-a1-c1"
+     },
+     "prev_hash": "d8979deb75f3762033b3f1a22092b08fd7beac8d72c2d2e59112d3238aa03f08",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 11,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "budget.reserved"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.029095Z",
+     "cost": {
+      "amount": "0.00052050",
+      "currency": "USD"
+     },
+     "cost_basis": "actual",
+     "hash": "9d0379b25146ea3f48755eb12621ede404827fcfd6c4eba81428a033e9f64a46",
+     "payload": {
+      "agent": "dana",
+      "budget_charge": "0.00052050",
+      "budgets": [
+       {
+        "available": "4.99580750",
+        "budget": "dana-monthly",
+        "overrun": "0",
+        "released": "0.00158325",
+        "spent": "0.00419250"
+       },
+       {
+        "available": "1.99947950",
+        "budget": "rb-9c2aeb60cd4c",
+        "overrun": "0",
+        "released": "0.00158325",
+        "spent": "0.00052050"
+       }
+      ],
+      "details": {
+       "model": "gpt-5.4-mini",
+       "price_basis": "known",
+       "provider": "azure-openai",
+       "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "input_tokens": 124,
+        "output_tokens": 95
+       }
+      },
+      "reservation": "run-20261023-193348-ef9e-fix-add-a1-c1",
+      "reserved": "0.00210375"
+     },
+     "prev_hash": "2104d5d3c9a7ef7bfec7a93afabe06d0a018fc37cc93668ce5b428ff16e19631",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 12,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "budget.settled"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.029790Z",
+     "cost": {
+      "amount": "0.00052050",
+      "currency": "USD"
+     },
+     "cost_basis": "actual",
+     "hash": "6a9a13431fb241da75079cbfaa11d495ffede72fea18ce6818d7d568cb1de3ad",
+     "payload": {
+      "agent": "dana",
+      "finish_reason": "stop",
+      "latency_ms": 1728,
+      "model": "gpt-5.4-mini",
+      "outcome": "ok",
+      "price": {
+       "at": "2026-10-23T19:33:48.299121+00:00",
+       "basis": "known",
+       "cached_input_per_million": "0.075",
+       "currency": "USD",
+       "effective_from": "2026-03-01T00:00:00+00:00",
+       "input_per_million": "0.75",
+       "model": "gpt-5.4-mini",
+       "output_per_million": "4.50",
+       "provider": "azure-openai",
+       "source": "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"
+      },
+      "prompt_hash": "b3a40bfbfb8e11cba017f10a24d877306abb754b3c532b57b44f1552c57ee05e",
+      "provider": "azure-openai",
+      "reservation": "run-20261023-193348-ef9e-fix-add-a1-c1",
+      "response_hash": "93f4ea0cb549bf4da4c47f75371c191e3465b48f8c473b9c6d07737898ed18fe",
+      "usage": {
+       "cache_write_tokens": 0,
+       "cached_input_tokens": 0,
+       "input_tokens": 124,
+       "output_tokens": 95
+      }
+     },
+     "prev_hash": "9d0379b25146ea3f48755eb12621ede404827fcfd6c4eba81428a033e9f64a46",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 13,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "model.called"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:33:50.030311Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "369727a75ce0d79b55ff5dc9b0a6a9db1424a541e9c550e9886683e2da53ce77",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 1,
+      "attempt_before": 1,
+      "closed_attempt": false,
+      "from": "in_progress",
+      "max_attempts": 2,
+      "reason": null,
+      "submission": 1,
+      "to": "submitted"
+     },
+     "prev_hash": "6a9a13431fb241da75079cbfaa11d495ffede72fea18ce6818d7d568cb1de3ad",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 14,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.030736Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "26fd7588d7235f37762eb0c224ce6149c38a36f71f6348330fb3545448c24931",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 1,
+      "attempt_before": 1,
+      "closed_attempt": false,
+      "from": "submitted",
+      "max_attempts": 2,
+      "reason": "running gates",
+      "submission": 1,
+      "to": "verifying"
+     },
+     "prev_hash": "369727a75ce0d79b55ff5dc9b0a6a9db1424a541e9c550e9886683e2da53ce77",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 15,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.031647Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "7dda526e264fba83a45dfc756f23c1b176f4674f84ad47201412226ca2d8daff",
+     "payload": {
+      "attempt": 1,
+      "checked_by": "gate:rule",
+      "gate": "has-fix",
+      "outcome": "passed",
+      "result_hash": "8766e69935a3349de2a6e7d1222750b294489643832df1e8ac5f51d3d908f5fd",
+      "submission": 1,
+      "verdicts": [
+       {
+        "criterion": "fixed",
+        "verdict": "met"
+       }
+      ]
+     },
+     "prev_hash": "26fd7588d7235f37762eb0c224ce6149c38a36f71f6348330fb3545448c24931",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 16,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "gate.completed"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.494130Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "6698674b6709913eeb47aa75cd5b07482f736f19cc32a5591e246bb9272e26f1",
+     "payload": {
+      "attempt": 1,
+      "checked_by": "gate:test_command",
+      "gate": "tests",
+      "outcome": "failed",
+      "result_hash": "a3d02124379077f93e7a0a825604efb2aeaf6e0589cbe09bfcb440c1bf9f0e1c",
+      "submission": 1,
+      "verdicts": [
+       {
+        "criterion": "tests-pass",
+        "verdict": "not_met"
+       }
+      ]
+     },
+     "prev_hash": "7dda526e264fba83a45dfc756f23c1b176f4674f84ad47201412226ca2d8daff",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 17,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "gate.completed"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.495169Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "b109083e787c7d8ad05b3f6405fb0de9b0166f0dd0c4a0c66de68561d166fdcf",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 2,
+      "attempt_before": 1,
+      "closed_attempt": true,
+      "from": "verifying",
+      "max_attempts": 2,
+      "reason": "a required gate failed; another attempt",
+      "submission": 1,
+      "to": "in_progress",
+      "verification": [
+       {
+        "deciding_results": [
+         "8766e69935a3349de2a6e7d1222750b294489643832df1e8ac5f51d3d908f5fd"
+        ],
+        "gate": "has-fix",
+        "required": true,
+        "state": "passed"
+       },
+       {
+        "deciding_results": [
+         "a3d02124379077f93e7a0a825604efb2aeaf6e0589cbe09bfcb440c1bf9f0e1c"
+        ],
+        "gate": "tests",
+        "required": true,
+        "state": "failed"
+       },
+       {
+        "deciding_results": [],
+        "gate": "review",
+        "required": true,
+        "state": "missing"
+       }
+      ]
+     },
+     "prev_hash": "6698674b6709913eeb47aa75cd5b07482f736f19cc32a5591e246bb9272e26f1",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 18,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:33:50.495669Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "664ec4f0adf361708083e2a7834b204cd9d189c8d3c6f8d8dfb71f45de7ff70e",
+     "payload": {
+      "action": "write_file",
+      "agent": "dana",
+      "decision": "allow",
+      "reason": null,
+      "role": "developer",
+      "rule": 2,
+      "target": "calc.py"
+     },
+     "prev_hash": "b109083e787c7d8ad05b3f6405fb0de9b0166f0dd0c4a0c66de68561d166fdcf",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 19,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.496056Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "6f8cc41ffb3c6562a0fe0c85c90f5b92a1797857cfb3b3f8319d8984aa43e172",
+     "payload": {
+      "action": "call_model",
+      "agent": "dana",
+      "decision": "allow",
+      "reason": "rule 0 says allow",
+      "role": "developer",
+      "rule": 0,
+      "target": "azure-openai/gpt-5.4-mini"
+     },
+     "prev_hash": "664ec4f0adf361708083e2a7834b204cd9d189c8d3c6f8d8dfb71f45de7ff70e",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 20,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.496309Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "f53fb36fd29e18bb17ef1147d747c8eb1ceab50d974aef2eb7d39e8ef25c70b1",
+     "payload": {
+      "action": "spend",
+      "agent": "dana",
+      "amount": "0.00249975",
+      "decision": "allow",
+      "reason": "rule 1 says allow",
+      "role": "developer",
+      "rule": 1
+     },
+     "prev_hash": "6f8cc41ffb3c6562a0fe0c85c90f5b92a1797857cfb3b3f8319d8984aa43e172",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 21,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "policy.decided"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.496628Z",
+     "cost": {
+      "amount": "0.00249975",
+      "currency": "USD"
+     },
+     "cost_basis": "reserved",
+     "hash": "652cc24283bda60a7f852624a7021e2bb2ac6ab2e939fb9606c3bc9cd63fd54f",
+     "payload": {
+      "agent": "dana",
+      "budgets": [
+       "dana-monthly",
+       "rb-9c2aeb60cd4c"
+      ],
+      "details": {
+       "model": "gpt-5.4-mini",
+       "price": {
+        "at": "2026-10-23T19:33:50.496210+00:00",
+        "basis": "known",
+        "cached_input_per_million": "0.075",
+        "currency": "USD",
+        "effective_from": "2026-03-01T00:00:00+00:00",
+        "input_per_million": "0.75",
+        "model": "gpt-5.4-mini",
+        "output_per_million": "4.50",
+        "provider": "azure-openai",
+        "source": "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"
+       },
+       "provider": "azure-openai"
+      },
+      "reservation": "run-20261023-193348-ef9e-fix-add-a2-c1"
+     },
+     "prev_hash": "f53fb36fd29e18bb17ef1147d747c8eb1ceab50d974aef2eb7d39e8ef25c70b1",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 22,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "budget.reserved"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:51.862891Z",
+     "cost": {
+      "amount": "0.00057450",
+      "currency": "USD"
+     },
+     "cost_basis": "actual",
+     "hash": "2b8dbe46226490ca6c928a46e008486c38bc91ba154ab821d622b4a3061ce2e1",
+     "payload": {
+      "agent": "dana",
+      "budget_charge": "0.00057450",
+      "budgets": [
+       {
+        "available": "4.99523300",
+        "budget": "dana-monthly",
+        "overrun": "0",
+        "released": "0.00192525",
+        "spent": "0.00476700"
+       },
+       {
+        "available": "1.99890500",
+        "budget": "rb-9c2aeb60cd4c",
+        "overrun": "0",
+        "released": "0.00192525",
+        "spent": "0.00109500"
+       }
+      ],
+      "details": {
+       "model": "gpt-5.4-mini",
+       "price_basis": "known",
+       "provider": "azure-openai",
+       "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "input_tokens": 256,
+        "output_tokens": 85
+       }
+      },
+      "reservation": "run-20261023-193348-ef9e-fix-add-a2-c1",
+      "reserved": "0.00249975"
+     },
+     "prev_hash": "652cc24283bda60a7f852624a7021e2bb2ac6ab2e939fb9606c3bc9cd63fd54f",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 23,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "budget.settled"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:51.863606Z",
+     "cost": {
+      "amount": "0.00057450",
+      "currency": "USD"
+     },
+     "cost_basis": "actual",
+     "hash": "56695e314d38682bcb17cc534d523b0a81fe56682917ef060005fbe1ef4795e2",
+     "payload": {
+      "agent": "dana",
+      "finish_reason": "stop",
+      "latency_ms": 1366,
+      "model": "gpt-5.4-mini",
+      "outcome": "ok",
+      "price": {
+       "at": "2026-10-23T19:33:50.496210+00:00",
+       "basis": "known",
+       "cached_input_per_million": "0.075",
+       "currency": "USD",
+       "effective_from": "2026-03-01T00:00:00+00:00",
+       "input_per_million": "0.75",
+       "model": "gpt-5.4-mini",
+       "output_per_million": "4.50",
+       "provider": "azure-openai",
+       "source": "Azure Retail Prices API, gpt-5.4-mini GlobalStandard, read 2026-10-23"
+      },
+      "prompt_hash": "2c927e73e83f36e3ea8d0d4d94e9ce87fda62f5b920bcf54e8eb2550d8398b6b",
+      "provider": "azure-openai",
+      "reservation": "run-20261023-193348-ef9e-fix-add-a2-c1",
+      "response_hash": "4c1557347cc21be6f1f46f514f49ff8386051d0d2f9920f00f06cf4a48182989",
+      "usage": {
+       "cache_write_tokens": 0,
+       "cached_input_tokens": 0,
+       "input_tokens": 256,
+       "output_tokens": 85
+      }
+     },
+     "prev_hash": "2b8dbe46226490ca6c928a46e008486c38bc91ba154ab821d622b4a3061ce2e1",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 24,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "model.called"
+    },
+    {
+     "actor": "agent:dana",
+     "at": "2026-10-23T19:33:51.864071Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "cdcc392e3c9876d41ba09eb48204c04dc580f4db2c641b7e42c152a132dc672d",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 2,
+      "attempt_before": 2,
+      "closed_attempt": false,
+      "from": "in_progress",
+      "max_attempts": 2,
+      "reason": null,
+      "submission": 2,
+      "to": "submitted"
+     },
+     "prev_hash": "56695e314d38682bcb17cc534d523b0a81fe56682917ef060005fbe1ef4795e2",
+     "redacted": [
+      "reason"
+     ],
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 25,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:51.864362Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "e895ad9115ac6b1c4a62af74944543b011ec99fbecb1eac43929ab7df7e74c8c",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 2,
+      "attempt_before": 2,
+      "closed_attempt": false,
+      "from": "submitted",
+      "max_attempts": 2,
+      "reason": "running gates",
+      "submission": 2,
+      "to": "verifying"
+     },
+     "prev_hash": "cdcc392e3c9876d41ba09eb48204c04dc580f4db2c641b7e42c152a132dc672d",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 26,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:51.865462Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "3263a7b691e8ad0db9a7e266250fc3991be59da8e79225e0ad0cc2a50c76f31d",
+     "payload": {
+      "attempt": 2,
+      "checked_by": "gate:rule",
+      "gate": "has-fix",
+      "outcome": "passed",
+      "result_hash": "a6fe90682f4c2d7a198cf7b8916279cdb9593ca5efb12491d298765548bed852",
+      "submission": 2,
+      "verdicts": [
+       {
+        "criterion": "fixed",
+        "verdict": "met"
+       }
+      ]
+     },
+     "prev_hash": "e895ad9115ac6b1c4a62af74944543b011ec99fbecb1eac43929ab7df7e74c8c",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 27,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "gate.completed"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:52.177600Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "4e6f73e51a37c7d69517bd39f170e3582088cbaeba26d2da9dfd5cf79f422402",
+     "payload": {
+      "attempt": 2,
+      "checked_by": "gate:test_command",
+      "gate": "tests",
+      "outcome": "failed",
+      "result_hash": "5d476030e05542f9a0e78617a256990898f22e92a68363d98a27efa18491f6e4",
+      "submission": 2,
+      "verdicts": [
+       {
+        "criterion": "tests-pass",
+        "verdict": "not_met"
+       }
+      ]
+     },
+     "prev_hash": "3263a7b691e8ad0db9a7e266250fc3991be59da8e79225e0ad0cc2a50c76f31d",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 28,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "gate.completed"
+    },
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:52.179002Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "e75001403b11808125c28c38733dc6ee9d7a588d16da4995d0c446a55829b93d",
+     "payload": {
+      "assignee": "dana",
+      "attempt_after": 2,
+      "attempt_before": 2,
+      "closed_attempt": true,
+      "from": "verifying",
+      "max_attempts": 2,
+      "reason": "attempts used up; failed: tests",
+      "submission": 2,
+      "to": "needs_human",
+      "verification": [
+       {
+        "deciding_results": [
+         "a6fe90682f4c2d7a198cf7b8916279cdb9593ca5efb12491d298765548bed852"
+        ],
+        "gate": "has-fix",
+        "required": true,
+        "state": "passed"
+       },
+       {
+        "deciding_results": [
+         "5d476030e05542f9a0e78617a256990898f22e92a68363d98a27efa18491f6e4"
+        ],
+        "gate": "tests",
+        "required": true,
+        "state": "failed"
+       },
+       {
+        "deciding_results": [],
+        "gate": "review",
+        "required": true,
+        "state": "missing"
+       }
+      ]
+     },
+     "prev_hash": "4e6f73e51a37c7d69517bd39f170e3582088cbaeba26d2da9dfd5cf79f422402",
+     "run_id": "run-20261023-193348-ef9e",
+     "seq": 29,
+     "stream": "run:run-20261023-193348-ef9e",
+     "task_id": "run-20261023-193348-ef9e-fix-add",
+     "type": "task.transitioned"
+    }
+   ],
+   "rework": [
+    {
+     "actor": "system",
+     "at": "2026-10-23T19:33:50.495169+00:00",
+     "attempt_after": 2,
+     "attempt_before": 1,
+     "by": "gate",
+     "feedback_hash": null,
+     "from": "verifying",
+     "ledger_seq": 18,
+     "max_attempts": 2,
+     "reason": "a required gate failed; another attempt",
+     "reason_hash": null,
+     "to": "in_progress"
+    }
+   ],
+   "run_id": "run-20261023-193348-ef9e",
+   "spend": {
+    "at_least": null,
+    "calls": 2,
+    "cost_unknown_calls": 0,
+    "failed_calls_no_cost": 0,
+    "other_currency_calls": 0,
+    "price_unknown_calls": 0,
+    "total": {
+     "amount": "0.00109500",
+     "currency": "USD"
+    },
+    "unknown_cost_calls": 0
+   },
+   "spend_by_attempt": [
+    {
+     "at_least": null,
+     "attempt": 0,
+     "calls": 0,
+     "cost_unknown_calls": 0,
+     "failed_calls_no_cost": 0,
+     "other_currency_calls": 0,
+     "price_unknown_calls": 0,
+     "total": {
+      "amount": "0",
+      "currency": "USD"
+     },
+     "unknown_cost_calls": 0
+    },
+    {
+     "at_least": null,
+     "attempt": 1,
+     "calls": 1,
+     "cost_unknown_calls": 0,
+     "failed_calls_no_cost": 0,
+     "other_currency_calls": 0,
+     "price_unknown_calls": 0,
+     "total": {
+      "amount": "0.00052050",
+      "currency": "USD"
+     },
+     "unknown_cost_calls": 0
+    },
+    {
+     "at_least": null,
+     "attempt": 2,
+     "calls": 1,
+     "cost_unknown_calls": 0,
+     "failed_calls_no_cost": 0,
+     "other_currency_calls": 0,
+     "price_unknown_calls": 0,
+     "total": {
+      "amount": "0.00057450",
+      "currency": "USD"
+     },
+     "unknown_cost_calls": 0
+    }
+   ],
+   "stream": "run:run-20261023-193348-ef9e",
+   "task": {
+    "assignee": "dana",
+    "attempt": 2,
+    "definition_of_done": {
+     "criteria": [
+      {
+       "id": "fixed",
+       "text": "calc.py returns a + b in add()"
+      },
+      {
+       "id": "tests-pass",
+       "text": "The project's tests pass in the sandbox"
+      },
+      {
+       "id": "safe-change",
+       "text": "Only add() changed; no public API changed"
+      }
+     ],
+     "gates": [
+      {
+       "checks": [
+        "fixed"
+       ],
+       "id": "has-fix",
+       "kind": "rule",
+       "required": true
+      },
+      {
+       "checks": [
+        "tests-pass"
+       ],
+       "id": "tests",
+       "kind": "test_command",
+       "required": true
+      },
+      {
+       "checks": [
+        "safe-change"
+       ],
+       "id": "review",
+       "kind": "verifier",
+       "required": true
+      }
+     ]
+    },
+    "id": "run-20261023-193348-ef9e-fix-add",
+    "max_attempts": 2,
+    "status": "needs_human",
+    "submission": 2,
+    "title": "Fix the failing add() test in calc.py",
+    "version": 9,
+    "wait_warning": null
+   },
+   "total_entries": 26,
+   "truncated": false
+  },
+  "status": 200
+ },
+ "verify_all": {
+  "body": {
+   "anchors": {
+    "checked": true,
+    "configured": true,
+    "repository": {
+     "ok": true,
+     "problems": []
+    }
+   },
+   "chain_ok": true,
+   "next_after": null,
+   "note": "chains are checked against the database's own head; anchors prove history",
+   "ok": true,
+   "streams": [
+    {
+     "anchors": {
+      "anchored": true,
+      "count": 1,
+      "problems": [],
+      "status": "anchored",
+      "unanchored_events": 0
+     },
+     "at_seq": null,
+     "checked": 32,
+     "head": "7356616571f543841ffa0c1e607064890f029c14be8c1a6438a4482f1c761d77",
+     "ok": true,
+     "problem": null,
+     "stream": "run:run-20261023-193348-ef9e"
+    },
+    {
+     "anchors": {
+      "anchored": true,
+      "count": 1,
+      "problems": [],
+      "status": "anchored",
+      "unanchored_events": 0
+     },
+     "at_seq": null,
+     "checked": 41,
+     "head": "9d7fdbe78bd9b3e2010039b4c3450ba1e8539ddb9694499e094948ea50f9852c",
+     "ok": true,
+     "problem": null,
+     "stream": "run:run-20261023-193432-f5e5"
+    }
+   ],
+   "truncated": false,
+   "verified": true
+  },
+  "status": 200
+ },
+ "verify_run": {
+  "body": {
+   "anchors": {
+    "checked": true,
+    "configured": true,
+    "repository": {
+     "ok": true,
+     "problems": []
+    }
+   },
+   "chain_ok": true,
+   "note": "chains are checked against the database's own head; anchors prove history",
+   "ok": true,
+   "streams": [
+    {
+     "anchors": {
+      "anchored": true,
+      "count": 1,
+      "problems": [],
+      "status": "anchored",
+      "unanchored_events": 0
+     },
+     "at_seq": null,
+     "checked": 41,
+     "head": "9d7fdbe78bd9b3e2010039b4c3450ba1e8539ddb9694499e094948ea50f9852c",
+     "ok": true,
+     "problem": null,
+     "stream": "run:run-20261023-193432-f5e5"
+    }
+   ],
+   "verified": true
+  },
+  "status": 200
+ },
+ "verify_run_missing": {
+  "body": {
+   "code": "not_found",
+   "detail": "no such run",
+   "status": 404,
+   "title": "not_found",
+   "type": "urn:nuramesh:not_found"
+  },
+  "status": 404
+ },
+ "verify_stream": {
+  "body": {
+   "anchor_status": {
+    "checked": true,
+    "configured": true,
+    "repository": {
+     "ok": true,
+     "problems": []
+    }
+   },
+   "anchors": {
+    "anchored": true,
+    "count": 1,
+    "problems": [],
+    "status": "anchored",
+    "unanchored_events": 0
+   },
+   "at_seq": null,
+   "chain_ok": true,
+   "checked": 41,
+   "head": "9d7fdbe78bd9b3e2010039b4c3450ba1e8539ddb9694499e094948ea50f9852c",
+   "note": "chains are checked against the database's own head; anchors prove history",
+   "ok": true,
+   "problem": null,
+   "stream": "run:run-20261023-193432-f5e5",
+   "verified": true
+  },
+  "status": 200
+ }
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "action": "use_tool",
+    "target": "mcp:issues/search_issues",
+    "decision": "allow"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:issues/get_issue",
+    "decision": "allow"
+  },
+  {
+    "action": "external_message",
+    "target": "*",
+    "decision": "ask"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:issues/create_issue",
+    "decision": "ask"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:issues/update_issue_status",
+    "decision": "ask"
+  },
+  {
+    "action": "use_tool",
+    "target": "mcp:issues/add_issue_comment",
+    "decision": "ask"
+  }
+]

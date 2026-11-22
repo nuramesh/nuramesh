@@ -1,0 +1,226 @@
+{
+ "decide_again": {
+  "body": {
+   "code": "approval_refused",
+   "detail": "approval 'appr-contract-0002' is already approved",
+   "status": 409,
+   "title": "approval_refused",
+   "type": "urn:nuramesh:approval_refused"
+  },
+  "status": 409
+ },
+ "decide_forbidden": {
+  "body": {
+   "code": "authentication_required",
+   "detail": "this needs a signed-in person; sign-in is off because the server was started with --auth off: restart it without that flag",
+   "status": 403,
+   "title": "authentication_required",
+   "type": "urn:nuramesh:authentication_required"
+  },
+  "status": 403
+ },
+ "decide_no_content_store": {
+  "body": {
+   "code": "content_store_unavailable",
+   "detail": "reasons are stored in the content store, which isn't configured (install nuramesh[content] and set NURAMESH_KEY_DIR)",
+   "status": 503,
+   "title": "content_store_unavailable",
+   "type": "urn:nuramesh:content_store_unavailable"
+  },
+  "status": 503
+ },
+ "decided": {
+  "body": {
+   "action": {
+    "amount": null,
+    "kind": "merge",
+    "redact_target": false,
+    "target": "main"
+   },
+   "action_digest": "b7d1974743a4b4e9f577c50a31a8840c159c39166c62e8896389c2d1d35674d0",
+   "agent_id": "omar",
+   "approval_mode": "no_originator",
+   "args_content": null,
+   "args_hash": null,
+   "args_hash_marker": {},
+   "asked_because": "rule 0 says ask",
+   "caller_terms": null,
+   "consumed_at": null,
+   "deadline": null,
+   "decided_at": "2026-10-24T10:00:04Z",
+   "decided_by": "human:ann",
+   "decision_reason": null,
+   "decision_reason_hash": "b0aa15d6eaf89ec8f0e1566e7c39b7a34305a1a0c57eb52176302863035a3ceb",
+   "expired_at": null,
+   "id": "appr-contract-0002",
+   "ledger": [
+    {
+     "actor": "system",
+     "at": "2026-10-24T10:00:03+00:00",
+     "ledger_seq": 5,
+     "type": "approval.requested"
+    },
+    {
+     "actor": "human:ann",
+     "at": "2026-10-24T10:00:04+00:00",
+     "ledger_seq": 6,
+     "type": "approval.decided"
+    }
+   ],
+   "opener": null,
+   "reason_available": true,
+   "requested_at": "2026-10-24T10:00:03Z",
+   "run_id": "run-approvals",
+   "status": "approved",
+   "task_id": "t2",
+   "version": 2
+  },
+  "status": 200
+ },
+ "list": {
+  "body": [
+   {
+    "action": {
+     "amount": null,
+     "kind": "merge",
+     "redact_target": false,
+     "target": "main"
+    },
+    "action_digest": "fc0a3793a0fbbab8bb7b18dab7bfba2ad56b8705554026447dd84b8b4196eb11",
+    "agent_id": "omar",
+    "approval_mode": null,
+    "args_content": null,
+    "args_hash": null,
+    "args_hash_marker": {},
+    "asked_because": "rule 0 says ask",
+    "consumed_at": null,
+    "deadline": null,
+    "decided_at": null,
+    "decided_by": null,
+    "decision_reason": null,
+    "decision_reason_hash": null,
+    "expired_at": null,
+    "id": "appr-contract-0001",
+    "opener": null,
+    "requested_at": "2026-10-24T10:00:02Z",
+    "run_id": "run-approvals",
+    "status": "pending",
+    "task_id": "t1"
+   },
+   {
+    "action": {
+     "amount": null,
+     "kind": "merge",
+     "redact_target": false,
+     "target": "main"
+    },
+    "action_digest": "b7d1974743a4b4e9f577c50a31a8840c159c39166c62e8896389c2d1d35674d0",
+    "agent_id": "omar",
+    "approval_mode": "no_originator",
+    "args_content": null,
+    "args_hash": null,
+    "args_hash_marker": {},
+    "asked_because": "rule 0 says ask",
+    "consumed_at": null,
+    "deadline": null,
+    "decided_at": "2026-10-24T10:00:04Z",
+    "decided_by": "human:ann",
+    "decision_reason": null,
+    "decision_reason_hash": "b0aa15d6eaf89ec8f0e1566e7c39b7a34305a1a0c57eb52176302863035a3ceb",
+    "expired_at": null,
+    "id": "appr-contract-0002",
+    "opener": null,
+    "requested_at": "2026-10-24T10:00:03Z",
+    "run_id": "run-approvals",
+    "status": "approved",
+    "task_id": "t2"
+   }
+  ],
+  "status": 200
+ },
+ "list_pending": {
+  "body": [
+   {
+    "action": {
+     "amount": null,
+     "kind": "merge",
+     "redact_target": false,
+     "target": "main"
+    },
+    "action_digest": "fc0a3793a0fbbab8bb7b18dab7bfba2ad56b8705554026447dd84b8b4196eb11",
+    "agent_id": "omar",
+    "approval_mode": null,
+    "args_content": null,
+    "args_hash": null,
+    "args_hash_marker": {},
+    "asked_because": "rule 0 says ask",
+    "consumed_at": null,
+    "deadline": null,
+    "decided_at": null,
+    "decided_by": null,
+    "decision_reason": null,
+    "decision_reason_hash": null,
+    "expired_at": null,
+    "id": "appr-contract-0001",
+    "opener": null,
+    "requested_at": "2026-10-24T10:00:02Z",
+    "run_id": "run-approvals",
+    "status": "pending",
+    "task_id": "t1"
+   }
+  ],
+  "status": 200
+ },
+ "missing": {
+  "body": {
+   "code": "not_found",
+   "detail": "no such approval",
+   "status": 404,
+   "title": "not_found",
+   "type": "urn:nuramesh:not_found"
+  },
+  "status": 404
+ },
+ "pending": {
+  "body": {
+   "action": {
+    "amount": null,
+    "kind": "merge",
+    "redact_target": false,
+    "target": "main"
+   },
+   "action_digest": "fc0a3793a0fbbab8bb7b18dab7bfba2ad56b8705554026447dd84b8b4196eb11",
+   "agent_id": "omar",
+   "approval_mode": null,
+   "args_content": null,
+   "args_hash": null,
+   "args_hash_marker": {},
+   "asked_because": "rule 0 says ask",
+   "caller_terms": null,
+   "consumed_at": null,
+   "deadline": null,
+   "decided_at": null,
+   "decided_by": null,
+   "decision_reason": null,
+   "decision_reason_hash": null,
+   "expired_at": null,
+   "id": "appr-contract-0001",
+   "ledger": [
+    {
+     "actor": "system",
+     "at": "2026-10-24T10:00:02+00:00",
+     "ledger_seq": 3,
+     "type": "approval.requested"
+    }
+   ],
+   "opener": null,
+   "reason_available": false,
+   "requested_at": "2026-10-24T10:00:02Z",
+   "run_id": "run-approvals",
+   "status": "pending",
+   "task_id": "t1",
+   "version": 1
+  },
+  "status": 200
+ }
+}

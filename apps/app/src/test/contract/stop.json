@@ -1,0 +1,663 @@
+{
+ "again": {
+  "body": {
+   "already_requested": true,
+   "ledger_seq": 12,
+   "requested_at": "2026-10-25T09:00:22+00:00",
+   "requested_by": "human:ann",
+   "run_id": "run-demo-window",
+   "status": "stopping",
+   "via": "api"
+  },
+  "status": 200
+ },
+ "forbidden": {
+  "body": {
+   "code": "authentication_required",
+   "detail": "this needs a signed-in person; sign-in is off because the server was started with --auth off: restart it without that flag",
+   "status": 403,
+   "title": "authentication_required",
+   "type": "urn:nuramesh:authentication_required"
+  },
+  "status": 403
+ },
+ "no_content_store": {
+  "body": {
+   "code": "content_store_unavailable",
+   "detail": "reasons are stored in the content store, which isn't configured (install nuramesh[content] and set NURAMESH_KEY_DIR)",
+   "status": 503,
+   "title": "content_store_unavailable",
+   "type": "urn:nuramesh:content_store_unavailable"
+  },
+  "status": 503
+ },
+ "no_reason": {
+  "body": {
+   "already_requested": false,
+   "ledger_seq": 12,
+   "requested_at": "2026-10-25T09:00:22+00:00",
+   "requested_by": "human:ann",
+   "run_id": "run-demo-window",
+   "status": "stopping",
+   "via": "api"
+  },
+  "status": 200
+ },
+ "running_before": {
+  "body": {
+   "approvals": [],
+   "budget_alerts": [
+    {
+     "budget": "dana-daily",
+     "held": true,
+     "kind": "limit_passed",
+     "ledger_seq": 6,
+     "limit": "0.01",
+     "on_breach": "hold",
+     "over_by": "0.01",
+     "scope": "agent",
+     "scope_id": "dana",
+     "spent": "0.02",
+     "window": "day",
+     "window_start": "2026-10-24T00:00:00.000000Z"
+    },
+    {
+     "budget": "rhea-daily",
+     "held": false,
+     "kind": "limit_passed",
+     "ledger_seq": 10,
+     "limit": "0.005",
+     "on_breach": "reset",
+     "over_by": "0.025",
+     "resets_at": "2026-10-25T00:00:00.000000Z",
+     "scope": "agent",
+     "scope_id": "rhea",
+     "spent": "0.03",
+     "window": "day",
+     "window_start": "2026-10-24T00:00:00.000000Z"
+    }
+   ],
+   "budgets": [
+    {
+     "available": {
+      "amount": "0.01",
+      "currency": "USD"
+     },
+     "blocked": true,
+     "definition": {
+      "id": "dana-daily",
+      "limit": {
+       "amount": "0.01",
+       "currency": "USD"
+      },
+      "on_breach": "hold",
+      "org_id": "demo",
+      "scope": "agent",
+      "scope_id": "dana",
+      "window": "day"
+     },
+     "id": "dana-daily",
+     "limit": {
+      "amount": "0.01",
+      "currency": "USD"
+     },
+     "on_breach": "hold",
+     "reserved": {
+      "amount": "0",
+      "currency": "USD"
+     },
+     "scope": "agent",
+     "scope_id": "dana",
+     "spent": {
+      "amount": "0",
+      "currency": "USD"
+     },
+     "version": 3,
+     "window": "day",
+     "window_start": "2026-10-25T00:00:00.000000Z"
+    },
+    {
+     "available": {
+      "amount": "29.999",
+      "currency": "USD"
+     },
+     "blocked": false,
+     "definition": {
+      "id": "org-daily",
+      "limit": {
+       "amount": "30",
+       "currency": "USD"
+      },
+      "on_breach": null,
+      "org_id": "demo",
+      "scope": "org",
+      "scope_id": "demo",
+      "window": "day"
+     },
+     "id": "org-daily",
+     "limit": {
+      "amount": "30",
+      "currency": "USD"
+     },
+     "on_breach": "reset",
+     "reserved": {
+      "amount": "0.000",
+      "currency": "USD"
+     },
+     "scope": "org",
+     "scope_id": "demo",
+     "spent": {
+      "amount": "0.001",
+      "currency": "USD"
+     },
+     "version": 14,
+     "window": "day",
+     "window_start": "2026-10-25T00:00:00.000000Z"
+    },
+    {
+     "available": {
+      "amount": "0.005",
+      "currency": "USD"
+     },
+     "blocked": false,
+     "definition": {
+      "id": "rhea-daily",
+      "limit": {
+       "amount": "0.005",
+       "currency": "USD"
+      },
+      "on_breach": "reset",
+      "org_id": "demo",
+      "scope": "agent",
+      "scope_id": "rhea",
+      "window": "day"
+     },
+     "id": "rhea-daily",
+     "limit": {
+      "amount": "0.005",
+      "currency": "USD"
+     },
+     "on_breach": "reset",
+     "reserved": {
+      "amount": "0",
+      "currency": "USD"
+     },
+     "scope": "agent",
+     "scope_id": "rhea",
+     "spent": {
+      "amount": "0",
+      "currency": "USD"
+     },
+     "version": 3,
+     "window": "day",
+     "window_start": "2026-10-25T00:00:00.000000Z"
+    }
+   ],
+   "canon_commit": null,
+   "chief_of_staff": null,
+   "ended_at": null,
+   "events": 11,
+   "gates": {
+    "error": 0,
+    "failed": 0,
+    "passed": 0,
+    "total": 0
+   },
+   "head": "82c95280562157044e7e62673c6bb813c0f9a38f69d4ba71b99afa70a91e5fd6",
+   "ledger": {
+    "head": "82c95280562157044e7e62673c6bb813c0f9a38f69d4ba71b99afa70a91e5fd6",
+    "ok": true,
+    "seq": 11,
+    "stream": "run:run-demo-window"
+   },
+   "org": "demo",
+   "run_id": "run-demo-window",
+   "spend": {
+    "at_least": null,
+    "by_agent": [],
+    "by_model": [],
+    "calls": 0,
+    "cost_unknown_calls": 0,
+    "total": {
+     "amount": "0",
+     "currency": "USD"
+    },
+    "unknown_cost_calls": 0
+   },
+   "started_at": "2026-10-24T09:00:01+00:00",
+   "started_by": "system",
+   "status": "running",
+   "stop": null,
+   "task_counts": {
+    "by_status": {},
+    "total": 0
+   },
+   "tasks": [],
+   "updated": "2026-10-24T09:00:10+00:00"
+  },
+  "status": 200
+ },
+ "state": {
+  "body": {
+   "ended": false,
+   "ledger_seq": 12,
+   "requested": true,
+   "requested_at": "2026-10-25T09:00:22+00:00",
+   "requested_by": "human:ann",
+   "run_id": "run-demo-window",
+   "stopped": false
+  },
+  "status": 200
+ },
+ "stopping_detail": {
+  "body": {
+   "approvals": [],
+   "budget_alerts": [
+    {
+     "budget": "dana-daily",
+     "held": true,
+     "kind": "limit_passed",
+     "ledger_seq": 6,
+     "limit": "0.01",
+     "on_breach": "hold",
+     "over_by": "0.01",
+     "scope": "agent",
+     "scope_id": "dana",
+     "spent": "0.02",
+     "window": "day",
+     "window_start": "2026-10-24T00:00:00.000000Z"
+    },
+    {
+     "budget": "rhea-daily",
+     "held": false,
+     "kind": "limit_passed",
+     "ledger_seq": 10,
+     "limit": "0.005",
+     "on_breach": "reset",
+     "over_by": "0.025",
+     "resets_at": "2026-10-25T00:00:00.000000Z",
+     "scope": "agent",
+     "scope_id": "rhea",
+     "spent": "0.03",
+     "window": "day",
+     "window_start": "2026-10-24T00:00:00.000000Z"
+    }
+   ],
+   "budgets": [
+    {
+     "available": {
+      "amount": "0.01",
+      "currency": "USD"
+     },
+     "blocked": true,
+     "definition": {
+      "id": "dana-daily",
+      "limit": {
+       "amount": "0.01",
+       "currency": "USD"
+      },
+      "on_breach": "hold",
+      "org_id": "demo",
+      "scope": "agent",
+      "scope_id": "dana",
+      "window": "day"
+     },
+     "id": "dana-daily",
+     "limit": {
+      "amount": "0.01",
+      "currency": "USD"
+     },
+     "on_breach": "hold",
+     "reserved": {
+      "amount": "0",
+      "currency": "USD"
+     },
+     "scope": "agent",
+     "scope_id": "dana",
+     "spent": {
+      "amount": "0",
+      "currency": "USD"
+     },
+     "version": 3,
+     "window": "day",
+     "window_start": "2026-10-25T00:00:00.000000Z"
+    },
+    {
+     "available": {
+      "amount": "29.999",
+      "currency": "USD"
+     },
+     "blocked": false,
+     "definition": {
+      "id": "org-daily",
+      "limit": {
+       "amount": "30",
+       "currency": "USD"
+      },
+      "on_breach": null,
+      "org_id": "demo",
+      "scope": "org",
+      "scope_id": "demo",
+      "window": "day"
+     },
+     "id": "org-daily",
+     "limit": {
+      "amount": "30",
+      "currency": "USD"
+     },
+     "on_breach": "reset",
+     "reserved": {
+      "amount": "0.000",
+      "currency": "USD"
+     },
+     "scope": "org",
+     "scope_id": "demo",
+     "spent": {
+      "amount": "0.001",
+      "currency": "USD"
+     },
+     "version": 14,
+     "window": "day",
+     "window_start": "2026-10-25T00:00:00.000000Z"
+    },
+    {
+     "available": {
+      "amount": "0.005",
+      "currency": "USD"
+     },
+     "blocked": false,
+     "definition": {
+      "id": "rhea-daily",
+      "limit": {
+       "amount": "0.005",
+       "currency": "USD"
+      },
+      "on_breach": "reset",
+      "org_id": "demo",
+      "scope": "agent",
+      "scope_id": "rhea",
+      "window": "day"
+     },
+     "id": "rhea-daily",
+     "limit": {
+      "amount": "0.005",
+      "currency": "USD"
+     },
+     "on_breach": "reset",
+     "reserved": {
+      "amount": "0",
+      "currency": "USD"
+     },
+     "scope": "agent",
+     "scope_id": "rhea",
+     "spent": {
+      "amount": "0",
+      "currency": "USD"
+     },
+     "version": 3,
+     "window": "day",
+     "window_start": "2026-10-25T00:00:00.000000Z"
+    }
+   ],
+   "canon_commit": null,
+   "chief_of_staff": null,
+   "ended_at": null,
+   "events": 12,
+   "gates": {
+    "error": 0,
+    "failed": 0,
+    "passed": 0,
+    "total": 0
+   },
+   "head": "de013673d1a882a5c152bf40a988bb84abb71f071deb215c10ea1f030d14cccb",
+   "ledger": {
+    "head": "de013673d1a882a5c152bf40a988bb84abb71f071deb215c10ea1f030d14cccb",
+    "ok": true,
+    "seq": 12,
+    "stream": "run:run-demo-window"
+   },
+   "org": "demo",
+   "run_id": "run-demo-window",
+   "spend": {
+    "at_least": null,
+    "by_agent": [],
+    "by_model": [],
+    "calls": 0,
+    "cost_unknown_calls": 0,
+    "total": {
+     "amount": "0",
+     "currency": "USD"
+    },
+    "unknown_cost_calls": 0
+   },
+   "started_at": "2026-10-24T09:00:01+00:00",
+   "started_by": "system",
+   "status": "stopping",
+   "stop": {
+    "honoured": false,
+    "ledger_seq": 12,
+    "reason_hash": null,
+    "requested_at": "2026-10-25T09:00:22+00:00",
+    "requested_by": "human:ann",
+    "via": "api"
+   },
+   "task_counts": {
+    "by_status": {},
+    "total": 0
+   },
+   "tasks": [],
+   "updated": "2026-10-25T09:00:22+00:00"
+  },
+  "status": 200
+ },
+ "stopping_ledger": {
+  "body": {
+   "events": [
+    {
+     "actor": "system",
+     "at": "2026-10-24T09:00:10Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "82c95280562157044e7e62673c6bb813c0f9a38f69d4ba71b99afa70a91e5fd6",
+     "payload": {
+      "agent": "rhea",
+      "budgets": [
+       {
+        "budget": "org-daily",
+        "limit": "30",
+        "on_breach": "reset",
+        "overrun": "0.029",
+        "overspent": false,
+        "resets_at": "2026-10-25T00:00:00.000000Z",
+        "scope": "org",
+        "scope_id": "demo",
+        "spent": "1.25",
+        "window": "day",
+        "window_start": "2026-10-24T00:00:00.000000Z"
+       },
+       {
+        "budget": "rhea-daily",
+        "limit": "0.005",
+        "on_breach": "reset",
+        "overrun": "0.029",
+        "overspent": true,
+        "resets_at": "2026-10-25T00:00:00.000000Z",
+        "scope": "agent",
+        "scope_id": "rhea",
+        "spent": "0.03",
+        "window": "day",
+        "window_start": "2026-10-24T00:00:00.000000Z"
+       }
+      ],
+      "reason": "overrun",
+      "reservation": "w3"
+     },
+     "prev_hash": "0138f78aacdfb1bc52f2247cdb87c11aa41bdfd384398367c05aa3a3e4376845",
+     "run_id": "run-demo-window",
+     "seq": 11,
+     "stream": "run:run-demo-window",
+     "task_id": null,
+     "type": "budget.exceeded"
+    },
+    {
+     "actor": "human:ann",
+     "at": "2026-10-25T09:00:22Z",
+     "cost": null,
+     "cost_basis": null,
+     "hash": "de013673d1a882a5c152bf40a988bb84abb71f071deb215c10ea1f030d14cccb",
+     "payload": {
+      "via": "api"
+     },
+     "prev_hash": "82c95280562157044e7e62673c6bb813c0f9a38f69d4ba71b99afa70a91e5fd6",
+     "run_id": "run-demo-window",
+     "seq": 12,
+     "stream": "run:run-demo-window",
+     "task_id": null,
+     "type": "run.stop_requested"
+    }
+   ],
+   "has_more": false,
+   "head": "de013673d1a882a5c152bf40a988bb84abb71f071deb215c10ea1f030d14cccb",
+   "head_seq": 12,
+   "next_after_seq": 12,
+   "stream": "run:run-demo-window"
+  },
+  "status": 200
+ },
+ "stopping_list": {
+  "body": {
+   "runs": [
+    {
+     "ended_at": null,
+     "events": 12,
+     "gates": {
+      "error": 0,
+      "failed": 0,
+      "passed": 0,
+      "total": 0
+     },
+     "head": "de013673d1a882a5c152bf40a988bb84abb71f071deb215c10ea1f030d14cccb",
+     "org": "demo",
+     "run_id": "run-demo-window",
+     "spend": {
+      "calls": 0,
+      "total": {
+       "amount": "0",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     "started_at": "2026-10-24T09:00:01+00:00",
+     "started_by": "system",
+     "status": "stopping",
+     "stop": {
+      "honoured": false,
+      "ledger_seq": 12,
+      "reason_hash": null,
+      "requested_at": "2026-10-25T09:00:22+00:00",
+      "requested_by": "human:ann",
+      "via": "api"
+     },
+     "tasks": {
+      "by_status": {},
+      "total": 0
+     },
+     "updated": "2026-10-25T09:00:22+00:00"
+    },
+    {
+     "ended_at": null,
+     "events": 5,
+     "gates": {
+      "error": 0,
+      "failed": 0,
+      "passed": 0,
+      "total": 0
+     },
+     "head": "4a1ad5aa9c315247bb057be07f40043cf95fe2c44dd7e0aa4acb3812768c2b55",
+     "org": "demo",
+     "run_id": "run-unrolled-window",
+     "spend": {
+      "calls": 0,
+      "total": {
+       "amount": "0",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     "started_at": "2026-10-24T09:00:01+00:00",
+     "started_by": "system",
+     "status": "running",
+     "stop": null,
+     "tasks": {
+      "by_status": {},
+      "total": 0
+     },
+     "updated": "2026-10-25T09:00:18+00:00"
+    },
+    {
+     "ended_at": null,
+     "events": 5,
+     "gates": {
+      "error": 0,
+      "failed": 0,
+      "passed": 0,
+      "total": 0
+     },
+     "head": "cf5c03076aa3e612cd879a132c28781c0aa07fb4d380ab080742e8e0c03c928a",
+     "org": "demo",
+     "run_id": "run-next-day",
+     "spend": {
+      "calls": 0,
+      "total": {
+       "amount": "0",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     "started_at": "2026-10-24T09:00:01+00:00",
+     "started_by": "system",
+     "status": "running",
+     "stop": null,
+     "tasks": {
+      "by_status": {},
+      "total": 0
+     },
+     "updated": "2026-10-25T09:00:17+00:00"
+    },
+    {
+     "ended_at": null,
+     "events": 5,
+     "gates": {
+      "error": 0,
+      "failed": 0,
+      "passed": 0,
+      "total": 0
+     },
+     "head": "01bfc7e101c4dedceb841a83008c8dc74557270de90dc086e0df8e3858b3728d",
+     "org": "demo",
+     "run_id": "run-closed-window",
+     "spend": {
+      "calls": 0,
+      "total": {
+       "amount": "0",
+       "currency": "USD"
+      },
+      "unknown_cost_calls": 0
+     },
+     "started_at": "2026-10-24T09:00:01+00:00",
+     "started_by": "system",
+     "status": "running",
+     "stop": null,
+     "tasks": {
+      "by_status": {},
+      "total": 0
+     },
+     "updated": "2026-10-25T09:00:16+00:00"
+    }
+   ],
+   "scanned": 4,
+   "truncated": false
+  },
+  "status": 200
+ }
+}

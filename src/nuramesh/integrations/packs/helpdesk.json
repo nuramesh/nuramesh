@@ -1,0 +1,71 @@
+{
+  "name": "helpdesk",
+  "pack_version": 1,
+  "data_kind": "personal",
+  "tools": [
+    {
+      "tool": "list_tickets",
+      "kind": "read",
+      "allowed_args": [
+        "queue",
+        "status"
+      ],
+      "effects": [],
+      "paid": false
+    },
+    {
+      "tool": "get_ticket",
+      "kind": "read",
+      "allowed_args": [
+        "ticket_id"
+      ],
+      "effects": [],
+      "paid": false
+    },
+    {
+      "tool": "add_internal_note",
+      "kind": "write",
+      "allowed_args": [
+        "ticket_id",
+        "body"
+      ],
+      "effects": [
+        {
+          "kind": "external_message",
+          "arg": "ticket_id"
+        }
+      ],
+      "paid": false
+    },
+    {
+      "tool": "reply_to_ticket",
+      "kind": "write",
+      "allowed_args": [
+        "ticket_id",
+        "body"
+      ],
+      "effects": [
+        {
+          "kind": "external_message",
+          "arg": "ticket_id"
+        }
+      ],
+      "paid": false
+    },
+    {
+      "tool": "set_ticket_status",
+      "kind": "write",
+      "allowed_args": [
+        "ticket_id",
+        "status"
+      ],
+      "effects": [
+        {
+          "kind": "external_message",
+          "arg": "ticket_id"
+        }
+      ],
+      "paid": false
+    }
+  ]
+}
