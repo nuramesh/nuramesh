@@ -1,7 +1,6 @@
 # Security policy
 
-NuraMesh is a trust layer for AI agent teams, so we take reports about its checks, budgets, ledger and
-anchors seriously.
+NuraMesh is the AI control plane for agent teams, so we take reports about its checks, budgets, ledger and anchors seriously.
 
 ## Reporting a vulnerability
 
@@ -26,7 +25,7 @@ reasonable time to fix a problem before you share it.
 
 ## Supported versions
 
-Only the `main` branch is supported until the first tagged release.
+The latest 0.1.x release is supported.
 
 ## Safe harbour
 

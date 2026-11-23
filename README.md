@@ -136,6 +136,7 @@ uv run nuramesh serve my-team            # start the API server at http://127.0.
 
 ```yaml
 policies:
+  # the policies section holds a list of role rules
   policies:
     - role: developer
       rules:
@@ -153,20 +154,30 @@ budgets:
     limit: {amount: "5.00", currency: USD}
 ```
 
-Anything no rule allows is denied. The full walkthrough is in [docs/quickstart.md](https://docs.nuramesh.com/quickstart/).
+Anything no rule allows is denied. The full walkthrough is in the [Quickstart guide](https://docs.nuramesh.com/quickstart/).
 
 ## Works with
 
 Use NuraMesh on its own, or on top of the framework you already have.
 
-| Agent frameworks | Status | Models | Status |
-|---|---|---|---|
-| NuraMesh built-in engine | Available | Azure OpenAI, Anthropic | Available |
-| LangGraph | Available | OpenAI, Gemini, Mistral, Groq | Available |
-| OpenAI Agents SDK | Coming soon | Ollama, vLLM, LM Studio (local) | Available |
-| Claude Agent SDK | Coming soon | AWS Bedrock | Coming soon |
-| LangChain | Coming soon | Google Vertex AI | Coming soon |
-| CrewAI | Coming soon | Azure AI Foundry (non-OpenAI models) | Coming soon |
+**Agent frameworks**
+
+| Framework | Status |
+|---|---|
+| NuraMesh built-in engine | Available |
+| LangGraph | Available |
+| OpenAI Agents SDK | Coming soon |
+| Claude Agent SDK | Coming soon |
+| LangChain | Coming soon |
+| CrewAI | Coming soon |
+
+**Models**
+
+| Provider | Status |
+|---|---|
+| Azure OpenAI, Anthropic, OpenAI, Gemini, Mistral, Groq | Available |
+| Ollama, vLLM, LM Studio (local) | Available |
+| AWS Bedrock, Google Vertex AI, Azure AI Foundry (non-OpenAI models) | Coming soon |
 
 ## Run it your way
 
