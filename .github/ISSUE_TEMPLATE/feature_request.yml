@@ -1,0 +1,37 @@
+name: Feature request
+description: Suggest an improvement or a new capability
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea. For open questions, please use Discussions instead of an issue.
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do, and what gets in the way today?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: The proposed solution
+      description: What you would like NuraMesh to do.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other ways you tried or thought about.
+    validations:
+      required: false
+  - type: input
+    id: version
+    attributes:
+      label: NuraMesh version
+      description: Optional. Useful if the request relates to how a current version behaves.
+    validations:
+      required: false

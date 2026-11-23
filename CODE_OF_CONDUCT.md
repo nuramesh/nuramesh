@@ -23,6 +23,8 @@ Examples of behavior that contributes to a positive environment:
 * Giving and gracefully accepting constructive feedback
 * Accepting responsibility and apologizing to those affected by our mistakes, and learning from them
 * Focusing on what is best not just for us as individuals, but for the overall community
+* Proactively offering help to new contributors
+* Keeping discussions focused on ideas and solutions rather than personal attributes
 
 Examples of unacceptable behavior:
 
@@ -31,6 +33,8 @@ Examples of unacceptable behavior:
 * Public or private harassment
 * Publishing others' private information, such as a physical or email address, without their
   explicit permission
+* Submitting AI-generated content (issues, pull requests, comments, reviews, or documentation) that has not been meaningfully reviewed, verified, or understood by the contributor
+* Using community spaces for self-promotion, spam, or advertising unrelated projects and services
 * Other conduct which could reasonably be considered inappropriate in a professional setting
 
 ## Enforcement Responsibilities
@@ -41,7 +45,7 @@ inappropriate, threatening, offensive, or harmful.
 
 Community leaders have the right and responsibility to remove, edit, or reject comments, commits,
 code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and
-will communicate reasons for moderation decisions when appropriate.
+will communicate reasons for moderation decisions when appropriate. This includes contributions that appear to be unreviewed AI-generated content or promotional spam, which may be closed or removed without further discussion.
 
 ## Scope
 
@@ -60,21 +64,42 @@ security of the reporter of any incident.
 Community leaders will follow these Community Impact Guidelines in determining the consequences for
 any action they deem in violation of this Code of Conduct:
 
-1. **Correction.** Impact: use of inappropriate language or other behavior deemed unprofessional or
-   unwelcome. Consequence: a private, written warning, with clarity around the nature of the
-   violation and an explanation of why the behavior was inappropriate. A public apology may be
-   requested.
-2. **Warning.** Impact: a violation through a single incident or series of actions. Consequence: a
-   warning with consequences for continued behavior. No interaction with the people involved,
-   including unsolicited interaction with those enforcing the Code of Conduct, for a specified
-   period of time. Violating these terms may lead to a temporary or permanent ban.
-3. **Temporary Ban.** Impact: a serious violation of community standards, including sustained
-   inappropriate behavior. Consequence: a temporary ban from any sort of interaction or public
-   communication with the community for a specified period of time.
-4. **Permanent Ban.** Impact: demonstrating a pattern of violation of community standards, including
-   sustained inappropriate behavior, harassment of an individual, or aggression toward or
-   disparagement of classes of individuals. Consequence: a permanent ban from any sort of public
-   interaction within the community.
+### 1. Correction
+
+**Community Impact**: Use of inappropriate language or other behavior deemed unprofessional or
+unwelcome in the community.
+
+**Consequence**: A private, written warning from community leaders, providing clarity around the
+nature of the violation and an explanation of why the behavior was inappropriate. A public apology
+may be requested.
+
+### 2. Warning
+
+**Community Impact**: A violation through a single incident or series of actions.
+
+**Consequence**: A warning with consequences for continued behavior. No interaction with the people
+involved, including unsolicited interaction with those enforcing the Code of Conduct, for a
+specified period of time. This includes avoiding interactions in community spaces as well as
+external channels like social media. Violating these terms may lead to a temporary or permanent
+ban.
+
+### 3. Temporary Ban
+
+**Community Impact**: A serious violation of community standards, including sustained inappropriate
+behavior.
+
+**Consequence**: A temporary ban from any sort of interaction or public communication with the
+community for a specified period of time. No public or private interaction with the people involved,
+including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this
+period. Violating these terms may lead to a permanent ban.
+
+### 4. Permanent Ban
+
+**Community Impact**: Demonstrating a pattern of violation of community standards, including
+sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement
+of classes of individuals.
+
+**Consequence**: A permanent ban from any sort of public interaction within the community.
 
 ## Attribution
 

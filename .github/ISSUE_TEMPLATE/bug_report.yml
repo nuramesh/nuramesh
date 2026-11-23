@@ -1,0 +1,50 @@
+name: Bug report
+description: Something does not work as documented
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+        Do not include API keys, tokens, passwords or real customer data. If you found a security problem, do not open an issue: see the security policy instead.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Describe what you saw, including any error message.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The commands you ran, in order, and the team file if it matters.
+      placeholder: |
+        1. uv run nuramesh init my-team
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What you expected to happen instead.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: NuraMesh version
+      description: Run `uv run nuramesh --version` or give the commit you built from.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: The system and version you run NuraMesh on.
+      placeholder: "Ubuntu 24.04, macOS 15"
+    validations:
+      required: true

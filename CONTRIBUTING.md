@@ -1,25 +1,24 @@
 # Contributing to NuraMesh
 
-Thanks for looking. NuraMesh is the open core of a platform for agent teams whose work is verified.
-How outside contributions are handled is set by the maintainers; open an issue to discuss a change
-before you spend time on it. Report a security problem as `SECURITY.md` describes, never in an issue.
+Thank you for your interest in NuraMesh. We welcome bug fixes, documentation improvements, examples and new integrations.
 
-## Set up
+To learn how to set up, test and send a change, follow the [contribution guide](https://docs.nuramesh.com/contributing/).
 
-```
-uv sync --locked --all-extras
-```
+## Pull request requirements
 
-## Before you send a change
+NuraMesh is the AI control plane for agent teams. Changes touch the checks, budgets and ledger that people rely on, so we review carefully and ask for the same care in return.
 
-- Start with a failing test that shows the problem, then make it pass.
-- Run the checks: `uv run ruff check . --fix && uv run ruff format .`, `uv run mypy` and
-  `uv run pytest -q` (the web app has its own `pnpm` checks under `apps/app`).
-- Tests use the fake model and never call a real model API. Test data is never key-shaped: generate
-  a secret when the test runs, or use an obviously fake phrase.
-- Keep the open core small: `nuramesh.core` imports only the standard library and pydantic.
+- Every pull request must link to an issue or discussion where a maintainer has agreed on the approach. Small fixes such as typos and broken links are the exception.
+- Every pull request must fill in the pull request template.
+- A pull request should show real understanding of the problem. If it takes more effort to review than it took to write, please do not send it.
+- You may use AI tools, but you are responsible for every line. Bulk or automated low-effort pull requests and issues will be closed without comment.
 
-## Licence
+Maintainers may close pull requests that do not meet these requirements.
 
-NuraMesh is licensed under the Apache License 2.0 (`LICENSE`). By sending a change you agree that
-it is licensed under the same terms.
+## Security
+
+Never report a security problem in an issue. Follow [SECURITY.md](SECURITY.md).
+
+## License
+
+NuraMesh is licensed under the [Apache License 2.0](LICENSE). By sending a change, you agree that your contribution is licensed under the same terms.
