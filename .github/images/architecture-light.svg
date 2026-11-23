@@ -1,47 +1,52 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="520" viewBox="0 0 1280 520" role="img" aria-label="How NuraMesh works">
-<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5A6072"/></marker>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="480" viewBox="0 0 1280 480" role="img" aria-label="How NuraMesh works">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4A5163"/></marker>
 <style>.f{stroke-dasharray:6 6;animation:m 1.6s linear infinite}@keyframes m{to{stroke-dashoffset:-24}}</style></defs>
-<rect width="1280" height="520" rx="20" fill="#FFFFFF" stroke="#E3E6EB"/>
-<rect x="40" y="90" width="300" height="300" rx="16" fill="#F6F7F9" stroke="#E3E6EB" stroke-width="1.5"/>
-<text x="64" y="130" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="700" fill="#141833">Your agents</text>
-<text x="64" y="168" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" fill="#5A6072">Built in NuraMesh</text>
-<text x="64" y="198" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" fill="#5A6072">LangGraph</text>
-<text x="64" y="228" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" fill="#5A6072">OpenAI Agents SDK (Dec)</text>
-<text x="64" y="258" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" fill="#5A6072">Claude Agent SDK (Dec)</text>
-<rect x="440" y="60" width="400" height="360" rx="16" fill="#F6F7F9" stroke="#2FA36B" stroke-width="2"/>
-<text x="464" y="100" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="700" fill="#141833">NuraMesh control plane</text>
-<rect x="464" y="120" width="352" height="44" rx="10" fill="#FFFFFF" stroke="#E3E6EB"/>
-<circle cx="486" cy="142" r="5" fill="#2FA36B"/>
-<text x="502" y="148" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#141833">Policies</text>
-<text x="610" y="148" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" fill="#5A6072">allow, ask or deny</text>
-<rect x="464" y="176" width="352" height="44" rx="10" fill="#FFFFFF" stroke="#E3E6EB"/>
-<circle cx="486" cy="198" r="5" fill="#2FA36B"/>
-<text x="502" y="204" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#141833">Budgets</text>
-<text x="610" y="204" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" fill="#5A6072">hard stops before spend</text>
-<rect x="464" y="232" width="352" height="44" rx="10" fill="#FFFFFF" stroke="#E3E6EB"/>
-<circle cx="486" cy="254" r="5" fill="#2FA36B"/>
-<text x="502" y="260" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#141833">Gates</text>
-<text x="610" y="260" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" fill="#5A6072">done means verified</text>
-<rect x="464" y="288" width="352" height="44" rx="10" fill="#FFFFFF" stroke="#E3E6EB"/>
-<circle cx="486" cy="310" r="5" fill="#2FA36B"/>
-<text x="502" y="316" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#141833">Approvals</text>
-<text x="610" y="316" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" fill="#5A6072">who and why, recorded</text>
-<rect x="464" y="344" width="352" height="44" rx="10" fill="#FFFFFF" stroke="#E3E6EB"/>
-<circle cx="486" cy="366" r="5" fill="#2FA36B"/>
-<text x="502" y="372" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#141833">Ledger</text>
-<text x="610" y="372" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" fill="#5A6072">hash-chained, anchored</text>
-<rect x="940" y="90" width="300" height="300" rx="16" fill="#F6F7F9" stroke="#E3E6EB" stroke-width="1.5"/>
-<text x="964" y="130" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="700" fill="#141833">Models and tools</text>
-<text x="964" y="168" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" fill="#5A6072">Azure OpenAI, Anthropic</text>
-<text x="964" y="198" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" fill="#5A6072">OpenAI-compatible</text>
-<text x="964" y="228" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" fill="#5A6072">Ollama, vLLM, LM Studio</text>
-<text x="964" y="258" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" fill="#5A6072">MCP tools</text>
-<line class="f" x1="340" y1="190" x2="436" y2="190" stroke="#5A6072" stroke-width="2" marker-end="url(#a)"/>
-<line class="f" x1="840" y1="190" x2="936" y2="190" stroke="#5A6072" stroke-width="2" marker-end="url(#a)"/>
-<line class="f" x1="340" y1="290" x2="436" y2="290" stroke="#5A6072" stroke-width="2" marker-end="url(#a)"/>
-<line class="f" x1="840" y1="290" x2="936" y2="290" stroke="#5A6072" stroke-width="2" marker-end="url(#a)"/>
-<text x="640" y="40" text-anchor="middle" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="20" font-weight="600" fill="#141833">Every call passes the control plane. Every step lands in the ledger.</text>
-<rect x="490" y="448" width="300" height="44" rx="22" fill="none" stroke="#2FA36B" stroke-width="1.5"/>
-<text x="640" y="476" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="15" fill="#141833">$ nuramesh ledger verify</text>
-<line x1="640" y1="420" x2="640" y2="444" stroke="#5A6072" stroke-width="2" marker-end="url(#a)"/>
+<rect width="1280" height="480" rx="20" fill="#FFFFFF" stroke="#E3E6EB"/>
+<text x="640" y="42" text-anchor="middle" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="600" fill="#141833">Every call passes the control plane. Every step lands in the ledger.</text>
+<rect x="40" y="78" width="300" height="302" rx="16" fill="#F6F7F9" stroke="#E3E6EB" stroke-width="1.5"/>
+<text x="66" y="120" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#141833">Your agents</text>
+<text x="66" y="160" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">Built in NuraMesh</text>
+<text x="66" y="194" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">LangGraph</text>
+<text x="66" y="228" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">OpenAI Agents SDK</text>
+<text x="66" y="262" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">Claude Agent SDK</text>
+<text x="66" y="296" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">LangChain</text>
+<text x="66" y="330" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">CrewAI</text>
+<text x="66" y="364" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">Your own code</text>
+<rect x="940" y="78" width="300" height="302" rx="16" fill="#F6F7F9" stroke="#E3E6EB" stroke-width="1.5"/>
+<text x="966" y="120" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#141833">Models and tools</text>
+<text x="966" y="160" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">Azure OpenAI, Anthropic</text>
+<text x="966" y="194" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">OpenAI, Gemini, Mistral</text>
+<text x="966" y="228" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">Ollama, vLLM, LM Studio</text>
+<text x="966" y="262" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">AWS Bedrock</text>
+<text x="966" y="296" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">Google Vertex AI</text>
+<text x="966" y="330" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#4A5163">Azure AI Foundry</text>
+<rect x="440" y="78" width="400" height="302" rx="16" fill="#F6F7F9" stroke="#2FA36B" stroke-width="2"/>
+<text x="466" y="118" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#141833">NuraMesh control plane</text>
+<rect x="464" y="136" width="352" height="38" rx="9" fill="#FFFFFF" stroke="#E3E6EB"/>
+<circle cx="485" cy="155" r="5" fill="#2FA36B"/>
+<text x="500" y="161" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#141833">Policies</text>
+<text x="605" y="161" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" fill="#4A5163">allow, ask or deny</text>
+<rect x="464" y="182" width="352" height="38" rx="9" fill="#FFFFFF" stroke="#E3E6EB"/>
+<circle cx="485" cy="201" r="5" fill="#2FA36B"/>
+<text x="500" y="207" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#141833">Budgets</text>
+<text x="605" y="207" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" fill="#4A5163">hard stops before spend</text>
+<rect x="464" y="228" width="352" height="38" rx="9" fill="#FFFFFF" stroke="#E3E6EB"/>
+<circle cx="485" cy="247" r="5" fill="#2FA36B"/>
+<text x="500" y="253" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#141833">Gates</text>
+<text x="605" y="253" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" fill="#4A5163">done means verified</text>
+<rect x="464" y="274" width="352" height="38" rx="9" fill="#FFFFFF" stroke="#E3E6EB"/>
+<circle cx="485" cy="293" r="5" fill="#2FA36B"/>
+<text x="500" y="299" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#141833">Approvals</text>
+<text x="605" y="299" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" fill="#4A5163">who and why, recorded</text>
+<rect x="464" y="320" width="352" height="38" rx="9" fill="#FFFFFF" stroke="#E3E6EB"/>
+<circle cx="485" cy="339" r="5" fill="#2FA36B"/>
+<text x="500" y="345" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="16" font-weight="700" fill="#141833">Ledger</text>
+<text x="605" y="345" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="15" fill="#4A5163">hash-chained, anchored</text>
+<line class="f" x1="340" y1="190" x2="436" y2="190" stroke="#4A5163" stroke-width="2" marker-end="url(#a)"/>
+<line class="f" x1="840" y1="190" x2="936" y2="190" stroke="#4A5163" stroke-width="2" marker-end="url(#a)"/>
+<line class="f" x1="340" y1="300" x2="436" y2="300" stroke="#4A5163" stroke-width="2" marker-end="url(#a)"/>
+<line class="f" x1="840" y1="300" x2="936" y2="300" stroke="#4A5163" stroke-width="2" marker-end="url(#a)"/>
+<line x1="640" y1="380" x2="640" y2="402" stroke="#4A5163" stroke-width="2" marker-end="url(#a)"/>
+<rect x="500" y="406" width="280" height="38" rx="19" fill="none" stroke="#2FA36B" stroke-width="1.5"/>
+<text x="640" y="431" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="15" fill="#141833">$ nuramesh ledger verify</text>
 </svg>
