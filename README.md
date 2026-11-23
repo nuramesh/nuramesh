@@ -11,14 +11,14 @@
 
 <p align="center">
   <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-71D9A0?labelColor=141833"></a>
-  <a href="https://github.com/nuramesh/nuramesh/releases"><img alt="Version 0.1.0" src="https://img.shields.io/badge/v0.1.0-71D9A0"></a>
+  <a href="https://github.com/nuramesh/nuramesh/releases"><img alt="Release v0.1.0" src="https://img.shields.io/badge/release-v0.1.0-71D9A0?labelColor=141833"></a>
   <a href="https://www.linkedin.com/company/nuramesh"><img alt="Follow @NuraMesh on LinkedIn" src="https://img.shields.io/static/v1?style=social&label=Follow%20%40NuraMesh&message=%20&logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAACgAAAAiCAYAAAAtZZsLAAAF0UlEQVR42u1YTWxcVxX%2BvnvvezMTOzhtaNRWICGrqt20TYn6w6JCjovaipAoYjGREBEgpDpuq1Zihdgwnl3ZgcKiLpsqAlU4RW1iSilSFVuIBQjL0CpuUiIjEUra9C9y4sy8ee%2Bdj8Ub2%2BOfIIfUhkWvdDSad87c%2B71zz883hzufOH6bFD0v4AFZRgLE5izRR5nMXmvZ%2FLdnR6tzxclUp5GzjM%2B7qPwg8jQQCAD8JkmwrBWHSs%2BBiKUfgtRAbcKvfAsn6Et5Mm8gl3tOMEEZJNsoF5KUtRpG8EEAmMTEqrMciRSEWw5OxhA7H3cHF5XdRoIszlZ6NXXAqpiTXLzF5WnjbeTJDMFeF1d2WdoUNio%2Bxavuu8pzLtpCpcmP%2Fc3Nu8%2BMHvj66dH9X7Ss9QMXSoRg2OTlll9ryVnaPPPW6L7vzdQPtgZqJwMAnH523zN52vy9i8sOQL6ZAMNSTsB8iF2WJdOo1dwA9rjJ%2BmB279Cfo%2B5bTuq983N%2FpIu%2FLDVEcvM9SJLKUxC4A%2FW6TWLC7h0ajbpvuaTJ%2BmAG4G4pAzYTXacHAXhLm%2Bbiyj39Q7%2F%2B%2Fun6vh9NoYi5%2Fsdf%2BRbpH7bkipHw%2FyuAAOksbYoheqb%2F8IlHJP0V5O0Uvial6sjhXJCKpBbabvXtUMkBiYIDKUkCl%2FTXB3ARZoAv9zxEHx6C5chb81CrsQjPRRVPOizUHQGw1jwgyZe6PEnIcgAEnYdkbT10rSESVlZNQHnearyap43LHRleIvFV0JUBwNLm64A%2BAuQAmqCIwgEXlWlpcxxmJ%2BTyczAfA%2FoC6B5xLtoHiMqzawIZOosg6AhZkpeib549sneu07B%2F6Pg7dP5WQKD49Mzo3pkF3a5DR7taXdv%2BnmetJ86M7n9xjXOO9A2PP0oXXqCPepSn60621Vcs0JJsW7U6Nj97Q6%2Fr%2FXjWpuOkS8Tijqasp1od89M3d4fd717OTm0pb6fwjdPP7X%2F9tqd%2BUwKAnuSc9X58g13YeRMvn9%2FKqWfve63vsZcec6WuF5Wntt6utFYMwpP5sWMHc9Skqefus12HjubJ8gZe6KtjOHvsYA7gH23B2SN7F02nJIIUAA7UTobJ%2BuCv%2BoaOT%2FuostvShmEdTgyfVDMFqF2Hjna1erYPUtGW7PLFP%2FyNfGdB11FuX6WPditt2Hq4p7t%2BbCIA9H335Vtb3Tf%2ByfvKuAvhl6F761%2F6h8fvAgjUaq7D%2BhRkwDrz5LoBDoxMeIBC5J4OlW07s%2BalJGvOJT7u%2BiyUPwVAA9jjJmfeVxEe7oKUg5LbFICT2GPtAvWApQ0jGUgXLGsK4u0riShzaxb0cpM8iDra8aXuoi4uFVWBZQDAyIiWWlBukP4LuvV%2Fuj4FuOpAHzyuoR1%2F6sFPlg8uZpp8tTrmZ89Pud7qGKeV%2BE4yZ239KcDfNDDBHTvG9OaadUOsVsf8hZEJvg%2B4O6tjeJPe8boAEnJxuHis6LH5VPF0rn%2Fo%2BGJtoGluQb%2Fw7I7DJ7I1qGXWtgMAzADof%2FLEJSC%2BOqJazaFet%2BJzRGEllZEQfCvf3zc8%2FoEgR9CcrGxAmVJBTwO%2F0jc8%2FjlT5qnI6CST3ehkQJt3SwZC2%2FuGxx%2BVI5WnzjHkynEXnWFFjy7WSF0gBIio04B6pwdJFOw8dqH085UXxjSBVDiDofQTT8KjtHTtWQvKWliYUihrAc73%2BxD%2Ftoj2eOHfbdtudSrvHBmLssOl%2B6P4d11Z8nLKyN4Iq94CQJsKaRkhIBcTSmliIrRGwq2Y75gsbdpKvrlq1MLid9m7pfsdtMOkGNAVpH7ACQoQrHg1FAIWGy1I8b1Dj%2BX6QrTMphCtsmsPptrDKQO42PoIi3L4WQiDDv5KzvyfgeIvfOUz31Ha%2BE8jko0YyICCcyGCJXihmAUyeGprnrZeMfIDT%2F%2F50Eg%2BfLxC%2FIs%2BGrAscYBb5HgbN9EqXEYXp60rF196%2B2cHfopazSXvVd6I1HjYlbeeQ2P%2BTlJv%2FRvNq%2B6vvTqD3wAAAABJRU5ErkJggg%3D%3D"></a>
   <a href="https://x.com/NuraMeshAI"><img alt="Follow @NuraMeshAI on X" src="https://img.shields.io/twitter/url/https/x.com/NuraMeshAI.svg?style=social&label=Follow%20%40NuraMeshAI"></a>
 </p>
 
 <p align="center">
   <a href="https://nuramesh.com"><b>Website</b></a> &nbsp;·&nbsp;
-  <a href="docs/quickstart.md"><b>Quickstart</b></a> &nbsp;·&nbsp;
+  <a href="https://docs.nuramesh.com/quickstart/"><b>Quickstart</b></a> &nbsp;·&nbsp;
   <a href="examples/"><b>Examples</b></a> &nbsp;·&nbsp;
   <a href="https://github.com/nuramesh/nuramesh/discussions"><b>Discussions</b></a> &nbsp;·&nbsp;
   <a href="https://nuramesh.com"><b>Request access</b></a>
@@ -94,10 +94,7 @@ Self-hosted, no telemetry, no license check over the network.
 
 NuraMesh comes with a web app (included in the first release): build teams visually, watch runs live, approve actions and check the ledger.
 
-<p align="center"><a href="docs/screens/builder.md"><img alt="Live run: the team graph updates as tasks move, with spend, gates and approvals" src=".github/images/screens/run-live.png" width="100%"></a></p>
-<h3 align="center">Live run</h3>
-<p align="center">The team graph updates as tasks move, with spend, gates and approvals in one place.</p>
-<p align="center">← Back&nbsp;&nbsp;&nbsp;&nbsp;<b>●</b>&nbsp;&nbsp;<a href="docs/screens/builder.md">○</a>&nbsp;&nbsp;<a href="docs/screens/approvals.md">○</a>&nbsp;&nbsp;<a href="docs/screens/ledger.md">○</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="docs/screens/builder.md"><b>Next →</b></a></p>
+<p align="center"><a href="#see-it-in-action"><img alt="A tour of the NuraMesh web app: live run, builder, approvals and ledger" src=".github/images/screens/tour.gif" width="100%"></a></p>
 
 ## Quickstart
 
@@ -156,7 +153,7 @@ budgets:
     limit: {amount: "5.00", currency: USD}
 ```
 
-Anything no rule allows is denied. The full walkthrough is in [docs/quickstart.md](docs/quickstart.md).
+Anything no rule allows is denied. The full walkthrough is in [docs/quickstart.md](https://docs.nuramesh.com/quickstart/).
 
 ## Works with
 
@@ -178,14 +175,14 @@ Use NuraMesh on its own, or on top of the framework you already have.
 | **For** | Trying it, solo builders | A small team on one machine | Organizations at scale |
 | **How** | Library and CLI, SQLite | `nuramesh serve`, PostgreSQL, web app (Docker Compose coming soon) | NuraMesh Enterprise edition |
 | **Includes** | The full open core | Sign-in, MFA, invites | SSO (OIDC, SAML), SCIM, custom roles, streaming audit export, support |
-| **Start** | [Quickstart](docs/quickstart.md) | [Self-hosting](docs/self-hosting.md) | [Request access](https://nuramesh.com) |
+| **Start** | [Quickstart](https://docs.nuramesh.com/quickstart/) | [Self-hosting](https://docs.nuramesh.com/guides/self-hosting/) | [Request access](https://nuramesh.com) |
 
 ## Resources
 
-- [Documentation](docs/quickstart.md): guides, concepts and how-tos
-- [How NuraMesh works](docs/anchors.md): the ledger and its anchors, the [kill switch](docs/kill-switch.md) and [model governance](docs/model-governance.md)
-- [CLI](docs/cli.md) and [API](docs/api.md) reference: every command and endpoint
-- [Examples and templates](examples/): ready-made agent teams you can run in minutes
+- [Documentation](https://docs.nuramesh.com/): guides, concepts and how-tos
+- [How NuraMesh works](https://docs.nuramesh.com/concepts/ledger/): the ledger and its anchors, the [kill switch](https://docs.nuramesh.com/guides/kill-switch/) and [model governance](https://docs.nuramesh.com/)
+- [CLI](https://docs.nuramesh.com/reference/cli/) and [API](https://docs.nuramesh.com/reference/api/) reference: every command and endpoint
+- [Examples and templates](https://docs.nuramesh.com/): ready-made agent teams you can run in minutes
 - [Security policy](SECURITY.md): how to report an issue and what is in scope
 - [Discussions](https://github.com/nuramesh/nuramesh/discussions): questions, ideas and feedback
 - [Contributing](CONTRIBUTING.md): how to get involved

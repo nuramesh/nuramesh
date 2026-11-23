@@ -19,7 +19,7 @@
 <text x="966" y="228" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#B4BAC6">Ollama, vLLM, LM Studio</text>
 <text x="966" y="262" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#B4BAC6">AWS Bedrock (soon)</text>
 <text x="966" y="296" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#B4BAC6">Google Vertex AI (soon)</text>
-<text x="966" y="330" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="14" fill="#B4BAC6">Azure AI Foundry (non-OpenAI) (soon)</text>
+<text x="966" y="330" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="17" fill="#B4BAC6">Azure AI Foundry (soon)</text>
 <rect x="440" y="78" width="400" height="302" rx="16" fill="#12151B" stroke="#71D9A0" stroke-width="2"/>
 <text x="466" y="118" font-family="Inter,Segoe UI,Helvetica,Arial,sans-serif" font-size="21" font-weight="700" fill="#FFFFFF">NuraMesh control plane</text>
 <rect x="464" y="136" width="352" height="38" rx="9" fill="#0A0C10" stroke="#262B34"/>
