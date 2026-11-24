@@ -22,20 +22,20 @@ classifiers = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "pydantic>=2.14.3,<3",
+    "pydantic>=2.14.4,<3",
 ]
 
 [project.optional-dependencies]
 yaml = [
-    "pyyaml>=6.0.3,<7",
+    "pyyaml>=6.0.4,<7",
 ]
 client = [
     "httpx>=0.28,<1",
 ]
 langgraph = [
-    "langgraph>=1.2.22,<2",
-    "langchain-core>=1.8.0,<2",
-    "langsmith>=0.14.17,<1",
+    "langgraph>=1.2.24,<2",
+    "langchain-core>=1.8.4,<2",
+    "langsmith>=0.16.0,<1",
 ]
 server = [
     "fastapi>=0.162.7,<1",
@@ -43,7 +43,7 @@ server = [
     "cryptography>=50,<51",
 ]
 local = [
-    "pyyaml>=6.0.3,<7",
+    "pyyaml>=6.0.4,<7",
     "fastapi>=0.162.7,<1",
     "uvicorn[standard]>=0.54,<1",
     "cryptography>=50,<51",
@@ -78,17 +78,17 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
-    "coverage>=7.17.3",
+    "coverage>=7.17.4",
     "cyclonedx-bom==7.6.0",
     "httpx>=0.28,<1",
     "mypy>=2.4.1",
     "pip-audit>=2.10.1",
-    "pytest>=9.1.1",
+    "pytest>=9.2.0",
     "pytest-cov==7.1.0",
     "pytest-timeout==2.4.0",
     "pytest-xdist==3.8.0",
     "rfc8785==0.1.4",
-    "ruff>=0.17.5",
+    "ruff>=0.17.6",
     "types-pyyaml>=6.0.12",
 ]
 
