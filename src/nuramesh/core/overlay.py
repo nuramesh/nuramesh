@@ -1,6 +1,6 @@
-"""The earned-autonomy overlay (E13, `spec/autonomy/README.md` section 6.1): one policy check.
+"""The earned-autonomy overlay (E13): one policy check.
 
-`effective` starts from the ordinary verdict of `spec/policy`. A `deny` or an `allow` is final. An
+`effective` starts from the ordinary verdict. A `deny` or an `allow` is final. An
 `ask` becomes `allow` only if **every** `ask` rule that matches the action (by the wide,
 refusal-side matching) has an **active** grant covering the acting agent, is at the grant's rule
 key **with the grant's rule hash**, and also matches the action under the strict `allow`

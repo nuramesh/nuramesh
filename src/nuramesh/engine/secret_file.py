@@ -2,7 +2,7 @@
 
 One file per key version under a directory named by `NURAMESH_SECRET_DIR`, with the ND214 file
 rules of `engine.key_file`: absolute, outside every repository, a regular file (no link), owned by
-the server user and not by `nuramesh-agent`, mode 0600 (the directory 0700), at most 1024 bytes, read
+the server user and not by the agent user, mode 0600 (the directory 0700), at most 1024 bytes, read
 on every call and never cached. A version is created atomically and only once (a temporary file
 linked into place); `disable` creates the sibling marker `<name>.disabled` and `get` refuses a
 marked version before it opens the value; `destroy` overwrites the value, unlinks it, then

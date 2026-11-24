@@ -1,4 +1,4 @@
-"""How a run resolves its models: the pure resolver (L5, ND92, spec/model-governance/).
+"""How a run resolves its models: the pure resolver (L5, ND92).
 
 A real model is used only if it is in the approved catalog, may receive the run's data class, has
 an active connection whose endpoint the adapter accepts, has a price in effect, and (for a
@@ -352,7 +352,7 @@ def resolve_ref(state: State, ref: str, *, check_price: bool) -> Resolution | Re
                     if reason.startswith(HOSTED_REASONS)
                     else "; set NURAMESH_ANTHROPIC_KEY_FILE to the path of a file outside the "
                     "repository, owned by the server user, mode 0400 or 0600 (the owner creates "
-                    "it; see docs/model-governance.md)"
+                    "it; see the model governance guide)"
                 )
                 return Refusal(
                     "credential_unavailable",

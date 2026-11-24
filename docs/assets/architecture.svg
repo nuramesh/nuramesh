@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 548" width="960" height="548" role="img" aria-labelledby="t d" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title id="t">NuraMesh architecture</title>
+  <desc id="d">The command line, the API server, the web app and the SDKs drive the NuraMesh trust layer. Your agent team runs as a LangGraph graph through a thin adapter. The trust layer applies policies, budgets, gates, independent verifiers, evals and the canon, and records every action in an append-only audit ledger kept in a store.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="959" height="547" rx="14" fill="#f8fafc" stroke="#e2e8f0"/>
+
+  <!-- interfaces -->
+  <g fill="#ffffff" stroke="#cbd5e1">
+    <rect x="24" y="24" width="216" height="68" rx="10"/>
+    <rect x="256" y="24" width="216" height="68" rx="10"/>
+    <rect x="488" y="24" width="216" height="68" rx="10"/>
+    <rect x="720" y="24" width="216" height="68" rx="10"/>
+  </g>
+  <g text-anchor="middle" fill="#0f172a" font-size="15" font-weight="600">
+    <text x="132" y="54">Command line</text>
+    <text x="364" y="54">API server</text>
+    <text x="596" y="54">Web app</text>
+    <text x="828" y="54">SDKs</text>
+  </g>
+  <g text-anchor="middle" fill="#475569" font-size="12.5">
+    <text x="132" y="74">the nuramesh command</text>
+    <text x="364" y="74">REST, sign-in on by default</text>
+    <text x="596" y="74">Workflow builder, approvals</text>
+    <text x="828" y="74">Python and TypeScript</text>
+  </g>
+  <g stroke="#475569" stroke-width="1.5" fill="none">
+    <path d="M132 92 V116 H828 V92"/>
+    <path d="M364 92 V116"/>
+    <path d="M596 92 V116"/>
+    <path d="M642 116 V138" marker-end="url(#a)"/>
+  </g>
+
+  <!-- your agent team -->
+  <rect x="24" y="140" width="292" height="214" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-dasharray="6 4"/>
+  <text x="170" y="168" text-anchor="middle" fill="#0f172a" font-size="15" font-weight="600">Your agent team</text>
+  <text x="170" y="187" text-anchor="middle" fill="#475569" font-size="12.5">a LangGraph graph, through a thin adapter</text>
+  <g fill="#eef2ff" stroke="#a5b4fc">
+    <rect x="90" y="204" width="160" height="30" rx="15"/>
+    <rect x="90" y="252" width="160" height="30" rx="15"/>
+    <rect x="90" y="300" width="160" height="30" rx="15"/>
+  </g>
+  <g text-anchor="middle" fill="#312e81" font-size="13">
+    <text x="170" y="224">planner</text>
+    <text x="170" y="272">developer</text>
+    <text x="170" y="320">reviewer</text>
+  </g>
+  <g stroke="#475569" stroke-width="1.5" fill="none">
+    <path d="M170 234 V250" marker-end="url(#a)"/>
+    <path d="M170 282 V298" marker-end="url(#a)"/>
+    <path d="M316 247 H346" marker-end="url(#a)" marker-start="url(#a)"/>
+  </g>
+
+  <!-- trust layer -->
+  <rect x="348" y="140" width="588" height="214" rx="12" fill="#ecfdf5" stroke="#34d399" stroke-width="1.5"/>
+  <text x="642" y="168" text-anchor="middle" fill="#064e3b" font-size="15" font-weight="600">NuraMesh trust layer</text>
+  <text x="642" y="187" text-anchor="middle" fill="#065f46" font-size="12.5">checks every step an agent takes, before and after it happens</text>
+  <g fill="#ffffff" stroke="#6ee7b7">
+    <rect x="364" y="202" width="176" height="60" rx="8"/>
+    <rect x="554" y="202" width="176" height="60" rx="8"/>
+    <rect x="744" y="202" width="176" height="60" rx="8"/>
+    <rect x="364" y="276" width="176" height="60" rx="8"/>
+    <rect x="554" y="276" width="176" height="60" rx="8"/>
+    <rect x="744" y="276" width="176" height="60" rx="8"/>
+  </g>
+  <g text-anchor="middle" fill="#0f172a" font-size="14" font-weight="600">
+    <text x="452" y="227">Policies</text>
+    <text x="642" y="227">Budgets</text>
+    <text x="832" y="227">Gates</text>
+    <text x="452" y="301">Verifiers</text>
+    <text x="642" y="301">Evals</text>
+    <text x="832" y="301">Canon</text>
+  </g>
+  <g text-anchor="middle" fill="#475569" font-size="12">
+    <text x="452" y="247">default deny for each role</text>
+    <text x="642" y="247">hard stops, checked first</text>
+    <text x="832" y="247">no "done" until they pass</text>
+    <text x="452" y="321">independent of the worker</text>
+    <text x="642" y="321">measured for each role</text>
+    <text x="832" y="321">approved documents in Git</text>
+  </g>
+
+  <!-- ledger and stores -->
+  <path d="M642 354 V398" stroke="#475569" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <text x="628" y="381" text-anchor="end" fill="#475569" font-size="12.5">every action, model call, cost, gate result and approval</text>
+  <rect x="24" y="400" width="656" height="84" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="352" y="434" text-anchor="middle" fill="#78350f" font-size="15" font-weight="600">Audit ledger</text>
+  <text x="352" y="456" text-anchor="middle" fill="#92400e" font-size="12.5">append-only and hash-chained; signed anchors in Git let anyone verify it offline</text>
+  <path d="M680 442 H718" stroke="#475569" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <rect x="720" y="400" width="216" height="84" rx="12" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="828" y="434" text-anchor="middle" fill="#0f172a" font-size="15" font-weight="600">Stores</text>
+  <text x="828" y="456" text-anchor="middle" fill="#475569" font-size="12.5">memory, SQLite, PostgreSQL</text>
+
+  <text x="480" y="520" text-anchor="middle" fill="#475569" font-size="12.5">Real models are reached only through the approved model catalog. Tests and the quickstart use the built-in fake model.</text>
+</svg>

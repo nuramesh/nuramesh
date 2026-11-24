@@ -1,4 +1,4 @@
-"""Verified Merge binding evaluator and GT-10 verdict check (spec `spec/verified-merge` SV-5,
+"""Merge Gate binding evaluator and GT-10 verdict check (spec SV-5,
 SV-7, SV-8 b-d, SV-9, SV-12, GT-10, GT-15, 7.1; Fable fixes F-7, F-16, F-18).
 
 Pure functions over records and a **gate view** (`GateView`: what the gate recomputed itself

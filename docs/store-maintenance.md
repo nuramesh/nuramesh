@@ -88,8 +88,5 @@ read the team's configuration. A content store that is not available is exit 2
 
 | Command | Page |
 |---|---|
-| `nuramesh content shred`, `nuramesh keys status`, `nuramesh keys reconcile`, `nuramesh keys adopt-legacy` | `runbooks/key-tombstone.md` |
 | `nuramesh otel check / export / rotate-pseudonym-key` | `telemetry.md` |
-| `nuramesh ledger export` and `verifier/nuramesh_verify.py` | `auditor-guide.md` |
 | `nuramesh org`, `roles`, `breakers` | `kill-switch.md` |
-| `nuramesh agents credentials` | `agent-credentials.md` |

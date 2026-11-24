@@ -85,7 +85,7 @@ describe("second step messages", () => {
   });
 
   it("the enrolment text names a real doc and the endpoint, not a missing guide", () => {
-    expect(MFA_ENROLL_MESSAGE).toContain("docs/api.md");
+    expect(MFA_ENROLL_MESSAGE).toContain("the REST API guide");
     expect(MFA_ENROLL_MESSAGE).toContain("get a challenge");
     expect(MFA_ENROLL_MESSAGE).not.toContain("MFA guide");
   });

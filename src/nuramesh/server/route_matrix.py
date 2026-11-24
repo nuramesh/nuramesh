@@ -1,12 +1,11 @@
 """The written authorization matrix: one row per route, the permission and the class it must have.
 
-This is the table `tests/server/test_authz_matrix.py` calls every route against (it imports
-`MATRIX` from here), and the table `routes.check_route_table` compares with `authz.ROUTE_RULES`
-and `routes.ROUTE_SCOPES` every time an app is built, so a server cannot start with a route the
-matrix does not pin, or with a rule or class that differs from it (spec/auth/org-scope.md,
-section 6; R1.20c). It is **data written by hand from the specs**, never computed from the other
-two tables: the permission letter from `docs/architecture-platform.md` section 11 and the class
-from `spec/auth/org-scope.md` section 4.
+This is the table `tests/server/test_authz_matrix.py` calls every route against (it imports `MATRIX`
+from here), and the table `routes.check_route_table` compares with `authz.ROUTE_RULES` and
+`routes.ROUTE_SCOPES` every time an app is built, so a server cannot start with a route the matrix
+does not pin, or with a rule or class that differs from it (R1.20c). It is **data written by hand
+from the specs**, never computed from the other two tables: the permission letter from the platform
+architecture notes and the class from the organization-scope rules.
 
 Permission letters: P public, R read, U run, D decide, V reveal, A admin.
 """

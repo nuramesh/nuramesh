@@ -42,7 +42,7 @@ export interface SoloApproveDialogProps {
 }
 
 /**
- * What a sole decider reads before approving alone (spec/rbac/solo-approval.md SA-17): the agent, its
+ * What a sole decider reads before approving alone (the solo approval notes SA-17): the agent, its
  * role, the task, the kind, the whole target as inert text, the amount, the rule's reason, the
  * request's age, the run's spend and the budget left, the fixed line of what the kind does, and
  * "Nobody else will review this.". Approve is never the default action: focus starts on Cancel,

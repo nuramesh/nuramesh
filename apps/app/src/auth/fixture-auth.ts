@@ -95,7 +95,7 @@ export function createFixtureAuth(options: FixtureAuthOptions): AuthApi & MfaAut
       set({ kind: "signed-out", reason: "logged-out" });
       return Promise.resolve();
     },
-    // The sample server has no MFA key: nothing can be set up, so the Security panel says so (spec/mfa-web S3).
+    // The sample server has no MFA key: nothing can be set up, so the Security panel says so.
     hold() {
       holds += 1;
       for (const listener of [...listeners]) listener();

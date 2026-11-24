@@ -1,4 +1,4 @@
-"""Per-role and per-task output caps, and the budget-aware shrink (R1.42, spec/r142 sections 2-3).
+"""Per-role and per-task output caps, and the budget-aware shrink (R1.42).
 
 Pure: stdlib and pydantic only. `decide_cap` is called inside the reservation transaction with the
 balances read there, so the decision and the reservation see the same money.

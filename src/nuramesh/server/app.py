@@ -1,4 +1,4 @@
-"""The REST API over the engine's services (R1.19b, T36; `docs/architecture-platform.md` §5).
+"""The REST API over the engine's services (R1.19b, T36).
 
 The API has **no business rules of its own**: it validates input, calls the engine's services
 (which write state and ledger together, A1) and returns the engine's own models. Everything is
@@ -15,6 +15,7 @@ harness for tests and the app's contract scripts, refused together with `require
 
 import asyncio
 import contextlib
+import contextvars
 import functools
 import json
 import logging
@@ -31,7 +32,7 @@ from datetime import UTC, datetime
 from functools import partial
 from pathlib import Path
 from types import MappingProxyType
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, Literal, TypeVar
 from urllib.parse import urlsplit
 
 import anyio
@@ -169,7 +170,7 @@ from nuramesh.server.idempotency import (
 from nuramesh.server.invite_routes import install_invites
 from nuramesh.server.invites import InviteService, InviteSettings
 from nuramesh.server.key_routes import install_keys
-from nuramesh.server.limits import RateLimiter, client_address
+from nuramesh.server.limits import InflightGate, RateLimiter, client_address
 from nuramesh.server.mail import MailConfig, MailService
 from nuramesh.server.mail_routes import install_mail
 from nuramesh.server.mfa_notice import NoticeDesk
@@ -252,13 +253,21 @@ HEALTH_PROBE_SECONDS = 5.0  # GET /v1/health reuses the Temporal reachability pr
 VERIFY_ANON_PER_MINUTE = 60  # verify routes without a login (auth off, loopback only), per client
 VERIFY_PER_MINUTE = 600  # per session, API token or agent credential (the T96 call cap)
 MAX_VERIFY_IN_FLIGHT = 8  # verifications at once per process; the next is 429 busy, never a wait
+VERIFY_HOLDER_IN_FLIGHT = 2  # of those, at most this many per holder
 MAX_VERIFY_STREAMS = 100  # streams one `GET /v1/ledger/verify` checks
+# Threads of the pool the verify routes run on, apart from the shared request pool. It must stay
+# at least MAX_VERIFY_IN_FLIGHT so it is never a hidden cap below the admission bound. The global
+# slot is taken without waiting in the coroutine before submit (429 busy at once) and released by
+# a done-callback on the executor future (completion, exception, cancel-before-start); the holder
+# cap and VerifyTicket come with a later change on top.
+VERIFY_WORKERS = 8
+_T = TypeVar("_T")
 MAX_BUDGET_HISTORY_EVENTS = 20_000  # org-stream entries one budget detail reads
 CLOSE_CREDENTIAL_ENDED = 4401
 """WebSocket close code: the caller's credential stopped working mid-stream (expired, revoked,
 logged out, erased). Not final: sign in or refresh, then reconnect. 1008 stays a real refusal."""
 ALLOWED_HOSTS = ("127.0.0.1", "localhost", "::1", "[::1]")
-# SA-0.12 (spec/rbac/solo-approval.md): on these mutating routes a `Sec-Fetch-Site` header must be
+# SA-0.12: on these mutating routes a `Sec-Fetch-Site` header must be
 # `same-origin` or `none` (typed address, bookmark), else 403 `foreign_origin`. Exact bytes: a
 # browser sends lower case, and anything else is treated as foreign.
 SEC_FETCH_SITE_ROUTES = frozenset({"/v1/auth/setup/redeem"})
@@ -296,7 +305,7 @@ _ABSENT_DIGEST = ""
 
 
 class _SoloFields(_StrictBody):
-    """The two fields of a solo approve (spec/rbac/solo-approval.md SA-5, SA-6, SA-16). Their
+    """The two fields of a solo approve (SA-5, SA-6, SA-16). Their
     shape is validated for every caller; their values are read only for a solo approve. An
     absent `acknowledge_solo` is the same as `false`; a JSON null is refused for both."""
 
@@ -341,7 +350,7 @@ class GateDecisionBody(_StrictBody):
     """A person's decision on a human gate of a durable run. `attempt` and `submission` name the
     round they looked at (what makes a retry safe). `acknowledge_solo` is read only for a
     decision that passes the gate, made by the organization's only person who can decide
-    (spec/rbac/solo-approval.md SA-19); its shape is validated for every caller."""
+    (SA-19); its shape is validated for every caller."""
 
     attempt: int = Field(ge=1, le=1_000_000)
     submission: int = Field(ge=1, le=1_000_000)
@@ -400,9 +409,63 @@ _DECLARED_FIELDS = frozenset(
 )
 
 
+class _OncePerMinute:
+    """Counts events per label and logs the count at most once a minute per label.
+    It names the label and the count only, never a key, an id or an address."""
+
+    def __init__(self, event: str, clock: Callable[[], float]) -> None:
+        self.event, self._clock = event, clock
+        self._lock = threading.Lock()
+        self._counts: dict[str, int] = {}
+        self._last: dict[str, float] = {}
+
+    def note(self, label: str) -> None:
+        now = self._clock()
+        with self._lock:
+            self._counts[label] = self._counts.get(label, 0) + 1
+            last = self._last.get(label)
+            if last is not None and 0 <= now - last < 60.0:
+                return
+            count, self._counts[label], self._last[label] = self._counts[label], 0, now
+        logging.getLogger("nuramesh.server").warning("%s %s count=%d", self.event, label, count)
+
+
+class VerifyTicket:
+    """Both slots of one verification (the holder's, then the pool's): `release` gives back the
+    pool slot and then the holder slot, exactly once however often it is called."""
+
+    def __init__(self, gate: InflightGate, pool: threading.BoundedSemaphore, holder: str) -> None:
+        self._gate, self._pool, self._holder = gate, pool, holder
+        self._lock = threading.Lock()
+        self._released = False
+
+    def release(self) -> None:
+        with self._lock:
+            if self._released:
+                return
+            self._released = True
+        self._pool.release()
+        self._gate.release(self._holder)
+
+
+@dataclass
+class VerifyControls:
+    """The verify routes' admission, reachable as `app.state.verify` so tests can spy on
+    or replace a step; the routes read these attributes on every call. `holder(request)` is
+    `(budget_key, holder, signed_in)`; `throttle(request, budget_key, signed_in)` counts the call;
+    `admit(holder)` takes both slots or raises 429 `busy`."""
+
+    holder: Callable[[Request], tuple[str, str, bool]]
+    throttle: Callable[[Request, str, bool], None]
+    admit: Callable[[str], VerifyTicket]
+    gate: InflightGate
+    anon_limit: RateLimiter
+    caller_limit: RateLimiter
+
+
 def _where(loc: tuple[Any, ...]) -> str:
     """Where a validation error is, by position and declared names only: a key the client sent
-    (an unknown field, a map key, an index) is never echoed (spec/auth/org-scope.md, R11)."""
+    (an unknown field, a map key, an index) is never echoed."""
     parts: list[str] = []
     for i, part in enumerate(loc):
         if i == 0 and part in ("body", "query", "path", "header", "cookie"):
@@ -448,7 +511,7 @@ def _client_strings(value: Any, into: set[str] | None = None) -> set[str]:
 def _config_issue(path: str, message: str, sent: set[str]) -> dict[str, str]:
     """A configuration problem for the API: where (declared names and indexes only; a key the
     client chose is `<key>`) and what, with every string the client sent taken out of the text,
-    quoted or not (spec/auth/org-scope.md R11). Names the server declares stay."""
+    quoted or not. Names the server declares stay."""
     if path == "$.integrations" and message.startswith(INTEGRATIONS_NOT_ACCEPTED):
         # fixed text: only built-in pack names, R2.04 and E4, never a value the client sent
         return {"path": path, "message": message}
@@ -870,6 +933,9 @@ def create_app(
         refuse_light_when_hosted()  # S12: a hosted API never takes the light starter
     if max_live_connections < 1:
         raise ValueError("max_live_connections must be at least 1")
+    if VERIFY_HOLDER_IN_FLIGHT > MAX_VERIFY_IN_FLIGHT:  # a cap above the pool is no cap (R7)
+        raise ValueError("VERIFY_HOLDER_IN_FLIGHT must not exceed MAX_VERIFY_IN_FLIGHT")
+    verify_holder_gate = InflightGate(VERIFY_HOLDER_IN_FLIGHT)  # ValueError below 1 (R3)
     if not 0.01 <= events_poll_seconds <= 10:
         raise ValueError("events_poll_seconds must be between 0.01 and 10")
     if dev_human is not None:
@@ -992,6 +1058,9 @@ def create_app(
             await anyio.to_thread.run_sync(job, abandon_on_cancel=True)
             await anyio.sleep(seconds)
 
+    # the verify pool: one per lifespan; without a lifespan (tests, embedding) this one
+    verify_box = [ThreadPoolExecutor(max_workers=VERIFY_WORKERS, thread_name_prefix="verify")]
+
     @asynccontextmanager
     async def lifespan(_app: FastAPI) -> Any:
         """Start the idempotency key sweep, the breaker ticker (the first tick does not block
@@ -1000,7 +1069,7 @@ def create_app(
         tick in progress (spec 9.4). The telemetry exporter (E3) starts on its own thread when
         asked and is stopped, flushed, on shutdown."""
         # E13: first the configuration is recorded (with the voids it causes) before the server
-        # uses it; a failure propagates and the server does not start (spec/autonomy 2 and 7)
+        # uses it; a failure propagates and the server does not start
         if config is not None:
             await anyio.to_thread.run_sync(
                 lambda: record_config(
@@ -1015,6 +1084,8 @@ def create_app(
 
             exporter = start_exporter(store, otel_env).tailer
             _app.state.otel = exporter
+        # a fresh verify pool per lifespan, so a second lifespan on the same app works
+        verify_box[0] = ThreadPoolExecutor(max_workers=VERIFY_WORKERS, thread_name_prefix="verify")
         try:
             wakes = wake_fold is not None and waker_pool is not None
             async with anyio.create_task_group() as tg:
@@ -1055,11 +1126,15 @@ def create_app(
                         with anyio.CancelScope(shield=True):
                             await anyio.to_thread.run_sync(ticker.wait_idle, SHUTDOWN_WAIT_SECONDS)
         finally:
-            with anyio.CancelScope(shield=True):
-                await anyio.to_thread.run_sync(app.state.mail.close)  # queued mails go first
-            if exporter is not None:
+            try:
+                # first, so a failing mail.close or exporter.stop cannot skip it
+                verify_box[0].shutdown(wait=False, cancel_futures=True)
+            finally:
                 with anyio.CancelScope(shield=True):
-                    await anyio.to_thread.run_sync(exporter.stop)
+                    await anyio.to_thread.run_sync(app.state.mail.close)  # queued mails go first
+                if exporter is not None:
+                    with anyio.CancelScope(shield=True):
+                        await anyio.to_thread.run_sync(exporter.stop)
 
     check_operation_ids()
     app = FastAPI(
@@ -1388,7 +1463,7 @@ def create_app(
     scope = OrgScope(store, orgs=() if config is None else (config.org.id,))
 
     def org_of(who: Annotated[Caller, Depends(caller)]) -> str | None:
-        """The caller's organization (from the credential only; spec/auth/org-scope.md)."""
+        """The caller's organization (from the credential only)."""
         return who.org_id
 
     Org = Annotated[str | None, Depends(org_of)]
@@ -1436,6 +1511,9 @@ def create_app(
     verify_limit = RateLimiter(VERIFY_ANON_PER_MINUTE, 60.0, auth_settings.monotonic)
     verify_caller_limit = RateLimiter(VERIFY_PER_MINUTE, 60.0, auth_settings.monotonic)
     verify_slots = threading.BoundedSemaphore(MAX_VERIFY_IN_FLIGHT)
+    verify_refusals = _OncePerMinute("verify_busy_refused", auth_settings.monotonic)
+    verify_fallbacks = _OncePerMinute("verify_holder_fallback", auth_settings.monotonic)
+    verify_failures = _OncePerMinute("verify_holder_failed", auth_settings.monotonic)
 
     def credential_key(caller: Caller) -> str:
         """The limiter key of a signed-in caller: its credential, never its address (programs
@@ -1465,6 +1543,98 @@ def create_app(
                 "too many requests; slow down",
                 {"Retry-After": str(max(1, math.ceil(wait)))},
             )
+
+    def verify_busy() -> AuthProblem:
+        """The one fixed answer of every verify refusal: holder cap, pool, or a holder that
+        cannot be resolved."""
+        return AuthProblem(429, "busy", "the server is busy; try again", {"Retry-After": "1"})
+
+    def verify_holder(request: Request) -> tuple[str, str, bool]:
+        """`(budget_key, holder, signed_in)` of a verify call, resolved once. The
+        holder is a STABLE identity, never the session: `token:<token_id>`, `agent:<agent_id>`,
+        `actor:<actor>` (session and dev), `address:<address_key>` (anonymous); `<kind>:` when
+        the id is missing (shared by every such caller, counted and logged by kind only). The
+        budget key is the one `throttle` uses: `credential_key` or the address key. A request
+        without a caller raises (the route answers `busy`, never an uncapped call)."""
+        known = request.state.caller
+        if not isinstance(known, Caller):
+            raise TypeError("the verify caller is not known")
+        if known.kind == "anonymous":
+            address = address_key(
+                client_address(request, trusted_proxy=auth_settings.trusted_proxy)
+            )
+            return address, f"address:{address}", False
+        if known.kind == "token":
+            own, prefix = known.token_id, "token"
+        elif known.kind == "agent":
+            own, prefix = known.agent_id, "agent"
+        elif known.kind in ("session", "dev"):
+            own, prefix = known.actor, "actor"
+        else:
+            own, prefix = None, known.kind
+        if own:
+            holder = f"{prefix}:{own}"
+        else:
+            # No stable id for this kind of caller: they share one holder per kind, so the cap
+            # still holds (never uncapped); the fallback is counted and logged by kind.
+            holder = f"{known.kind}:"
+            verify_fallbacks.note(f"kind={known.kind}")
+        return credential_key(known), holder, True
+
+    def verify_throttle(request: Request, budget_key: str, signed_in: bool) -> None:
+        """The verify budget (TM-10) for keys `verify_holder` computed: every call is counted,
+        against the signed-in limiter or the anonymous one; nothing is read from the request."""
+        wait = (verify_caller_limit if signed_in else verify_limit).allow(budget_key)
+        if wait > 0:
+            raise AuthProblem(
+                429,
+                "rate_limited",
+                "too many requests; slow down",
+                {"Retry-After": str(max(1, math.ceil(wait)))},
+            )
+
+    def admit_verify(holder: str) -> VerifyTicket:
+        """The holder's slot, then a pool slot, both without waiting; a refusal is
+        `busy` at once and a pool refusal gives the holder slot back first."""
+        label = "class=anonymous" if holder.startswith("address:") else "class=signed_in"
+        if not verify_holder_gate.try_acquire(holder):
+            verify_refusals.note(label)
+            raise verify_busy()
+        if not verify_slots.acquire(blocking=False):
+            verify_holder_gate.release(holder)
+            verify_refusals.note(label)
+            raise verify_busy()
+        return VerifyTicket(verify_holder_gate, verify_slots, holder)
+
+    verify_controls = VerifyControls(
+        holder=verify_holder,
+        throttle=verify_throttle,
+        admit=admit_verify,
+        gate=verify_holder_gate,
+        anon_limit=verify_limit,
+        caller_limit=verify_caller_limit,
+    )
+    app.state.verify = verify_controls
+
+    def verify_keys(request: Request) -> tuple[str, str, bool]:
+        """The top of every verify route: the holder helper, called once; if it raises
+        or returns anything but two non-empty texts and a bool, the call is `busy` before any
+        budget count, lookup or slot (logged by error class and count only)."""
+        try:
+            budget_key, holder, signed_in = verify_controls.holder(request)
+        except Exception as exc:
+            verify_failures.note(f"error={type(exc).__name__}")
+            raise verify_busy() from None
+        if not (
+            isinstance(budget_key, str)
+            and budget_key
+            and isinstance(holder, str)
+            and holder
+            and isinstance(signed_in, bool)
+        ):
+            verify_failures.note("error=invalid")
+            raise verify_busy()
+        return budget_key, holder, signed_in
 
     probe_cache: list[tuple[float, bool]] = []  # (monotonic time, reachable), at most one
 
@@ -1578,8 +1748,8 @@ def create_app(
     ) -> Response:
         """Runs, most recently active first (`limit` at most 200): `{"runs": [...], "truncated",
         "scanned"}`. Each row has the status, task and gate counts and the spend, derived from the
-        run's ledger (docs/api.md). `status` is one of the documented values (else 422). The work
-        per request is bounded; `truncated` says the bound stopped the search."""
+        run's ledger (the REST API guide). `status` is one of the documented values (else 422).
+        The work per request is bounded; `truncated` says the bound stopped the search."""
         if status is not None and status not in views.RUN_STATUSES:
             raise Problem(
                 422,
@@ -1695,10 +1865,16 @@ def create_app(
         )
 
     @app.get("/v1/runs/{run_id}/ledger/verify")
-    def run_verify(request: Request, run_id: str, org: Org) -> dict[str, Any]:
-        throttle(verify_limit, request, verify_caller_limit)  # before the lookup (TM-10)
-        need_run(org, run_id)
-        return verification([f"run:{run_id}"])
+    async def run_verify(request: Request, run_id: str, org: Org) -> dict[str, Any]:
+        budget_key, holder, signed_in = verify_keys(request)  # holder, budget, slots,
+        verify_controls.throttle(request, budget_key, signed_in)  # then the lookup: a refusal reads
+        ticket = verify_controls.admit(holder)  # nothing and is the same for every id (R5)
+
+        def work() -> dict[str, Any]:
+            need_run(org, run_id)
+            return verify_streams([f"run:{run_id}"])
+
+        return await offload_verify(work, ticket)
 
     @app.post("/v1/runs/{run_id}/stop")
     def stop_run(
@@ -2010,7 +2186,7 @@ def create_app(
     def halt_status(cfg: Config, org: Org, who: Who) -> dict[str, Any]:
         """Whether the organization is halted, who and why, and every role's state (E19), and
         `solo_approval`: whether one person alone can approve now, and how many of the last 30
-        days' approved requests were solo (spec/rbac/solo-approval.md SA-18)."""
+        days' approved requests were solo (SA-18)."""
         org_id = acting_org(cfg, org)
         events = read_org_events(store, org_id)  # one read of the stream for both views
         solo = solo_status_view(
@@ -2342,16 +2518,33 @@ def create_app(
 
     # -- ledger ------------------------------------------------------------------------------
 
-    def verification(streams: list[str]) -> dict[str, Any]:
-        """`verify_streams` inside one of `MAX_VERIFY_IN_FLIGHT` slots; when every slot is taken
-        the caller gets 429 `busy` at once, before any stream is read (TM-10): the check never
-        waits for a slot, so a flood of verify calls cannot hold the thread pool."""
-        if not verify_slots.acquire(blocking=False):
-            raise AuthProblem(429, "busy", "the server is busy; try again", {"Retry-After": "1"})
+    async def offload_verify(work: Callable[[], _T], ticket: VerifyTicket) -> _T:
+        """Run a ledger verify on its own small pool, awaited from the event loop. The
+        chain check is long and CPU-bound; on the shared request pool a burst of calls took every
+        thread and `/v1/health` and `/v1/runs` waited behind them. Waiting costs no thread here.
+        The caller already holds both slots (`ticket`: the holder's, then the pool's,
+        taken without waiting before any store read); they are given back when the work ends or
+        never starts (done-callback on the pool's own future, so a cancelled await never frees
+        them early)."""
         try:
-            return verify_streams(streams)
-        finally:
-            verify_slots.release()
+            ctx = contextvars.copy_context()
+            fut = verify_box[0].submit(functools.partial(ctx.run, work))
+        except RuntimeError as exc:  # the pool is shut down: the server is stopping
+            ticket.release()
+            raise Problem(503, "shutting_down", "the server is shutting down; retry") from exc
+        except BaseException:
+            ticket.release()
+            raise
+        fut.add_done_callback(lambda _done: ticket.release())
+        try:
+            return await asyncio.wrap_future(fut)
+        except asyncio.CancelledError:
+            task = asyncio.current_task()
+            if task is not None and task.cancelling() > 0:
+                raise  # the client cancelled this request: the cancel propagates (#1717)
+            if fut.cancelled():  # dropped from the queue by the shutdown, not this request's own
+                raise Problem(503, "shutting_down", "the server is shutting down; retry") from None
+            raise
 
     def verify_streams(streams: list[str]) -> dict[str, Any]:
         """Chain check per stream (against the database's own head) and, when the server was
@@ -2480,7 +2673,7 @@ def create_app(
         )  # fmt: skip
 
     @app.get("/v1/ledger/verify")
-    def verify_all(
+    async def verify_all(
         request: Request,
         org: Org,
         limit: Annotated[int, Query(ge=1, le=MAX_VERIFY_STREAMS)] = 50,
@@ -2492,23 +2685,29 @@ def create_app(
         `next_after` is the last stream **shown**, or the `after` sent when the page shows none,
         so it never names another organization's stream; the next request goes on because the
         streams already looked up are remembered and cost nothing."""
-        throttle(verify_limit, request, verify_caller_limit)
+        budget_key, holder, signed_in = verify_keys(request)
+        verify_controls.throttle(request, budget_key, signed_in)
         route = "GET /v1/ledger/verify"
-        refuse_old_parameters(cursor, after=after)
+        refuse_old_parameters(cursor, after=after)  # syntactic checks only before the slots
         start = after or ""
-        if cursor is not None:  # a position is a stream this caller may see (or the start)
+        if cursor is not None:
             start = decode_position(cursor, route)
-            if start and not scope.visible(org, start):
-                raise invalid()
-        after = start
-        names = sorted(s for s in {*store.heads(), *store.damaged_streams()} if s > after)
-        found, cut = scope.filter_streams(
-            org, names, LookupBudget(MAX_NEW_LOOKUPS), stop_after=limit + 1
-        )
-        chosen = found[:limit]
-        result = verification(chosen)
-        truncated = len(found) > limit or cut
-        last = (chosen[-1] if chosen else after) if truncated else None
+        ticket = verify_controls.admit(holder)  # every store read below is inside the slots (R5)
+
+        def work() -> tuple[dict[str, Any], bool, str | None]:
+            if cursor is not None and start and not scope.visible(org, start):
+                raise invalid()  # a position is a stream this caller may see (or the start)
+            names = sorted(s for s in {*store.heads(), *store.damaged_streams()} if s > start)
+            found, cut = scope.filter_streams(
+                org, names, LookupBudget(MAX_NEW_LOOKUPS), stop_after=limit + 1
+            )
+            chosen = found[:limit]
+            result = verify_streams(chosen)
+            truncated = len(found) > limit or cut
+            last = (chosen[-1] if chosen else start) if truncated else None
+            return result, truncated, last
+
+        result, truncated, last = await offload_verify(work, ticket)
         return respond(
             request,
             items=result["streams"],
@@ -2557,10 +2756,16 @@ def create_app(
         )
 
     @app.get("/v1/ledger/{stream}/verify")
-    def verify(request: Request, stream: str, org: Org) -> dict[str, Any]:
-        throttle(verify_limit, request, verify_caller_limit)  # before the lookup (TM-10)
-        need_stream(org, stream)
-        result = verification([stream])
+    async def verify(request: Request, stream: str, org: Org) -> dict[str, Any]:
+        budget_key, holder, signed_in = verify_keys(request)  # same order as `run_verify`
+        verify_controls.throttle(request, budget_key, signed_in)
+        ticket = verify_controls.admit(holder)
+
+        def work() -> dict[str, Any]:
+            need_stream(org, stream)
+            return verify_streams([stream])
+
+        result = await offload_verify(work, ticket)
         return {
             **result["streams"][0],
             "ok": result["ok"],  # also false when configured anchors could not be checked
@@ -2660,7 +2865,7 @@ def create_app(
 
     @app.websocket("/v1/events")
     async def events(websocket: WebSocket) -> None:
-        """Stream ledger events as they are committed (R1.21; docs/architecture-platform.md §6).
+        """Stream ledger events as they are committed (R1.21).
 
         The client must send one JSON message first (within 5 s): `{"cursor": {"run:r1": 12},
         "streams": ["run:r1"]}` (`streams` omitted or `["*"]` = every stream, including new
@@ -2975,11 +3180,10 @@ def create_app(
         org: Org,
         idem: Idem,
     ) -> JSONResponse:
-        """A person decides a human gate that a durable run waits on (spec/steps/README.md,
-        "Human decisions in a durable run"). The answer never contains the person's text. The
-        record is written on a worker thread; waking the workflow (a network call, a few seconds
-        at most) happens on its own small pool, so a slow Temporal cannot hold up the threads
-        that authorize every other request.
+        """A person decides a human gate that a durable run waits on. The answer never contains the
+        person's text. The record is written on a worker thread; waking the workflow (a network
+        call, a few seconds at most) happens on its own small pool, so a slow Temporal cannot hold
+        up the threads that authorize every other request.
 
         The organization's only person who can decide sends `acknowledge_solo: true` with a
         decision that passes the gate (403 `acknowledge_required` otherwise; a failing decision
@@ -3422,7 +3626,7 @@ def create_app(
             )
         )
 
-    # every app, whatever its host configuration (spec/auth/org-scope.md section 6, G3): the routes
+    # every app, whatever its host configuration: the routes
     # it serves must be exactly the declared ones, and the declared tables the written matrix; an
     # unreadable or undeclared route stops it here
     check_route_table(app, extra_rules, extra_scopes)

@@ -1,7 +1,6 @@
 /**
- * Sample data for the fixture client, taken from the design files (docs/design/nuramesh-app-v1/
- * design/*.dc.html). It is **sample data**: nothing here is real, and the app says so wherever the
- * fixture client is in use. Times are fixed so tests and screenshots never drift.
+ * Sample data for the fixture client, taken from the app design files. It is **sample data**:
+ * nothing here is real, and the app says so wherever the fixture client is in use. Times are fixed so tests and screenshots never drift.
  */
 import { usd } from "../money";
 import type {

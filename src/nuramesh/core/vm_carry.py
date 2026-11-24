@@ -1,4 +1,4 @@
-"""Verified Merge carry-forward rule BR (spec `spec/verified-merge` GT-15, EB-3, section 4).
+"""Merge Gate carry-forward rule BR (spec GT-15, EB-3, section 4).
 
 A signed record (verdict or approval) bound to head H1 also counts for the live head H2 iff
 (a) H1 is an ancestor of H2 (or equal); (b) every commit in `rev-list H2 ^H1 ^<base tip>` is a

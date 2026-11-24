@@ -11,10 +11,10 @@ is checked against the real command line.
 
 **Symptom.** `nuramesh try my-team` ends at once with exit 3, or says it was not started.
 
-**Cause.** A bare `run` (no `--fake`) needs an approved model catalog and a usable connection to a
+**Cause.** A bare `try` (no `--fake`) needs an approved model catalog and a usable connection to a
 model provider. Without them the run is refused before anything starts. Exit 2 is a different
 problem: bad arguments, configuration or plan, and nothing was run. The exit codes are in
-[the command reference](/reference/cli/).
+[the command reference](cli.md).
 
 **Fix.** Check the configuration first, then decide whether you want the fake model.
 
@@ -25,7 +25,7 @@ nuramesh try my-team --fake --approve-as human:you --allow-unsandboxed
 
 `--fake` can only run agents whose model is a `fake/*` model; an agent configured with a real
 model is refused under `--fake`, by design. Setting up a real provider needs credentials and spends
-money; see demo/first-real-run.md.
+money.
 
 ## The model is not set up
 
@@ -50,12 +50,12 @@ exist; the models are managed with `nuramesh models` and the `/v1/models` routes
 | `authentication_required` | The route needs a signed-in person; the server was started with `--auth off`, so every write is refused. | Restart the server without `--auth off` and sign in. |
 | `forbidden` | The role, token scope or credential scope does not allow the action. | Use an account or token with the needed role or scope. |
 | `csrf_invalid` | A state-changing call with a session cookie lacks the `X-CSRF-Token` header. | Send the `csrf_token` from sign-in. |
-| `invalid_host` | The `Host` header is not one the server answers for. | Call it by loopback, or add an allowed host (see [the API reference](/reference/api/)). |
+| `invalid_host` | The `Host` header is not one the server answers for. | Call it by loopback, or add an allowed host (see [the API reference](api.md)). |
 | `rate_limited` | Too many calls or failed attempts. | Wait for the `Retry-After` time. |
 
 The server listens on loopback only, unless `--auth`, `--trusted-proxy` (with
 `NURAMESH_TRUSTED_PROXIES`, the proxy addresses) and `--allowed-host` are all given. The exact rules
-are in [the API reference](/reference/api/).
+are in [the API reference](api.md).
 
 ## 409 and 503 on a retried call (idempotency)
 
@@ -124,7 +124,7 @@ price in effect at the time of the call is blocked before it is called, and the 
 
 **Fix.** Add a price for that model (in the app or the API; `nuramesh models price` works only for an
 openai-compatible model), or a price override with provisional prices so budgets still stop correctly
-([price overrides](/guides/price-overrides/)). A local model is priced with an explicit free price,
+(price overrides). A local model is priced with an explicit free price,
 never by default.
 
 ## A gate failed
@@ -148,7 +148,7 @@ decide the current one).
 refuses; it never falls back to your machine. No sandbox is bundled.
 
 **Fix.** Install Podman, or Colima with Docker, and check that its `info` works
-([the sandbox guide](/guides/sandbox/)). For a local experiment only, `--allow-unsandboxed` runs the gate on your
+([the sandbox guide](sandbox.md)). For a local experiment only, `--allow-unsandboxed` runs the gate on your
 machine in a copy of the workspace and records `sandbox.opt_out` in the ledger. Use a throwaway folder.
 
 ## Postgres
@@ -157,7 +157,7 @@ machine in a copy of the workspace and records `sandbox.opt_out` in the ledger. 
 
 **Cause and fix.** `store_busy`: the database is busy; retry. For the Compose stack, `up` is safe to
 repeat; `down -v` deletes the volumes, including the ledger and the key ring. PostgreSQL 16 is
-pinned, and a major upgrade needs a dump and a restore ([the self-hosting guide](/guides/self-hosting/),
+pinned, and a major upgrade needs a dump and a restore ([the self-hosting guide](self-hosting.md),
 the store maintenance notes in the repository docs). With `NURAMESH_DATABASE_URL` set, the stores open
 that database.
 
@@ -175,7 +175,7 @@ set for the server). Without it, requests that need to keep text, or that carry 
 are not run. Requests without a key, and halt or role pause, are not affected.
 
 **Fix.** Install the extra and configure the key directory, or fix its permissions; see
-the idempotency runbook in the repository docs and [the API reference](/reference/api/). Never delete the key
+the idempotency runbook in the repository docs and [the API reference](api.md). Never delete the key
 ring to "reset" it: stored content then cannot be read (see the key tombstone runbook in the repository docs).
 
 ## The ledger reports a broken chain

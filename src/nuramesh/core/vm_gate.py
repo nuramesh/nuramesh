@@ -1,5 +1,5 @@
-"""Merge Gate evaluator (spec `spec/verified-merge` GT-1 to GT-19, QA-1 to QA-3, QA-6, EB-4,
-EB-8, EB-9, 6.4, 6.4a, 7.1; `tiers.md` TL-20, TL-21, TL-29, TL-31, TL-32; `gate-clarifications.md`
+"""Merge Gate evaluator (GT-1 to GT-19, QA-1 to QA-3, QA-6, EB-4,
+EB-8, EB-9, 6.4, 6.4a, 7.1; TL-20, TL-21, TL-29, TL-31, TL-32;
 GC-1 to GC-7, GC-12, GC-15).
 
 A pure function from what the gate re-read at call time to a decision. Nothing here talks to the
@@ -76,7 +76,7 @@ Mode = Literal["off", "shadow", "enforce"]
 HumanQuorum = Literal["evaluate", "not_built"]
 
 GATE_VERSION_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
-STATUS_NAMES: Mapping[str, str] = {"shadow": "verified-merge-shadow", "enforce": "verified-merge"}
+STATUS_NAMES: Mapping[str, str] = {"shadow": "merge-gate-shadow", "enforce": "merge-gate"}
 NOT_ENFORCED = "not_enforced"
 TIER_NOT_ENFORCED = "tier_not_enforced"
 

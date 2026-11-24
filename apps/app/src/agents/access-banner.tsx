@@ -3,7 +3,7 @@ import { NotAllowedError } from "@/api/client";
 import { useErasedIssuerCredentials } from "./queries";
 
 /**
- * Owners' banner (spec/agent-identity section 10, Q4): live credentials whose issuer has been
+ * Owners' banner (the agent identity notes section 10, Q4): live credentials whose issuer has been
  * erased. Derived from the list, so it stays until every one is rotated or revoked. Approvers and
  * viewers get a refusal from the server and see nothing.
  */

@@ -41,7 +41,7 @@ const MISMATCH = new Set(["head_mismatch", "stream_shorter"]);
 /**
  * Plain wording for a chain check. An intact chain that has no signed anchors is "not anchored
  * yet", never "verified": the chain check alone only finds accidental damage, anchors are what
- * prove history wasn't rewritten (docs/api.md, Verify).
+ * prove history wasn't rewritten (the API notes, Verify).
  */
 export function summarizeChain(status: ChainStatus): ChainSummary {
   if (status.anchorState === undefined) {

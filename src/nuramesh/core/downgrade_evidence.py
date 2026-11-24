@@ -1,6 +1,6 @@
 """Evidence and recommendation for the downgrade report (R1.34 Part B).
 
-The cases are `spec/token-savings/cases.json` (b01..b31); the choices are in T188e.
+The cases are b01..b31; the choices are in T188e.
 
 Pure functions over facts the ledger reader produces: which calls a task made (a verifier gate's
 calls are marked and never count), how the task ended and how many attempts it closed. Money is

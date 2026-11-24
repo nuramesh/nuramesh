@@ -1,4 +1,4 @@
-"""`nuramesh calibrate run|status` (R2.08, `spec/r208/README.md`).
+"""`nuramesh calibrate run|status` (R2.08).
 
 `run` asks one verifier agent to judge every sample of a calibration suite with the fake model and
 records ONE `calibration.scored` event; `status` shows whether the verifier is calibrated for each

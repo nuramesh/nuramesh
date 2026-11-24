@@ -19,7 +19,7 @@ never needs a UI change. Money is a decimal string (`money.ts` does the arithmet
 
 ## The server client
 
-`server-client.ts` talks to `nuramesh serve` (docs/api.md; how to run both: an internal document). `server/map.ts` holds the pure mappers
+`server-client.ts` talks to `nuramesh serve` (the API notes; how to run both: the app notes). `server/map.ts` holds the pure mappers
 from the API's JSON to the screens' types (tested on recorded real answers), `server/live.ts` the per-run WebSocket with
 reconnecting, `server/http.ts` the JSON calls and the problem+json errors. What the server has no endpoint for rejects with
 `NotAvailableError` (never sample data): `orgs.*`, `config.*`, `templates.*`, `policyPresets.*`, `runs.start`, `runs.pause`.
@@ -53,7 +53,7 @@ reconnecting, `server/http.ts` the JSON calls and the problem+json errors. What 
 | `auth.login` (second step), `completeMfa`, `loginEnroll`, `loginEnrollConfirm` | `POST /v1/auth/login` answers `signed-in`, `mfa_required` or `mfa_enroll_required` (`mfa_enroll_required` carries a challenge only when it is well formed; the enrolment screens are offered only then), then `POST /v1/auth/login/mfa` (`completeMfa`, the code step of the login page), `.../login/mfa/enroll`, `.../login/mfa/enroll/confirm` (the two enrolment routes are public: their own client, no CSRF header, never repeated; the challenge is kept in memory of the login page only, never in the address, history or storage; `loginEnroll` and `loginEnrollConfirm` are used only with `Cache-Control: no-store`, and the confirm signs nobody in until the person presses Continue and the session is read again) |
 | `info` | `GET /v1/health` |
 
-The nine org routes are E19 (the internal specification section 11). Anything that loosens protection (resume, role resume,
+The nine org routes are E19 (the organization safety notes section 11). Anything that loosens protection (resume, role resume,
 reset, disable, enable) is a person's alone: a `403 human_required` or `forbidden` is a `NotAllowedError` whose `code` is the
 server's, and the screens show those buttons only when `can_act` is true (`OrgStatus.canAct`, which the mapper sets to false
 unless the server says true). The fixture client takes `createFixtureClient({ orgSafety })` with `running` (default),

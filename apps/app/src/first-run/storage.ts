@@ -1,5 +1,5 @@
 /**
- * The one thing the checklist stores (spec/first-run/checklist.md FR-11): a browser-local preference per
+ * The one thing the checklist stores (the first-run checklist notes FR-11): a browser-local preference per
  * (organization, person). Never server state, never personal data. Every read and write is inside try/catch.
  */
 export interface FirstRunPrefs {

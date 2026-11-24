@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { RoleKind } from "@/model/org";
 
-// Role colours (docs/design/DESIGN-TOKENS.md, "Role colours"): indigo = Chief of Staff,
+// Role colours (the design tokens notes, "Role colours"): indigo = Chief of Staff,
 // blue = Worker, amber = Verifier, in both themes. The text always says the role as well.
 const STYLE: Record<RoleKind, string> = {
   chief_of_staff: "bg-role-chief-bg text-role-chief-text",

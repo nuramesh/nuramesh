@@ -1,4 +1,4 @@
-"""API tokens for programs (R1.22 PR 3; ND53 C, ND56; `docs/architecture-platform.md` §11).
+"""API tokens for programs (R1.22 PR 3; ND53 C, ND56).
 
 A token is 256 random bits, shown **once** (in the answer that creates it, or on the terminal for
 `nuramesh auth tokens create`), stored only as its SHA-256, scoped `read` and/or `run`, expiring
@@ -329,7 +329,7 @@ class TokenService:
         self, presented: str, client: str
     ) -> tuple[ApiToken, frozenset[Permission]]:
         """The active token behind a bearer value and its effective permissions now: its scopes
-        intersected with its issuing person's current role (`spec/auth/README.md` 4a), or 401
+        intersected with its issuing person's current role, or 401
         `token_invalid` (unknown, expired, revoked and issuer gone look the same; more than 30
         failures a minute from one client answer 429). An issuer who is gone or erased makes the
         token invalid. Only `service:cli` has no person: exactly the token's scopes. Any other

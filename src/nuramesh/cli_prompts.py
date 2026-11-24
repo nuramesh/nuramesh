@@ -1,4 +1,4 @@
-"""Questions the CLI asks on a terminal (R1.43 PR A2, `spec/cli-api-naming` section 6).
+"""Questions the CLI asks on a terminal (R1.43 PR A2).
 
 Rules (each is a test in `tests/test_cli_guards.py`):
 - P1: a question is shown only when stdin AND stderr are terminals and `CI` is not set; the

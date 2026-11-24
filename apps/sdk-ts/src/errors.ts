@@ -101,6 +101,7 @@ export const ERROR_CODES = [
   "self_approval",
   "session_invalid",
   "shipped_prices_invalid",
+  "shutting_down",
   "store_busy",
   "store_error",
   "template_unknown",

@@ -1,6 +1,6 @@
 /**
  * The server's proposal words in plain language (`GET /v1/autonomy/proposals`,
- * spec/autonomy/README.md section 4.3). The status and the reason codes are the server's own
+ * the autonomy notes section 4.3). The status and the reason codes are the server's own
  * (`core/proposals.py`); a word this file does not know is shown as the server sent it.
  */
 

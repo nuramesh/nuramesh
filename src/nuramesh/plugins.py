@@ -186,7 +186,7 @@ def load_plugins(
 ) -> PluginContext:
     """Read the licence file (if one is configured), then load every installed plugin in name
     order and return what they registered. A refused licence never raises: the context keeps
-    `NoEntitlements` and `context.licence.notice` says why (spec/licence/README.md section 4).
+    `NoEntitlements` and `context.licence.notice` says why.
     `env` and `clock` default to the process environment and the UTC clock (tests inject both)."""
     context = PluginContext()
     report, source = load_licence(env, clock)

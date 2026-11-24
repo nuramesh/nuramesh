@@ -1,4 +1,4 @@
-"""Email sending, fail closed (R1.39; `spec/identity/email.md`).
+"""Email sending, fail closed (R1.39).
 
 `load_mail_config` reads the SMTP settings (a bad one stops the server, naming the
 variable and never the value). `SmtpMailSender` is the real sender (stdlib `smtplib`; certificates

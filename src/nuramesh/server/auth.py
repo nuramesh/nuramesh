@@ -1,4 +1,4 @@
-"""The auth endpoints (R1.22 PR 2; spec/auth/sessions.md): login, refresh, logout, who am I, and
+"""The auth endpoints (R1.22 PR 2): login, refresh, logout, who am I, and
 redeeming the first-owner setup token.
 
 These routes are `PUBLIC` in the authorization table (`nuramesh.server.authz`): each checks its
@@ -141,7 +141,7 @@ def _body(started: Started) -> dict[str, Any]:
 
 
 def pending_body(pending: MfaPending) -> dict[str, Any]:
-    """The answer to a password that needs a second step (mfa.md section 3)."""
+    """The answer to a password that needs a second step."""
     body: dict[str, Any] = {"status": pending.status, "challenge": pending.challenge}
     if pending.methods is not None:
         body["methods"] = list(pending.methods)

@@ -5,7 +5,7 @@ The NuraMesh web app: React + TypeScript + Vite single-page app (graph builder, 
 ```bash
 cd apps/app
 corepack pnpm@10.34.7 install --frozen-lockfile    # pnpm version also pinned in package.json
-corepack pnpm@10.34.7 dev                           # http://localhost:5173 (sample data; real data: docs/app.md)
+corepack pnpm@10.34.7 dev                           # http://localhost:5173 (sample data; real data: see the app guide)
 corepack pnpm@10.34.7 lint && corepack pnpm@10.34.7 typecheck && corepack pnpm@10.34.7 test
 corepack pnpm@10.34.7 exec playwright install chromium   # once
 corepack pnpm@10.34.7 e2e                           # builds, serves with `vite preview`, runs Playwright
@@ -39,5 +39,5 @@ corepack pnpm@10.34.7 audit --audit-level low
   (clsx + tailwind-merge) and registry-internal paths to `@/components/ui/`, and drops `"use client"`. Add the component's npm dependencies by hand,
   pinned exactly.
 - **Audit exceptions:** `pnpm-workspace.yaml` (`auditConfig.ignoreGhsas`) **and** `audit-exceptions.json`
-  (reason, review date), same guard as `apps/web` (`scripts/check-audit-exceptions.mjs`). The owner signs off each one.
+  (reason, review date) (`scripts/check-audit-exceptions.mjs`).
 - **Supply chain:** `minimumReleaseAge: 4320` (3 days) in `pnpm-workspace.yaml`; every version is pinned exactly.

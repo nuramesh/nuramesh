@@ -1,4 +1,4 @@
-"""Email change (R1.40; `spec/identity/email-verification.md`): start a change and finish it.
+"""Email change (R1.40): start a change and finish it.
 
 The address changes only when the link mailed to the **new** address is opened. The start answer
 is the same (202) whether the new address is free or already held, and it is given **before any

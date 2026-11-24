@@ -8,7 +8,7 @@ import { AuthCard, Field } from "./auth-card";
 import { describeSetupFailure, tokenFromFragment, waitWords } from "./messages";
 import { useAuth, useAuthState, useLoadSession } from "./use-session";
 
-/** The shortest password the server accepts for a new account (spec/auth/README.md section 1). */
+/** The shortest password the server accepts for a new account (the sign-in notes section 1). */
 export const MIN_PASSWORD_LENGTH = 12;
 
 /** First-owner setup: redeem the one-time token printed by `nuramesh serve` (a link) or `nuramesh auth new-setup-token`. */

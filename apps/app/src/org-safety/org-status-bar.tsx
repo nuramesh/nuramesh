@@ -56,7 +56,7 @@ function HaltedText({ status, noteId }: { status: OrgStatus; noteId: string }) {
 }
 
 /**
- * The organization's status bar (E19, spec/e19/README.md section 12): one slim row while running,
+ * The organization's status bar (E19, the organization safety notes section 12): one slim row while running,
  * a banner while halted, with the Halt or Resume button for a person and the per-role pause
  * controls. It reads every 5 s; a failed read keeps the last good state and says it may be stale.
  * The Halt and Resume buttons are one element, so keyboard focus survives the state change.

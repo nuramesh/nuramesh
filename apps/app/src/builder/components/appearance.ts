@@ -10,7 +10,7 @@ const BY_ACCENT: Readonly<Record<string, string>> = {
   slate: "bg-secondary text-secondary-foreground",
 };
 
-/** Role colours (docs/design/DESIGN-TOKENS.md): indigo = Chief of Staff, blue = Worker, amber = Verifier. */
+/** Role colours (the design tokens notes): indigo = Chief of Staff, blue = Worker, amber = Verifier. */
 const BY_KIND: Readonly<Record<RoleKind, string>> = {
   chief_of_staff: "bg-role-chief-bg text-role-chief-text",
   worker: "bg-role-worker-bg text-role-worker-text",

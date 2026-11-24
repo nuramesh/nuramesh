@@ -1,5 +1,5 @@
 /**
- * The server's audit answer for fixture F1 of spec/r127 (run `r1`, task `t1`): 21 entries, a gate
+ * The server's audit answer for fixture F1 of the task audit notes (run `r1`, task `t1`): 21 entries, a gate
  * that failed once, three calls (one of unknown price), one approval. The fixture client maps it
  * with the same mapper as the server client, so both clients return the same shapes.
  */

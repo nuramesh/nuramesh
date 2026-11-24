@@ -37,7 +37,7 @@ function body(fields: Record<string, unknown>): Record<string, unknown> {
 const keyPath = (t: { provider: string; endpointId?: string }): string =>
   `/v1/models/connections/${enc(t.provider)}/key${t.endpointId === undefined ? "" : `?endpoint_id=${enc(t.endpointId)}`}`;
 
-/** The model screens' calls, one per route of spec/model-governance section 10.3. */
+/** The model screens' calls, one per route of the model governance notes section 10.3. */
 export function createModelsApi(http: HttpClient): ModelsApi {
   const write = async (path: string, fields: Record<string, unknown>) =>
     writeResult(await http.post<RawWriteResult>(path, body(fields)));

@@ -1,10 +1,12 @@
 /**
  * Predefined roles (PLAN B.1) and the built-in team templates (PLAN B.3) as typed data.
- * Templates carry roles and hierarchy; gates, evals, policies and budgets join them as those
- * features land (R1.28 adds reference runs).
+ * Templates carry roles, hierarchy, models, verification lines, permissions and budgets. They
+ * carry no gate preset: a gate with no settings can never be met by a task, so a template that
+ * shipped one could not run (ND194 Q2 (i) = A, issue #1407). A team's gates come from its team
+ * script, or are added in the builder with their settings.
  */
 import { emptyConfig, emptyUi } from "@/model/config";
-import { addCheck, addGate, addRule, setAgentBudget } from "./config-ops";
+import { addCheck, addRule, setAgentBudget } from "./config-ops";
 import type { Agent, Role } from "@/model/org";
 
 import { type BuilderDocument, SCHEMA_VERSION } from "./document";
@@ -534,6 +536,146 @@ const BASE_TEMPLATES: readonly Template[] = [
       layout: { positions: {} },
     },
   },
+  {
+    id: "research-report",
+    name: "Research report team",
+    description: "A lead routing a research question to a researcher and a writer, with an independent fact checker and a human approval.",
+    document: {
+      schema_version: SCHEMA_VERSION,
+      org: {
+        id: "research-report",
+        name: "Research report team",
+        roles: [
+          role("research-lead", "Research lead", "chief_of_staff", "Research lead.", "Do the work of the research lead for this team."),
+          role("researcher", "Researcher", "worker", "Researcher.", "Do the work of the researcher for this team."),
+          role("writer", "Writer", "worker", "Writer.", "Do the work of the writer for this team."),
+          role("fact-checker", "Fact checker", "verifier", "Fact checker.", "Do the work of the fact checker for this team."),
+        ],
+        agents: [
+          agent("research-lead", "Research lead", "research-lead", null),
+          agent("researcher", "Researcher", "researcher", "research-lead"),
+          agent("writer", "Writer", "writer", "research-lead"),
+          agent("fact-checker", "Fact checker", "fact-checker", "research-lead"),
+        ],
+      },
+      config: emptyConfig(),
+      ui: emptyUi(),
+      layout: { positions: {} },
+    },
+  },
+  {
+    id: "data-analysis",
+    name: "Data analysis team",
+    description: "A lead routing a data question to an analyst and a summarizer, with an independent number checker.",
+    document: {
+      schema_version: SCHEMA_VERSION,
+      org: {
+        id: "data-analysis",
+        name: "Data analysis team",
+        roles: [
+          role("analysis-lead", "Analysis lead", "chief_of_staff", "Analysis lead.", "Do the work of the analysis lead for this team."),
+          role("analyst", "Analyst", "worker", "Analyst.", "Do the work of the analyst for this team."),
+          role("summarizer", "Summarizer", "worker", "Summarizer.", "Do the work of the summarizer for this team."),
+          role("number-checker", "Number checker", "verifier", "Number checker.", "Do the work of the number checker for this team."),
+        ],
+        agents: [
+          agent("analysis-lead", "Analysis lead", "analysis-lead", null),
+          agent("analyst", "Analyst", "analyst", "analysis-lead"),
+          agent("summarizer", "Summarizer", "summarizer", "analysis-lead"),
+          agent("number-checker", "Number checker", "number-checker", "analysis-lead"),
+        ],
+      },
+      config: emptyConfig(),
+      ui: emptyUi(),
+      layout: { positions: {} },
+    },
+  },
+  {
+    id: "document-extraction",
+    name: "Document extraction team",
+    description: "A lead routing invoices to an extractor and an exporter, with an independent invoice checker.",
+    document: {
+      schema_version: SCHEMA_VERSION,
+      org: {
+        id: "document-extraction",
+        name: "Document extraction team",
+        roles: [
+          role("extraction-lead", "Extraction lead", "chief_of_staff", "Extraction lead.", "Do the work of the extraction lead for this team."),
+          role("extractor", "Extractor", "worker", "Extractor.", "Do the work of the extractor for this team."),
+          role("exporter", "Exporter", "worker", "Exporter.", "Do the work of the exporter for this team."),
+          role("invoice-checker", "Invoice checker", "verifier", "Invoice checker.", "Do the work of the invoice checker for this team."),
+        ],
+        agents: [
+          agent("extraction-lead", "Extraction lead", "extraction-lead", null),
+          agent("extractor", "Extractor", "extractor", "extraction-lead"),
+          agent("exporter", "Exporter", "exporter", "extraction-lead"),
+          agent("invoice-checker", "Invoice checker", "invoice-checker", "extraction-lead"),
+        ],
+      },
+      config: emptyConfig(),
+      ui: emptyUi(),
+      layout: { positions: {} },
+    },
+  },
+  {
+    id: "incident-triage",
+    name: "Incident triage team",
+    description: "A lead routing an alert to a triager, a responder and a postmortem writer, with human approval before any action.",
+    document: {
+      schema_version: SCHEMA_VERSION,
+      org: {
+        id: "incident-triage",
+        name: "Incident triage team",
+        roles: [
+          role("incident-lead", "Incident lead", "chief_of_staff", "Incident lead.", "Do the work of the incident lead for this team."),
+          role("triager", "Triager", "worker", "Triager.", "Do the work of the triager for this team."),
+          role("responder", "Responder", "worker", "Responder.", "Do the work of the responder for this team."),
+          role("postmortem-writer", "Postmortem writer", "worker", "Postmortem writer.", "Do the work of the postmortem writer for this team."),
+          role("incident-reviewer", "Incident reviewer", "verifier", "Incident reviewer.", "Do the work of the incident reviewer for this team."),
+        ],
+        agents: [
+          agent("incident-lead", "Incident lead", "incident-lead", null),
+          agent("triager", "Triager", "triager", "incident-lead"),
+          agent("responder", "Responder", "responder", "incident-lead"),
+          agent("postmortem-writer", "Postmortem writer", "postmortem-writer", "incident-lead"),
+          agent("incident-reviewer", "Incident reviewer", "incident-reviewer", "incident-lead"),
+        ],
+      },
+      config: emptyConfig(),
+      ui: emptyUi(),
+      layout: { positions: {} },
+    },
+  },
+  {
+    id: "multi-framework-org",
+    name: "Multi-framework organization",
+    description: "Two teams (a native agent and a LangGraph agent) under one chief, with central policies, team budgets and one ledger.",
+    document: {
+      schema_version: SCHEMA_VERSION,
+      org: {
+        id: "multi-framework-org",
+        name: "Multi-framework organization",
+        roles: [
+          role("chief", "Chief of Staff", "chief_of_staff", "Chief of Staff.", "Do the work of the chief of staff for this team."),
+          role("team-lead", "Team lead", "worker", "Team lead.", "Do the work of the team lead for this team."),
+          role("researcher", "Researcher (native agent)", "worker", "Researcher (native agent).", "Do the work of the researcher (native agent) for this team."),
+          role("graph-drafter", "Drafter (LangGraph graph)", "worker", "Drafter (LangGraph graph).", "Do the work of the drafter (langgraph graph) for this team."),
+          role("central-reviewer", "Central reviewer", "verifier", "Central reviewer.", "Do the work of the central reviewer for this team."),
+        ],
+        agents: [
+          agent("chief", "Chief of Staff", "chief", null),
+          agent("research-lead", "Research team lead", "team-lead", "chief"),
+          agent("researcher", "Researcher", "researcher", "research-lead"),
+          agent("ops-lead", "Operations team lead", "team-lead", "chief"),
+          agent("graph-drafter", "Drafter", "graph-drafter", "ops-lead"),
+          agent("central-reviewer", "Central reviewer", "central-reviewer", "chief"),
+        ],
+      },
+      config: emptyConfig(),
+      ui: emptyUi(),
+      layout: { positions: {} },
+    },
+  },
 ];
 
 /** Sets models on roles (a template's starting point; any agent can still override). */
@@ -543,6 +685,15 @@ function withModels(doc: BuilderDocument, models: Record<string, string>): Build
     org: { ...doc.org, roles: doc.org.roles.map((r) => (models[r.id] === undefined ? r : { ...r, default_model: models[r.id] ?? null })) },
   };
 }
+
+/** Who checks whom in the launch templates, as in `src/nuramesh/templates/*` (#1538). */
+const LAUNCH_CHECKS: Record<string, { lead: string; verifier: string; checks: string[] }> = {
+  "research-report": { lead: "research-lead", verifier: "fact-checker", checks: ["researcher", "writer"] },
+  "data-analysis": { lead: "analysis-lead", verifier: "number-checker", checks: ["analyst", "summarizer"] },
+  "document-extraction": { lead: "extraction-lead", verifier: "invoice-checker", checks: ["extractor"] },
+  "incident-triage": { lead: "incident-lead", verifier: "incident-reviewer", checks: ["triager", "postmortem-writer"] },
+  "multi-framework-org": { lead: "chief", verifier: "central-reviewer", checks: ["researcher", "graph-drafter"] },
+};
 
 /**
  * The built-in templates with what a real team needs on top of its shape: models (the verifiers a
@@ -565,10 +716,7 @@ function enrich(template: Template): Template {
     doc = addRule(doc, "developer", { action: "merge", decision: "ask", target: "*" });
     doc = addRule(doc, "tester", { action: "run_command", decision: "allow", target: "pytest **" });
     doc = addRule(doc, "reviewer", { action: "call_model", decision: "allow", target: "*" });
-    doc = addGate(addGate(addGate(doc, "developer", "rule", "Developer"), "developer", "test_command", "Developer"), "developer", "verifier", "Developer");
-    doc = addGate(doc, "tester", "test_command", "Tester");
     doc = addRule(doc, "devops", { action: "merge", decision: "ask", target: "*" });
-    doc = addGate(doc, "devops", "rule", "DevOps engineer");
     doc = setAgentBudget(setAgentBudget(doc, "dana", "5.00"), "rhea", "5.00");
   } else if (template.id === "code-review") {
     doc = withModels(doc, {
@@ -580,7 +728,6 @@ function enrich(template: Template): Template {
     doc = addCheck(addCheck(doc, "code-reviewer", "change-summarizer"), "security-reviewer", "change-summarizer");
     doc = addRule(doc, "chief-of-staff", { action: "delegate", decision: "allow", target: "*" });
     doc = addRule(doc, "change-summarizer", { action: "use_tool", decision: "allow", target: "git" });
-    doc = addGate(addGate(doc, "change-summarizer", "rule", "Change summarizer"), "change-summarizer", "verifier", "Change summarizer");
   } else if (template.id === "scrum") {
     doc = withModels(doc, {
       "product-owner": "anthropic/claude-opus-5-5",
@@ -595,8 +742,6 @@ function enrich(template: Template): Template {
     doc = addRule(doc, "developer", { action: "merge", decision: "ask", target: "*" });
     doc = addRule(doc, "tester", { action: "run_command", decision: "allow", target: "pytest **" });
     doc = addRule(doc, "reviewer", { action: "call_model", decision: "allow", target: "*" });
-    doc = addGate(addGate(doc, "developer", "rule", "Developer"), "developer", "verifier", "Developer");
-    doc = addGate(doc, "tester", "test_command", "Tester");
     doc = setAgentBudget(setAgentBudget(doc, "developer-1", "5.00"), "developer-2", "5.00");
   } else if (template.id === "kanban") {
     doc = withModels(doc, {
@@ -610,8 +755,6 @@ function enrich(template: Template): Template {
     doc = addRule(doc, "developer", { action: "write_file", decision: "allow", target: "src/*" });
     doc = addRule(doc, "developer", { action: "merge", decision: "ask", target: "*" });
     doc = addRule(doc, "tester", { action: "run_command", decision: "allow", target: "pytest **" });
-    doc = addGate(addGate(doc, "developer", "rule", "Developer"), "developer", "verifier", "Developer");
-    doc = addGate(doc, "tester", "test_command", "Tester");
     doc = setAgentBudget(doc, "developer", "5.00");
   } else if (template.id === "review-board") {
     // Three reviewers from three model families, none the summarizer's.
@@ -625,7 +768,6 @@ function enrich(template: Template): Template {
     for (const reviewer of ["correctness-reviewer", "security-reviewer", "maintainability-reviewer"]) doc = addCheck(doc, reviewer, "change-summarizer");
     doc = addRule(doc, "chair", { action: "delegate", decision: "allow", target: "*" });
     doc = addRule(doc, "change-summarizer", { action: "use_tool", decision: "allow", target: "git" });
-    doc = addGate(addGate(doc, "change-summarizer", "rule", "Change summarizer"), "change-summarizer", "verifier", "Change summarizer");
     doc = setAgentBudget(doc, "change-summarizer", "5.00");
   } else if (template.id === "support") {
     doc = withModels(doc, {
@@ -639,8 +781,6 @@ function enrich(template: Template): Template {
     doc = addRule(doc, "responder", { action: "external_message", decision: "ask", target: "*" });
     doc = addRule(doc, "responder", { action: "use_tool", decision: "deny", target: "refund-*" });
     doc = addRule(doc, "triager", { action: "external_message", decision: "deny", target: "*" });
-    doc = addGate(addGate(doc, "triager", "rule", "Triager"), "triager", "verifier", "Triager");
-    doc = addGate(doc, "responder", "rule", "Responder");
     doc = setAgentBudget(setAgentBudget(doc, "triager", "5.00"), "responder", "5.00");
   } else if (template.id === "sales") {
     doc = withModels(doc, {
@@ -654,8 +794,6 @@ function enrich(template: Template): Template {
     doc = addRule(doc, "outreach-writer", { action: "external_message", decision: "ask", target: "*" });
     doc = addRule(doc, "outreach-writer", { action: "use_tool", decision: "deny", target: "crm-write" });
     doc = addRule(doc, "qualifier", { action: "external_message", decision: "deny", target: "*" });
-    doc = addGate(addGate(doc, "qualifier", "rule", "Qualifier"), "qualifier", "verifier", "Qualifier");
-    doc = addGate(doc, "outreach-writer", "rule", "Outreach writer");
     doc = setAgentBudget(setAgentBudget(doc, "qualifier", "5.00"), "outreach-writer", "5.00");
   } else if (template.id === "qa") {
     doc = withModels(doc, {
@@ -673,8 +811,6 @@ function enrich(template: Template): Template {
     doc = addRule(doc, "test-runner", { action: "use_tool", decision: "deny", target: "*" });
     doc = addRule(doc, "test-designer", { action: "write_file", decision: "deny", target: "**" });
     doc = addRule(doc, "test-designer", { action: "external_message", decision: "deny", target: "*" });
-    doc = addGate(addGate(doc, "test-designer", "rule", "Test designer"), "test-designer", "verifier", "Test designer");
-    doc = addGate(doc, "test-runner", "rule", "Test runner");
     doc = setAgentBudget(setAgentBudget(doc, "test-designer", "5.00"), "test-runner", "5.00");
   } else if (template.id === "devops") {
     doc = withModels(doc, {
@@ -691,9 +827,20 @@ function enrich(template: Template): Template {
     doc = addRule(doc, "staging-checker", { action: "write_file", decision: "deny", target: "infra/**" });
     doc = addRule(doc, "change-planner", { action: "use_tool", decision: "deny", target: "*" });
     doc = addRule(doc, "change-planner", { action: "write_file", decision: "deny", target: "**" });
-    doc = addGate(addGate(doc, "change-planner", "rule", "Change planner"), "change-planner", "verifier", "Change planner");
-    doc = addGate(doc, "staging-checker", "rule", "Staging checker");
     doc = setAgentBudget(setAgentBudget(doc, "change-planner", "5.00"), "staging-checker", "5.00");
+  } else if (template.id in LAUNCH_CHECKS) {
+    // The launch templates (#1538): the verifier checks the listed workers; the lead may delegate.
+    const spec = LAUNCH_CHECKS[template.id];
+    if (spec !== undefined) {
+      // Models by kind: the verifier is a different family from the work it checks.
+      const family = { chief_of_staff: "anthropic/claude-opus-5-5", worker: "anthropic/claude-sonnet-5-5", verifier: "openai/gpt-4.1-mini" };
+      doc = withModels(doc, Object.fromEntries(doc.org.roles.map((r) => [r.id, family[r.kind]])));
+      const kinds = new Map(doc.org.roles.map((r) => [r.id, r.kind]));
+      const worker = doc.org.agents.find((a) => kinds.get(a.role) === "worker" && a.reports_to !== null);
+      if (worker !== undefined) doc = setAgentBudget(doc, worker.id, "5.00");
+      for (const worker of spec.checks) doc = addCheck(doc, spec.verifier, worker);
+      doc = addRule(doc, spec.lead, { action: "delegate", decision: "allow", target: "*" });
+    }
   }
   return { ...template, document: doc };
 }

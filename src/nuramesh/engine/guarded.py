@@ -19,7 +19,19 @@ from nuramesh.stores.base import EventDraft, UnitOfWork, run_stream
 
 FROZEN_KIND = "tool_set_frozen"
 PAGE = 500
-REFUSALS = frozenset({ReasonCode.TOOL_SET_CHANGED, ReasonCode.TOOL_REPLACED})
+# the closed list of `task.refused` codes of a guarded run (the ledger spec: "`task.refused` of a
+# guarded run"); each records the stop of the run (AD-44a). The last three have no offered tool
+# and no call (#971, LG-1 and LG-3): a tool result without a valid run token, a final turn's
+# tool calls left unanswered, a tool message that answers no call.
+REFUSALS = frozenset(
+    {
+        ReasonCode.TOOL_SET_CHANGED,
+        ReasonCode.TOOL_REPLACED,
+        ReasonCode.TOOL_TOKEN_INVALID,
+        ReasonCode.TOOL_CALLS_UNANSWERED,
+        ReasonCode.TOOL_MESSAGE_ORPHAN,
+    }
+)
 # fixed reasons chosen by the code (AD-27); never a rule's text, never an argument
 REASONS: Mapping[ReasonCode, str] = {
     ReasonCode.UNREADABLE_TOOL_NAME: "the tool name is not readable",

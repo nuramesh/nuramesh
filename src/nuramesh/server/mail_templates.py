@@ -1,4 +1,4 @@
-"""The fixed mail texts (R1.39; `spec/identity/email.md` section 1). English plain text.
+"""The fixed mail texts (R1.39). English plain text.
 
 The only variable parts are a link, a role name, an expiry text, the organization name (from
 `NURAMESH_ORG_NAME`, never user input), the UTC time of the event and, for a notice, a fixed word.

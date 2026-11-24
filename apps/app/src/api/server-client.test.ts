@@ -326,7 +326,7 @@ describe("approvals: the routes and the Idempotency-Key (W2, W3)", () => {
     expect(keyOf(b)).not.toBe(keyOf(a));
   });
 
-  it("the kill switch sends no key (spec/idempotency 8.2) and a secret-bearing route sends none either", async () => {
+  it("the kill switch sends no key (the idempotency notes 8.2) and a secret-bearing route sends none either", async () => {
     const raw = { org: "o", halted: false, halted_at: null, halted_by: null, reason: null, roles: [] };
     const { api, calls } = client({
       "POST /v1/org/halt": () => ({ body: { ...raw, stopped_runs: [] } }),

@@ -1,5 +1,5 @@
 """The seam: the one shared implementation of the adapter tool-call contract
-(spec/adapters/README.md, S4). Every tool call of an adapted framework goes through
+. Every tool call of an adapted framework goes through
 `ToolGuard.call` (sync) or `ToolGuard.acall` (async) before its body can start (AD-1).
 
 One decision flow (`ToolGuard._flow`, a generator of steps) is run by two small drivers, so the
@@ -261,12 +261,25 @@ class ToolGuard:
                 refusal = refusal or ReasonCode.TOOL_REPLACED
         if refusal is None:
             return
-        self._latch.set(refusal)
+        self.refuse(refusal)
+        raise ToolStop(refusal)
+
+    def refuse(self, code: ReasonCode) -> None:
+        """Latch a stop that has no call to decide and record it as one `task.refused` with the
+        fixed `code` (`refuse_turn`): a tool result without a valid run token, a final turn's
+        tool calls left unanswered, a tool message that answers no call (#971, LG-1, LG-3). The
+        stop holds whether or not the write succeeded; the caller raises. First caller of
+        `refuse_turn` outside `check_turn`."""
+        self._latch.set(code)
         try:
-            self._transport.refuse_turn(refusal)
+            self._transport.refuse_turn(code)
         except Exception:  # noqa: BLE001, S110 (the stop holds whether or not it was recorded)
             pass
-        raise ToolStop(refusal)
+
+    @property
+    def tool_set_hash(self) -> str | None:
+        """The frozen tool set's hash, or `None` before the freeze."""
+        return None if self._frozen is None else self._frozen.tool_set_hash
 
     def _require_frozen(self) -> FrozenToolSet:
         if self._frozen is None:

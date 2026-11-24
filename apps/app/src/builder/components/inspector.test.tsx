@@ -50,6 +50,59 @@ describe("Inspector", () => {
     expect(yaml.value).toContain("name: Ada");
   });
 
+  it("adds a gate only once its settings are given (issue #1407)", async () => {
+    const store = mount(["dana"]);
+    expect(screen.getByText(/No gates: this role's work is not checked/)).toBeInTheDocument();
+    await userEvent.selectOptions(screen.getByRole("combobox", { name: "Add a gate" }), "verifier");
+    // choosing a kind writes nothing: the settings come first
+    expect(store.getState().doc.config.presets.gate).toEqual([]);
+    const add = screen.getByRole("button", { name: "Add gate" });
+    expect(add).toBeDisabled();
+    const box = screen.getByRole("textbox", { name: "Settings for the Independent verifier (YAML)" });
+    await userEvent.type(box, "- not a map");
+    expect(add).toBeDisabled();
+    expect(screen.getByText("Must be an object")).toBeInTheDocument();
+    await userEvent.clear(box);
+    await userEvent.type(box, "verifier: reviewer");
+    await userEvent.click(add);
+    expect(store.getState().doc.config.presets.gate).toEqual([
+      { id: "developer-gates", name: "Developer gates", description: "", gates: [{ id: "verifier", kind: "verifier", required: true, config: { verifier: "reviewer" } }], evals: [] },
+    ]);
+    expect(screen.getByRole("button", { name: "Remove Independent verifier" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Add gate" })).not.toBeInTheDocument();
+  });
+
+  it("does not carry a half-filled add-gate form over to another role (issue #1407)", async () => {
+    const store = mount(["dana"]);
+    await userEvent.selectOptions(screen.getByRole("combobox", { name: "Add a gate" }), "verifier");
+    await userEvent.type(screen.getByRole("textbox", { name: "Settings for the Independent verifier (YAML)" }), "verifier: reviewer");
+    expect(screen.getByRole("button", { name: "Add gate" })).toBeEnabled();
+    act(() => {
+      store.getState().setSelection(["rhea"]);
+    });
+    expect(screen.queryByRole("button", { name: "Add gate" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("textbox", { name: /Settings for the/ })).not.toBeInTheDocument();
+    expect(store.getState().doc.config.presets.gate).toEqual([]);
+  });
+
+  it("marks a gate that has no settings (from an older saved file)", () => {
+    const store = mount(["dana"]);
+    act(() => {
+      store.getState().edit("Old file", (d) => ({
+        ...d,
+        config: {
+          ...d.config,
+          presets: {
+            ...d.config.presets,
+            gate: [{ id: "developer-gates", name: "Developer gates", description: "", gates: [{ id: "rule", kind: "rule", required: true }], evals: [] }],
+            assignments: [{ role: "developer", policy_presets: [], gate_preset: "developer-gates" }],
+          },
+        },
+      }));
+    });
+    expect(screen.getByText(/No settings: no task can carry this gate/)).toBeInTheDocument();
+  });
+
   it("renders a person and the organization when nothing is selected", () => {
     const store = mount([]);
     expect(screen.getByRole("heading", { name: "Organization" })).toBeInTheDocument();

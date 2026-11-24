@@ -330,7 +330,7 @@ class NeedsHuman(Exception):  # noqa: N818 (a signal, not an error)
 
 
 NO_USABLE_ANSWER = "model_no_usable_answer"
-"""The fixed code of a task whose model gave no usable answer (spec/real-models R28)."""
+"""The fixed code of a task whose model gave no usable answer (real-models design R28)."""
 
 
 class NoUsableAnswer(NeedsHuman):
@@ -383,7 +383,7 @@ class WorkContext:
         denial_limit: object = DENIAL_LIMIT,
         deadline_seconds: object = DEADLINE_WAIT_SECONDS,
     ) -> ToolLedger:
-        """The embedded transport of the adapter tool-call seam (spec/adapters, S4): the party
+        """The embedded transport of the adapter tool-call seam (the adapter design, S4): the party
         that writes the ledger for this guarded run (run, task, attempt, assignee), with the
         real budget gate (AD-32). The role comes from the organization, never from the caller
         (AD-21); the options can only be stricter than the defaults (AD-69)."""
@@ -803,7 +803,7 @@ class RunReport:
             if self.spend.unknown:
                 lines.append(
                     f"Spend: {at_least_words(self.spend.at_least or '0')} "
-                    f"({self.spend.calls} {noun}: {COST_UNKNOWN_SHORT})"
+                    f"({self.spend.calls} {noun}, {len(self.spend.unknown)} {COST_UNKNOWN_SHORT})"
                 )
                 for u in self.spend.unknown:
                     lines.append(f"  {u.model}: {cost_unknown_call_words(u.charged)}")
@@ -840,7 +840,7 @@ class EngineSettings:
     reconcile_max_age: timedelta = timedelta(minutes=15)
     approvals_sweep_every: timedelta = timedelta(minutes=30)
     """The approvals sweep (ND195 a) runs at most this often per engine, not on every task step
-    (spec/auth/token-lifecycle.md R34). The first call after the engine starts always sweeps."""
+    (auth design R34). The first call after the engine starts always sweeps."""
     resume_quiet: timedelta = timedelta(seconds=30)
     """A run whose ledger changed more recently than this is not resumed without
     `previous_engine_gone=True` (its engine may still be alive)."""
@@ -857,7 +857,7 @@ class EngineSettings:
     """Durable runs (ND55): the approver of a task waiting for a human is warned this many days
     before its input expires (the 90-day working expiry), in descending order."""
     runner_calls: bool = False
-    """The light runner's call rules (spec/real-models R20.8, R27, R28; never the CLI path, never
+    """The light runner's call rules (real-models design R20.8, R27, R28; never the CLI path, never
     the Temporal worker): a provider call that failed after its request was sent is settled at
     its reservation as unknown, a stop cuts a call in flight, a worker's answer that is a tool
     call or empty sends the task to a person, and the stop path charges left-over reservations
@@ -1188,7 +1188,7 @@ class RunEngine:
         for stored in self.store.reservations_for_run(run_id, ReservationStatus.OPEN):
             try:
                 if self.settings.runner_calls:
-                    # spec/real-models R27 (owner, OQ10 A): a left-over of a call that was sent
+                    # real-models design R27 (owner, OQ10 A): a left-over of a call that was sent
                     # is charged, never released. Nothing durable says whether a dead try's
                     # request was sent, so a left-over is taken as sent (it may over-count, it
                     # does not under-count); a call stopped before it was sent released its own
@@ -1278,7 +1278,7 @@ class RunEngine:
 
     def refuse_action_when_halted(self) -> None:
         """Once a halt of the organization is recorded, no tool action and no command executes
-        (`spec/real-models` R27, case C36s). A model call in flight may end
+        (real-models design R27, case C36s). A model call in flight may end
         and is settled; this is asked at execution time, where a worker has an action checked
         (`WorkContext.authorize`) and right before a gate runner runs. An unreadable halt state
         is a halt (fail closed). It stops the task the way a halt at a model call does."""
@@ -1398,7 +1398,7 @@ class RunEngine:
         self._check_run_id(run_id, resume=resume)
         self._check_plan(run_id, planned, resume=resume)
         # E13: the configuration is recorded (with the voids it causes) before it is used; if the
-        # record cannot be written the run does not start (spec/autonomy 2 and 7 item 4)
+        # record cannot be written the run does not start (the autonomy design 2 and 7 item 4)
         record_config(self.store, self.org, self.policies, self.evals, content=self.content)
         started = self._governance_start(run_id, planned, resume=resume)
         self._reconciled = 0
@@ -3743,15 +3743,18 @@ def run_spend_line(events: Sequence[Any]) -> SpendLine:
     calls = 0
     unknown: list[UnknownCostCall] = []
     for e in events:
-        if e.type != EventType.MODEL_CALLED.value or e.payload.get("outcome") not in (
-            "ok",
-            "settled_late",
-        ):
+        if e.type != EventType.MODEL_CALLED.value:
             continue
+        outcome = e.payload.get("outcome")
+        settle_failed = outcome == "settle_failed"  # paid, cost not recorded: unknown (sec. 1)
+        if not settle_failed and outcome not in ("ok", "settled_late"):
+            continue
+        if not settle_failed and e.cost is None and getattr(e, "cost_basis", None) is None:
+            continue  # no amount and no basis: nothing was spent (costs sec. 1)
         calls += 1
-        if e.cost is not None:
+        if e.cost is not None and not settle_failed:
             known += e.cost.amount
-        elif str(getattr(e, "cost_basis", None)) == CostBasis.UNKNOWN.value:
+        elif settle_failed or getattr(e, "cost_basis", None) is not None:
             payload = e.payload
             unknown.append(
                 UnknownCostCall(

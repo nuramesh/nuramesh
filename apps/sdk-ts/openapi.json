@@ -8071,6 +8071,16 @@
               }
             },
             "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "shutting_down"
           }
         },
         "summary": "Verify All"
@@ -8256,6 +8266,16 @@
               }
             },
             "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "shutting_down"
           }
         },
         "summary": "Verify"
@@ -11891,7 +11911,7 @@
     },
     "/v1/runs": {
       "get": {
-        "description": "Runs, most recently active first (`limit` at most 200): `{\"runs\": [...], \"truncated\",\n\"scanned\"}`. Each row has the status, task and gate counts and the spend, derived from the\nrun's ledger (docs/api.md). `status` is one of the documented values (else 422). The work\nper request is bounded; `truncated` says the bound stopped the search.",
+        "description": "Runs, most recently active first (`limit` at most 200): `{\"runs\": [...], \"truncated\",\n\"scanned\"}`. Each row has the status, task and gate counts and the spend, derived from the\nrun's ledger (the REST API guide). `status` is one of the documented values (else 422).\nThe work per request is bounded; `truncated` says the bound stopped the search.",
         "operationId": "list_runs",
         "parameters": [
           {
@@ -12368,6 +12388,16 @@
               }
             },
             "description": "Too Many Requests"
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "shutting_down"
           }
         },
         "summary": "Run Verify"
@@ -12787,7 +12817,7 @@
     "/v1/runs/{run_id}/tasks/{task_id}/gates/{gate_id}/decision": {
       "post": {
         "deprecated": true,
-        "description": "A person decides a human gate that a durable run waits on. The answer never contains the person's text. The\nrecord is written on a worker thread; waking the workflow (a network call, a few seconds\nat most) happens on its own small pool, so a slow Temporal cannot hold up the threads\nthat authorize every other request.\n\nThe organization's only person who can decide sends `acknowledge_solo: true` with a\ndecision that passes the gate (403 `acknowledge_required` otherwise; a failing decision\nneeds nothing more).\n\nRenamed to `/v1/runs/{run_id}/tasks/{task_id}/gates/{gate_id}/decisions`.",
+        "description": "A person decides a human gate that a durable run waits on. The answer never contains the\nperson's text. The record is written on a worker thread; waking the workflow (a network\ncall, a few seconds at most) happens on its own small pool, so a slow Temporal cannot hold\nup the threads that authorize every other request.\n\nThe organization's only person who can decide sends `acknowledge_solo: true` with a\ndecision that passes the gate (403 `acknowledge_required` otherwise; a failing decision\nneeds nothing more).\n\nRenamed to `/v1/runs/{run_id}/tasks/{task_id}/gates/{gate_id}/decisions`.",
         "operationId": "decide_gate_deprecated",
         "parameters": [
           {
@@ -12970,7 +13000,7 @@
     },
     "/v1/runs/{run_id}/tasks/{task_id}/gates/{gate_id}/decisions": {
       "post": {
-        "description": "A person decides a human gate that a durable run waits on. The answer never contains the person's text. The\nrecord is written on a worker thread; waking the workflow (a network call, a few seconds\nat most) happens on its own small pool, so a slow Temporal cannot hold up the threads\nthat authorize every other request.\n\nThe organization's only person who can decide sends `acknowledge_solo: true` with a\ndecision that passes the gate (403 `acknowledge_required` otherwise; a failing decision\nneeds nothing more).",
+        "description": "A person decides a human gate that a durable run waits on. The answer never contains the\nperson's text. The record is written on a worker thread; waking the workflow (a network\ncall, a few seconds at most) happens on its own small pool, so a slow Temporal cannot hold\nup the threads that authorize every other request.\n\nThe organization's only person who can decide sends `acknowledge_solo: true` with a\ndecision that passes the gate (403 `acknowledge_required` otherwise; a failing decision\nneeds nothing more).",
         "operationId": "create_gate_decision",
         "parameters": [
           {

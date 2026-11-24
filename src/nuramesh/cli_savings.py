@@ -1,4 +1,4 @@
-"""`nuramesh savings tokens` (R1.34 Part A, `spec/token-savings` section 6).
+"""`nuramesh savings tokens` (R1.34 Part A).
 
 Read only: it opens the team's store like `nuramesh report` and prints the same answer as
 `GET /v1/savings/tokens`. It writes no ledger entry, makes no network call and has no `apply`

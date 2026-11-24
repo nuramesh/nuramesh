@@ -1,5 +1,4 @@
-"""The everyday commands R1.43 A2 adds: `status`, `reject` and the bare `nuramesh`
-(`spec/cli-api-naming` sections 3.2, 6.1, 6.2).
+"""The everyday commands R1.43 A2 adds: `status`, `reject` and the bare `nuramesh`.
 
 All three open the store read-only where they only read: a SQLite file that does not exist or
 needs a migration is never created or migrated (the bare command says what to run instead). They
@@ -379,7 +378,7 @@ def spend_lines(events: list[Any]) -> list[str]:
         return [f"spend: ${found.known_total} ({found.calls} {noun})"]
     out = [
         f"spend: {at_least_words(found.at_least or '0')} "
-        f"({found.calls} {noun}: {COST_UNKNOWN_SHORT})"
+        f"({found.calls} {noun}, {len(found.unknown)} {COST_UNKNOWN_SHORT})"
     ]
     out += [f"{u.model}: {cost_unknown_call_words(u.charged)}" for u in found.unknown]
     return out

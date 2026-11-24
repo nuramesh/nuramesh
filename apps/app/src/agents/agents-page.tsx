@@ -5,7 +5,7 @@ import { useAgentList, useCallerRole } from "./queries";
 const NOT_OWNER = "Only an owner can manage agent access.";
 
 /**
- * The organization's agents, each with its Access panel (E2, spec/agent-identity section 10). Owners
+ * The organization's agents, each with its Access panel (E2, the agent identity notes section 10). Owners
  * only: a person known to be an approver or a viewer sees one sentence and the app calls nothing;
  * where the role is unknown the server decides and its refusal shows the same sentence.
  */

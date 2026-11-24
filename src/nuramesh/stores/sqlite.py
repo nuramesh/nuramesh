@@ -10,7 +10,7 @@
   what was hashed.
 - The schema is versioned; migrations run in order in one transaction; a newer schema is refused.
 - `stream_heads` has no protective triggers: the store's own heads only catch accidental damage;
-  tamper evidence needs heads kept outside the database (spec/ledger/README.md).
+  tamper evidence needs heads kept outside the database.
 """
 
 import json
@@ -335,7 +335,7 @@ MIGRATIONS: tuple[str, ...] = (
         UNIQUE (org_id, token_hash)
     ) WITHOUT ROWID;
     """,
-    # 10 budget_defined_index: an index of the `budget.defined` entries (T84, spec/auth/org-scope.md
+    # 10 budget_defined_index: an index of the `budget.defined` entries (T84,
     # R8): who owns a budget is read from these alone, never by walking organization streams that
     # anyone can grow (failed logins). Additive: an index only; no row changes.
     """
@@ -384,8 +384,8 @@ MIGRATIONS: tuple[str, ...] = (
         BEGIN SELECT RAISE(ABORT, 'key tombstones are permanent'); END;
     """,
     # 13 agent_credentials: agent credentials (E2, T93, T140), additive. Only the
-    # SHA-256 of each secret is stored; no name or free-text column exists (spec/agent-identity
-    # 2.2). `team` is the server's team key.
+    # SHA-256 of each secret is stored; no name or free-text column exists.
+    # `team` is the server's team key.
     """
     CREATE TABLE agent_credentials (
         org_id TEXT NOT NULL,
@@ -527,12 +527,12 @@ MIGRATIONS: tuple[str, ...] = (
             OR strftime('%Y-%m-%dT%H:%M:%S', substr(NEW.at, 1, 19)) IS NOT substr(NEW.at, 1, 19))
         BEGIN SELECT RAISE(ABORT, 'at is not a valid time'); END;
     """,
-    # 20 user_disabled: E1, an owner may disable a person (spec/e1 sections 9.1 and 12). One
+    # 20 user_disabled: E1, an owner may disable a person. One
     # nullable column, additive: no existing row is rewritten.
     """
     ALTER TABLE users ADD COLUMN disabled_at TEXT;
     """,
-    # 21 content_subjects: R1.32 (spec/r132 S3, ND79, ND157): who a stored content row
+    # 21 content_subjects: R1.32 (S3, ND79, ND157): who a stored content row
     # names, so erasing a person finds the row. Additive: no existing row is read, changed or
     # deleted; existing content rows get no subject rows. Branches that add later migrations
     # (E8, the approvals sweep, R1.22c, the cost reader) renumber after this one (ND126).
@@ -616,7 +616,7 @@ MIGRATIONS: tuple[str, ...] = (
         epoch INTEGER NOT NULL
     );
         """,
-    # 24 invites: R1.37 (spec/identity/invites.md section 1). The invites table and the
+    # 24 invites: R1.37. The invites table and the
     # verified state of an address on users. Additive: the one backfill (every not-erased user is
     # marked verified `legacy`, one clock reading) is applied by the store right after this
     # statement.
@@ -643,7 +643,7 @@ MIGRATIONS: tuple[str, ...] = (
     ALTER TABLE users ADD COLUMN email_verified_at TEXT;
     ALTER TABLE users ADD COLUMN email_verified_via TEXT;
     """,
-    # 25 email_verification: R1.40 (spec/identity/email-verification.md section 2).
+    # 25 email_verification: R1.40.
     # Additive: one table, no row of any other table is read or written.
     """
     CREATE TABLE email_changes (
@@ -660,7 +660,7 @@ MIGRATIONS: tuple[str, ...] = (
     ) WITHOUT ROWID;
     CREATE INDEX email_changes_user ON email_changes (org_id, user_id);
     """,
-    # 26 password_reset: R1.41 (spec/identity/password-reset.md sections 1 and 4a).
+    # 26 password_reset: R1.41.
     # Reset tokens (a decoy has user_id NULL), API-token revoke links and the password-login block
     # (Q15). Additive; no row holds an email address. Number 26 is released; R1.38 MFA is 27.
     """
@@ -697,7 +697,7 @@ MIGRATIONS: tuple[str, ...] = (
     ) WITHOUT ROWID;
     CREATE INDEX api_token_revoke_links_user ON api_token_revoke_links (org_id, user_id);
     """,
-    # 27 mfa: R1.38 (spec/identity/mfa.md section 2): one TOTP factor per person
+    # 27 mfa: R1.38, one TOTP factor per person
     # (the secret only
     # sealed), MFA recovery code hashes, login challenges (hash only), the organization's sign-in
     # policy (no row = MFA not required) and three session columns. `login_via` is nullable here
@@ -770,7 +770,7 @@ MIGRATIONS: tuple[str, ...] = (
     CREATE INDEX extension_records_group
         ON extension_records (org_id, namespace, kind, group_key, sort_key);
     """,
-    # 29 solo_approval: solo approval (#942, spec/rbac/solo-approval.md section 4). Additive only:
+    # 29 solo_approval: solo approval (#942). Additive only:
     # nullable columns, nothing existing is rewritten. `password_confirmed_at` is when a session
     # last re-confirmed the password (SA-8; NULL = not confirmed). The approval columns repeat
     # three values of `data` for decisions made from now on (NULL on older rows, which have no
@@ -785,7 +785,7 @@ MIGRATIONS: tuple[str, ...] = (
         ON approvals (decided_by, approval_mode, decided_at);
     """,
     # 30 api_token_names: token rename and delete (#634,
-    # spec/auth/token-lifecycle.md R16).
+    # R16).
     # Additive only: a table of retired token names (keyed hashes under the organization key,
     # never a name). No existing row is read, rewritten or deleted.
     """
@@ -797,14 +797,14 @@ MIGRATIONS: tuple[str, ...] = (
         PRIMARY KEY (org_id, epoch, name_hash)
     );
     """,
-    # 31 rbac: R2.13 (spec/rbac section 9): the last strong authentication on a session (any
+    # 31 rbac: R2.13, the last strong authentication on a session (any
     # method). One
     # nullable column, additive: no role or session is rewritten; NULL means "ask once". The
     # runner adds it only if missing (SQLite has no ADD COLUMN IF NOT EXISTS).
     """
     ALTER TABLE auth_sessions ADD COLUMN step_up_at TEXT;
     """,
-    # 32 approvals_sweep: the approvals sweep (T226, ND195 a, spec/auth/token-lifecycle.md Part C).
+    # 32 approvals_sweep: the approvals sweep (T226, ND195 a, Part C).
     # An index on the day an approval ended (the consumption time if it has one, else the decision
     # time, date prefix of the stored text; decided and consumed approvals only), so the sweep
     # finds the due rows without reading the finished ones. Additive: an index only; no row is read

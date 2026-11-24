@@ -1,4 +1,4 @@
-"""Verified Merge signer limits (spec `spec/verified-merge` SV-10, SV-8 d, SV-11; cases S-05,
+"""Merge Gate signer limits (spec SV-10, SV-8 d, SV-11; cases S-05,
 S-06, S-14, S-17, S-18, S-21, S-23): a pure evaluator over what the ledger already holds.
 
 No table and no counter of its own (the ledger is the truth, LA-5): the history is read from

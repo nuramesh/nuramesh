@@ -1,6 +1,7 @@
-"""NuraMesh: AI agent teams you can trust.
+"""NuraMesh: the control plane for AI agents.
 
-The public library surface is `__all__` (`docs/python-api.md`: what is stable, what is not).
+The public library surface is `__all__` (the Python API guide on the docs site says what is
+stable and what is not).
 Everything is loaded on first use, so `import nuramesh` costs the standard library, pydantic
 and `nuramesh.core` only; the HTTP client (`httpx`, the `client` extra) loads with the first
 `bind(...)`.

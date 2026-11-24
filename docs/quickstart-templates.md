@@ -1,11 +1,11 @@
 # Quickstart: your first verified team in 10 minutes (every template, the ledger check and the model catalog)
 
 This extends [quickstart.md](quickstart.md) (install the wheel first, steps 1 to 3 there). It uses
-only what is on `main`: the nine shipped templates, `validate`, `try --fake`, `report`,
+only what is on `main`: the shipped templates, `validate`, `try --fake`, `report`,
 `ledger verify`, `ledger export` with the standalone verifier, and the model commands. Everything
 runs on the **fake model**: no keys, no cost, no network.
 
-Every command below is run by `tests/test_docs_quickstart.py` in a fresh folder, and each sample
+Every command below is run by an internal test in a fresh folder, and each sample
 output must be what the command really prints (hashes, run ids and counts are masked there), so
 this page cannot drift from the product. Run the commands in an empty folder with `nuramesh` on
 your `PATH`.
@@ -26,6 +26,11 @@ your `PATH`.
 | `qa` | a QA lead has a test designer and a test runner work through the test plan | a test reviewer checks the designer |
 | `sales` | a sales lead has a qualifier and an outreach writer work through leads | a claims checker checks the qualifier |
 | `support` | a support lead has a triager and a responder work through tickets | a reply checker checks the triager |
+| `research-report` | a researcher reads the bundled sources, a writer drafts a cited report, and a human approves before it counts as published | an independent fact checker verifies every claim against the sources |
+| `document-extraction` | an extractor reads the bundled sample invoices and an exporter writes a CSV after a human approves | an independent invoice checker compares the extracted fields with the documents |
+| `data-analysis` | an analyst answers a question from the bundled sample database and a summarizer writes it up | an independent number checker checks the summary against the recomputed figures |
+| `incident-triage` | a triager rates the bundled sample alert, a responder proposes the fix (a human approves any production change) and a writer drafts the postmortem | an independent incident reviewer checks the triage and the postmortem |
+| `multi-framework-org` | one organization with two teams and one ledger: a native research agent and a LangGraph drafting agent, with central policies and budgets | a central reviewer on a different model checks both teams' work |
 
 ```sh quickstart-templates
 nuramesh init dev-team --template dev-team
@@ -82,7 +87,7 @@ The other templates run the same way. Here each is created, validated and run, a
 summary lines are shown:
 
 ```sh quickstart-templates
-for t in kanban review-board scrum code-review devops qa sales support; do
+for t in kanban review-board scrum code-review devops qa sales support research-report document-extraction data-analysis incident-triage multi-framework-org; do
   nuramesh init "$t" --template "$t" > /dev/null
   nuramesh validate "$t/nuramesh.yaml"
   nuramesh try "$t" --fake --approve-as human:you --allow-unsandboxed --run-id r1 | grep -E '^(Tasks|Ledger):'
@@ -114,6 +119,21 @@ Ledger: run:r1 seq 72, head c9df6501ebf1cbf1… (verified)
 support/nuramesh.yaml: valid
 Tasks: 4 done
 Ledger: run:r1 seq 72, head fd15abd55d80548b… (verified)
+research-report/nuramesh.yaml: valid
+Tasks: 3 done
+Ledger: run:r1 seq 59, head 0c3ce17ae258e81b… (verified)
+document-extraction/nuramesh.yaml: valid
+Tasks: 2 done
+Ledger: run:r1 seq 41, head c575f2018d1c8923… (verified)
+data-analysis/nuramesh.yaml: valid
+Tasks: 2 done
+Ledger: run:r1 seq 44, head df1864c9a3a1398c… (verified)
+incident-triage/nuramesh.yaml: valid
+Tasks: 3 done
+Ledger: run:r1 seq 61, head 1b1f4c9a059bc30f… (verified)
+multi-framework-org/nuramesh.yaml: valid
+Tasks: 2 done
+Ledger: run:r1 seq 48, head 93daede3f97b25f6… (verified)
 ```
 
 ## 4. Report, from the ledger alone
@@ -147,7 +167,7 @@ run:first-run: 46 events, head 1cc85316aa5130c2… ok
 `ledger export` writes a file (never over an existing one). `verifier/nuramesh_verify.py` is a
 single standard-library Python file with no dependencies, so an auditor can check the chain on a
 machine that has never seen NuraMesh. It lives in the repository's `verifier/` folder; copy that
-folder next to your work. What the check does and does not prove: auditor-guide.md.
+folder next to your work.
 
 ```sh quickstart-templates
 nuramesh ledger export --team dev-team --out ledger.json
@@ -196,6 +216,4 @@ anything that widens what may run is the signed-in API or the app.
 
 ## Next
 
-- demo.md: what the run proves, and the evals (`nuramesh eval run`).
 - [model-governance.md](model-governance.md): the catalog, regions, approvals and connections.
-- auditor-guide.md: what an outside checker can and cannot conclude.

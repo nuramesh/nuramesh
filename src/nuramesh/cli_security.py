@@ -429,8 +429,8 @@ def _operator_only() -> bool:
 
 
 def cmd_auth_key_init(args: argparse.Namespace) -> int:
-    """`nuramesh auth factor-key init --file PATH`: make the auth key file that seals TOTP secrets
-    (mfa.md section 2a). Operator only. Prints the key's id and the variable to set, never the
+    """`nuramesh auth factor-key init --file PATH`: make the auth key file that seals TOTP secrets.
+    Operator only. Prints the key's id and the variable to set, never the
     key; the ledger event and the file stand or fall together."""
     from nuramesh.server.mfa_keys import AuthKeyFileError, init_key_file
     from nuramesh.server.mfa_operator import MfaOperator
@@ -468,7 +468,7 @@ def cmd_auth_key_init(args: argparse.Namespace) -> int:
 
 def cmd_auth_key_rotate(args: argparse.Namespace) -> int:
     """`nuramesh auth factor-key rotate`: re-seal every factor under the previous key with the
-    current one (mfa.md section 2a). Operator only; exit 1 when a factor is unreadable."""
+    current one. Operator only; exit 1 when a factor is unreadable."""
     from nuramesh.server.mfa_keys import AuthKeyFileError, key_ring_from_env
     from nuramesh.server.mfa_operator import KeyCommandError, MfaOperator
     from nuramesh.server.recovery import operator_actor
@@ -505,7 +505,7 @@ def cmd_auth_key_rotate(args: argparse.Namespace) -> int:
 
 def cmd_auth_key_destroy(args: argparse.Namespace) -> int:
     """`nuramesh auth factor-key destroy`: delete every factor, code and challenge, switch the
-    policy off, then zero and unlink the key files (mfa.md section 2a). Interactive terminal only;
+    policy off, then zero and unlink the key files. Interactive terminal only;
     needs an operator recovery code."""
     from nuramesh.cli_prompts import confirm_org
     from nuramesh.server.mfa_keys import AuthKeyFileError, key_ring_from_env
@@ -559,7 +559,7 @@ def cmd_auth_key_destroy(args: argparse.Namespace) -> int:
 
 def _mfa_notice(service: Any, user_id: str, actor: str) -> str:
     """Send the "reset" notice after a committed operator action: `sent`, `failed` or `skipped`.
-    Never raises and never changes the exit code (mfa.md section 3b)."""
+    Never raises and never changes the exit code."""
     from nuramesh.cli_email import mail_service
     from nuramesh.server.mfa_notice import send_now
 
@@ -587,7 +587,7 @@ def cmd_auth_mfa_status(args: argparse.Namespace) -> int:
 
 def cmd_auth_mfa_reset(args: argparse.Namespace) -> int:
     """`nuramesh auth mfa reset --user human:u_...`: remove one person's MFA and end their
-    sessions (mfa.md section 8). Interactive terminal only; needs an operator recovery code,
+    sessions. Interactive terminal only; needs an operator recovery code,
     which is spent (and ledgered) before the reset, also when the reset then fails."""
     from nuramesh.cli_rules import USER_ID_TEXT
     from nuramesh.core.people import is_human_id
@@ -781,7 +781,7 @@ def _cmd_token_edit(args: argparse.Namespace, service: Any) -> int:
 
 
 def cmd_agents_credentials(args: argparse.Namespace) -> int:
-    """`nuramesh agents credentials list|revoke|revoke-all` (E2, spec/agent-identity section 9).
+    """`nuramesh agents credentials list|revoke|revoke-all` (E2).
 
     **Look and restrict only (owner Q9):** the CLI has no authenticated person, so it never issues,
     rotates or lengthens an agent credential and never shows a secret; those go through the API

@@ -22,7 +22,9 @@ describe("copy rules (FR-3, FR-15, C44)", () => {
     expect(COPY.noApprovalAsked).toBe("No approval has been asked yet");
     expect(COPY.nothingToSetUp).toBe("Nothing left to set up");
     expect(COPY.complete).toBe("You are set up");
-    expect(COPY.soloApproval).toContain("recorded as a solo approval");
-    expect(COPY.invitesNotYet).toBe("Invites arrive with the next release");
+    expect(COPY.soloApproval).toBe(
+      "If you are the only person who can decide, your answer is recorded as a solo approval.",
+    );
+    expect(COPY.openPeople).toBe("Invite a teammate");
   });
 });

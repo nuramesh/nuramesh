@@ -16,7 +16,7 @@ export function describeProblem(error: unknown): string {
       return "This run has already ended, so there is nothing to stop.";
     case "foreign_origin":
     case "invalid_host":
-      return "The server refused the address this page was opened from. Open the app on 127.0.0.1 or localhost and let the dev server forward /v1 to it (see docs/app.md).";
+      return "The server refused the address this page was opened from. Open the app on 127.0.0.1 or localhost and let the dev server forward /v1 to it (see the app guide on the docs site).";
     case "unreachable":
       return error.message;
     default:

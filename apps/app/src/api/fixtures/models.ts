@@ -1,5 +1,5 @@
 /**
- * Sample data for the model screens, with the server's rules (spec/model-governance 2.6 to 2.8) so
+ * Sample data for the model screens, with the server's rules (the model governance notes 2.6 to 2.8) so
  * every state can be tried without a server: refusals with problems, a widening write that pauses
  * an approved entry again, a repoint, a connection test. It is stateful, and a fresh client starts
  * from the seed. Nothing here is real: the sidebar says "Sample data" while it is in use.

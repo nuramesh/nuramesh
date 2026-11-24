@@ -1,4 +1,4 @@
-"""Login, sessions, refresh families, setup-token redemption (R1.22 PR 2; spec/auth/sessions.md).
+"""Login, sessions, refresh families, setup-token redemption (R1.22 PR 2).
 
 `AuthService` holds the rules; `nuramesh.server.auth` wires them to HTTP, and
 `nuramesh.server.authz` uses `authenticate` and `require_csrf` for every other route (PR 3).
@@ -861,7 +861,7 @@ class AuthService:
         *,
         user_agent: str | None = None,
     ) -> None:
-        """`POST /v1/auth/password/confirm` (spec/rbac/solo-approval.md SA-8): the password is
+        """`POST /v1/auth/password/confirm` (SA-8): the password is
         checked by `confirm_password`, unchanged (a wrong one is 401, counted and ledgered as a
         failed login; a locked account is 429; success clears no counter). On success, in one
         transaction: the calling session's `password_confirmed_at` is set to now (only that
@@ -886,9 +886,9 @@ class AuthService:
             self._event(uow, EventType.AUTH_PASSWORD_CONFIRMED, user_id, {})
 
     def step_up_session(self, user_id: str, session_id: str, method: str) -> None:
-        """The one writer of `step_up_at` after sign-in (spec/auth/step-up-vs-password-confirmed.md
-        SU-2, W2, option A of #1484). The caller has ALREADY verified the proof (this takes no
-        credential). In one transaction: the person and the session are read again (ended, expired,
+        """The one writer of `step_up_at` after sign-in (SU-2, W2, option A of #1484).
+        The caller has ALREADY verified the proof (this takes no credential).
+        In one transaction: the person and the session are read again (ended, expired,
         another person's or another organization's session, or a disabled or erased person is 401
         `session_invalid`, nothing written); `step_up_at` is set to now, `password_confirmed_at` too
         when the method included the password, and the factor columns when it included a factor
@@ -1247,7 +1247,7 @@ class AuthService:
         """Erase a user (T64) and end all their sessions at once, ledgering `user.erased` with
         the opaque id only. `actor` is the human or `system` doing it. False if nothing to erase.
 
-        One transaction, in this order (ND60, `spec/auth/README.md` section 3): (1) the user's
+        One transaction, in this order (ND60): (1) the user's
         live sessions are revoked (`user_erased`), each with its event and a log row (subject the
         user), written while the identifier key still exists; (2) every security log row whose
         subject is the user, or whose email is theirs, is deleted (including the rows of step 1),
@@ -1569,7 +1569,7 @@ class AuthService:
 
     def _target(self, uow: UnitOfWork, user_id: str) -> User:
         """The person acted on, or 404 `no such user` (unknown, erased and other-organization
-        look the same, `spec/auth/org-scope.md` R2)."""
+        look the same, org-scope R2)."""
         target = uow.get_user(self.org_id, user_id)
         if target is None or target.erased:
             raise AuthProblem(404, "not_found", "no such user")

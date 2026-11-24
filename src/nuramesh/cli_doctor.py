@@ -168,10 +168,47 @@ def check_auth_key() -> dict[str, str]:
     return _check("auth_key", "PASS", f"{name} names a file with a safe mode")
 
 
+# a variable that says runs use a team server or a real model, so commands really run
+REAL_MODE_VARS = (
+    "NURAMESH_DATABASE_URL",
+    "NURAMESH_DATABASE_URL_FILE",
+    "NURAMESH_REQUIRE_DATABASE",
+    "NURAMESH_ANTHROPIC_KEY_FILE",
+    "NURAMESH_OPENAI_COMPATIBLE_KEYS",
+    "NURAMESH_SECRET_DIR",  # stored model keys (the app and API real-model path)
+    "NURAMESH_SECRET_STORE",
+)
+
+
+def real_mode_variable() -> str | None:
+    """The name (never the value) of the setting that makes runs execute real commands."""
+    for name in REAL_MODE_VARS:
+        value = os.environ.get(name)
+        if not value:
+            continue
+        if name == "NURAMESH_REQUIRE_DATABASE":
+            try:
+                if not env_bool(name):
+                    continue
+            except EnvBoolError:
+                return name  # a malformed flag counts as real: fail closed
+        if name == "NURAMESH_SECRET_STORE" and value == "fake":
+            continue  # the in-memory trial store holds no real key
+        return name
+    return None
+
+
 def check_docker() -> dict[str, str]:
     found = container_runtime()
     if found is not None:
         return _check("docker", "PASS", f"container runtime {found} is available")
+    real = real_mode_variable()
+    if real is not None:  # runs stay fail-closed: they refuse without a sandbox
+        return _check(
+            "docker", "FAIL", f"no container runtime (Podman or Docker); {real} is set",
+            "install Podman (`brew install podman`) or Colima; runs here execute real commands "
+            "and refuse without a sandbox",
+        )  # fmt: skip
     return _check(
         "docker", "WARN", "no container runtime (Podman or Docker) answered",
         "install Podman (`brew install podman`) or Colima; without one the test gate refuses",

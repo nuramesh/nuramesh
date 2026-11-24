@@ -1,4 +1,4 @@
-"""MFA for a signed-in person and the owner's policy (R1.38; `spec/identity/mfa.md` sections 3b, 4).
+"""MFA for a signed-in person and the owner's policy (R1.38).
 
 Enrol (password, then a TOTP code), regenerate the MFA recovery codes, disable, an owner's reset
 of another person and the organization's `mfa_required` setting. Every wrong code counts on the

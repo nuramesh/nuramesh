@@ -50,7 +50,7 @@ function codesOf(raw: unknown): string[] {
   return list as string[];
 }
 
-/** A body that is a session: a `user` the app can read, a `csrf_token` (string or null) and no `status` (spec/mfa-web AU-1). */
+/** A body that is a session: a `user` the app can read, a `csrf_token` (string or null) and no `status`. */
 function sessionOf(raw: unknown): RawSession | null {
   if (!isRecord(raw) || "status" in raw || !isRecord(raw.user)) return null;
   const user = raw.user;
@@ -65,7 +65,7 @@ const unexpectedAnswer = (): ProblemError =>
   new ProblemError("the server answered in a way this page does not understand", 200, "unexpected_answer");
 
 /**
- * The closed union of a password login's answer, decided by `status` only (spec/mfa-web AU-1); anything else is refused
+ * The closed union of a password login's answer, decided by `status` only; anything else is refused
  * with `unexpected_answer` and nobody is signed in (M1, M2: never sign in on a guess).
  */
 function readLogin(raw: unknown): { result: LoginStep; session?: RawSession } {
@@ -134,7 +134,7 @@ const withBrowserLock = async <T>(task: () => Promise<T>, pause: ServerAuthOptio
 };
 
 /**
- * Sign-in for `nuramesh serve` (spec/auth/sessions.md). The browser keeps the tokens in HttpOnly
+ * Sign-in for `nuramesh serve` (the session notes). The browser keeps the tokens in HttpOnly
  * cookies the page cannot read; this module keeps only who is signed in and the CSRF token (which the
  * server puts in a readable cookie on purpose) in memory. Nothing is written to browser storage.
  */

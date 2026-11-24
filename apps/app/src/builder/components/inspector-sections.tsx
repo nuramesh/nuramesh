@@ -15,6 +15,7 @@ import {
   assignmentOf,
   DECISIONS,
   effectiveRules,
+  gateHasSettings,
   gatesOf,
   MONEY,
   policyOf,
@@ -42,6 +43,7 @@ import {
   updateRule,
   addCheck,
 } from "../config-ops";
+import { parseGateSettings } from "../config-yaml";
 import { useBuilder, useBuilderStore } from "../store-context";
 import { effectiveSuites, gatePresetForRole, instantiateGates } from "../gate-plan";
 import { Field, TextField } from "./fields";
@@ -410,10 +412,22 @@ const GATE_LABEL: Record<string, string> = {
   eval: "Eval",
 };
 
+type NewGateKind = "rule" | "test_command" | "verifier";
+
+/** An example of the settings each gate kind takes, shown in the empty settings box. */
+const GATE_SETTINGS_EXAMPLE: Record<NewGateKind, string> = {
+  rule: 'rules:\n  - criterion: change-made\n    check: {type: contains, value: "Done:"}',
+  test_command: "image: registry.example/tests@sha256:<digest>\ncommand: [pytest, -q]",
+  verifier: "verifier: reviewer\nrequire_different_model: true",
+};
+
 export function GatesSection({ role }: { role: Role }) {
   const store = useBuilderStore();
   const preset = useBuilder((s) => gatesOf(s.doc.config, role.id));
   const gates = preset?.gates ?? [];
+  const [kind, setKind] = useState<NewGateKind | "">("");
+  const [settings, setSettings] = useState("");
+  const parsed = kind === "" ? null : parseGateSettings(kind, settings);
   return (
     <section aria-labelledby="sec-gates" className="flex flex-col gap-2">
       <SectionTitle id="sec-gates" aside="Cheapest first">
@@ -428,6 +442,7 @@ export function GatesSection({ role }: { role: Role }) {
               <span aria-hidden="true" className="size-3 shrink-0 rotate-45 rounded-[3px] border-2 border-link" />
               <div className="flex min-w-0 flex-1 flex-col">
                 <span className="truncate text-sm font-medium">{GATE_LABEL[g.kind] ?? g.kind}</span>
+                {!gateHasSettings(g) && <span className="text-xs text-destructive">No settings: no task can carry this gate. Add them in the YAML tab, or remove it.</span>}
                 <label className="flex items-center gap-1.5 text-xs text-muted-foreground">
                   <input
                     type="checkbox"
@@ -475,15 +490,15 @@ export function GatesSection({ role }: { role: Role }) {
           ))}
         </ol>
       )}
-      <Field id="gate-add" label="Add a gate">
+      <Field id="gate-add" label="Add a gate" hint="Pick a kind, then give its settings. A gate is added only with its settings: without them no task could carry it.">
         <NativeSelect
           id="gate-add"
           size="sm"
-          value=""
+          aria-describedby="gate-add-hint"
+          value={kind}
           onChange={(e) => {
-            if (e.target.value === "") return;
-            const kind = e.target.value as "rule" | "test_command" | "verifier";
-            store.getState().edit(`Add ${GATE_LABEL[kind] ?? kind}`, (d) => addGate(d, role.id, kind, role.name));
+            setKind(e.target.value as NewGateKind | "");
+            setSettings("");
           }}
         >
           <NativeSelectOption value="">+ Add…</NativeSelectOption>
@@ -494,6 +509,34 @@ export function GatesSection({ role }: { role: Role }) {
           ))}
         </NativeSelect>
       </Field>
+      {kind !== "" && (
+        <>
+          <TextField
+            id="gate-settings"
+            label={`Settings for the ${GATE_LABEL[kind] ?? kind} (YAML)`}
+            value={settings}
+            onChange={setSettings}
+            multiline
+            placeholder={GATE_SETTINGS_EXAMPLE[kind]}
+            error={settings.trim() !== "" && parsed !== null && !parsed.ok ? parsed.error : null}
+            hint="Checked in full when a run creates the task."
+          />
+          <Button
+            variant="outline"
+            size="sm"
+            className="self-start"
+            disabled={parsed?.ok !== true}
+            onClick={() => {
+              if (parsed?.ok !== true) return;
+              store.getState().edit(`Add ${GATE_LABEL[kind] ?? kind}`, (d) => addGate(d, role.id, kind, role.name, parsed.value));
+              setKind("");
+              setSettings("");
+            }}
+          >
+            <Plus aria-hidden="true" /> Add gate
+          </Button>
+        </>
+      )}
     </section>
   );
 }

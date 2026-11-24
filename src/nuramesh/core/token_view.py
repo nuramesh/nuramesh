@@ -1,4 +1,4 @@
-"""The token and cache view (R1.34 Part A, `spec/token-savings` section 3): pure arithmetic over
+"""The token and cache view (R1.34 Part A): pure arithmetic over
 facts a reader took from the ledger.
 
 It reads nothing and writes nothing. Money is `Decimal` and every sum is exact; a ratio is

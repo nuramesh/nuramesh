@@ -1,0 +1,10 @@
+{
+  "id": "ALERT-2041",
+  "source": "sample monitoring (fictional)",
+  "service": "payments-api",
+  "fired_at": "2026-03-12T02:14:00Z",
+  "summary": "Error rate 38% on /charge for 6 minutes; p95 latency 9.2 s",
+  "signals": ["http_5xx_rate=0.38", "p95_latency_s=9.2", "db_connections=498/500"],
+  "recent_change": "payments-api v2.41 deployed 02:05Z",
+  "customers_affected": "about 1,900 checkouts failed"
+}

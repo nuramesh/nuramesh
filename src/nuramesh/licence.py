@@ -1,4 +1,4 @@
-"""The licence loader (spec/licence/README.md section 4, ND389): the trusted public keys pinned in
+"""The licence loader: the trusted public keys pinned in
 the open core, the file named by `NURAMESH_LICENCE_FILE`, the Ed25519 check from `cryptography`
 (imported lazily, like anchors) and one report. Everything about the format and the rules is in
 `nuramesh.core.licence`; this module only wires it to the process.

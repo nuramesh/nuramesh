@@ -1,4 +1,4 @@
-"""Trust-list maintenance for signer keys (spec `spec/verified-merge` SV-6, SV-7, 6.7, FR-8;
+"""Trust-list maintenance for signer keys (SV-6, SV-7, 6.7, FR-8;
 Fable fixes F-7 holder, F-12 flip protocol).
 
 Pure functions over `vm_formats.TrustList`: each change returns the next list (`serial + 1`,

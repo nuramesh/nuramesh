@@ -3,7 +3,7 @@ import { ConflictError, InvalidRequestError, NotAllowedError, NotFoundError, Pro
 
 export type FetchFn = (input: string, init?: RequestInit) => Promise<Response>;
 
-/** The 409 codes of the org routes (spec/e19 section 11): the state already is what was asked for. */
+/** The 409 codes of the org routes (the organization safety notes section 11): the state already is what was asked for. */
 const ORG_CONFLICTS = new Set([
   "already_halted",
   "already_running",
@@ -88,13 +88,13 @@ export const MAX_PENDING_KEYS = 100;
 /**
  * How long an unanswered key may be reused: the server's in-flight lease is about 120 s, and it
  * replays a stored 2xx for a day (core/idempotency.py). Past this window a repeat is a new user
- * action, so it gets a new key instead of replaying a stale answer (spec/idempotency/README.md section 1).
+ * action, so it gets a new key instead of replaying a stale answer (the idempotency notes section 1).
  */
 export const PENDING_KEY_WINDOW_MS = 120_000;
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
 
-/** Per-call switches for the routes that return a secret (spec/mfa-web AU-2, W-9). */
+/** Per-call switches for the routes that return a secret. */
 export interface CallOptions {
   /** A 403 `csrf_invalid` is not repeated (the first request may already have acted: a code was spent). */
   noCsrfRepeat?: boolean;
@@ -125,7 +125,7 @@ export interface WriteOptions {
    * Send an `Idempotency-Key`: one key per user action, reused on every repeat of the same request
    * until the server has answered it (a lost answer, a timeout or a 5xx keeps the key, so a second
    * click replays the first answer instead of running twice). Only for routes that honour a key:
-   * the server answers 400 to a route that does not (`spec/idempotency/README.md` section 8), and the
+   * the server answers 400 to a route that does not (the idempotency notes section 8), and the
    * kill switch never sends one (8.2).
    */
   keyed?: boolean;

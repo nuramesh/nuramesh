@@ -5,7 +5,7 @@ import { BUSY_TEXT, CODE_TEXT, GENERIC_TEXT, UNAVAILABLE_TEXT } from "./messages
 /** Which login-step call failed. */
 export type StepCall = "code" | "recovery" | "enroll" | "confirm";
 
-/** What the sign-in step does with a failure (spec/mfa-web W-2, W-9, W-18, W-19, W-20). */
+/** What the sign-in step does with a failure. */
 export type StepFailure =
   | { effect: "show"; text: string }
   /** The challenge is spent or over: back to the password step with the timeout text (AU-5). */

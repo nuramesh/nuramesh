@@ -32,6 +32,11 @@ import { cos, dev, sampleDoc } from "./test-data";
 
 const reviewer = makeRole({ id: "reviewer", name: "Reviewer", kind: "verifier" });
 
+/** Settings a gate of each kind needs before the builder writes it (issue #1407). */
+const RULE = { rules: [{ criterion: "change-made", check: { type: "contains", value: "Done:" } }] };
+const TESTS = { image: `registry.example/tests@sha256:${"a".repeat(64)}`, command: ["pytest", "-q"] };
+const VERIFIER = { verifier: "rev", require_different_model: true };
+
 /** boss ← a, a1 (under a), b; plus a verifier `rev` under boss. */
 function team(): BuilderDocument {
   const doc = sampleDoc();
@@ -152,19 +157,19 @@ describe("permissions", () => {
 
 describe("gates, evals, budgets and appearance", () => {
   it("keeps gates cheapest first and refuses a preset with no required gate", () => {
-    let doc = addGate(team(), "dev", "verifier", "Developer");
-    doc = addGate(doc, "dev", "rule", "Developer");
-    doc = addGate(doc, "dev", "test_command", "Developer");
+    let doc = addGate(team(), "dev", "verifier", "Developer", VERIFIER);
+    doc = addGate(doc, "dev", "rule", "Developer", RULE);
+    doc = addGate(doc, "dev", "test_command", "Developer", TESTS);
     const gates = doc.config.presets.gate[0]?.gates ?? [];
     expect(gates.map((g) => g.kind)).toEqual(["rule", "test_command", "verifier"]);
     expect(gateProblem(gates)).toBeNull();
-    expect(gateProblem([{ id: "v", kind: "verifier", required: true }, { id: "r", kind: "rule", required: true }])).toBe("bad_gate_order");
-    expect(gateProblem([{ id: "r", kind: "rule", required: false }])).toBe("no_required_gate");
+    expect(gateProblem([{ id: "v", kind: "verifier", required: true, config: VERIFIER }, { id: "r", kind: "rule", required: true, config: RULE }])).toBe("bad_gate_order");
+    expect(gateProblem([{ id: "r", kind: "rule", required: false, config: RULE }])).toBe("no_required_gate");
     expect(doc.config.presets.assignments).toEqual([{ role: "dev", policy_presets: [], gate_preset: "dev-gates" }]);
   });
 
   it("reorders and removes gates; removing the last one removes the preset", () => {
-    let doc = addGate(addGate(team(), "dev", "rule", "Developer"), "dev", "test_command", "Developer");
+    let doc = addGate(addGate(team(), "dev", "rule", "Developer", RULE), "dev", "test_command", "Developer", TESTS);
     const [first, second] = doc.config.presets.gate[0]?.gates ?? [];
     doc = moveGate(doc, "dev", first?.id ?? "", 1, "Developer");
     expect(doc.config.presets.gate[0]?.gates.map((g) => g.id)).toEqual([second?.id, first?.id]);
@@ -174,10 +179,10 @@ describe("gates, evals, budgets and appearance", () => {
   });
 
   it("copies a shared gate preset before editing it, so other roles keep theirs", () => {
-    const shared = { id: "python-tests", name: "Python tests", description: "", gates: [{ id: "pytest", kind: "test_command" as const, required: true }], evals: [] };
+    const shared = { id: "python-tests", name: "Python tests", description: "", gates: [{ id: "pytest", kind: "test_command" as const, required: true, config: TESTS }], evals: [] };
     let doc = team();
     doc = { ...doc, config: { ...doc.config, presets: { policy: [], gate: [shared], assignments: [{ role: "dev", policy_presets: [], gate_preset: "python-tests" }, { role: "reviewer", policy_presets: [], gate_preset: "python-tests" }] } } };
-    doc = addGate(doc, "dev", "rule", "Developer");
+    doc = addGate(doc, "dev", "rule", "Developer", RULE);
     const byRole = Object.fromEntries(doc.config.presets.assignments.map((a) => [a.role, a.gate_preset]));
     expect(byRole).toEqual({ dev: "dev-gates", reviewer: "python-tests" });
     expect(doc.config.presets.gate.find((g) => g.id === "python-tests")?.gates).toHaveLength(1);
@@ -208,7 +213,7 @@ describe("renames and deletions keep the configuration consistent", () => {
     let doc = team();
     doc = applyPolicyPreset(doc, "dev", readOnly);
     doc = addRule(doc, "dev", { action: "merge", decision: "ask", target: "*" });
-    doc = addGate(doc, "dev", "rule", "Developer");
+    doc = addGate(doc, "dev", "rule", "Developer", RULE);
     doc = setRoleEvals(doc, "dev", ["dev-basics"]);
     doc = setAgentBudget(doc, "a", "5.00");
     doc = { ...doc, org: { ...doc.org, agents: doc.org.agents.map((x) => (x.id === "rev" ? { ...x, checks: ["a"] } : x)) } };
@@ -250,7 +255,7 @@ describe("YAML", () => {
     let doc = team();
     doc = applyPolicyPreset(doc, "dev", readOnly);
     doc = addRule(doc, "dev", { action: "write_file", decision: "allow", target: "*.py" });
-    doc = addGate(doc, "dev", "test_command", "Developer");
+    doc = addGate(doc, "dev", "test_command", "Developer", TESTS);
     doc = setRoleEvals(doc, "dev", ["dev-basics"]);
     return setAgentBudget(doc, "a", "5.00");
   }
@@ -328,6 +333,43 @@ describe("Export YAML for the built-in templates", () => {
   });
 });
 
+describe("built-in templates ship no gate preset that cannot run (ND194)", () => {
+  it.each(BUILT_IN_TEMPLATES.map((t) => [t.id, t] as const))("%s has no empty gate templates", (_id, template) => {
+    expect(template.document.config.presets.gate).toEqual([]);
+    expect(template.document.config.presets.assignments.filter((a) => a.gate_preset !== null)).toEqual([]);
+  });
+});
+
+describe("a gate is written only once it has settings (issue #1407)", () => {
+  it("adds nothing for a gate with no settings, or with empty ones", () => {
+    const doc = team();
+    for (const kind of ["rule", "test_command", "verifier"] as const) {
+      expect(addGate(doc, "dev", kind, "Developer")).toBe(doc);
+      expect(addGate(doc, "dev", kind, "Developer", {})).toBe(doc);
+    }
+    expect(exportYaml(addGate(doc, "dev", "rule", "Developer"))).not.toContain("presets:");
+  });
+
+  it("writes the gate with the settings it was given", () => {
+    const doc = addGate(team(), "dev", "rule", "Developer", RULE);
+    expect(doc.config.presets.gate[0]?.gates).toEqual([{ id: "rule", kind: "rule", required: true, config: RULE }]);
+    expect(computeIssues(doc.org, doc.config).issues.filter((i) => i.severity === "error")).toEqual([]);
+  });
+
+  it("flags a gate without settings that came in another way (an older saved file, the YAML tab)", () => {
+    expect(gateProblem([{ id: "r", kind: "rule", required: true }])).toBe("gate_without_settings");
+    expect(gateProblem([{ id: "r", kind: "rule", required: true, config: {} }])).toBe("gate_without_settings");
+    expect(gateProblem([{ id: "r", kind: "rule", required: true, config: RULE }])).toBeNull();
+    const result = applyAgentSnippet(team(), "a", "gates:\n  - {id: verifier, kind: verifier}\n");
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    const errors = computeIssues(result.doc.org, result.doc.config).issues.filter((i) => i.severity === "error");
+    expect(errors.map((i) => [i.code, i.message])).toEqual([
+      ["gate_without_settings", "Gate preset 'dev-gates' has a gate with no settings ('verifier'): no task can carry it, so nothing this role does could run"],
+    ]);
+  });
+});
+
 describe("what the builder refuses so the core accepts the file (review of PR d)", () => {
   const withGates = (gates: unknown[]): string => `gates:\n${gates.map((g) => `  - ${JSON.stringify(g)}`).join("\n")}\n`;
 
@@ -360,8 +402,8 @@ describe("what the builder refuses so the core accepts the file (review of PR d)
 
   it("flags a gate list the core would refuse: empty, too long, no required gate", () => {
     expect(gateProblem([])).toBe("no_required_gate");
-    expect(gateProblem(Array.from({ length: 21 }, (_, i) => ({ id: `g${String(i)}`, kind: "rule" as const, required: true })))).toBe("too_many_gates");
-    expect(gateProblem([{ id: "a", kind: "rule", required: true }, { id: "a", kind: "rule", required: true }])).toBe("duplicate_gate");
+    expect(gateProblem(Array.from({ length: 21 }, (_, i) => ({ id: `g${String(i)}`, kind: "rule" as const, required: true, config: RULE })))).toBe("too_many_gates");
+    expect(gateProblem([{ id: "a", kind: "rule", required: true, config: RULE }, { id: "a", kind: "rule", required: true, config: RULE }])).toBe("duplicate_gate");
     expect(gateProblem([{ id: "h", kind: "human", required: true }])).toBe("bad_gate_kind");
   });
 

@@ -4,7 +4,7 @@ import { orAlreadyDone } from "./already-done";
 import { ConfirmDialog } from "./confirm-dialog";
 import { useRefetchSafety } from "./use-org-safety";
 
-/** Halt the whole organization (spec/e19/README.md section 12). A 409 `already_halted` counts as done. */
+/** Halt the whole organization (the organization safety notes section 12). A 409 `already_halted` counts as done. */
 export function HaltDialog({ open, onOpenChange, onDone }: { open: boolean; onOpenChange: (open: boolean) => void; onDone: (message: string | undefined) => void }) {
   const api = useApi();
   const refetch = useRefetchSafety();

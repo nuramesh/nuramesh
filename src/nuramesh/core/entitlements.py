@@ -19,16 +19,9 @@ ENTERPRISE_KEYS: frozenset[str] = frozenset(
     {
         "sso.oidc",
         "sso.saml",
-        "scim.sync",
-        "rbac.custom_roles",
         "rbac.scoped",
         "audit.export_stream",
         "audit.retention_policy",
-        "optimize.cascades",
-        "optimize.model_switching",
-        "optimize.batch_routing",
-        "optimize.earned_trust",
-        "optimize.verified_answer_reuse",
     }
 )
 
@@ -111,7 +104,7 @@ def _aware(value: datetime, what: str) -> None:
 
 class LicenceEntitlements:
     """The keys of a verified licence file, granted only inside its time window, re-checked
-    against the injected clock on every call (spec/licence/README.md section 5).
+    against the injected clock on every call.
 
     `features` outside `known` are ignored and listed in `ignored` (a newer licence must not break
     an older package); a badly shaped feature is a `ValueError`. The window is

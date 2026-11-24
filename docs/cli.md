@@ -2,7 +2,7 @@
 
 Commands: `nuramesh --help`. Model governance commands (`models ...`, `run`, `eval run`) are specified
 in the internal specification section 10. This page is the one place that lists every exit
-code; `tests/test_cli_exit_codes.py` reads the table below and proves, with a real invocation, that
+code; an internal test reads the table below and proves, with a real invocation, that
 each code is produced (and that the table lists no code the CLI cannot produce).
 
 ## Exit codes
@@ -12,9 +12,9 @@ each code is produced (and that the table lists no code the CLI cannot produce).
 | 0 | success: every task is done and the ledger verified, or the command did what it was asked |
 | 1 | the work ended but not all is done: a gate failed, an `otel` check or export failed (it was 3 before R1.43, OD-7b), a task is `needs_human` (a blocked model call included), a ledger chain is broken, or a connection test failed |
 | 2 | not started, invalid request: bad arguments, configuration, team module, plan or run cap (nothing was run; at most the catalog seed was written) |
-| 3 | refused: no usable model catalog or connection for a bare `run` (add `--fake` for the demo), model governance refused the start, `models check` found a block, or a refused `models` / `stop` action |
+| 3 | refused: no usable model catalog or connection for a bare `try` (add `--fake` for the demo), model governance refused the start, `models check` found a block, or a refused `models` / `stop` action |
 | 4 | the organization halt is in force (at the start, or it stopped the run or the eval), or a human stopped the run: a halt in force at the start wins over exit 3 |
-| 4 | role paused: `eval run` for an agent whose role is paused in the org stream stops with the same code as a halt, and the message names the role (`role 'dev' is paused`); a `run` only cancels the paused role's tasks (the other roles go on, so it ends 1 with tasks not done, or 4 if a halt or a human stop ends it); the `stop`, `org halt` and `roles pause` commands themselves always succeed (exit 0): they write only to the ledger and need no content key, so a tombstoned or key-unavailable organization can still be stopped |
+| 4 | role paused: `eval run` for an agent whose role is paused in the org stream stops with the same code as a halt, and the message names the role (`role 'dev' is paused`); a `try` only cancels the paused role's tasks (the other roles go on, so it ends 1 with tasks not done, or 4 if a halt or a human stop ends it); the `stop`, `org halt` and `roles pause` commands themselves always succeed (exit 0): they write only to the ledger and need no content key, so a tombstoned or key-unavailable organization can still be stopped |
 | 5 | unavailable, retry may work: the store is busy or locked, or an `otel` connection check could not reach its target (new in R1.43, OD-12; the hidden alias of a renamed command still exits with the old code, 2, for one release) |
 | 6 | done with warnings: `minter anchor-verify` found a STALE or EPOCH warning or a shared key (it was 2 before R1.43, OD-7a: update monitors that test for 2) |
 | 130 | Ctrl-C: `nuramesh try` aborts on the second one (the ledger says `aborted`); every other command stops at the prompt or the step and writes nothing (P8) |
@@ -23,7 +23,7 @@ A mistyped command or sub-command exits 2 and prints `unknown command '...'` wit
 
 **The halt is real.** `cli_models.org_halted` and the server's model routes read the
 organization's halt state with `HaltWatch` over the `org:<id>` stream; a state that cannot be read
-counts as a halt (fail closed). `tests/test_halt_seam_stubs.py` guards that no never-halted stub
+counts as a halt (fail closed). An internal test guards that no never-halted stub
 comes back.
 
 ## Command names, the team folder and shell completion (R1.43)
@@ -135,14 +135,14 @@ never a silent no-op: a command either honours `json` or refuses it with exit 2 
 stderr (`--output json is not supported by `<command>``); `--output table` is always accepted.
 Honoured, printing the keys of the route the command maps to: `status` (and `status RUN`),
 `report`, `stop`, `reject`, `org status`, `breakers list`, `auth tokens list`, `models catalog`,
-`models key status`, `doctor` (its own schema) and `demo`, see the doctor section below.
+`models key status`, `doctor` (its own schema) and `demo` (not with `--stack`), see the doctor section below.
 Honoured as the command's own JSON (the same output as its older `--json` flag): `try`,
 `scorecards show`, `autonomy propose`, `autonomy grants list`, `autonomy grants create`,
 `autonomy grants revoke`, `autonomy ceilings set`, `autonomy settings set`, `savings tokens`,
 `anchor verify`, `models connections`, `models presets`, `models check`. Every other command prints text only and
 refuses `--output json`; a command that shows a secret once (`auth tokens create`) has no JSON
 form on purpose. A bare `nuramesh` prints a status for people: its text is not a format to parse (`--output json`
-gives the `status` keys). `tests/test_cli_output_contract.py` enumerates
+gives the `status` keys). An internal test enumerates
 every command, so a new command must be listed here or it is refused.
 
 **`--json` is hidden.** It is kept for one more release on the twelve commands that had it
@@ -174,12 +174,12 @@ checks that the `--json` warning is built from the CLI one).
 `PASS`, `WARN` or `FAIL`, a fixed message and a `fix:` hint. Checks: Python 3.12 or newer, the
 `serve` port is free (default 8765), the database (`NURAMESH_DATABASE_URL` reachable; SQLite when
 unset), the auth key file (`NURAMESH_AUTH_KEY_FILE`: unset is a warning, a missing or too-open file
-fails), a container runtime (Podman or Docker, a warning), and the installed extras (a warning
+fails), a container runtime (Podman or Docker: a warning in local fake-model use, a failure when a team database or real-model setting is set: `NURAMESH_DATABASE_URL[_FILE]`, `NURAMESH_REQUIRE_DATABASE` on or malformed, `NURAMESH_ANTHROPIC_KEY_FILE`, `NURAMESH_OPENAI_COMPATIBLE_KEYS`, `NURAMESH_SECRET_DIR`, `NURAMESH_SECRET_STORE` other than `fake`), and the installed extras (a warning
 listing what is missing), email (`NURAMESH_SMTP_HOST` unset is a warning; a host without a
 sender or `NURAMESH_PUBLIC_URL`, a bad `NURAMESH_SMTP_SECURITY`, or `none` to a remote host fails; nothing is sent), TLS and
 proxy (a `SSL_CERT_FILE` or `REQUESTS_CA_BUNDLE` naming a missing file fails; a proxy address is
 never shown) and free disk here (under 1 GiB warns, under 100 MiB fails). Not yet checked: the
-squash-only merge setting (waits for Verified Merge). Exit 0 when nothing failed (warnings do
+squash-only merge setting (waits for Merge Gate). Exit 0 when nothing failed (warnings do
 not fail), 1 when a check failed.
 **No network by default (H-19).** Plain `nuramesh doctor` opens no outbound connection (the
 port check only binds the local port). `--network-checks` turns on two probes. `database`: when `NURAMESH_DATABASE_URL` is set, connect
@@ -197,7 +197,7 @@ the flag.
 
 `nuramesh demo [--dir DIR] [--allow-unsandboxed]` creates the `dev-team` template in a new folder
 (a temp folder by default) and runs it as `nuramesh try DIR --fake --approve-as human:demo`: the
-fake model only, no key, no cost, no network call (see demo.md). With no container
+fake model only, no key, no cost, no network call. With no container
 runtime it exits 1 and says how to install one, unless `--allow-unsandboxed` is given: then the
 demo prints one line that it runs unsandboxed, and the run prints the `SANDBOX OFF` banner and
 records it in the ledger. When a runtime is present the flag has no effect (the demo says so) and
@@ -205,9 +205,22 @@ the tests run in a container. `--dry-run` is refused. The demo refuses (exit 2, 
 `NURAMESH_DATABASE_URL` is set (non-empty) or `NURAMESH_REQUIRE_DATABASE=1`: it would write a throwaway
 run into that database, and the ledger is append-only. Unset the variable to run it.
 
+`nuramesh demo --stack [--port N]` runs the same demo and then serves the folder as a throwaway local
+stack until Ctrl-C: `serve --auth` on `127.0.0.1` only (default port 8765), sign-in required, fake
+model, nothing leaves the machine and nothing is created in a cloud. It needs a
+terminal. Only one setup token is ever made: at a terminal `serve` prints its one-time setup link
+(`/setup#token=...`, it works once and for 15 minutes) and the demo makes none of its own, because
+`serve` retires every earlier token; where `serve` prints no link (for example in a container) the
+demo shows a token (the same as `nuramesh auth new-setup-token`) on stderr only, never on stdout
+or in the ledger, to paste on the setup page (`/setup`, or `POST /v1/auth/setup/redeem`). Redeeming
+it makes that person the owner. Without a terminal (or with `--port` outside 1 to 65535, or
+`--port` without `--stack`) it creates and serves nothing and exits 2 with a message. A temp folder
+is removed when the stack stops (Ctrl-C, `kill` or a closed terminal); a folder given
+with `--dir` is kept. `--stack` has no `--output json` (it serves until stopped).
+
 ## Which store a command uses
 
-Every command that reads or writes the ledger (`run`, `report`, `export-ledger`, `verify-ledger`,
+Every command that reads or writes the ledger (`try`, `report`, `ledger export`, `ledger verify`,
 `anchor export`, `anchor rotate`, `eval run`, `eval status`, `validate` with a store) uses the same selection as
 `serve` and `auth`: PostgreSQL when `NURAMESH_DATABASE_URL` is set (it wins over `--store`, and it
 is read from the environment only, never printed), else `--store`, else the team's
@@ -215,9 +228,9 @@ is read from the environment only, never printed), else `--store`, else the team
 
 - **Read-only commands never create a store.** A missing SQLite file, or a PostgreSQL database
   that holds no ledger tables yet, is refused with exit 2 and nothing is created (`eval status`
-  treats it as "nothing recorded yet" and answers from an empty store). `run` and `eval run` create
+  treats it as "nothing recorded yet" and answers from an empty store). `try` and `eval run` create
   the store when it is missing.
-- **`verify-ledger` fails closed on an empty ledger.** A ledger with no streams proves nothing
+- **`ledger verify` fails closed on an empty ledger.** A ledger with no streams proves nothing
   (usually the wrong database), so it exits 1. Pass `--allow-empty` when an empty ledger is
   expected (for example a first check in a new deployment). `--expected-head` for a stream that is
   absent is still reported as broken.
@@ -227,13 +240,10 @@ is read from the environment only, never printed), else `--store`, else the team
 | Command | Page |
 |---|---|
 | `org`, `roles`, `breakers` | [kill-switch.md](kill-switch.md) |
-| `agents credentials` | agent-credentials.md |
-| `calibrate run`, `calibrate status` | `nuramesh calibrate run --team <team> --suite S --verifier V --fake` judges every labelled sample of calibration suite S with verifier V on the fake model (one metered call per sample, through the same prompt builder the real gate uses) and records ONE `calibration.scored` event (catch rate, false-accept rate, accept rate, agreement, cost; ids and counts only). Exit 0 passed, 1 failed (also a budget or policy stop, recorded), 2 usage (unknown suite or agent, not a verifier, no model, a real model, the samples answered by more than one model), 3 refused (a lost key, also mid-run: recorded), 4 halted or paused. `calibrate status <team> --verifier V [--suite S]` exits 0 if every suite is calibrated, else 1. A verifier gate may list `calibration_suites`: an uncalibrated verifier makes that gate return `error` (`verifier_not_calibrated: <suite>: <reason>`) before any model call, and the task goes to a human. See the internal specification. |
-| `migrate`, `expire-content` | [store-maintenance.md](store-maintenance.md) |
-| `content shred`, `keys` | runbooks/key-tombstone.md |
+| `calibrate run`, `calibrate status` | `nuramesh calibrate run --team <team> --suite S --verifier V --fake` judges every labelled sample of calibration suite S with verifier V on the fake model (one metered call per sample, through the same prompt builder the real gate uses) and records ONE `calibration.scored` event (catch rate, false-accept rate, accept rate, agreement, cost; ids and counts only). Exit 0 passed, 1 failed (also a budget or policy stop, recorded), 2 usage (unknown suite or agent, not a verifier, no model, a real model, the samples answered by more than one model), 3 refused (a lost key, also mid-run: recorded), 4 halted or paused. `calibrate status <team> --verifier V [--suite S]` exits 0 if every suite is calibrated, else 1. A verifier gate may list `calibration_suites`: an uncalibrated verifier makes that gate return `error` (`verifier_not_calibrated: <suite>: <reason>`) before any model call, and the task goes to a human. |
+| `db migrate`, `content expire` | [store-maintenance.md](store-maintenance.md) |
 | `otel` | [telemetry.md](telemetry.md) |
-| `export-ledger` | auditor-guide.md |
-| `run`, `report`, `stop`, `init`, `validate` | [quickstart.md](quickstart.md) |
+| `try`, `report`, `stop`, `init`, `validate` | [quickstart.md](quickstart.md) |
 
 ## Stored model keys (`models key`)
 

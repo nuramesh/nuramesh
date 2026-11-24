@@ -1,0 +1,6 @@
+INVOICE (sample document, fictional)
+Invoice No: INV-1001
+Vendor: Northwind Paper Co.
+Date: 2026-03-04
+Description: Printer paper, 40 boxes
+Total due: 1,284.50 USD

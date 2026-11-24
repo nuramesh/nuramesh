@@ -1,4 +1,4 @@
-"""Invite routes (R1.37; `spec/identity/invites.md` section 2).
+"""Invite routes (R1.37).
 
 Four owner routes (`admin` rule: an owner in a human session) and two public ones (inspect and
 accept, each checking its own link token). No route returns or prints a token or a link: the

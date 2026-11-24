@@ -1,4 +1,4 @@
-"""Earned autonomy: grant states, demotion and void derivation (E13, `spec/autonomy/README.md`).
+"""Earned autonomy: grant states, demotion and void derivation (E13).
 
 Pure functions over ledger entries; nothing here reads a store, a clock or the network. A grant is
 a human decision recorded in the ledger (`decision.recorded`, kind `autonomy_grant`); whether it is
@@ -11,7 +11,7 @@ commits, spec section 2). Whether a trigger comes after a grant is decided only 
 the clock (`at`) decides only what exists at `as_of`.
 
 This module has the maths for sections 2, 6.2 to 6.5 and 8. The scorecard, the proposal and the
-overlay build on `Verdict` and `GrantState` (later phases, `docs/lanes/e13-e14-build-state.md`).
+overlay build on `Verdict` and `GrantState` (later phases).
 """
 
 from collections.abc import Callable, Mapping, Sequence

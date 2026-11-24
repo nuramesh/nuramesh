@@ -1,4 +1,4 @@
-"""`nuramesh completion bash|zsh|fish` (R1.43, `spec/cli-api-naming` section 6.6).
+"""`nuramesh completion bash|zsh|fish` (R1.43).
 
 Prints a static script generated from the argparse tree at the time of the call: commands,
 subcommands, options and `choices`. It reads no store, opens no network connection and needs no

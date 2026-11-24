@@ -1,7 +1,8 @@
 /**
  * The run planner's gate step: a mirror of `nuramesh.core.presets` (`instantiate_gates`,
- * `gates_for_role`, `effective_suites`). Same input, same result; error text is the same except where noted in the fixture (an invalid criterion id is rejected by both, worded differently). The shared
- * fixture `spec/gate-instantiation/cases.json` is checked against both implementations.
+ * `gates_for_role`, `effective_suites`). Same input, same result; error text is the same except where
+ * noted in the fixture (an invalid criterion id is rejected by both, worded differently). The shared
+ * gate-instantiation cases fixture is checked against both implementations.
  */
 import type { EvalRequirement, GatePresetDef, OrgConfig } from "@/model/config";
 

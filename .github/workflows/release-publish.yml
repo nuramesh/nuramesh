@@ -1,0 +1,69 @@
+name: Release publish
+
+# Publishes the open core package to PyPI by trusted publishing (OIDC): no token and no secret
+# exist or are referenced. Trigger: the repository owner pushes a tag v* (for example v0.1.0).
+# The publish job runs in the `pypi` environment, so it waits for the approval of its required reviewer.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-publish
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build sdist and wheel
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Check out the tag
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Install uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+      - name: Build the package
+        run: uv build --out-dir dist
+      - name: The version matches the tag
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -eu
+          ls dist
+          want="${TAG#v}"
+          test -f "dist/nuramesh-${want}.tar.gz" || { echo "the build does not match tag $TAG"; exit 1; }
+          test "$(ls dist/*.whl | wc -l)" = 1
+      - name: Keep the build for the publish job
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: dist
+          path: dist
+          if-no-files-found: error
+
+  publish:
+    name: publish to PyPI
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment:
+      name: pypi
+      url: https://pypi.org/project/nuramesh/
+    permissions:
+      contents: read
+      id-token: write # trusted publishing (OIDC), this job only
+    steps:
+      - name: Fetch the build
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: dist
+          path: dist
+      - name: Publish
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
+        with:
+          packages-dir: dist

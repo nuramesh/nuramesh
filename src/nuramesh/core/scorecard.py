@@ -1,4 +1,4 @@
-"""Agent scorecards (E14, `spec/autonomy/README.md` section 3): a pure read model of the ledger.
+"""Agent scorecards (E14): a pure read model of the ledger.
 
 A scorecard is a function of the organization's ledger entries (the org stream and its runs'
 streams, each with its commit position), the configuration recorded at `as_of`, the subject, the
@@ -55,7 +55,7 @@ def round6(value: Decimal) -> str:
 
 
 SOLO_MODE = "solo"
-"""`approval_mode` of a solo decision (spec/rbac/solo-approval.md SA-14). An entry with no mode
+"""`approval_mode` of a solo decision (SA-14). An entry with no mode
 was written before modes existed: it is never solo and is counted in the totals (SA-18)."""
 
 
@@ -145,7 +145,7 @@ def _money(value: Decimal) -> str:
 
 def _call_cost(event: Any) -> tuple[str, Decimal | None, bool]:
     """`(class, amount, provisional)` of a `model.called` entry: class is `known`, `unknown` or
-    `none` (spec/costs section 1)."""
+    `none`."""
     outcome = event.payload.get("outcome")
     basis = str(event.cost_basis) if event.cost_basis is not None else None
     if outcome == "settle_failed":

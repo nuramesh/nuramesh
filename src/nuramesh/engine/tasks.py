@@ -11,6 +11,7 @@ from nuramesh.core.org import OrgGraph
 from nuramesh.core.tasks import Task, TaskMove, TaskStatus, transition
 from nuramesh.engine.content import LedgerHashing
 from nuramesh.engine.result_match import recorded_hash_of
+from nuramesh.engine.starter import refuse_foreign_run
 from nuramesh.stores.base import (
     ConcurrencyError,
     EventDraft,
@@ -42,6 +43,7 @@ def create_task(
     org: OrgGraph | None = None,
     calibration: CalibrationConfig | None = None,
     role: str | None = None,
+    org_id: str | None = None,
 ) -> StoredTask:
     """Store a new task and record `task.created` with its definition of done.
 
@@ -53,7 +55,14 @@ def create_task(
 
     A task with a `text_ref` (made from an API plan) is recorded by hashes and content ids; `role`
     names the role the runner resolved for it.
+
+    The task is refused with `ForeignRun` (nothing written, #1587) if its run belongs to another
+    organization: the caller's organization is `org_id`, or `org.id` when only `org` is given. A
+    run with no stream, or whose first entry is not `run.started`, is nobody's (same rule as
+    `check_action` and `record_canon_loaded`). With neither `org` nor `org_id` there is no caller
+    organization to compare, so the check is skipped (engine callers always pass `org`).
     """
+    caller_org = org_id if org_id is not None else (org.id if org is not None else None)
     problems = definition_problems(task.definition_of_done)
     has_verifier = any(g.kind is GateKind.VERIFIER for g in task.definition_of_done.gates)
     if org is not None:
@@ -89,6 +98,8 @@ def create_task(
             payload["title_content"] = ref.title_id
             payload["dod_content"] = ref.dod_id
     with store.transaction() as uow:
+        if caller_org is not None:
+            refuse_foreign_run(uow, caller_org, task.run_id)  # before any write (#1587)
         version = uow.put_task(task, expected_version=None)
         uow.append(
             EventDraft(

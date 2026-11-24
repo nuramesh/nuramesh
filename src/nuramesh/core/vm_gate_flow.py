@@ -1,5 +1,5 @@
-"""Merge Gate flow (spec `spec/verified-merge` GT-1, GT-4, GT-13, GT-14, GT-18, MQ-1 to MQ-3,
-LA-1, LY-4, 6.4a; `gate-clarifications.md` GC-2, GC-6; `tiers.md` TL-20, TC-183).
+"""Merge Gate flow (GT-1, GT-4, GT-13, GT-14, GT-18, MQ-1 to MQ-3,
+LA-1, LY-4, 6.4a; GC-2, GC-6; TL-20, TC-183).
 
 `handle_event` is what the service (VM-4b) calls for every trigger (GT-18: forge events, every
 `merge.*` ledger event for the PR, trust-list and policy changes, the expiry timer, pushes to the

@@ -1,4 +1,4 @@
-"""Verified Merge ledger events (spec `spec/verified-merge` LA-1, LA-2; Fable fix F-8).
+"""Merge Gate ledger events (spec LA-1, LA-2; Fable fix F-8).
 
 The fifteen `merge.*` event types are additive `EventType` values (`core.ledger`): nothing in
 the hashed eleven-key envelope changes, new data lives only inside `payload` (ids, hashes,
@@ -22,9 +22,9 @@ from collections.abc import Mapping
 from nuramesh.core.ledger import EventType
 from nuramesh.core.people import HUMAN_ID_BODY
 
-GATE_ACTOR = "service:verified-merge-gate"
-SIGNER_ACTOR = "service:verified-merge-signer"
-COLLECTOR_ACTOR = "service:verified-merge-collector"
+GATE_ACTOR = "service:merge-gate"
+SIGNER_ACTOR = "service:merge-gate-signer"
+COLLECTOR_ACTOR = "service:merge-gate-collector"
 
 HUMAN_ACTORS = frozenset({"human:*"})
 """Any `human:<opaque id>` (the pattern of `core.people`), never an email or a login."""

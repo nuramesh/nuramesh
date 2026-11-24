@@ -1,4 +1,4 @@
-/** Every string of the first-run checklist (spec/first-run/checklist.md FR-15), in one module for review. */
+/** Every string of the first-run checklist (the first-run checklist notes FR-15), in one module for review. */
 import type { StepId } from "./derive";
 
 export const STEP_LABELS: Record<StepId, string> = {
@@ -15,8 +15,9 @@ export const COPY = {
   noApprovalAsked: "No approval has been asked yet",
   approvalWhat: "An agent asked to do something that needs a person's answer.",
   soloApproval:
-    "You are the only person who can decide, so your answer is recorded as a solo approval.",
-  invitesNotYet: "Invites arrive with the next release",
+    "If you are the only person who can decide, your answer is recorded as a solo approval.",
+  openPeople: "Invite a teammate",
+  invitePeople: "Invitations are sent from Settings, People.",
   nothingToSetUp: "Nothing left to set up",
   complete: "You are set up",
   skip: "Skip for now",

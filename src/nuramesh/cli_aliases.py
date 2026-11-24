@@ -1,4 +1,4 @@
-"""Hidden aliases for the commands R1.43 renamed (`spec/cli-api-naming`, rule A).
+"""Hidden aliases for the commands R1.43 renamed (rule A).
 
 An old name or form is rewritten to the new argv BEFORE parsing, so it runs the new command with
 identical behaviour; it prints one line on stderr and nothing on stdout. Aliases are not argparse

@@ -22,7 +22,7 @@ async function panel(options: Parameters<typeof createFixtureClient>[0] = {}) {
   return screen.findByRole("group", { name: "Access for dana" });
 }
 
-describe("Access panel (spec/agent-identity section 10)", () => {
+describe("Access panel (the agent identity notes section 10)", () => {
   it("lists id, scopes, state and dates, ended ones greyed", async () => {
     const p = await panel();
     expect(await within(p).findAllByRole("listitem")).toHaveLength(3);

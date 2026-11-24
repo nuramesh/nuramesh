@@ -44,7 +44,7 @@ function documentFromOrg(org: Org): BuilderDocument {
   return { schema_version: SCHEMA_VERSION, org, config: emptyConfig(), ui: emptyUi(), layout: { positions: {} } };
 }
 
-/** The builder's richer built-in document for a built-in id (models, gates, permissions), else null. */
+/** The builder's richer built-in document for a built-in id (models, verification lines, permissions, budgets), else null. */
 function builtInDocument(id: string): BuilderDocument | null {
   if (id === "blank") return blankDocument();
   return BUILT_IN_TEMPLATES.find((t) => t.id === id)?.document ?? null;
@@ -151,7 +151,7 @@ export function TemplatesPage() {
       <header className="flex flex-wrap items-center gap-x-3.5 gap-y-2.5 border-b bg-panel px-6 py-4">
         <div className="flex flex-col gap-0.5">
           <h1 className="text-[21px] font-semibold">Templates</h1>
-          <p className="text-[13px] text-muted-foreground">Start from a team with roles, models, gates, policies and budgets already set. Every template is plain YAML you can edit and version.</p>
+          <p className="text-[13px] text-muted-foreground">Start from a team with roles, models, verification lines, policies and budgets already set. Gates are added with their settings, in the builder or in the team script. Every template is plain YAML you can edit and version.</p>
         </div>
         <span className="flex-1" />
         <Button

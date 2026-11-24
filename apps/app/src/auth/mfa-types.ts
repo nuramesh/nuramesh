@@ -1,4 +1,4 @@
-/** What `GET /v1/auth/mfa` says about the signed-in person (spec/identity/mfa.md section 4). */
+/** What `GET /v1/auth/mfa` says about the signed-in person (the MFA notes section 4). */
 export interface MfaStatus {
   /** The server has the key that seals secrets; without it nobody can enrol and codes cannot be checked. */
   available: boolean;
@@ -27,7 +27,7 @@ export interface MfaPasswordCode {
   code: string;
 }
 
-/** The ten recovery codes: `^[A-HJ-NP-Z2-9]{4}(-[A-HJ-NP-Z2-9]{4}){3}$` each (spec/mfa-web AU-1). */
+/** The ten recovery codes: `^[A-HJ-NP-Z2-9]{4}(-[A-HJ-NP-Z2-9]{4}){3}$` each. */
 export const RECOVERY_CODE_DISPLAY = /^[A-HJ-NP-Z2-9]{4}(-[A-HJ-NP-Z2-9]{4}){3}$/;
 
 export interface LoginConfirmInput {

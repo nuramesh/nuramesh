@@ -1,4 +1,4 @@
-"""MCP tool pinning (spec/mcp-gateway rules 10 to 20, #910): hash, diff, static checks, pins.
+"""MCP tool pinning (#910): hash, diff, static checks, pins.
 
 Pure (stdlib and pydantic). A **pin** is the organization's approval of one exact tool definition
 (the whole object the server lists: name, description, schemas, annotations). The gateway compares

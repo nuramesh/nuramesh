@@ -1,5 +1,5 @@
 /**
- * What a person is shown of a proposal's solo share (spec/rbac/solo-approval.md SA-18 item 2):
+ * What a person is shown of a proposal's solo share (the solo approval notes SA-18 item 2):
  * `approved asks: N (solo M, P %)` and, when a solo one exists, that nobody else reviewed them.
  * `share` is the server's 4-place decimal text (`"0.3333"`); with no approved ask there is none.
  * The percentage is computed on the text, never on a float, and trailing zeros are dropped.

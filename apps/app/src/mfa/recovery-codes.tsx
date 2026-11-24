@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { recoveryFileText } from "./recovery-file";
 
 /**
- * S5 (spec/mfa-web): the ten recovery codes, shown once. They live in the props of this component and nowhere else.
+ * S5: the ten recovery codes, shown once. They live in the props of this component and nowhere else.
  * Copy, download and print run only on a click. "Continue" needs the box ticked; leaving any other way asks first.
  */
 export function RecoveryCodes({ codes, note, onContinue }: { codes: readonly string[]; note?: string; onContinue: () => void }) {

@@ -30,7 +30,7 @@ type Flow =
   /** The secrets were dropped (pagehide, bfcache, a timer, sign-out); `committed` says whether setup had succeeded. */
   | { k: "cleared"; committed: boolean };
 
-/** S4 is dropped after this long with the tab hidden. S5 never is (spec/mfa-web W-6). */
+/** S4 is dropped after this long with the tab hidden. S5 never is. */
 const HIDDEN_CLEAR_MS = 5 * 60 * 1000;
 /** After this many wrong passwords in a row on one page view the password form is shut for a minute (W-25). */
 const SSO_STRIKES = 3;

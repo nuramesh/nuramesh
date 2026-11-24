@@ -146,7 +146,17 @@ describe("/start page", () => {
     });
   });
 
-  it("offers the command line, not a demo button or any claim about cost, and no invite link yet", async () => {
+  it("shows the conditional solo-approval sentence on the approve step as plain text, with no safety claim (C32)", async () => {
+    const { api } = clientWith({ runs: () => Promise.resolve({ runs: [{}] }) });
+    renderAt("/start", api);
+    const step = await screen.findByTestId("step-approve");
+    const sentence =
+      "If you are the only person who can decide, your answer is recorded as a solo approval.";
+    expect(within(step).getByText(sentence)).toBeInTheDocument();
+    expect(step).not.toHaveTextContent(/\bsafe\b/i);
+  });
+
+  it("offers the command line, not a demo button or any claim about cost, and links the invite step to Settings", async () => {
     const { api } = clientWith();
     renderAt("/start", api);
     const run = await screen.findByTestId("step-run");
@@ -155,8 +165,12 @@ describe("/start page", () => {
     expect(COPY.cliLine).toMatch(/^nuramesh try [^\s-]\S* --fake$/);
     expect(screen.queryByRole("button", { name: "Start the demo run" })).not.toBeInTheDocument();
     const invite = screen.getByTestId("step-invite");
-    expect(invite).toHaveTextContent("Invites arrive with the next release");
-    expect(within(invite).queryByRole("link")).not.toBeInTheDocument();
+    // Settings > People (#693) is on main, so the step must not promise an unshipped screen (FR-10).
+    expect(invite).not.toHaveTextContent(/next release/i);
+    expect(within(invite).getByRole("link", { name: "Invite a teammate" })).toHaveAttribute(
+      "href",
+      "/settings",
+    );
     expect(document.body.textContent).not.toMatch(/\bfree\b|fake model/i);
   });
 

@@ -4,7 +4,7 @@ import { waitWords } from "@/auth/messages";
 /** Which call failed. */
 export type MfaCall = "status" | "enroll" | "confirm" | "regenerate" | "disable";
 
-/** What the screen does with a failure (spec/mfa-web W-9, W-10, W-18, W-20, W-21, W-25). */
+/** What the screen does with a failure. */
 export type MfaFailure =
   | { effect: "show"; text: string }
   /** The flow starts again at the password step (the enrolment is single use). */

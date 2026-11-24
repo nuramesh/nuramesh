@@ -1,4 +1,4 @@
-"""Strict Ed25519 pre-checks (spec `spec/verified-merge` SV-14; Fable fix F-17).
+"""Strict Ed25519 pre-checks (SV-14; Fable fix F-17).
 
 RFC 8032 leaves two things to the verifier that "strict" verification pins down: it must refuse a
 signature whose `S` is not reduced (`S >= L`, else the signature is malleable) and it must refuse a

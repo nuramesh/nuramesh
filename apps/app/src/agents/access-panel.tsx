@@ -75,7 +75,7 @@ function number(text: string, low: number, high: number): number | null {
   return Number.isInteger(n) && n >= low && n <= high ? n : null;
 }
 
-/** The Access panel of one agent (spec/agent-identity section 10). Owner only; nothing is read for anyone else. */
+/** The Access panel of one agent (the agent identity notes section 10). Owner only; nothing is read for anyone else. */
 export function AccessPanel({ agent, role }: { agent: string; role: string }) {
   const api = useApi();
   const refresh = useRefreshCredentials();

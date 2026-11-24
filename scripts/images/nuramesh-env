@@ -1,0 +1,98 @@
+#!/bin/sh
+# nuramesh-env <command> [args]   (R1.29, spec 5.2)
+# Builds NURAMESH_DATABASE_URL from a password FILE and exec's the command, so the password is
+# never in the compose file, `docker compose config` or `docker inspect`: only in this process's
+# environment. Without NURAMESH_DB_PASSWORD_FILE it runs the command unchanged (the standalone
+# image path), unless NURAMESH_REQUIRE_DATABASE is on, which makes a missing file a hard error.
+# Reads: NURAMESH_DB_PASSWORD_FILE, NURAMESH_DB_HOST, NURAMESH_DB_PORT (5432), NURAMESH_DB_NAME,
+# NURAMESH_DB_USER. Prints names and paths only, never a value.
+# Also (#994, spec compose-refresh-grace RG-4): NURAMESH_REFRESH_SUCCESSOR_KEY_FILE names a file whose
+# one line becomes NURAMESH_REFRESH_SUCCESSOR_KEY for the command (the server refuses a value and
+# its _FILE twin together, so the file variable is dropped). The shape is checked on the file in a
+# fixed order; the first failing check names the reason; the key text is never printed.
+set -eu
+
+if [ "$#" -eq 0 ]; then
+  echo "usage: nuramesh-env <command> [args]" >&2
+  exit 2
+fi
+
+# The one boolean grammar (ND423): on is 1/true/yes/on, off is 0/false/no/off, any case, spaces at
+# the ends ignored; unset, empty and blank are off (EMPTY = UNSET); anything else is an error naming the variable.
+require=0
+if [ "${NURAMESH_REQUIRE_DATABASE+set}" = set ]; then
+  word=$(printf '%s' "$NURAMESH_REQUIRE_DATABASE" | tr 'A-Z' 'a-z' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+  case $word in
+    '') ;;
+    1|true|yes|on) require=1 ;;
+    0|false|no|off) ;;
+    *)
+      echo "nuramesh-env: NURAMESH_REQUIRE_DATABASE must be 1, true, yes or on, or 0, false, no or off" >&2
+      exit 2
+      ;;
+  esac
+fi
+
+keyfile=${NURAMESH_REFRESH_SUCCESSOR_KEY_FILE-}
+if [ -n "$keyfile" ]; then
+  if [ -n "${NURAMESH_REFRESH_SUCCESSOR_KEY-}" ]; then
+    echo "nuramesh-env: NURAMESH_REFRESH_SUCCESSOR_KEY and NURAMESH_REFRESH_SUCCESSOR_KEY_FILE are both set: set one" >&2
+    exit 2
+  fi
+  key_refuse() {
+    echo "nuramesh-env: cannot use NURAMESH_REFRESH_SUCCESSOR_KEY_FILE $keyfile: $1" >&2
+    exit 2
+  }
+  [ -e "$keyfile" ] || key_refuse "missing"
+  if [ -L "$keyfile" ] || [ ! -f "$keyfile" ]; then key_refuse "not a regular file"; fi
+  [ -r "$keyfile" ] || key_refuse "unreadable"
+  n=$(LC_ALL=C wc -c <"$keyfile")
+  n=$((n))
+  [ "$n" -gt 0 ] || key_refuse "empty"
+  [ "$n" -le 1024 ] || key_refuse "too large"
+  n=$(LC_ALL=C tr -d 'A-Za-z0-9_=\n-' <"$keyfile" | wc -c)
+  [ "$((n))" -eq 0 ] || key_refuse "invalid characters"
+  n=$(LC_ALL=C tr -cd '\n' <"$keyfile" | wc -c)
+  n=$((n))
+  if [ "$n" -gt 1 ]; then key_refuse "more than one line"; fi
+  if [ "$n" -eq 1 ]; then
+    n=$(tail -c 1 "$keyfile" | LC_ALL=C tr -d '\n' | wc -c)
+    [ "$((n))" -eq 0 ] || key_refuse "more than one line"
+  fi
+  LC_ALL=C grep -Eq '^[A-Za-z0-9_-]*={0,2}$' "$keyfile" || key_refuse "invalid characters"
+  key=$(cat "$keyfile")
+  [ -n "$key" ] || key_refuse "empty"
+  [ "${#key}" -ge 43 ] || key_refuse "too short"
+  NURAMESH_REFRESH_SUCCESSOR_KEY=$key
+  export NURAMESH_REFRESH_SUCCESSOR_KEY
+  unset key NURAMESH_REFRESH_SUCCESSOR_KEY_FILE
+fi
+
+file=${NURAMESH_DB_PASSWORD_FILE-}
+if [ -z "$file" ]; then
+  if [ "$require" = 1 ]; then
+    echo "nuramesh-env: NURAMESH_DB_PASSWORD_FILE is not set (NURAMESH_REQUIRE_DATABASE is on)" >&2
+    exit 2
+  fi
+  exec "$@"
+fi
+if [ ! -f "$file" ] || [ ! -r "$file" ]; then
+  echo "nuramesh-env: cannot read the password file $file" >&2
+  exit 2
+fi
+for name in NURAMESH_DB_HOST NURAMESH_DB_NAME NURAMESH_DB_USER; do
+  eval "value=\${$name-}"
+  if [ -z "$value" ]; then
+    echo "nuramesh-env: $name is not set" >&2
+    exit 2
+  fi
+done
+password=$(cat "$file")
+if [ -z "$password" ]; then
+  echo "nuramesh-env: the password file $file is empty" >&2
+  exit 2
+fi
+NURAMESH_DATABASE_URL="postgresql://${NURAMESH_DB_USER}:${password}@${NURAMESH_DB_HOST}:${NURAMESH_DB_PORT:-5432}/${NURAMESH_DB_NAME}"
+export NURAMESH_DATABASE_URL
+unset password
+exec "$@"

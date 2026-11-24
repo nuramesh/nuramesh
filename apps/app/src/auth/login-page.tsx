@@ -34,7 +34,7 @@ export function LoginPage() {
   const [target, setTarget] = useState<string | null>(null);
   const next = target ?? safeNextPath(arrived?.from);
   const held = useAuthHeld();
-  // The enrolment challenge lives here, in memory, and nowhere else (spec/mfa-web AU-5).
+  // The enrolment challenge lives here, in memory, and nowhere else.
   const [enrol, setEnrol] = useState<{ challenge: string; expiresIn: number } | null>(null);
   useLoadSession();
   const [email, setEmail] = useState("");
@@ -126,7 +126,7 @@ export function LoginPage() {
     };
   }, [auth, signedOutNow]);
 
-  // Signed in already (or nothing to sign in to): go on to the page. While a screen holds secrets (spec/mfa-web AU-6) this
+  // Signed in already (or nothing to sign in to): go on to the page. While a screen holds secrets this
   // page stays: the real state is acted on when it lets go.
   if (auth === undefined || ((state.kind === "signed-in" || state.kind === "open") && !held)) {
     return <Navigate to={next} replace />;
@@ -169,7 +169,7 @@ export function LoginPage() {
           setUseRecovery(false);
           setBusy(false);
         } else if (next.kind === "mfa-enroll") {
-          // A well-formed challenge and the multi-factor routes: the person sets the second step up here (spec/mfa-web S2).
+          // A well-formed challenge and the multi-factor routes: the person sets the second step up here.
           if (next.challenge !== undefined && next.expiresIn !== undefined && hasMfa(auth)) {
             setEnrol({ challenge: next.challenge, expiresIn: next.expiresIn });
             setShowPassword(false);

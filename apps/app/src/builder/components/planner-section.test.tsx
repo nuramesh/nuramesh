@@ -3,6 +3,7 @@ import { act, render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
+import { addGate } from "../config-ops";
 import { parseDocument, serializeDocument } from "../document";
 import { createBuilderStore } from "../store";
 import { BuilderStoreContext } from "../store-context";
@@ -23,10 +24,13 @@ function mount(select: string[], edit?: (d: ReturnType<typeof template>) => Retu
   return store;
 }
 
+/** The dev-team template, with gates for the developer added the way a person adds them: with settings. */
 function template() {
-  const doc = BUILT_IN_TEMPLATES.find((t) => t.id === "dev-team")?.document;
+  let doc = BUILT_IN_TEMPLATES.find((t) => t.id === "dev-team")?.document;
   if (doc === undefined) throw new Error("no template");
-  return doc;
+  doc = addGate(doc, "developer", "rule", "Developer", { rules: [{ criterion: "style", check: { type: "contains", value: "ok" } }] });
+  doc = addGate(doc, "developer", "test_command", "Developer", { image: `registry.example/tests@sha256:${"a".repeat(64)}`, command: ["pytest", "-q"] });
+  return addGate(doc, "developer", "verifier", "Developer", { verifier: "reviewer", require_different_model: true });
 }
 
 describe("Run plan section", () => {

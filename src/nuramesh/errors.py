@@ -1,4 +1,4 @@
-"""The public errors of the `nuramesh` library (stdlib only; `docs/python-api.md`).
+"""The public errors of the `nuramesh` library (stdlib only).
 
 Every error the public API raises is a `NuraMeshError`. A `PolicyDenied` carries the `Outcome`
 that refused the action; it is raised only when the caller asked for it (`raise_on_deny=True`,

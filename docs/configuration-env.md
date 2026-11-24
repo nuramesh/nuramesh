@@ -6,11 +6,11 @@ that names the variable and never the value. Exceptions: the `NURAMESH_OTEL_*` s
 starts, logs `otel export disabled: <code>` and exports nothing). Every on/off setting
 uses one grammar (below).
 
-The fields of `nuramesh.yaml` are not environment variables: they are on the [Configuration reference](/reference/configuration/) page of the docs site.
+The fields of `nuramesh.yaml` are not environment variables: their schema is `spec/schema/nuramesh-config.schema.json`.
 
 ## Units, booleans and secrets (the freeze rules)
 
-These rules hold for every row; `tests/test_config_freeze.py` checks them against this page. Names are a promise: a rename keeps the old name as a warning alias for one release; the pre-release renames of an internal decision (the two Compose-only names) have no alias.
+These rules hold for every row; an internal test checks them against this page. Names are a promise: a rename keeps the old name as a warning alias for one release; the pre-release renames of an internal decision (the two Compose-only names) have no alias.
 
 - **Units are in the name.** A duration ends `_SECONDS`, `_MINUTES`, `_HOURS` or `_DAYS`; a size or count says what it counts in its Meaning.
 - **Secrets are files, not values.** A credential is read from a file whose path is in a `*_FILE` variable (or a directory, `*_DIR`), never from the value itself. Three settings also accept the value itself (`NURAMESH_DATABASE_URL`, `NURAMESH_REFRESH_SUCCESSOR_KEY`, `NURAMESH_OTEL_HEADERS`) and each has a `_FILE` twin. Setting both the variable and its twin stops the process at start (the message names both). The file must not be readable by group or others (`chmod 600`): any group or other permission bit stops the process, and so does a missing, unreadable or empty file. One trailing newline is dropped, and a symlink to such a file is followed (Kubernetes secrets are mounted that way). The value is never printed or logged.
@@ -18,13 +18,13 @@ These rules hold for every row; `tests/test_config_freeze.py` checks them agains
 
 ## Booleans
 
-One grammar for every on/off setting. **On** is `1`, `true`, `yes` or `on`; **off** is `0`, `false`, `no` or `off`. Case does not matter and surrounding whitespace is ignored (`" On "` is on). An **unset** variable takes the setting's default (the Default column of the tables below; most are off, a few such as `NURAMESH_OTEL_EVENT_HASH` are on), and so does one that is **empty** or only whitespace (`NAME=`: **empty = unset**, never an error). A variable that holds anything else (`2`, `y`, `enabled`, a typo) is an error: the process stops at start with one line naming the variable (never the value). `NURAMESH_OPERATOR=true` is on. There are no per-setting exceptions and no compatibility spellings. The shell reader `scripts/images/nuramesh-env` is stricter about embedded newlines (a value with a leading newline that Python accepts is refused there); it fails closed.
+One grammar for every on/off setting. **On** is `1`, `true`, `yes` or `on`; **off** is `0`, `false`, `no` or `off`. Case does not matter and surrounding whitespace is ignored (`" On "` is on). An **unset** variable takes the setting's default (the Default column of the tables below; most are off, a few such as `NURAMESH_OTEL_EVENT_HASH` are on), and so does one that is **empty** or only whitespace (`NAME=`: **empty = unset**, never an error). A variable that holds anything else (`2`, `y`, `enabled`, a typo) is an error: the process stops at start with one line naming the variable (never the value). `NURAMESH_OPERATOR=true` is on. There are no per-setting exceptions and no compatibility spellings. The shell reader of the container images is stricter about embedded newlines (a value with a leading newline that Python accepts is refused there); it fails closed.
 
 - **Stops the process at start when malformed:** `NURAMESH_HOSTED`, `NURAMESH_REQUIRE_HOSTED`, `NURAMESH_CUSTOMER_DATA_ENABLED`, `NURAMESH_TEMPORAL_TLS`, `NURAMESH_TEMPORAL_ALLOW_PLAINTEXT`, `NURAMESH_ALLOW_PRIVATE_NETWORK`, `NURAMESH_REQUIRE_DATABASE`, `NURAMESH_OPERATOR`, `NURAMESH_KEYS_DPA_PUBLISHED`, `NURAMESH_SMTP_ALLOW_INSECURE`. (`serve` and `worker` check all ten before they start; a command that reads one refuses with the same line.)
 - **Same grammar, but a malformed value disables the exporter and never stops the server (`otel export disabled: bad_setting`):** `NURAMESH_OTEL_ALLOW_INSECURE`, `NURAMESH_OTEL_EVENT_HASH`, `NURAMESH_OTEL_COST_METRIC`, `NURAMESH_OTEL_GENAI_ATTRS`.
 
 "Secret" means the value is a credential: keep it out of Git, images and logs (`docs/self-hosting.md` keeps secrets as
-files). A test (`tests/test_docs_operator.py`) fails when the code or `deploy/compose/` reads a variable this page
+files). A test fails when the code or `deploy/compose/` reads a variable this page
 does not list, or this page lists one the code no longer reads. Variables for tools that are not built are not listed.
 
 ## Store and keys
@@ -38,7 +38,7 @@ does not list, or this page lists one the code no longer reads. Variables for to
 | `NURAMESH_LIGHT_WORKERS` | `4` | Runs the light engine works on at once (1 to 32; a larger value is refused at start) | no | light runner |
 | `NURAMESH_SHUTDOWN_GRACE_SECONDS` | `30` | Seconds a light runner waits for steps in flight when it is told to stop; the rest are re-run on the next start | no | light runner |
 | `NURAMESH_RUN_START_TTL_SECONDS` | `3600` | Seconds a start request may wait for a runner; an older one ends refused with `run_start_expired` | no | light runner, server |
-| `NURAMESH_RUN_ENGINE` | `auto` | `auto`, `light` or `temporal`: which engine runs the runs started by `POST /v1/runs`. The setting works today; resuming a run after a crash is Coming soon, until a real crash-and-resume test passes. `auto` is Temporal when `NURAMESH_TEMPORAL_ADDRESS` is set, else light; a hosted deployment accepts Temporal only (`nuramesh serve` exits 2 otherwise) | no | server |
+| `NURAMESH_RUN_ENGINE` | `auto` | `auto`, `light` or `temporal`: which engine runs the runs started by `POST /v1/runs`. The setting works today; resuming a run after a crash works on the light engine; the Temporal production profile is not shipped yet. `auto` is Temporal when `NURAMESH_TEMPORAL_ADDRESS` is set, else light; a hosted deployment accepts Temporal only (`nuramesh serve` exits 2 otherwise) | no | server |
 | `NURAMESH_SHUTDOWN_GRACE` | unset | Deprecated alias of `NURAMESH_SHUTDOWN_GRACE_SECONDS`: read for one more release with a warning in the log; when both are set the new name wins | no | same as the new name |
 | `NURAMESH_RUN_START_TTL` | unset | Deprecated alias of `NURAMESH_RUN_START_TTL_SECONDS`: read for one more release with a warning in the log; when both are set the new name wins | no | same as the new name |
 | `NURAMESH_RUN_START_RATE` | `60` | Run starts a minute for one organization (429 `run_rate_limited` above it) | no | server |
@@ -84,7 +84,7 @@ does not list, or this page lists one the code no longer reads. Variables for to
 | `NURAMESH_AGENT_CREDENTIAL_DAYS` | `30` | default lifetime of an agent credential, 1 to 90 days | no | server |
 | `NURAMESH_AGENT_CREDENTIAL_MAX_LIVE` | `5` | live credentials per agent, 1 to 20 | no | server |
 | `NURAMESH_AGENT_CREDENTIAL_CALLS_PER_MINUTE` | `600` | valid calls a minute per credential, 10 to 6000 | no | server |
-| `NURAMESH_URL` | unset | the API server a standalone agent binds to with `nuramesh.bind(team, role)` when `server=` is not given; `https://`, or `http://` only for a loopback host (an internal document) | no | Python library (`nuramesh.bind`) |
+| `NURAMESH_URL` | unset | the API server a standalone agent binds to with `nuramesh.bind(team, role)` when `server=` is not given; `https://`, or `http://` only for a loopback host | no | Python library (`nuramesh.bind`) |
 | `NURAMESH_AGENT_CREDENTIAL` | unset | the agent credential (`nma_...`) `nuramesh.bind` sends; a person's token or a session value is refused; never passed as a parameter | yes | Python library (`nuramesh.bind`) |
 | `NURAMESH_AGENT_CREDENTIAL_FILE` | unset | a file holding the agent credential on one line, in place of `NURAMESH_AGENT_CREDENTIAL`; setting both is refused | no (a path) | Python library (`nuramesh.bind`) |
 | `NURAMESH_AGENT_USER` | `nuramesh-agent` | name of the coding agent's operating-system account; a key file owned by this account is refused (letters, digits, `_` and `-`, at most 32, starting with a letter or `_`; an invalid value uses the default and logs a warning) | no | CLI, server |

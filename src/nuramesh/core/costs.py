@@ -1,6 +1,6 @@
 """Cost per verified result, the spend view and quotes: pure arithmetic over ledger facts.
 
-The rules are `spec/costs/README.md` (ND61, ND62). Everything here is a **read**: it is handed
+The rules are ND61 and ND62. Everything here is a **read**: it is handed
 the model calls and task moves a reader took from the ledger and returns numbers; it writes
 nothing and calls nothing. Money is `Decimal`; sums are exact and never rounded; a ratio is
 rounded once, at the end, to 6 places half up (computed with `Fraction`, so no context precision
@@ -473,5 +473,5 @@ def quote(
 
 
 def codepoints(text: str) -> tuple[int, ...]:
-    """A text as its code points: the order run ids are tied by (spec/costs 5.4)."""
+    """A text as its code points: the order run ids are tied by."""
     return tuple(ord(ch) for ch in text)

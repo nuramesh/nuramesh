@@ -1,4 +1,4 @@
-"""Verified Merge signer core (spec `spec/verified-merge` SV-1 to SV-11, SV-14, 7.2, LA-1, LA-5;
+"""Merge Gate signer core (spec SV-1 to SV-11, SV-14, 7.2, LA-1, LA-5;
 Fable fixes F-6 requester, F-7 holder, F-8 actor table, F-12 compromised keys).
 
 The signer is the only principal that touches the signing key: it holds the `SignerBackend` port
@@ -41,7 +41,7 @@ from decimal import Decimal
 from typing import Any, Protocol
 
 from nuramesh.core.ledger import EventType
-from nuramesh.core.vm_events import GATE_ACTOR, SIGNER_ACTOR, check_merge_actor
+from nuramesh.core.vm_events import COLLECTOR_ACTOR, GATE_ACTOR, SIGNER_ACTOR, check_merge_actor
 from nuramesh.core.vm_formats import (
     VERDICT_DOMAIN,
     VERDICT_VERSION,
@@ -104,6 +104,7 @@ FAILURE_CODES = (
     "limits_unavailable",
     "side_unavailable",
     "task_key_missing",
+    "reviewer_id_reserved",
 )
 DEFAULT_VERDICT_TTL_SECONDS = 604800
 DEFAULT_REJECT_MEMORY_DAYS = 30
@@ -341,6 +342,9 @@ def _voided(decision: StoredDecision, resets: Sequence[ResetRecord]) -> bool:
     return False
 
 
+_SERVICE_ACTORS = frozenset({GATE_ACTOR, SIGNER_ACTOR, COLLECTOR_ACTOR})
+
+
 class Signer:
     """One signer for one org and one reviewer id (F-7: one key per reviewer id)."""
 
@@ -360,6 +364,8 @@ class Signer:
         verdict_ttl_seconds: int = DEFAULT_VERDICT_TTL_SECONDS,
         reject_memory_days: int = DEFAULT_REJECT_MEMORY_DAYS,
     ) -> None:
+        if "service:" + reviewer_id in _SERVICE_ACTORS:
+            raise SignerFailure("reviewer_id_reserved")
         self._backend = backend
         self._reviewer_id = reviewer_id
         self._org_id = org_id

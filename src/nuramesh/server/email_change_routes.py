@@ -1,4 +1,4 @@
-"""Email change routes (R1.40; `spec/identity/email-verification.md` section 3).
+"""Email change routes (R1.40).
 
 `POST /v1/auth/me/email` (rule R plus a person check) starts a change and always answers 202 once
 the password is right, whether or not the new address is taken. `POST /v1/auth/email/verify`

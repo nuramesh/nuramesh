@@ -4,7 +4,7 @@ This package is the **only** place that imports `temporalio`; `nuramesh.core`, t
 engine, the CLI and the library import nothing from it (a test proves it). Import it explicitly:
 `from nuramesh.temporal import ...` fails with a clear message if the extra is not installed.
 
-**For evaluation only:** the Temporal dev server in `infra/compose/temporal-dev.yml` is for
+**For evaluation only:** the Temporal dev server in the repository's dev Compose file is for
 evaluation only; production needs a real Temporal cluster (ND53 E).
 """
 

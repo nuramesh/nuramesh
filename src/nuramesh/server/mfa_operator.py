@@ -1,4 +1,4 @@
-"""Operator MFA commands (R1.38; `spec/identity/mfa.md` sections 2a and 8): the auth key's
+"""Operator MFA commands (R1.38): the auth key's
 creation record, rotation (re-seal), destruction, and a reset of one person's MFA.
 
 Run from the operator's shell against the server's store; there is no HTTP route. Each action

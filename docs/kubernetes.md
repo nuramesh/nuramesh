@@ -1,14 +1,13 @@
-# Kubernetes: a beta arriving in December
+# Kubernetes: a beta
 
-NuraMesh has no Kubernetes install yet. A **Helm chart is a beta that we expect to ship in December**. It is
-not available today, and this page does not give a firmer date. **Docker Compose is the supported way to run
+NuraMesh has no Kubernetes install yet. The **Helm chart** is a beta and is not available today. Status: Coming soon. This page gives no date. **Docker Compose is the supported way to run
 NuraMesh at launch**, and it is the only self-hosting path you should build on now.
 
 ## What works today
 
 Run NuraMesh on one machine with Docker Compose: the API server, the worker, PostgreSQL, Temporal and the web
 app, started with one command. Follow the self-hosting guide in the repository docs
-(`docs/self-hosting.md`) and the [Quickstart](/quickstart/) for a first run.
+(`docs/self-hosting.md`) and the [Quickstart](quickstart.md) for a first run.
 
 The Compose stack uses PostgreSQL only. Its Temporal dev server is for evaluation only; production needs a real
 Temporal cluster. No real customer data is allowed until the privacy policy and the data processing agreement are
@@ -33,5 +32,5 @@ beta.
 
 ## How you will know
 
-When the chart is available, this page is replaced by install steps, and the [Upgrade notes](/guides/upgrade/)
+When the chart is available, this page is replaced by install steps, and the [Upgrade notes](upgrade-notes.md)
 will say so. Until then, treat anything not on this page as undecided.

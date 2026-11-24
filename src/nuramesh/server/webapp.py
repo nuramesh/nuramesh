@@ -32,7 +32,7 @@ MANIFEST_NAME = "manifest.json"
 INDEX_NAME = "index.html"
 # where the release build puts the app: `nuramesh/web/` in the installed package
 WEB_DIR = Path(__file__).resolve().parent.parent / "web"
-# the member types of `scripts/release/allowlist.json` (`web.suffixes`; a test keeps them equal)
+# the member types of the release allow-list (`web.suffixes`; a test keeps them equal)
 # and the media type each is served with. `X-Content-Type-Options: nosniff` holds browsers to it.
 CONTENT_TYPES: Mapping[str, str] = MappingProxyType(
     {

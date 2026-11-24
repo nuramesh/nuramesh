@@ -11,7 +11,7 @@ import { createServerClient } from "./server-client";
 runOrgSafetyContract("fixtures", (scenario) => createFixtureClient(scenario === undefined ? {} : { orgSafety: scenario }));
 runOrgSafetyContract("server client over the org routes", (scenario) => fixtureBackedServerClient(scenario));
 
-describe("the answers of spec/e19/README.md section 11, mapped", () => {
+describe("the answers of the organization safety notes section 11, mapped", () => {
   const halt = { halted: false, by: null, at: null, cause: null, rule: null, ledger_seq: null, phase: null, error_class: null, failing_rule: null, failed_ticks: null, roles: [], can_act: true };
   const rule = {
     name: "spend-spike", signal: "spend", action: "halt_org", role: null, window_seconds: 3600, dry_run: false, limit: "25", observed: "3.5", observed_as: "live",

@@ -1,4 +1,4 @@
-"""MFA routes for a signed-in person and the owner (R1.38; `spec/identity/mfa.md` section 4).
+"""MFA routes for a signed-in person and the owner (R1.38).
 
 The person routes are rule R plus a handler check that the caller is a person: an API token or
 an agent credential is 403 `human_required`. The routes that return a secret answer

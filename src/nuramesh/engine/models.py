@@ -107,7 +107,7 @@ class ModelCallError(RuntimeError):
     If the cleanup failed too, `cleanup_errors` names what (the reservation may still be open).
 
     On the durable runner a call that failed after its request was sent is not released: it is
-    settled at the reserved amount as unknown (`charged` is then True; spec/real-models R20.8).
+    settled at the reserved amount as unknown (`charged` is then True; real-models design R20.8).
     """
 
     def __init__(
@@ -170,7 +170,7 @@ class ModelResult:
 
 def _usage_payload(usage: TokenUsage | None) -> dict[str, int] | None:
     """The tokens for a ledger payload; None (`usage: null`) when the service gave none we can
-    trust (spec/openai-compatible 7.4): the cost is then unknown, never zero."""
+    trust (OpenAI-compatible design 7.4): the cost is then unknown, never zero."""
     if usage is None:
         return None
     return {
@@ -257,7 +257,7 @@ def _hit_payload(
 
 
 def _role_of(org: OrgGraph, context: CallContext) -> str:
-    """The calling agent's role now, written into every `model.called` entry (spec/costs)."""
+    """The calling agent's role now, written into every `model.called` entry (costs design)."""
     return org.agent(context.agent_id).role
 
 
@@ -284,7 +284,7 @@ def call_model(
 ) -> ModelResult:
     """Make one model call through authorization, pricing, budgets and the ledger (see module).
 
-    `control` is given by the durable runner only (`spec/real-models` R20.8, R27; the CLI path
+    `control` is given by the durable runner only (real-models design R20.8, R27; the CLI path
     passes none and keeps the rules above). With it: the provider call can be cut by a stop
     (`CallCancelled`: released when the request was not sent, else settled at the reserved amount
     as unknown with `model.called` `outcome: cancelled`); and a call that fails after its request
@@ -338,7 +338,7 @@ def call_model(
     capped = (role_cap is not None or task_cap is not None) and not context.cap_exempt
     asked = request.max_output_tokens
     # authorize_spend sees the configured-capped worst case (never below the reserved amount); an
-    # exempt call (calibration, eval) sees the full amount, as today (spec/r142 section 4).
+    # exempt call (calibration, eval) sees the full amount, as today (cap design section 4).
     sized = configured_size(asked, role_cap, task_cap) if capped else asked
     worst = worst_case_cost(request.prompt_token_bound, sized, price)
     if authorize_spend is not None:
@@ -743,7 +743,7 @@ def _record_late(
 
 def _cache_support(provider: Any, request: ModelRequest, governed: Governed | None) -> CacheSupport:
     """What the provider declares about caching, asked BEFORE reserving and without building a
-    provider (spec/token-savings 5.3). A source or router without the method is `none`."""
+    provider (savings design 5.3). A source or router without the method is `none`."""
     ask = getattr(provider, "cache_support_for", None)
     if ask is None:
         return "none" if isinstance(provider, ProviderSource) else cache_support_of(provider)
@@ -857,7 +857,7 @@ def _charge_unknown(
     price: ResolvedPrice,
 ) -> tuple[str, ...]:
     """Settle a call whose request was sent and that gave no complete answer at the reserved
-    amount, cost unknown, then record it (spec/real-models R20.8 and R27 b): `outcome: error`
+    amount, cost unknown, then record it (real-models design R20.8 and R27 b): `outcome: error`
     with the exception's class name for a failure, `outcome: cancelled` (`error` None) for a call
     a stop cut. Settled before the row is written, like every call. Returns what failed."""
     failed: list[str] = []

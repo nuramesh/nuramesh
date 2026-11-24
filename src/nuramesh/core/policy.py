@@ -33,7 +33,7 @@ that is exactly `*` is any simple command). A command containing a shell control
 (`; | & ` ( ) < >` or a line break, even quoted) or that is malformed is **compound**: it is denied
 unless a rule's pattern is that exact text with no wildcard (for `deny` and `ask` rules, a pattern
 of exactly `*` also matches). So `allow python -m pytest*` no longer allows
-`python -m pytest; curl ... | sh`. The full specification is `spec/policy/RUN_COMMAND.md`;
+`python -m pytest; curl ... | sh`.
 `POLICY_CONTRACT` is recorded in every `policy.decided` entry.
 
 An **approval** is a human's answer to an `ask`. It is for one agent, one task and one action
@@ -543,7 +543,7 @@ def _has_run(pattern: tuple[str, ...], words: tuple[str, ...]) -> bool:
 
 def command_matches(pattern: str, text: str, decision: "Decision") -> bool:
     """Whether a `run_command` rule's `pattern` matches the command `text` (policy contract 2, see
-    the module docstring and `spec/policy/RUN_COMMAND.md`). `decision` is the rule's decision.
+    the module docstring). `decision` is the rule's decision.
 
     Strict for permissions, wide for refusals: an `allow` covers the whole parsed command (or the
     exact text of a compound one); a `deny` or `ask` matches any run of consecutive words, in any
@@ -707,7 +707,7 @@ class PolicySet(_Frozen):
     """Every role's policy. A role with no policy can do nothing (default deny)."""
 
     policies: tuple[Policy, ...] = ()
-    # SA-9 (spec/rbac/solo-approval.md): solo approves per person per hour. Absent means 30; a
+    # SA-9: solo approves per person per hour. Absent means 30; a
     # value can only lower it. Configuration only: no route, variable or licence raises it.
     solo_approvals_per_hour: Annotated[
         int | None,

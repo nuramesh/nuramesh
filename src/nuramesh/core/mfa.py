@@ -1,4 +1,4 @@
-"""Stored records of MFA (R1.38, spec/identity/mfa.md section 2): the factor, the login
+"""Stored records of MFA (R1.38): the factor, the login
 challenge and the organization's policy. Pure data; the secret is only ever held sealed."""
 
 from __future__ import annotations

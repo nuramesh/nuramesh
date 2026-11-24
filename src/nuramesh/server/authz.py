@@ -1,4 +1,4 @@
-"""Who is calling, and may they (R1.22 PR 3; `docs/architecture-platform.md` §11).
+"""Who is calling, and may they (R1.22 PR 3).
 
 **One table decides every route.** `ROUTE_RULES` maps each `(method, path template)` the app
 serves to what it needs: `PUBLIC`, or a `core.auth.Permission`. `Authorizer` (pure ASGI, inside
@@ -60,7 +60,7 @@ ROUTE_RULES: dict[tuple[str, str], Rule] = {
     ("HEAD", "/v1/docs"): Permission.READ,
     ("GET", "/v1/schema/config"): Permission.READ,
     ("POST", "/v1/config/validate"): Permission.READ,
-    # accounts and sessions: each checks its own credentials (spec/auth/sessions.md)
+    # accounts and sessions: each checks its own credentials
     ("POST", "/v1/auth/login"): PUBLIC,
     ("POST", "/v1/auth/login/mfa"): PUBLIC,
     ("POST", "/v1/auth/login/mfa/enroll"): PUBLIC,
@@ -219,7 +219,7 @@ ROUTE_RULES: dict[tuple[str, str], Rule] = {
     ("PUT", "/v1/autonomy/settings/{name}"): Permission.ADMIN,
     ("PUT", "/v1/autonomy/model-change-floor/{role}"): Permission.ADMIN,
 }
-"""Every route's rule. The written table in `docs/architecture-platform.md` §11 is the same."""
+"""Every route's rule. The written table in the platform architecture guide is the same."""
 
 AUTH_FIRST: Final = frozenset(
     (method, path)
@@ -264,7 +264,7 @@ is refused by `AGENT_ROUTES`. The flag is per route, so no permission letter is 
 
 PERSON_SESSION_ONLY: Final = frozenset({("POST", "/v1/auth/password/confirm")})
 """Routes of rule `read` that only a person in a cookie session may call, whatever their role
-(spec/rbac/solo-approval.md SA-8): an API token and an agent credential get 403 `human_required`,
+(solo-approval rule SA-8): an API token and an agent credential get 403 `human_required`,
 and with authentication off the answer is 403 `authentication_required` (there is no session to
 act on, and the `dev_human` harness is not one). The flag is per route, as `HUMAN_SESSION_ONLY`."""
 
@@ -287,7 +287,7 @@ class Caller:
     session_id: str | None = None
     """For kind `session`: the id of the session the request came in on."""
     org_id: str | None = None
-    """The caller's organization: the one their credential belongs to (spec/auth/org-scope.md).
+    """The caller's organization: the one their credential belongs to.
     `LOCAL_INSPECTOR` for an app with no organization (authentication off); None sees nothing."""
 
     @property

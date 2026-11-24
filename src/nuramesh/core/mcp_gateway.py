@@ -1,4 +1,4 @@
-"""The governed MCP gateway decision pipeline (spec/mcp-gateway, #101, #910).
+"""The governed MCP gateway decision pipeline (#101, #910).
 
 Pure (stdlib and pydantic): no socket, no process, no MCP SDK. Every tool call passes, in order:
 identity, run state, names, allow-list, arguments, transport kind, listing, the pin, policy
@@ -6,7 +6,7 @@ identity, run state, names, allow-list, arguments, transport kind, listing, the 
 exactly one final `tool.called` record. Everything outside this module is a port; the engine binds
 the ports to the stores, the approvals engine, the budgets, the secret store and the ledger.
 
-Remote MCP servers (`streamable_http`) are a named seam only: an internal decision record G-Q2 forbids
+Remote MCP servers (`streamable_http`) are a named seam only: G-Q2 forbids
 them in R2, so a registration with a remote transport is refused and there is no switch.
 
 Records follow ND190: the server and tool names are readable; anything derived from the arguments

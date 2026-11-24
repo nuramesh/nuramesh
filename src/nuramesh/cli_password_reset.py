@@ -1,5 +1,5 @@
-"""`nuramesh auth password-reset --user human:u_...` (R1.41; `spec/identity/password-reset.md`
-section 8). Runs in a shell on the server (no session); actor `service:cli`. The same checks and
+"""`nuramesh auth password-reset --user human:u_...` (R1.41).
+Runs in a shell on the server (no session); actor `service:cli`. The same checks and
 mail as the owner route, and it prints `reset email queued` (the ledger records email.sent or
 email.failed) or the refusal, never a link.
 Exit 0 done, 1 refused by a rule, 2 usage or email off."""

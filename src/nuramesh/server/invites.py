@@ -1,4 +1,4 @@
-"""User invites (R1.37; `spec/identity/invites.md`): create, list, revoke, resend, inspect, accept.
+"""User invites (R1.37): create, list, revoke, resend, inspect, accept.
 
 An `InviteService` sits over the `AuthService` of one organization and reuses its rules (client
 limiter and lockout, hashing budget, security events). The raw token exists only in the mail (or
@@ -76,7 +76,7 @@ class InviteSettings:
 
 
 def public_url_problem(raw: str) -> str | None:
-    """Why `raw` is not a usable `NURAMESH_PUBLIC_URL`, or None (email.md section 3)."""
+    """Why `raw` is not a usable `NURAMESH_PUBLIC_URL`, or None."""
     from urllib.parse import urlsplit
 
     try:

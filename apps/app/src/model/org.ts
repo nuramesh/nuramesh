@@ -64,7 +64,7 @@ export type ParseResult<T> = { ok: true; value: T } | { ok: false; errors: Field
  * The whitespace pydantic's `strip_whitespace` removes. pydantic-core strips with Rust's
  * `str::trim()` (Unicode White_Space), which differs from both JavaScript's `trim()` (that also
  * strips U+FEFF) and Python's `str.strip()` (that also strips U+001C-U+001F). Checked against
- * pydantic in spec/org-fields/cases.json.
+ * pydantic in the shared org-fields cases fixture.
  */
 const PY_SPACE = "\\t\\n\\v\\f\\r \\x85\\xa0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000";
 const PY_STRIP = new RegExp(`^[${PY_SPACE}]+|[${PY_SPACE}]+$`, "g");

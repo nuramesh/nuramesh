@@ -1,6 +1,6 @@
 """Agent credentials: the service behind the owner routes, the CLI and authentication (E2).
 
-`spec/agent-identity/README.md` is the contract. An agent principal is an agent of the team
+The agent-identity spec is the contract. An agent principal is an agent of the team
 configuration; its credentials (`nma_...`, scopes `read` and `run`) are issued, rotated and revoked
 by an owner in a human session; the CLI can only list and revoke. Everything a credential does is
 recorded as `agent:<agent id>`, set by the server from the credential (the binding rule).

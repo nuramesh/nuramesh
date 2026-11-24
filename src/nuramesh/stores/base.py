@@ -598,7 +598,7 @@ class UnitOfWork(RunQueueOps, ABC):
     def solo_approvals_after(self, decided_by: str, after: datetime) -> list[Approval]:
         """The approved (or consumed) approvals this person decided with mode `solo` strictly
         after `after`, oldest decision first, including this unit of work's changes: the rows the
-        solo rate limit counts (spec/rbac/solo-approval.md SA-9). Not scoped by organization (an
+        solo rate limit counts (SA-9). Not scoped by organization (an
         approval row has none): the caller keeps the rows of its own organization's runs."""
 
     @abstractmethod
@@ -793,8 +793,8 @@ class UnitOfWork(RunQueueOps, ABC):
 
     @abstractmethod
     def set_user_disabled(self, org_id: str, user_id: str, at: datetime | None) -> bool:
-        """Disable a user who is not erased (`at` is the time) or enable them (`at` is None; E1,
-        spec/e1 section 9.1). True if it was set; False if the user is missing, erased or in
+        """Disable a user who is not erased (`at` is the time) or enable them (`at` is None).
+        True if it was set; False if the user is missing, erased or in
         another organization. Nothing else about the user changes."""
 
     @abstractmethod
@@ -997,8 +997,8 @@ class UnitOfWork(RunQueueOps, ABC):
 
     @abstractmethod
     def set_auth_session_step_up(self, org_id: str, session_id: str, at: datetime) -> bool:
-        """Record the last strong authentication on this session, by any method, at `at` (spec/rbac
-        section 6; the writers are enumerated in SU-2 of #1484). True if
+        """Record the last strong authentication on this session, by any method, at `at`
+        (section 6; the writers are enumerated in SU-2 of #1484). True if
         the session exists in the organization and is not revoked; otherwise nothing changes."""
 
     @abstractmethod
@@ -1045,12 +1045,12 @@ class UnitOfWork(RunQueueOps, ABC):
 
     @abstractmethod
     def clear_session_proofs(self, org_id: str, user_id: str) -> int:
-        """W3 (step-up-vs-password-confirmed.md SU-2, SU-7): forget `password_confirmed_at` and
+        """W3 (SU-2, SU-7): forget `password_confirmed_at` and
         `step_up_at` on every session of the person (a password change or reset that leaves a
         session alive, SA-8); `mfa_verified_at` stays. It never sets a time. Returns the number of
         sessions cleared."""
 
-    # -- MFA (R1.38, spec/identity/mfa.md section 2) --
+    # -- MFA (R1.38) --
 
     @abstractmethod
     def set_auth_session_mfa(self, org_id: str, session_id: str, at: datetime, method: str) -> bool:
@@ -1098,7 +1098,7 @@ class UnitOfWork(RunQueueOps, ABC):
     @abstractmethod
     def delete_mfa_challenges(self, org_id: str, user_id: str) -> int:
         """Delete every login challenge of the person (live or not): they die with the factor
-        that was reset or turned off (spec/identity/mfa.md section 2, MJ1). Rows removed."""
+        that was reset or turned off (MJ1). Rows removed."""
 
     @abstractmethod
     def erase_mfa_user(self, org_id: str, user_id: str) -> bool:
@@ -1552,7 +1552,7 @@ class Store(ABC):
         """Every committed `budget.defined` entry of an `org:` stream, earliest first (by time,
         then stream, then sequence), read through an index: no other entry is read, so the
         work grows with the number of budgets, never with the size of the streams
-        (spec/auth/org-scope.md R8). `define_budget` writes one per budget id."""
+        (R8). `define_budget` writes one per budget id."""
 
     def heads(self, only: Collection[str] | None = None) -> dict[str, StreamHead]:
         """The heads of the given streams (default: every stream) in one call; live-event

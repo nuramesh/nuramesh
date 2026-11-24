@@ -1,5 +1,5 @@
 /**
- * Invitations (R1.37, spec/identity/invites.md). An owner invites a person by email with a role; the
+ * Invitations (R1.37, the invitation notes). An owner invites a person by email with a role; the
  * person opens a single-use link, sets a password and exists. The app never sees a stored token or a
  * hash: the list shows status only, and the link token lives in the invitee's fragment and memory alone.
  */

@@ -404,7 +404,7 @@ def _deny_checks(
     if command == "run" and denial.kind == "erased":
         text = _retired_problem(store, org_id, repair_hint=True) or text
     if command != "run":
-        # spec/key-tombstone D21 (ND137): the eval keeps its established text, also for an erased id
+        # key tombstone (ND137): the eval keeps its established text, also for an erased id
         text = _destroyed_message_text(DESTROYED_MESSAGE if denial.kind == "erased" else text)
     print(text if denial.kind == "erased" else _with_code(text, denial.error), file=sys.stderr)
     return REFUSED
@@ -668,7 +668,7 @@ def _invalid(text: str) -> int:
 
 def cmd_run(args: argparse.Namespace) -> int:
     """Run a team folder. Without `--fake` the run is real: it starts only if the organization's
-    approved catalog and a usable connection exist (spec/model-governance section 10.1)."""
+    approved catalog and a usable connection exist."""
     if not args.team:
         from nuramesh import cli_prompts
 
@@ -1292,7 +1292,7 @@ def cmd_stop(args: argparse.Namespace) -> int:
     return OK
 
 
-# -- the kill switch, role pause and circuit breakers (E19, spec/e19/ section 10) ---------------
+# -- the kill switch, role pause and circuit breakers (E19) ---------------
 # The CLI only restricts. It has no login, so `--human` is the caller's own claim (as for `stop`);
 # that is acceptable for actions that only stop work. Lifting (resume, reset, disable, enable)
 # needs a real proof and is possible only through the signed-in API and the app.
@@ -1496,7 +1496,7 @@ def cmd_breakers_trip(args: argparse.Namespace) -> int:
 def export_record(event: LedgerEvent) -> dict[str, Any]:
     """An event as one line of a ledger export: the stored values exactly as hashed (`at` in its
     canonical form, decimals as text, nulls written out), for `verifier/nuramesh_verify.py`
-    (ND94, `spec/verify/README.md`)."""
+    (ND94)."""
     return {
         "stream": event.stream,
         "seq": event.seq,
@@ -1954,6 +1954,11 @@ TEMPLATES = {
     "qa": "qa",
     "devops": "devops",
     "code-review": "code_review",
+    "research-report": "research_report",
+    "document-extraction": "document_extraction",
+    "data-analysis": "data_analysis",
+    "incident-triage": "incident_triage",
+    "multi-framework-org": "multi_framework_org",
 }
 
 
@@ -1968,14 +1973,22 @@ def org_id_for_folder(target: Path) -> str:
 
 
 def _set_template_org_id(target: Path, org_id: str) -> None:
-    """Replace the `id:` line directly under `org:` in the copied nuramesh.yaml."""
+    """Replace the `id:` line directly under `org:` in the copied nuramesh.yaml, and the
+    `scope_id` of any org-scoped budget that named the template's own org id."""
     import re
 
     path = target / "nuramesh.yaml"
     if not path.is_file():
         return
     text = path.read_text("utf-8")
+    old = re.search(r"(?m)^org:\n  id: (\S+)$", text)
     new = re.sub(r"(?m)^(org:\n  id: )\S+$", lambda m: m.group(1) + org_id, text, count=1)
+    if old is not None:
+        new = re.sub(
+            r"(?m)^(\s*- \{[^\n}]*\bscope: org, scope_id: )" + re.escape(old.group(1)) + r"\b",
+            lambda m: m.group(1) + org_id,
+            new,
+        )
     path.write_text(new, "utf-8")
 
 
@@ -2751,7 +2764,7 @@ def _serve(args: argparse.Namespace, opened: list[Any]) -> int:
     """Serve the API for a team folder's store.
 
     **Authentication is on by default** (SA-0.1, #950): sessions and API tokens are enforced on
-    every route (`docs/architecture-platform.md` §11), and a first run on a person's own terminal
+    every route, and a first run on a person's own terminal
     prints the one-time setup URL after the port is bound (`_announce_setup`). **`--auth off`**
     must be typed: loopback only, reads open, every human action refused, a banner in capitals;
     it is refused with `--trusted-proxy`, `--allowed-host`, a network address or a hosted
@@ -3093,7 +3106,7 @@ def _serve(args: argparse.Namespace, opened: list[Any]) -> int:
             key_sweep_lock=key_sweep_lock,
             web=web,
         )
-        # the gate again, on the app as it will run (org-scope.md, G3), with the routes the
+        # the gate again, on the app as it will run, with the routes the
         # installed plugins declared (ND72): any other route is still refused
         check_route_table(app, app.state.plugin_route_rules, app.state.plugin_route_scopes)
     except RouteTableError as exc:
@@ -3219,7 +3232,7 @@ def spawn_runner_child(team: str, store: str | None) -> subprocess.Popen[bytes]:
 
 def with_runner_command(team: str, store: str | None) -> list[str]:
     """The runner that `serve --with-runner` starts: the light runner on the team's fake model.
-    `spec/real-models` (section 17) lifts the `--fake` requirement of the worker command only; a
+    The real-models rules lift the `--fake` requirement of the worker command only; a
     real-capable runner is started by hand (`nuramesh worker --engine light`)."""
     command = [
         sys.executable,
@@ -3238,7 +3251,7 @@ def with_runner_command(team: str, store: str | None) -> list[str]:
 
 def runner_credentials(store: Store, content: Any, org_id: str) -> tuple[Any, Any]:
     """The credential source of a real-capable light runner for its organization and its key
-    fold question (`spec/real-models` R32): the key readers `nuramesh try` has, over the secret
+    fold question: the key readers `nuramesh try` has, over the secret
     store the settings name (`NURAMESH_SECRET_DIR`), read only at the call, after the
     reservation. The wait before the one retry of a read is the one a stop can cut (R33, R38.10).
 
@@ -3290,7 +3303,7 @@ def team_engine_factory(
     team's fake model, with **no sandbox** (a test-command gate fails with a clear message and the
     task goes to a human: command execution is closed in hosted mode, ND24/ND29).
 
-    `real` (the light runner started without `--fake`, `spec/real-models` R4, R5): the provider
+    `real` (the light runner started without `--fake`): the provider
     of each call is built from the connection the resolver chose (`GovernedProviders`), and a
     `fake/*` model is still answered by the team's fake provider. `runner_calls` turns on the
     light runner's call rules (`EngineSettings.runner_calls`). `credentials` is the first value
@@ -3319,7 +3332,7 @@ def team_engine_factory(
         is shared by the run's tasks here, but not across replicas or restarts. The last 32 runs
         are kept, so a long-lived worker doesn't grow without bound. Evicting a run only drops
         the reference: what `setup` created (scratch folders, exit handlers) lives until the
-        process ends, because a team has no teardown hook (`docs/containers.md`). A slow `setup`
+        process ends, because a team has no teardown hook. A slow `setup`
         blocks only calls for the same run."""
         key = (org_id, run_id)
         with teams_lock:
@@ -3442,7 +3455,7 @@ def _cmd_worker_light(args: argparse.Namespace) -> int:
     install: it claims start requests, checks the plan against the team and runs the steps. It
     needs no Temporal. With `--fake` it is fake-only: a team with a real model exits 2 and a real
     plan is refused `real_model_not_supported`. Without `--fake` it is real-capable
-    (`spec/real-models` R4 to R6): the admission checks of R10 decide per plan, and the fake
+    (the real-models rules): the admission checks of R10 decide per plan, and the fake
     model keeps working. It has no sandbox yet (a plan with a command gate is refused
     `sandbox_unavailable`). It reads stored keys through the secret store of
     `NURAMESH_SECRET_DIR` (R32); without one a `stored` connection is refused
@@ -3547,7 +3560,7 @@ def cmd_worker(args: argparse.Namespace) -> int:
     """Run a Temporal worker for durable runs (extra `nuramesh[temporal]`). Everything comes from
     flags or `NURAMESH_*` environment variables and the worker refuses to start without a Temporal
     address and a team folder. The Temporal worker runs the team's fake model only, so `--fake` is
-    required (`spec/real-models` R2). `--engine light` runs the light engine's runner instead (no
+    required. `--engine light` runs the light engine's runner instead (no
     Temporal), where `--fake` is optional (R4)."""
     if args.engine == "light":
         return _cmd_worker_light(args)
@@ -3579,7 +3592,7 @@ def cmd_worker(args: argparse.Namespace) -> int:
         return USAGE
     if not args.fake:
         print(
-            "a durable worker for real providers needs the owner's approval first; "
+            "a durable worker for real providers is not enabled yet; "
             "use --fake (the team's fake model)",
             file=sys.stderr,
         )

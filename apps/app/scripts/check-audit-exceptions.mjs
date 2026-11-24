@@ -10,7 +10,12 @@ const { exceptions } = JSON.parse(readFileSync("audit-exceptions.json", "utf8"))
 const workspace = readFileSync("pnpm-workspace.yaml", "utf8");
 const ignored = new Set(workspace.match(/GHSA-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}/g) ?? []);
 const listed = new Set(exceptions.map((e) => e.ghsa));
-const today = process.env.AUDIT_TODAY ?? new Date().toISOString().slice(0, 10);
+// `||`: an empty AUDIT_TODAY falls back to the real date, it must never silence the expiry.
+const today = process.env.AUDIT_TODAY || new Date().toISOString().slice(0, 10);
+if (!/^\d{4}-\d{2}-\d{2}$/.test(today)) {
+  console.error(`::error::AUDIT_TODAY must be YYYY-MM-DD, got "${today}"`);
+  process.exit(1);
+}
 const WARN_DAYS = 14;
 const daysUntil = (date) => Math.round((Date.parse(date) - Date.parse(today)) / 86_400_000);
 

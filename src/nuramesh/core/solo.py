@@ -1,4 +1,4 @@
-"""Solo approval, the pure rules (spec/rbac/solo-approval.md, #942).
+"""Solo approval, the pure rules (#942).
 
 A **solo decision** is a decision by the organization's only active person who holds `decide`:
 nobody else could have decided, so nobody else reads the request. This module holds what can be

@@ -1,0 +1,49 @@
+# The Document extraction template: an Extractor reads the bundled sample invoices (invoices/),
+# an independent Invoice checker (a different model) compares the extracted fields with the
+# documents, and a human approves before the CSV is exported. Default deny: only the listed actions
+# are allowed. Offline on the fake model.
+# Run it:  nuramesh init my-invoices --template document-extraction && nuramesh try my-invoices --fake --approve-as human:you
+version: 1
+org:
+  id: document-extraction
+  name: Document extraction team
+  roles:
+    - {id: extraction-lead, name: Extraction lead, kind: chief_of_staff}
+    - {id: extractor, name: Extractor, default_model: fake/worker-1}
+    - {id: exporter, name: Exporter, default_model: fake/worker-1}
+    - {id: invoice-checker, name: Invoice checker, kind: verifier, default_model: fake/reviewer-1}
+  agents:
+    - {id: extraction-lead, name: Extraction lead, role: extraction-lead}
+    - {id: extractor, name: Extractor, role: extractor, reports_to: extraction-lead}
+    - {id: exporter, name: Exporter, role: exporter, reports_to: extraction-lead}
+    - {id: invoice-checker, name: Invoice checker, role: invoice-checker, reports_to: extraction-lead, checks: [extractor]}
+policies:
+  policies:
+    - role: extraction-lead
+      rules:
+        - {action: delegate, decision: allow, target: "*"}
+    - role: extractor
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+        - {action: write_file, decision: deny, target: "*", reason: "the extractor only reads documents"}
+    - role: exporter
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+        - {action: write_file, decision: allow, target: "exports/*.csv"}
+        - {action: external_message, decision: ask, target: "*", reason: "a human approves anything sent to accounting"}
+    - role: invoice-checker
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+budgets:
+  - {id: extractor-monthly, scope: agent, scope_id: extractor, limit: {amount: "5.00", currency: USD}}
+  - {id: exporter-monthly, scope: agent, scope_id: exporter, limit: {amount: "5.00", currency: USD}}
+  - {id: invoice-checker-monthly, scope: agent, scope_id: invoice-checker, limit: {amount: "5.00", currency: USD}}
+prices:
+  prices:
+    - {provider: fake, model: worker-1, input_per_million: "3", output_per_million: "15",
+       effective_from: "2026-01-01T00:00:00Z", source: "template price list (fake model)"}
+    - {provider: fake, model: reviewer-1, input_per_million: "3", output_per_million: "15",
+       effective_from: "2026-01-01T00:00:00Z", source: "template price list (fake model)"}

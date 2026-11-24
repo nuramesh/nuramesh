@@ -1,6 +1,6 @@
 """The operation id of every route, and so the name of every SDK method.
 
-One naming rule across the whole API and SDK (`docs/sdk-typescript.md`, the compat note in
+One naming rule across the whole API and SDK (the TypeScript SDK guide, the compat note in
 `docs/upgrade-notes.md`): the operation id is **verb-first snake_case**, `<verb>_<noun phrase>`,
 the verb one of `VERBS`, and the TypeScript SDK method is its lowerCamelCase
 (`set_org_prompt_cache` -> `setOrgPromptCache`). The noun phrase names the resource as a
@@ -65,7 +65,7 @@ VERBS: Final[frozenset[str]] = frozenset(
         "reveal",
     }
 )
-"""The closed verb list. A new verb is a rule change: add it here and in `docs/sdk-typescript.md`
+"""The closed verb list. A new verb is a rule change: add it here and in the TypeScript SDK guide
 (and the compat note)."""
 
 DEPRECATED_SUFFIX: Final = "_deprecated"

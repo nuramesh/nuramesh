@@ -44,7 +44,7 @@ function Who({ admin, name, signedIn, role }: { admin: boolean; name: string | n
 }
 
 /**
- * The model governance screens (L5, spec/model-governance 10.4): the approved catalog, who uses
+ * The model governance screens (L5, the model governance notes 10.4): the approved catalog, who uses
  * which model, the connections that models are reached through, and what a run would resolve.
  * Every write is an admin's, needs a reason, and is recorded in the ledger; anyone else sees the
  * same tables with no buttons.

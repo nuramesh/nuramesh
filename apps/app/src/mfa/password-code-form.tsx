@@ -13,7 +13,7 @@ const SUBMIT: Record<FormMode, string> = {
   disable: "Turn off MFA",
 };
 
-/** The password (and, for regenerate and turn off, a current code) the server asks for again (spec/mfa-web S3, W-10, W-24). */
+/** The password (and, for regenerate and turn off, a current code) the server asks for again. */
 export function PasswordCodeForm({
   mode,
   password,

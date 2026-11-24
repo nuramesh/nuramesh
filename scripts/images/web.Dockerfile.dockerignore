@@ -1,0 +1,12 @@
+# Deny by default: only the nginx configuration and the built app are in the web image context.
+*
+!deploy
+deploy/*
+!deploy/compose
+deploy/compose/*
+!deploy/compose/nginx
+!build
+build/*
+!build/web
+build/web/*
+!build/web/dist

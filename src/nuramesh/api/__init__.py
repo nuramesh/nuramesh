@@ -1,4 +1,4 @@
-"""The public Python API of NuraMesh as a library (`docs/python-api.md`): `bind`,
+"""The public Python API of NuraMesh as a library: `bind`,
 `RoleBinding`, `Outcome`. Re-exported by the top-level package; never imports the stores, the
 engine or the server (a standalone agent holds no store)."""
 

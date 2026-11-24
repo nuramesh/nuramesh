@@ -1,6 +1,6 @@
 """Read a setting that was renamed: the new name wins, the old name still works for one release.
 
-A setting's name is a promise (`docs/configuration-env.md`), so a rename keeps the old name as a
+A setting's name is a promise, so a rename keeps the old name as a
 warning alias (ND421). The warning names the variables, never a value.
 """
 

@@ -13,7 +13,7 @@ This path is **local only**: you install NuraMesh from a wheel file, create a te
 - The fake-model demo runs the project's tests on your machine, so this guide uses
   `--allow-unsandboxed` (see "What is not included"). Use a throwaway folder.
 
-Every command below is run by `tests/test_quickstart.py` against a freshly built wheel, so the
+Every command below is run by an internal test against a freshly built wheel, so the
 guide cannot drift from the product.
 
 ## 1. Install (about 1 minute)
@@ -72,7 +72,7 @@ Three tasks run: fix the failing test, run the whole suite, deploy to staging. E
 Using the web app against a server with accounts? A new owner's first screen, `/start`, is a
 four-step checklist (create the owner account, start the demo run, decide the first approval,
 invite a teammate). It ticks a step only when the server shows it happened, and you can hide it
-from the page. See app.md.
+from the page.
 
 ## 5. Read the report (1 minute)
 
@@ -162,18 +162,13 @@ None of these belong in Git; `nuramesh init` never writes secrets, and NuraMesh 
   With `serve --auth` on this machine (loopback, no proxy), the refresh grace window is off:
   two browser tabs refreshing at the same moment revoke the session, so sign in again.
 - **No real models.** A run without `--fake` is refused unless you set up a provider. That needs
-  credentials and spends money, so it needs the owner's setup and approval: see
-  demo/first-real-run.md.
+  credentials and spends money.
 - **No container sandbox in this guide.** Install Podman or Colima and drop `--allow-unsandboxed`
   to run the test gate isolated.
 - **No published package.** Installing from an index (`pip install nuramesh`) is not supported:
-  do not run it, because a package of that name on an index would not be this one. Publishing is
-  not planned until the owner decides.
+  do not run it, because a package of that name on an index would not be this one.
 
 ## Next
 
 - [first-run.md](first-run.md): start `nuramesh serve` (sign-in is on) and create the owner from the one-time setup link.
-- [quickstart-temporal.md](quickstart-temporal.md): durable runs on Temporal (optional). Coming soon, until a real crash-and-resume test passes. The Temporal dev server is for evaluation only; production needs a real Temporal cluster.
-- demo.md: what the run proves, and the evals (`nuramesh eval run`).
 - [quickstart-templates.md](quickstart-templates.md): all nine templates, `ledger export` with the offline verifier, and `nuramesh models`.
-- packaging.md: build and check the wheel yourself.

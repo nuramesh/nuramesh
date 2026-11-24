@@ -1,5 +1,5 @@
 /**
- * The shapes the `nuramesh serve` API returns (docs/api.md), as far as the app reads them. Every
+ * The shapes the `nuramesh serve` API returns (the API notes), as far as the app reads them. Every
  * field the app doesn't need is left out; fields a newer server adds are ignored.
  */
 export interface RawMoney {
@@ -117,7 +117,7 @@ export interface RawBudgetAlert {
   budget: string;
   scope: string;
   window: string | null;
-  /** The real server sends a plain decimal text here (docs/api.md shows a money object); both are read. */
+  /** The real server sends a plain decimal text here (the API notes show a money object); both are read. */
   limit: RawMoney | string | null;
   spent?: RawMoney | string | null;
   over_by?: RawMoney | string | null;
@@ -252,7 +252,7 @@ export interface RawHealth {
   humans_enabled: boolean;
 }
 
-// ---- organization safety (E19, spec/e19/README.md section 11) ---------------------------------
+// ---- organization safety (E19, the organization safety notes section 11) ---------------------------------
 
 export interface RawOrgRole {
   role: string;

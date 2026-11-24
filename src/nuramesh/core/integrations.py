@@ -20,7 +20,7 @@ from nuramesh.core.canonical import canonical_json
 ENGINE_BUILD_ACTOR: Final = "system:engine-build"
 """The actor of the acknowledgement entry. The spec says `system:engine_build`, but the ledger actor
 grammar (`core.ledger.Actor`, pinned by tests/verifier/test_actor_grammar.py) has no underscore in a
-`system:` name; an internal decision record records the hyphen."""
+`system:` name."""
 ACK_KIND: Final = "personal_data_acknowledged"
 SERVER_PATTERN: Final = re.compile(r"[a-z][a-z0-9-]{0,62}")
 TOOL_PATTERN: Final = re.compile(r"[A-Za-z0-9_.-]{1,128}")

@@ -1,5 +1,5 @@
 /**
- * Pure mappers from the server's JSON (docs/api.md) to the shapes the screens use. Nothing here
+ * Pure mappers from the server's JSON (the API notes) to the shapes the screens use. Nothing here
  * does I/O, so each rule is unit-tested on its own. A rule: when the server doesn't say something,
  * the result says "unknown" (null) and never a guess.
  */

@@ -1,11 +1,11 @@
 """Identity, phase 1 (ND329): one-time link tokens, the invite model, TOTP and MFA recovery
 codes (R1.38) and the types of outgoing mail.
 
-Pure (stdlib and pydantic only). Shapes follow `spec/identity/README.md` section 2 (link tokens)
-and `spec/identity/invites.md` (invites). The raw token exists only in the mail (or the operator's
-printed link); only its lowercase hex SHA-256 is ever stored, and no `repr` shows a token.
+Pure (stdlib and pydantic only). Shapes cover link tokens and invites. The raw token exists
+only in the mail (or the operator's printed link); only its lowercase hex SHA-256 is ever
+stored, and no `repr` shows a token.
 
-The mail types (R1.39, `spec/identity/email.md`: `MailSender`, `OutgoingMail`, `MailSendError`,
+The mail types (R1.39: `MailSender`, `OutgoingMail`, `MailSendError`,
 `MailSettings` and the address, URL and name checks) are below; nothing here opens a socket or a
 file, and nothing here holds a password. The SMTP sender and the test `RecordingMailSender` live in
 `nuramesh.server.mail`.
@@ -269,7 +269,7 @@ def invite_link_record(invite: Invite) -> LinkRecord:
     )
 
 
-# ---- the mail seam (names from spec/identity/email.md section 1) -------------------------------
+# ---- the mail seam (names) -------------------------------
 
 
 # -- outgoing mail (R1.39) ----------------------------------------

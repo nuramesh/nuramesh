@@ -1,5 +1,5 @@
 /**
- * Model governance (L5, spec/model-governance section 10): the approved catalog, assignments,
+ * Model governance (L5, the model governance notes section 10): the approved catalog, assignments,
  * connections, resolution, and who is signed in. The server's answers are mapped here once; money
  * stays the server's decimal text, an unknown price stays `null`, and no field can hold a key (the
  * server accepts none: R1.14c, stored keys, is not built).

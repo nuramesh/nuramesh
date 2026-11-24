@@ -1,5 +1,5 @@
-"""Verified Merge tier list: the file `.nuramesh/tiers.json`, format `vm-tiers-1`
-(`spec/verified-merge/tiers.md`, TL-1 to TL-32).
+"""Merge Gate tier list: the file `.nuramesh/tiers.json`, format `vm-tiers-1`
+(tiers spec, TL-1 to TL-32).
 
 The one loader, matcher and tier function (TL-24): the collector, the gate's recompute and
 `merge doctor` all call these; there is no second copy.

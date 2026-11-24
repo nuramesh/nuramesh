@@ -1,4 +1,4 @@
-"""The second step of a login (R1.38; `spec/identity/mfa.md` section 3).
+"""The second step of a login (R1.38).
 
 A correct password that needs a second factor answered a challenge (`AuthService.login`); these
 routes turn a challenge and a right code into a session. Everything fails closed: an unusable

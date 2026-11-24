@@ -6,7 +6,7 @@ The ledger holds hashes, never prompts or answers (A7), so these views can't sho
 gate verdicts carry the criterion, the verdict and the result hash, and the stored text of a
 person's reason is only reachable through the content endpoint.
 
-Shapes are documented, with examples from the first real run, in `docs/api.md`.
+Shapes are documented, with examples from the first real run, in the REST API guide.
 """
 
 import logging
@@ -18,7 +18,7 @@ from typing import Any
 from nuramesh.core.budgets import BudgetBalance, as_of
 from nuramesh.core.canonical import thaw as thaw
 from nuramesh.core.config import NuraMeshConfig
-from nuramesh.core.ledger import CostBasis, EventType, LedgerEvent, format_time
+from nuramesh.core.ledger import EventType, LedgerEvent, format_time
 from nuramesh.core.models import payload_model_ref
 from nuramesh.core.money import Money
 from nuramesh.core.policy import Approval
@@ -100,11 +100,23 @@ class _Spend:
     unknown_calls: int = 0
 
     def add(self, event: LedgerEvent) -> None:
-        self.calls += 1
-        if event.cost is None or event.cost.currency != self.total.currency:
+        """Add one `model.called` entry. A settle_failed call is a call of unknown cost; an
+        answered call (`ok`, `settled_late`) is a call unless it has no amount and no basis; any
+        other outcome adds nothing, even a cost it carries (cost spec 1)."""
+        outcome = event.payload.get("outcome")
+        if outcome == "settle_failed":  # paid, cost not recorded: an unknown call (cost spec 1)
+            self.calls += 1
             self.unknown_calls += 1
-        else:
+            return
+        if outcome not in _OK_OUTCOMES:
+            return
+        if event.cost is None and event.cost_basis is None:
+            return  # no amount and no basis: nothing was spent (cost spec 1)
+        self.calls += 1
+        if event.cost is not None and event.cost.currency == self.total.currency:
             self.total = self.total + event.cost
+        else:
+            self.unknown_calls += 1
 
     def view(self) -> dict[str, Any]:
         return {
@@ -125,13 +137,17 @@ def _at_least(total: Money, cost_unknown_calls: int) -> dict[str, str] | None:
 
 
 def _is_cost_unknown(event: LedgerEvent) -> bool:
-    """A call whose ledger entry says `cost_basis: unknown` (the answer had no usable usage; its
-    reservation was charged), never inferred from the outcome. Only an answered call (`ok`,
-    `settled_late`) counts: a sent call that errored or was cancelled is recorded with basis
-    unknown too, but is no spend (cost spec 1), the same rule as the engine's `run_spend_line`."""
+    """An answered call (`ok`, `settled_late`) with no amount and a non-null `cost_basis` (the
+    answer had no usable usage; its reservation was charged): unknown by cost spec 1, whichever
+    basis a damaged entry carries. Read from `cost_basis`, for answered calls only: a sent call
+    that errored or was cancelled is no spend (cost spec 1), the same rule as the engine's
+    `run_spend_line`. No amount and no basis is not called unknown. A `settle_failed` call is
+    unknown whatever its basis (the provider answered and was paid; its cost was not recorded)."""
+    if event.payload.get("outcome") == "settle_failed":
+        return True
     return (
         event.cost is None
-        and str(event.cost_basis) == CostBasis.UNKNOWN.value
+        and event.cost_basis is not None
         and event.payload.get("outcome") in _OK_OUTCOMES
     )
 
@@ -336,7 +352,7 @@ def _ended_status(ended: LedgerEvent, tasks: Sequence[StoredTask]) -> str:
 def _run_status(
     events: Sequence[LedgerEvent], tasks: Sequence[StoredTask], stop_requested: bool
 ) -> str:
-    """running | stopping | stopped | done | needs_human | failed | aborted (docs/api.md)."""
+    """running | stopping | stopped | done | needs_human | failed | aborted (the REST API guide)."""
     ended = next((e for e in reversed(events) if e.type == T.RUN_ENDED.value), None)
     if ended is None:
         return "stopping" if stop_requested else "running"

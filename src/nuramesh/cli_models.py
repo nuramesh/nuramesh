@@ -1,10 +1,10 @@
 """`nuramesh models ...`: read and restrict the model governance state (L5, ND92).
 
 The commands act on the organization stream of the team's store (the store `serve` uses), so the
-CLI writes where the runs read. **The CLI restricts or reads** (spec/model-governance section
-10.2): pause, retire, disable, disconnect, and the read-only listings, `check` and the rate-limited
-connection `test`. For the local `openai-compatible` provider it also has `connect` and `price`
-(an operator on the machine, with `--human`); approving and assigning stay in the signed-in API and
+CLI writes where the runs read. **The CLI restricts or reads**: pause, retire, disable, disconnect,
+and the read-only listings, `check` and the rate-limited connection `test`. For the local
+`openai-compatible` provider it also has `connect` and `price` (an operator on the machine, with
+`--human`); approving and assigning stay in the signed-in API and
 app, because the CLI cannot authenticate a person.
 
 Exit codes follow the spec: a usage error (a bad `--human`, a bad configuration, a subject the
@@ -630,7 +630,7 @@ _ENDPOINT_OTHER_TEXT = f"{ENDPOINT_NOT_ALLOWED}: {U_ENDPOINT_OTHER}"
 
 CLI_ONLY_LOCAL = (
     "the CLI can only {what} the openai-compatible provider; every other provider is "
-    "changed through the API or the app (spec/model-governance 10.2)"
+    "changed through the API or the app"
 )
 
 

@@ -13,7 +13,7 @@
 #   Docker Desktop (docker info says so) runs the bridge inside a VM: only the inspect checks apply.
 #   Rootless Docker keeps the bridge in the daemon's namespace: the inspect checks plus a host-side
 #   probe (no route to, and no TCP answer from, 172.29.40.10) replace the bridge-address check;
-#   PASS on rootless is therefore weaker than on a rootful Linux host (T219).
+#   PASS on rootless is therefore weaker than on a rootful Linux host.
 # Exit 0 when everything required holds, else 1 with a message naming what is missing.
 set -u
 
@@ -70,7 +70,7 @@ case $os in
     ;;
 esac
 # Rootless Engine: the bridge lives in the daemon's own network namespace, invisible to the host's
-# `ip`, so the bridge-address check cannot run (recorded deviation, an internal decision record). It is
+# `ip`, so the bridge-address check cannot run (a known, accepted deviation). It is
 # NOT skipped silently: the host-side effect is probed instead. The host must have no route to the
 # api address except a default route, and a TCP connect from the host to the api must neither
 # succeed nor be refused (a refusal is an answer from a reachable host). Rootful Linux gets the

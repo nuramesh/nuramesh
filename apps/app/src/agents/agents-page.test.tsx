@@ -24,7 +24,7 @@ function spied(role: "owner" | "approver" | "viewer") {
   return { client, calls };
 }
 
-describe("Agents page (spec/agent-identity section 10)", () => {
+describe("Agents page (the agent identity notes section 10)", () => {
   it("lists the organization's agents from the agent list, each with an Access panel", async () => {
     const { client, calls } = spied("owner");
     renderSafety(<AgentsPage />, client);

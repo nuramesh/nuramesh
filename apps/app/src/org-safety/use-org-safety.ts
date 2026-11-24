@@ -5,7 +5,7 @@ import { ApiError, ProblemError } from "@/api/client";
 import { useApi } from "@/api/context";
 import { keys } from "@/api/hooks";
 
-/** How often the status bar and the breakers panel read (spec/e19/README.md section 12). */
+/** How often the status bar and the breakers panel read (the organization safety notes section 12). */
 export const STATUS_POLL_MS = 5_000;
 export const BREAKERS_POLL_MS = 10_000;
 

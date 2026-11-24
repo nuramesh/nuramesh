@@ -3,7 +3,7 @@
 # account), both Canada East, GlobalStandard (processing may be outside Canada: synthetic data only).
 # Run it (you do, after both accounts exist; the agent never runs it). Its organization is
 # `demo-azure`, not `demo`, so its catalog never mixes with the fake demo's in the same store
-# (spec/model-governance section 10.1a). The `models:` part below seeds the approved catalog the
+# (model governance spec, section 10.1a). The `models:` part below seeds the approved catalog the
 # first time a process opens the store; after that the ledger is in force (change it with the admin
 # API or `nuramesh models pause|retire`). The connections are made by an admin, never by an
 # environment variable (no endpoint is read from the environment):

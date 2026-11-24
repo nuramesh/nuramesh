@@ -144,7 +144,7 @@ def acknowledgement(
     listed = ", ".join(str(m.number) for m in plan.non_additive)
     how = (
         f"pending migration(s) {listed} are not additive: they rewrite existing rows, and rolling "
-        "back means restoring a backup. Take the backup (https://docs.nuramesh.com/guides/backup-and-restore/), stop "
+        "back means restoring a backup. Take the backup, stop "
         "every process that uses the database, then run `nuramesh db migrate --i-have-a-backup "
         f"<dump file or timestamp>` or set {ACK_ENV}={top}. `nuramesh db migrate --plan` shows "
         "what would run."

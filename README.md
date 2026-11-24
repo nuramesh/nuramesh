@@ -5,7 +5,7 @@
   </picture>
 </p>
 
-<h3 align="center">The AI control plane for agents you can trust.</h3>
+<h3 align="center">The control plane for AI agents.</h3>
 
 <p align="center">Every action verified, approved where it matters, and always on the record.</p>
 

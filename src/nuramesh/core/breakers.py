@@ -1,4 +1,4 @@
-"""The org kill switch, role pause and circuit breakers: the pure rules (E19, ND106, spec/e19/).
+"""The org kill switch, role pause and circuit breakers: the pure rules (E19, ND106).
 
 Everything here reads ledger entries and returns facts; nothing writes. The engine
 (`engine/killswitch.py`) appends the entries these rules call for.

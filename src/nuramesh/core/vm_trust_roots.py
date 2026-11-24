@@ -1,8 +1,8 @@
-"""Verified Merge trust roots: the generic constant `OWNER_ONLY_PATHS`
-(`spec/verified-merge/tiers.md` TL-26, TL-28; README M-9).
+"""Merge Gate trust roots: the generic constant `OWNER_ONLY_PATHS`
+(tiers spec TL-26, TL-28; README M-9).
 
-The generic minimum: paths that are trust roots in **every** repository that uses Verified Merge
-(the forge's control files, the three Verified Merge files, the CODEOWNERS places, the git
+The generic minimum: paths that are trust roots in **every** repository that uses Merge Gate
+(the forge's control files, the three Merge Gate files, the CODEOWNERS places, the git
 control files). A changed path matched by a line is tier 3 with the reason `trust_root` and needs
 the signed approval of a `trust_root_admin` who is not the author, whatever the tier list or the
 policy says (TL-2, GT-12). It names no path of our own source tree: a repository's own

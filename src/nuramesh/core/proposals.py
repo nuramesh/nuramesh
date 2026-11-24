@@ -1,4 +1,4 @@
-"""Autonomy proposals (E13, `spec/autonomy/README.md` section 4): a read of the ledger.
+"""Autonomy proposals (E13): a read of the ledger.
 
 A proposal says whether one cell `(role, rule_key)` has earned a grant for one subject (an agent or
 a role). It is a pure function of the ledger entries, the configuration recorded at `as_of`, the
@@ -285,7 +285,7 @@ def evaluate_cell(
 
 
 def solo_lines(approved: int, solo: int, share: str | None) -> list[str]:
-    """What a person is shown of a proposal's solo share (spec/rbac/solo-approval.md SA-18 item
+    """What a person is shown of a proposal's solo share (SA-18 item
     2): `approved asks: N (solo M, P %)` and, when a solo one exists, that nobody else reviewed
     them. `P` is the share as a percentage without trailing zeros; with no approved ask there
     is no share and no percentage."""

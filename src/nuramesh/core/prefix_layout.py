@@ -1,4 +1,4 @@
-"""The stable-prefix check (R1.34 Part C, spec/token-savings 5.1): pure, no model call, stdlib only.
+"""The stable-prefix check (R1.34 Part C): pure, no model call, stdlib only.
 
 A message renders as `<role>: <content>`; a call renders as its messages joined by a blank line,
 as UTF-8. The leading system run is the longest run of `system` messages at the start; its last

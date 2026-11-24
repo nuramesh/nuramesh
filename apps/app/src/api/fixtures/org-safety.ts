@@ -1,5 +1,5 @@
 /**
- * Sample data for the organization-safety half of the fixture client (E19, spec/e19/README.md
+ * Sample data for the organization-safety half of the fixture client (E19, the organization safety notes
  * section 12). Sample data only; the app says so wherever the fixture client is in use. The states
  * are the spec's: `running` (default), `halted`, `tripped`, `failing`, `poison`, `rolePaused`,
  * `disabled`, `empty` and `viewer`.

@@ -7,7 +7,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Design tokens from docs/design/nuramesh-app-v1/SPEC-app-v1.md §1 (same brand as nuramesh.com).
+ * Design tokens from the app design spec §1 (same brand as nuramesh.com).
  * Light is the bare :root; `.dark` swaps every role. The shadcn/ui names (--background, --card,
  * --primary …) are mapped onto the spec's names so every component picks the brand up, and the
  * spec's own roles (canvas, panel-2, small, line, link, warm, brand …) are available as utilities.
@@ -16,7 +16,7 @@
  */
 :root {
   --radius: 0.625rem;
-  /* spec names (light values: docs/design/DESIGN-TOKENS.md is the source of truth; a test checks this file against it) */
+  /* spec names (light values: the design tokens file is the source of truth; a test checks this file against it) */
   --t-bg: #eef1f7;
   --t-canvas: #e9edf5;
   --t-panel: #ffffff;

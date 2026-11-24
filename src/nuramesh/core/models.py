@@ -78,7 +78,7 @@ class ModelRequest(_Frozen):
     @property
     def cache_breakpoint(self) -> int | None:
         """The index of the last message of the leading system run, or None when the first message
-        is not a system message (spec/token-savings 5.1)."""
+        is not a system message."""
         last: int | None = None
         for i, m in enumerate(self.messages):
             if m.role != "system":
@@ -114,7 +114,7 @@ class ModelCalledPayload(BaseModel):
     """The fields of a `model.called` ledger payload that readers (the cost views) depend on.
 
     Other fields (usage, hashes, latency) are tolerated and ignored. `role` is optional and
-    additive: entries written before it existed have none (spec/costs section 1). It is a slug,
+    additive: entries written before it existed have none. It is a slug,
     never free text.
     """
 
@@ -184,7 +184,7 @@ class ModelResponse(_Frozen):
     text: Annotated[str, StringConstraints(max_length=MAX_MESSAGE_CHARS)]
     usage: TokenUsage | None
     """None: the service answered but its usage was missing or invalid. The cost is unknown and
-    the reservation is charged as the upper bound (spec/openai-compatible 7.4), never as zero."""
+    the reservation is charged as the upper bound, never as zero."""
     finish_reason: FinishReason = "stop"
 
     @property
@@ -380,7 +380,7 @@ class FakeModel:
         )
 
     def _simulate_cache(self, request: ModelRequest, total: int) -> tuple[int, int]:
-        """(cached, written) tokens under the declared mode (spec/token-savings 5.9). Remembering is
+        """(cached, written) tokens under the declared mode. Remembering is
         by exact text with no expiry; a new instance models expiry."""
         b = request.cache_breakpoint
         if b is None:
@@ -398,7 +398,7 @@ class FakeModel:
 
 
 class OutputCappedPayload(BaseModel):
-    """The payload of a `model.output_capped` entry (R1.42, spec/r142 section 6). Strict: a field
+    """The payload of a `model.output_capped` entry (R1.42). Strict: a field
     nobody declared is refused. No prompt or response text is ever in it."""
 
     model_config = ConfigDict(frozen=True, extra="forbid")

@@ -1,7 +1,7 @@
 /**
  * A link token that arrives in the address fragment (`#t=<prefix>...`, which a browser never sends to a server).
  * It is removed from the address before anything else happens and then lives only in a closure variable: never in
- * a URL, a storage API or a console message (spec/identity/password-reset.md section 9, A-P2, A-P3). A closure
+ * a URL, a storage API or a console message (the password reset notes section 9, A-P2, A-P3). A closure
  * variable (not state) so a second render of the same page, as React's strict mode does, still finds it.
  */
 export interface FragmentToken {

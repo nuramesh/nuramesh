@@ -32,7 +32,7 @@ export interface ConfirmDialogProps {
 }
 
 /**
- * The one confirmation dialog of the kill switch, role pause and breakers (spec/e19/README.md
+ * The one confirmation dialog of the kill switch, role pause and breakers (the organization safety notes
  * section 12): focus starts on Cancel, Escape cancels, the confirm button shows its pending text
  * and both buttons are off while the request is out, and a failure stays in the dialog as a
  * `role="alert"` line. Closed means unmounted, so every opening starts clean.

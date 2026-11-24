@@ -34,7 +34,7 @@ nuramesh try <team> ... --anchor-repo <clone> --anchor-key <signing-key> --ancho
   (the hourly export covers it); `anchor export` without `--stream` anchors every stream. The ledger
   page reads "Verified" only when every stream has a signed anchor. Entries written after the last anchor
   (a sign-in) are counted as newer than the anchor, not as a problem; the hourly job anchors them. Spec:
-  the internal specification.
+  The internal specification.
 
 ## Remote verification (R1.30 PR 5, H-13)
 

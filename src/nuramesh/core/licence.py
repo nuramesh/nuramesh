@@ -1,4 +1,4 @@
-"""Licence file format 1 and the pure verifier (spec/licence/README.md, ND389, tier 3).
+"""Licence file format 1 and the pure verifier (ND389, tier 3).
 
 A licence file is `{"claims": {...}, "sig": "<128 hex>"}`; the signed bytes are the prefix
 `nuramesh-licence-v1\\n` followed by the RFC 8785 text of the claims, and `v`, `alg` and `key_id`

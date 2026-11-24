@@ -20,8 +20,8 @@ duplicate keys, floats and unsafe YAML) and is checked here.
   builder. It describes **shape** (fields, types, enums); the graph and cross-reference rules above
   need `parse_config`, and it can't express some model rules (whitespace is stripped before length
   checks, floats are refused for money, a timestamp may arrive as a number): `parse_config` is the
-  authority, the schema is for editor help. The schema is committed as
-  `spec/schema/nuramesh-config.schema.json` and a test fails if it drifts from the models.
+  authority, the schema is for editor help. The schema is committed, and a test fails
+  if it drifts from the models.
 """
 
 import re
@@ -78,7 +78,7 @@ class ConfigValidationError(ValueError):
 
 
 class BreakersConfig(BaseModel):
-    """The `breakers:` section (E19, ND106, `spec/e19/README.md` section 7): how often the server
+    """The `breakers:` section (E19, ND106): how often the server
     evaluates, when a failing evaluation halts the organization, and the rules."""
 
     model_config = ConfigDict(frozen=True, extra="forbid")
@@ -448,7 +448,7 @@ def parse_config(data: Mapping[str, Any], *, shipped: Iterable[Price] = ()) -> N
                     org, parts.models, book or parts.prices, parts.price_overrides
                 )
     # breaker names and role scopes are checked on the raw section, so a rule that failed its own
-    # checks still reports a duplicate name (one validator, spec/e19 section 7)
+    # checks still reports a duplicate name (one validator)
     issues += breaker_problems(
         _raw_breaker_pairs(rest.get("breakers")), {r.id for r in org.roles} if org else None
     )

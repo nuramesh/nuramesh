@@ -3,7 +3,7 @@
 The full URL rules (and their fixed texts) live in `engine.openai_compatible`; this module holds
 the small, shared pieces that prices, catalog entries and the resolver also use: which endpoint is
 a literal loopback address, how an endpoint is normalised and compared, the connection
-fingerprint, and the residency rule for a remote endpoint (ND45, spec/openai-compatible 10).
+fingerprint, and the residency rule for a remote endpoint (ND45).
 """
 
 import hashlib

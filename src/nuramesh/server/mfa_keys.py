@@ -1,4 +1,4 @@
-"""The auth key and TOTP secret sealing (R1.38, spec/identity/mfa.md sections 2 and 2a).
+"""The auth key and TOTP secret sealing (R1.38).
 
 The key lives only in a file (`NURAMESH_AUTH_KEY_FILE`), is read at each use and is never logged.
 """

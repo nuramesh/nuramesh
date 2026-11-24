@@ -1,4 +1,4 @@
-"""The CLI rules every command shares (R1.43, `spec/cli-api-naming`, rules T and O).
+"""The CLI rules every command shares (R1.43, rules T and O).
 
 Rule T: a command finds its team folder from `--team DIR`, else `NURAMESH_TEAM_DIR`, else the
 nearest folder upwards holding `nuramesh.yaml`, `.yml` or `.json`; none found is exit 2 naming the
@@ -274,7 +274,8 @@ def apply_rules(args: argparse.Namespace, path: str, *, cwd: Path | None = None)
         elif path not in JSON_OUTPUT:
             _say(
                 f"--output json is not supported by `{path}` (it prints text only); "
-                "`nuramesh <command> --help` and docs/cli.md list the commands that support it"
+                "`nuramesh <command> --help` and the command line guide list the commands that "
+                "support it"
             )
             return USAGE
     dry = bool(getattr(args, "dry_run", False))

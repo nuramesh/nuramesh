@@ -7,7 +7,7 @@ concurrency, an append-only ledger enforced by triggers, hash chains built in Py
 
 - **Writes are serialized** with one transaction-level advisory lock (`pg_advisory_xact_lock`),
   exactly as SQLite serializes writers: simple, correct across processes (API, workers), and fast
-  enough for R1. Per-stream locks are the scale path (`docs/architecture-platform.md`).
+  enough for R1. Per-stream locks are the scale path.
 - **Reads** outside a unit of work see committed data (read committed); `snapshot` uses one
   `REPEATABLE READ` read-only transaction so a stream's events and head are consistent.
 - **Live events:** every appended event runs `pg_notify('nuramesh_ledger', '<stream>:<seq>')`,
@@ -144,7 +144,7 @@ NOTIFY_CHANNEL = "nuramesh_ledger"
 
 # Migrations that update, move or drop existing rows or columns (issue 897, review item m3). One
 # source: `db migrate --plan` and the acknowledgement rule read it, and the sentence in
-# docs/upgrade-notes.md is checked against it. A new non-additive migration adds its number here in
+# is checked against it. A new non-additive migration adds its number here in
 # the same change as its "Not additive" note.
 NON_ADDITIVE_MIGRATIONS: frozenset[int] = frozenset({7, 8, 11, 15, 22, 24, 27})
 
@@ -369,7 +369,7 @@ MIGRATIONS: tuple[str, ...] = (
         UNIQUE (org_id, token_hash)
     );
     """,
-    # 10 budget_defined_index: an index of the `budget.defined` entries (T84, spec/auth/org-scope.md
+    # 10 budget_defined_index: an index of the `budget.defined` entries (T84,
     # R8): who owns a budget is read from these alone, never by walking organization streams that
     # anyone can grow (failed logins). Additive: an index only; no row changes.
     """
@@ -426,8 +426,8 @@ MIGRATIONS: tuple[str, ...] = (
         FOR EACH STATEMENT EXECUTE FUNCTION permanent_row();
     """,
     # 13 agent_credentials: agent credentials (E2, T93, T140), additive. Only the
-    # SHA-256 of each secret is stored; no name or free-text column exists (spec/agent-identity
-    # 2.2). `team` is the server's team key.
+    # SHA-256 of each secret is stored; no name or free-text column exists.
+    # `team` is the server's team key.
     """
     CREATE TABLE agent_credentials (
         org_id TEXT NOT NULL,
@@ -576,12 +576,12 @@ MIGRATIONS: tuple[str, ...] = (
     END
     $v$;
     """,
-    # 20 user_disabled: E1, an owner may disable a person (spec/e1 sections 9.1 and 12). One
+    # 20 user_disabled: E1, an owner may disable a person. One
     # nullable column, additive: no existing row is rewritten.
     """
     ALTER TABLE users ADD COLUMN disabled_at TEXT;
     """,
-    # 21 content_subjects: R1.32 (spec/r132 S3, ND79, ND157): who a stored content row
+    # 21 content_subjects: R1.32 (S3, ND79, ND157): who a stored content row
     # names, so erasing a person finds the row. Additive: no existing row is read, changed or
     # deleted; existing content rows get no subject rows. Branches that add later migrations
     # (E8, the approvals sweep, R1.22c, the cost reader) renumber after this one (ND126).
@@ -649,7 +649,7 @@ MIGRATIONS: tuple[str, ...] = (
         epoch INTEGER NOT NULL
     );
         """,
-    # 24 invites: R1.37 (spec/identity/invites.md section 1). The invites table and the
+    # 24 invites: R1.37. The invites table and the
     # verified state of an address on users. Additive: the one backfill (every not-erased user is
     # marked verified `legacy`, one clock reading) is applied by the store right after this
     # statement.
@@ -676,7 +676,7 @@ MIGRATIONS: tuple[str, ...] = (
     ALTER TABLE users ADD COLUMN email_verified_at TEXT;
     ALTER TABLE users ADD COLUMN email_verified_via TEXT;
     """,
-    # 25 email_verification: R1.40 (spec/identity/email-verification.md section 2).
+    # 25 email_verification: R1.40.
     # Additive: one table, no row of any other table is read or written.
     """
     CREATE TABLE email_changes (
@@ -693,7 +693,7 @@ MIGRATIONS: tuple[str, ...] = (
     );
     CREATE INDEX email_changes_user ON email_changes (org_id, user_id);
     """,
-    # 26 password_reset: R1.41 (spec/identity/password-reset.md sections 1 and 4a).
+    # 26 password_reset: R1.41.
     # Reset tokens (a decoy has user_id NULL), API-token revoke links and the password-login block
     # (Q15). Additive; no row holds an email address. Number 26 is released; R1.38 MFA is 27.
     """
@@ -730,7 +730,7 @@ MIGRATIONS: tuple[str, ...] = (
     );
     CREATE INDEX api_token_revoke_links_user ON api_token_revoke_links (org_id, user_id);
     """,
-    # 27 mfa: R1.38 (spec/identity/mfa.md section 2): one TOTP factor per person
+    # 27 mfa: R1.38, one TOTP factor per person
     # (the secret only
     # sealed), MFA recovery code hashes, login challenges (hash only), the organization's sign-in
     # policy (no row = MFA not required) and three session columns. `login_via` is backfilled to
@@ -927,7 +927,7 @@ MIGRATIONS: tuple[str, ...] = (
     REVOKE CREATE ON SCHEMA public FROM nuramesh_definer;
     REVOKE ALL ON FUNCTION public.extension_records_erase(text) FROM PUBLIC;
     """,
-    # 29 solo_approval: solo approval (#942, spec/rbac/solo-approval.md section 4). Additive only:
+    # 29 solo_approval: solo approval (#942). Additive only:
     # nullable columns, nothing existing is rewritten. `password_confirmed_at` is when a session
     # last re-confirmed the password (SA-8; NULL = not confirmed). The approval columns repeat
     # three values of `data` for decisions made from now on (NULL on older rows, which have no
@@ -941,7 +941,7 @@ MIGRATIONS: tuple[str, ...] = (
         ON approvals (decided_by, approval_mode, decided_at);
     """,
     # 30 api_token_names: token rename and delete (#634,
-    # spec/auth/token-lifecycle.md R16, R23).
+    # R16, R23).
     # Additive only: a new table of retired token names (keyed hashes under the organization key,
     # never a name) and three SECURITY DEFINER functions (delete an inactive token with its revoke
     # links, erase a person as issuer, normalise one row). No existing row is read, rewritten or
@@ -1188,13 +1188,13 @@ MIGRATIONS: tuple[str, ...] = (
     REVOKE ALL ON FUNCTION public.api_token_erase_issuer(text, text) FROM PUBLIC;
     REVOKE ALL ON FUNCTION public.api_token_normalise_issuer(text, text) FROM PUBLIC;
     """,
-    # 31 rbac: R2.13 (spec/rbac section 9): the last strong authentication on a session (any
+    # 31 rbac: R2.13, the last strong authentication on a session (any
     # method). One
     # nullable column, additive: no role or session is rewritten; NULL means "ask once".
     """
     ALTER TABLE auth_sessions ADD COLUMN IF NOT EXISTS step_up_at TEXT;
     """,
-    # 32 approvals_sweep: the approvals sweep (T226, ND195 a, spec/auth/token-lifecycle.md Part C).
+    # 32 approvals_sweep: the approvals sweep (T226, ND195 a, Part C).
     # An index on the day an approval ended (the consumption time if it has one, else the decision
     # time, date prefix of the stored text; decided and consumed approvals only), so the sweep finds
     # the due rows without reading the finished ones, and the SECURITY DEFINER function the sweep
@@ -4410,7 +4410,7 @@ class PostgresStore(Store):
             f"by the provider's own role, set {PROVIDER_ROLE_ENV} to that role (the provider's "
             "bootstrap superuser: azuresu on Azure Flexible Server, rdsadmin on AWS RDS; "
             "it has no default; "
-            "docs/configuration-env.md); every other member is still refused."
+            "the configuration guide); every other member is still refused."
             if not provider
             else ""
         )

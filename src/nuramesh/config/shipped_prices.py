@@ -1,4 +1,4 @@
-"""The shipped default price list (spec/default-prices, #1450).
+"""The shipped default price list (#1450).
 
 Prices are versioned data: `nuramesh/data/default_prices.json` ships in the package and is read
 here, never by `nuramesh.core` (which does no I/O). Rows are append-only (a change is a new row

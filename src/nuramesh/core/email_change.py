@@ -1,4 +1,4 @@
-"""Email change requests (R1.40; `spec/identity/email-verification.md` section 2).
+"""Email change requests (R1.40).
 
 Pure (stdlib and pydantic). A request holds the **new** address until its link is opened; the
 token (`nme_` + 43 characters) is never stored, only its lowercase hex SHA-256. A `deliverable`

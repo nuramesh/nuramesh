@@ -175,7 +175,7 @@
     },
     "BreakersConfig": {
       "additionalProperties": false,
-      "description": "The `breakers:` section (E19, ND106, `spec/e19/README.md` section 7): how often the server\nevaluates, when a failing evaluation halts the organization, and the rules.",
+      "description": "The `breakers:` section (E19, ND106): how often the server\nevaluates, when a failing evaluation halts the organization, and the rules.",
       "properties": {
         "halt_after_failed_ticks": {
           "default": 3,

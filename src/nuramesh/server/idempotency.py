@@ -1,4 +1,4 @@
-"""`Idempotency-Key` for the mutating routes (R1.35, `spec/idempotency/README.md`).
+"""`Idempotency-Key` for the mutating routes (R1.35).
 
 `IdempotencyMiddleware` is the innermost ASGI middleware (it replaces the old blanket refusal):
 authentication, authorization and the guard have answered before it. For a mutating route with

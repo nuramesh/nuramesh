@@ -59,5 +59,5 @@ export function normalizeServerUrl(input: string): string {
 export function crossOriginNote(url: string, here: string = globalThis.location.origin): string | null {
   const normalized = normalizeServerUrl(url);
   if (normalized === "" || normalized === here) return null;
-  return "This is a different address than this page. The server only answers requests that come from its own address (it refuses cross-site requests), so the browser will usually be refused. Leave this empty and let the dev server forward /v1 instead (docs/app.md).";
+  return "This is a different address than this page. The server only answers requests that come from its own address (it refuses cross-site requests), so the browser will usually be refused. Leave this empty and let the dev server forward /v1 instead (see the app guide on the docs site).";
 }

@@ -17,6 +17,7 @@ import { parse, stringify } from "yaml";
 import {
   agentBudget,
   assignmentOf,
+  type GatePresetGate,
   gatesOf,
   HUMAN_ID,
   MONEY,
@@ -80,6 +81,27 @@ export function exportYaml(doc: BuilderDocument): string {
     ...configOut(doc.config),
   };
   return dump(body);
+}
+
+export type GateSettingsResult = { ok: true; value: Record<string, unknown> } | { ok: false; error: string };
+
+/**
+ * The settings typed for a new gate (YAML), as the add-gate form needs them: a map with at least
+ * one key. Their content is checked by the core when a task is created (`core/gate_config.py`).
+ */
+export function parseGateSettings(kind: GatePresetGate["kind"], text: string): GateSettingsResult {
+  if (text.trim() === "") return { ok: false, error: "A gate needs its settings before it can be added" };
+  let raw: unknown;
+  try {
+    raw = parse(text, { prettyErrors: true });
+  } catch (error) {
+    return { ok: false, error: error instanceof Error ? error.message.split("\n")[0] ?? "Not valid YAML" : "Not valid YAML" };
+  }
+  const parsed = parseGates([{ id: "new", kind, config: raw }], "settings");
+  if (!parsed.ok) return { ok: false, error: parsed.errors.map((e) => e.message).join("; ") };
+  const config = parsed.value[0]?.config;
+  if (config === undefined || Object.keys(config).length === 0) return { ok: false, error: "A gate needs its settings before it can be added" };
+  return { ok: true, value: config };
 }
 
 /** One agent's slice, as the inspector's YAML tab shows it. */

@@ -3,7 +3,7 @@
 `nuramesh stop` ends one run. This page covers the controls above a run: `nuramesh org` (halt the
 whole organization), `nuramesh roles` (pause one role) and `nuramesh breakers` (list and trip the
 circuit-breaker rules in your team's configuration). The API routes are in the
-[API reference](/reference/api/).
+[API reference](api.md).
 
 Every example below was run on a scratch team made with `nuramesh init my-team --template dev-team`
 (fake model, SQLite store in `my-team/.nuramesh/`), with the `breakers:` section shown at the end of
@@ -175,6 +175,6 @@ breakers:
 ```
 
 Signals, limits, `dry_run`, `tick_seconds` and `halt_after_failed_ticks` are in the `breakers`
-section of your team's configuration (see the [configuration reference](/reference/configuration/#breakersconfig)).
+section of your team's configuration (see the [configuration reference](../spec/schema/nuramesh-config.schema.json)).
 For what to do when the server halted the organization by itself, see
 [`org halt`](#org-halt) and the table at the top: only a signed-in person can lift a halt.

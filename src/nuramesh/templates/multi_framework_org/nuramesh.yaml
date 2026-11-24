@@ -1,0 +1,57 @@
+# The Multi-framework org template: ONE organization, two teams, one ledger. The Research team's
+# agent is a native NuraMesh agent; the Operations team's drafting agent is a LangGraph graph
+# (nuramesh[langgraph]). Policies and budgets are central (this file), per-team budgets cap each
+# team, a Central reviewer on a different model checks both teams' work, and the kill switch
+# (`nuramesh org halt`) stops the whole organization whichever framework an agent runs on.
+# Run it:  nuramesh init my-org --template multi-framework-org && nuramesh try my-org --fake --approve-as human:you
+version: 1
+org:
+  id: multi-framework-org
+  name: Multi-framework organization
+  roles:
+    - {id: chief, name: Chief of Staff, kind: chief_of_staff}
+    - {id: team-lead, name: Team lead}
+    - {id: researcher, name: Researcher (native agent), default_model: fake/worker-1}
+    - {id: graph-drafter, name: Drafter (LangGraph graph), default_model: fake/worker-1}
+    - {id: central-reviewer, name: Central reviewer, kind: verifier, default_model: fake/reviewer-1}
+  agents:
+    - {id: chief, name: Chief of Staff, role: chief}
+    - {id: research-lead, name: Research team lead, role: team-lead, reports_to: chief}
+    - {id: researcher, name: Researcher, role: researcher, reports_to: research-lead}
+    - {id: ops-lead, name: Operations team lead, role: team-lead, reports_to: chief}
+    - {id: graph-drafter, name: Drafter, role: graph-drafter, reports_to: ops-lead}
+    - {id: central-reviewer, name: Central reviewer, role: central-reviewer, reports_to: chief, checks: [researcher, graph-drafter]}
+policies:
+  policies:
+    - role: chief
+      rules:
+        - {action: delegate, decision: allow, target: "*"}
+    - role: team-lead
+      rules:
+        - {action: delegate, decision: allow, target: "*"}
+    - role: researcher
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+        - {action: use_tool, decision: deny, target: "web-*", reason: "this template reads no web pages"}
+    - role: graph-drafter
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+        - {action: write_file, decision: allow, target: "drafts/*.md"}
+        - {action: external_message, decision: ask, target: "*", reason: "a human approves before a brief leaves the organization"}
+    - role: central-reviewer
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+budgets:
+  - {id: org-monthly, scope: org, scope_id: multi-framework-org, limit: {amount: "20.00", currency: USD}}
+  - {id: research-team-monthly, scope: team, scope_id: research-lead, limit: {amount: "6.00", currency: USD}}
+  - {id: ops-team-monthly, scope: team, scope_id: ops-lead, limit: {amount: "6.00", currency: USD}}
+  - {id: central-reviewer-monthly, scope: agent, scope_id: central-reviewer, limit: {amount: "5.00", currency: USD}}
+prices:
+  prices:
+    - {provider: fake, model: worker-1, input_per_million: "3", output_per_million: "15",
+       effective_from: "2026-01-01T00:00:00Z", source: "template price list (fake model)"}
+    - {provider: fake, model: reviewer-1, input_per_million: "3", output_per_million: "15",
+       effective_from: "2026-01-01T00:00:00Z", source: "template price list (fake model)"}

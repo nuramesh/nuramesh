@@ -64,7 +64,7 @@ function problem(status: number, title: string, detail: string): Response {
 }
 
 /**
- * A fetch that answers the nine org routes (`spec/e19/README.md` section 11) from a fixture client's
+ * A fetch that answers the nine org routes (the organization safety notes section 11) from a fixture client's
  * state, so the server client can run the same contract tests as the fixture client. A test of the
  * client's own wire format uses `calls`, which records every request.
  */

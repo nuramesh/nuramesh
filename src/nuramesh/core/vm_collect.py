@@ -1,5 +1,5 @@
-"""Verified Merge collector (spec `spec/verified-merge` EB-1 to EB-9, 6.1, 6.4a, LA-1;
-`tiers.md` TL-3, TL-13, TL-19, TL-20, TL-24, TL-29 to TL-32).
+"""Merge Gate collector (spec EB-1 to EB-9, 6.1, 6.4a, LA-1;
+the tiers spec TL-3, TL-13, TL-19, TL-20, TL-24, TL-29 to TL-32).
 
 Pure functions from facts to one evidence bundle (`vm-evidence-1`) for one (repo, PR, head). The
 service gathers the facts (the forge's PR, push events and check runs; the engine's git runs under
@@ -287,7 +287,7 @@ def _change(
     earlier_tier3_bundle: bool,
 ) -> _Change:
     """The change hash (under the writer pin `DIFF_PIN`, `diff-2`: README section 4, #944), the
-    path set and the tier of one pinned diff run (both forms; the git run is the one `tiers.md`
+    path set and the tier of one pinned diff run (both forms; the git run is the one the tiers spec
     TL-13 names `diff-1`, which `diff-2` keeps). None for either form means the run failed or
     timed out. TL-32: a failure here is never a tier."""
     if diff is None or raw_paths is None:

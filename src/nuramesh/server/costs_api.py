@@ -1,4 +1,4 @@
-"""The cost endpoints (spec/costs sections 3 to 5; ND61, ND62): cost per verified result, the
+"""The cost endpoints: cost per verified result, the
 cross-provider spend view, the calls behind a figure, and advisory quotes.
 
 Every endpoint only **reads** the ledger of the session's organization (the one organization of

@@ -1,12 +1,12 @@
 """The role binding of a standalone agent (#868): `bind(team, role)` and `RoleBinding`.
 
-A standalone agent (a LangChain app, a CrewAI crew, an OpenAI or Claude SDK agent, a plain
+A standalone agent (a LangChain app, a CrewAI crew, a plain
 script) talks to the NuraMesh server over HTTP as an agent (`nuramesh.api._http`). It never
 holds a store, a team folder or a policy file: the server checks the team's rules for the role,
 writes the ledger row with the actor its credential names, opens the approval request and keeps
 it; a person decides in the app or through the API. Nothing in this module can record a
 decision, and a framework's own "resume" payload is never an input: `recheck` asks the server
-again (section 6 of `docs/python-api.md`).
+again.
 
 Every refusal is a returned `Outcome`; raising (`raise_on_deny=True`) is opt-in. Anything that
 goes wrong on the way (the server unreachable or answering badly, an argument that cannot be
@@ -54,7 +54,7 @@ SERVER_LONG_POLL: Final = 30.0
 RETRY_WITHOUT_WAIT: Final = 2.0
 """Without a wait, a 429 is retried once if the server asks for at most this many seconds."""
 
-# Reason codes an adapter may key on (stable strings; `docs/python-api.md`).
+# Reason codes an adapter may key on (stable strings).
 ALLOW: Final = "allow"
 ASK_PENDING: Final = "ask_pending"
 DENIED_BY_RULE: Final = "denied_by_rule"

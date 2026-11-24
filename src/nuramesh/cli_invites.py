@@ -1,4 +1,4 @@
-"""The invite commands (R1.37; `spec/identity/invites.md` section 7):
+"""The invite commands (R1.37):
 
     nuramesh auth invites create EMAIL --role approver|viewer [--print-link]
     nuramesh auth invites list [--status S]

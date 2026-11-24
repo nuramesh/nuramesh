@@ -7,7 +7,7 @@ import { COPY, STEP_LABELS } from "./copy";
 import type { Step } from "./derive";
 import { useFirstRun } from "./use-first-run";
 
-const LINK = "text-sm font-medium text-link underline underline-offset-2";
+const LINK = "inline-flex min-h-11 items-center text-sm font-medium text-link underline underline-offset-2";
 
 /** `/start` (FR-2): the four steps, live from the server. Anyone FR-1 excludes sees only a way to the Builder. */
 export function FirstRunPage() {
@@ -120,6 +120,7 @@ function StepAction({ step, onSkip }: { step: Step; onSkip: () => void }) {
     return (
       <div className="flex flex-col gap-1 text-sm">
         <p className="text-muted-foreground">{COPY.approvalWhat}</p>
+        <p>{COPY.soloApproval}</p>
         {step.note === "no-approval-asked" && <p>{COPY.noApprovalAsked}</p>}
         <Link to="/approvals" className={LINK}>
           {COPY.openApprovals}
@@ -130,7 +131,10 @@ function StepAction({ step, onSkip }: { step: Step; onSkip: () => void }) {
   if (step.id === "invite") {
     return (
       <div className="flex flex-wrap items-center gap-3 text-sm">
-        <p className="text-muted-foreground">{COPY.invitesNotYet}</p>
+        <p className="text-muted-foreground">{COPY.invitePeople}</p>
+        <Link to="/settings" className={LINK}>
+          {COPY.openPeople}
+        </Link>
         <Button variant="outline" size="sm" className="min-h-11" onClick={onSkip}>
           {COPY.skip}
         </Button>

@@ -1,4 +1,4 @@
-"""Notice mails for MFA changes (R1.38 area 6; `spec/identity/mfa.md` section 3b, owner Q13).
+"""Notice mails for MFA changes (R1.38 area 6).
 
 One fixed plain-text notice (`kind=notice`, no link, no code, no user text) for every MFA enrol,
 disable and reset. Two shapes:

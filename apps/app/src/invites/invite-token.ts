@@ -1,7 +1,7 @@
 /**
  * The link token. It arrives in the address fragment (`#t=nmi_...`, which a browser never sends to a server),
  * is removed from the address before anything else happens, and then lives only in this variable: never in a
- * URL, a storage API or a console message (spec/identity/invites.md section 8, A-I1..A-I3). A module variable
+ * URL, a storage API or a console message (the invitation notes section 8, A-I1..A-I3). A module variable
  * (not state) so a second render of the same page, as React's strict mode does, still finds it.
  */
 let captured: string | undefined;

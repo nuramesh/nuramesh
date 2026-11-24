@@ -1,4 +1,4 @@
-"""`nuramesh email status | check --to ADDRESS` (R1.39; `spec/identity/email.md` section 6).
+"""`nuramesh email status | check --to ADDRESS` (R1.39).
 
 Output never holds the SMTP server's reply, a setting value, or a link: only `on`/`off`, variable
 names, `sent` and a closed failure code."""

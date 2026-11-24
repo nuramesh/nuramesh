@@ -243,11 +243,20 @@ class ToolLedger:
         return None
 
     def refuse_turn(self, code: ReasonCode) -> None:
-        """A model turn offered a tool outside the frozen set or a replaced one (AD-17, AD-18):
-        `task.refused` with the fixed code and nothing else (no call exists). It records the
-        stop of the guarded run."""
+        """A refusal of the guarded run that has no call to decide: a model turn offered a tool
+        outside the frozen set or a replaced one (AD-17, AD-18), or, in a LangGraph run (#971,
+        LG-1, LG-3), a tool result came back without a valid run token (`tool_token_invalid`),
+        the run ended with tool calls nobody answered (`tool_calls_unanswered`), or a tool
+        message answers no call (`tool_message_orphan`). One `task.refused` with the fixed code
+        and the frozen `tool_set_hash`, and nothing else: no message content, call id or token.
+        It records the stop of the guarded run (AD-44a); a run that is already stopped gets no
+        second entry. `NotFrozen` before the freeze, `Superseded` in another attempt's window:
+        nothing is written."""
         if code not in _REFUSALS:
-            raise ValueError("a turn is refused as tool_set_changed or tool_replaced")
+            raise ValueError(
+                "a guarded run is refused only with a task.refused code: "
+                + ", ".join(sorted(c.value for c in _REFUSALS))
+            )
         with self._store.transaction() as uow:
             state, pinned = self._state(uow)
             if not state.stopped:

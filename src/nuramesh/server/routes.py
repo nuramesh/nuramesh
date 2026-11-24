@@ -1,6 +1,6 @@
 """The route table the API declares, and the check that the app serves exactly that table.
 
-`ROUTE_SCOPES` gives every route of the app one **class** (`spec/auth/org-scope.md` section 4):
+`ROUTE_SCOPES` gives every route of the app one **class**:
 how its data is tied to the caller's organization. `authz.ROUTE_RULES` gives the same routes
 their permission. `route_matrix.MATRIX` is a third, hand-written table (permission letter and
 class per route) that `tests/server/test_authz_matrix.py` calls every route against.
@@ -188,7 +188,7 @@ ROUTE_SCOPES: dict[tuple[str, str], str] = {
     ("PUT", "/v1/autonomy/settings/{name}"): SERVER,
     ("PUT", "/v1/autonomy/model-change-floor/{role}"): SERVER,
 }
-"""Every route and how it is tied to the caller's organization (spec/auth/org-scope.md)."""
+"""Every route and how it is tied to the caller's organization."""
 
 OPTIONAL: Final = frozenset({("GET", "/v1/docs"), ("HEAD", "/v1/docs")})
 """Declared routes an app may legitimately not serve: the docs page exists only where no person

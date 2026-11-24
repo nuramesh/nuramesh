@@ -16,8 +16,5 @@ for and missing is exit 2, never a quiet skip); the core never needs it. The out
 another branch and `--git-commit <40 lower-case hex digits>` reads exactly that commit (not both). ES256 anchors are not read yet.
 
 - What it checks, what it does not, how to read the output: an internal document
-- The specification it implements: the internal specification
-- Worked cases (every problem code): the internal specification
-- Tests: `tests/verifier/`
 
 The file is licensed Apache 2.0 like the rest of the open core. It can be copied out on its own.

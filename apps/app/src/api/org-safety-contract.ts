@@ -2,7 +2,7 @@
  * The contract of the organization-safety half of `ApiClient` (E19, ND106): the kill switch, role
  * pause and circuit breakers. The fixture client and the server client (over a transport that
  * answers like the server, `src/test/fixture-backed-server.ts`) both run it, so they cannot drift.
- * `make(scenario)` builds a client in one of the fixture states of `spec/e19/README.md` section 12.
+ * `make(scenario)` builds a client in one of the fixture states of the organization safety notes section 12.
  */
 import { describe, expect, it } from "vitest";
 

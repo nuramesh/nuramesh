@@ -1,4 +1,4 @@
-"""The two-step split of a Verified Merge review (spec `spec/verified-merge` M-6, SV-1 to SV-3,
+"""The two-step split of a Merge Gate review (spec M-6, SV-1 to SV-3,
 SV-11; threat T-07; cases S-01 to S-04, S-07 to S-12).
 
 Two principals, one direction of data:

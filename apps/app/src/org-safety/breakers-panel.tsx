@@ -69,7 +69,7 @@ function Evaluation({ view }: { view: BreakersView }) {
 }
 
 /**
- * The circuit breakers (E19, spec/e19/README.md section 12): one row per rule with its live count,
+ * The circuit breakers (E19, the organization safety notes section 12): one row per rule with its live count,
  * state in words, and, for a person only, Reset (tripped), Disable (ok) and Enable (disabled). It
  * reads every 10 s and keeps the last good table when a read fails.
  */
@@ -121,7 +121,7 @@ export function BreakersPanel() {
     content = <p className="px-4 py-4 text-sm text-muted-foreground">No circuit breakers are set. Add a breakers: section to your organization config to stop work automatically when spend or bad behaviour passes a limit.</p>;
   } else {
     content = (
-      // A scroll area must take focus so the keyboard can scroll it on a narrow screen (spec/e19 section 12).
+      // A scroll area must take focus so the keyboard can scroll it on a narrow screen (the organization safety notes section 12).
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       <div role="region" aria-label="Circuit breakers table" tabIndex={0} className="mt-3 overflow-x-auto border-t focus-visible:outline-2 focus-visible:outline-ring">
         <table className="w-full min-w-[60rem] border-collapse text-[13.5px]">

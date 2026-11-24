@@ -1,8 +1,7 @@
 import { QUIET, qrRuns } from "./qr-runs";
 
 /**
- * Draws the code locally as an inline SVG made of React elements: no image URL, no request, no `innerHTML`
- * (spec/mfa-web W-5, A-T1). It is a drawing of a secret: the parent drops it on unmount like the secret itself.
+ * Draws the code locally as an inline SVG made of React elements: no image URL, no request, no `innerHTML`. It is a drawing of a secret: the parent drops it on unmount like the secret itself.
  */
 export function QrCode({ text, label }: { text: string; label: string }) {
   const { size, runs } = qrRuns(text);

@@ -225,7 +225,7 @@ function AgentInspector({ agentId }: { agentId: string }) {
           {role !== undefined && (
             <>
               <PermissionsSection role={role} />
-              <GatesSection role={role} />
+              <GatesSection key={role.id} role={role} />
               <EvalsSection role={role} />
               <PlannerSection agentId={agent.id} role={role} />
             </>

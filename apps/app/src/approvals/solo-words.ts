@@ -5,7 +5,7 @@ import { waitWords } from "@/auth/messages";
 
 /**
  * The kinds whose solo approve needs a fresh proof and, in the dialog, the kind word typed
- * (spec/rbac/solo-approval.md section 1, "HR"; the server's `HIGH_RISK_KINDS`). The server decides;
+ * (the solo approval notes section 1, "HR"; the server's `HIGH_RISK_KINDS`). The server decides;
  * this list only chooses what the dialog asks for.
  */
 const HIGH_RISK_KINDS: ReadonlySet<string> = new Set(["spend", "external_message", "merge", "run_command", "network", "use_tool"]);

@@ -140,11 +140,17 @@ function unshare(doc: BuilderDocument, role: string, roleName: string): BuilderD
   return withConfig(doc, { ...doc.config, presets: { ...doc.config.presets, gate: [...doc.config.presets.gate.filter((g) => g.id !== own), copy], assignments } });
 }
 
-export function addGate(doc: BuilderDocument, role: string, kind: GatePresetGate["kind"], roleName?: string): BuilderDocument {
+/**
+ * Adds a gate to a role, with its settings. A gate without settings is never written: the core
+ * refuses a rule, test-command or verifier gate that has none, and a task must carry its role's
+ * gates exactly, so such a gate would stop every run of the team (issue #1407).
+ */
+export function addGate(doc: BuilderDocument, role: string, kind: GatePresetGate["kind"], roleName?: string, config?: Record<string, unknown>): BuilderDocument {
+  if (config === undefined || Object.keys(config).length === 0) return doc;
   const gates = gatesOf(doc.config, role)?.gates ?? [];
   const id = uniqueId(kind.replace(/_/g, "-"), new Set(gates.map((g) => g.id)));
   const next = [...gates];
-  next.splice(insertionIndex(gates, kind), 0, { id, kind, required: true });
+  next.splice(insertionIndex(gates, kind), 0, { id, kind, required: true, config: structuredClone(config) });
   return setRoleGates(doc, role, next, roleName);
 }
 

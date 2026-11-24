@@ -1,5 +1,5 @@
 /**
- * Password reset (R1.41, spec/identity/password-reset.md). A person asks for a link by email, opens the
+ * Password reset (R1.41, the password reset notes). A person asks for a link by email, opens the
  * single-use link, and sets a new password; a second emailed link can revoke one API token. The app never
  * sees a stored token or hash: link tokens live in the fragment and in memory alone.
  *

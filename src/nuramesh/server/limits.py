@@ -92,6 +92,58 @@ class HashGate:
                     self._used -= cost
 
 
+class InflightGate:
+    """At most `cap` operations at once per key. Like
+    `HashGate`, it never waits: `try_acquire` answers at once. It stores only keys with a count
+    above zero and deletes a key when its count returns to zero, so it is bounded by the number
+    of running operations and needs no LRU (a running holder can never be evicted and reset)."""
+
+    def __init__(self, cap: int) -> None:
+        if cap < 1:
+            raise ValueError("the in-flight cap must be at least 1")
+        self.cap = cap
+        self._held: dict[str, int] = {}
+        self._lock = threading.Lock()
+
+    def try_acquire(self, key: str) -> bool:
+        """Take one slot of `key` if it has fewer than `cap`; False (and no change) if full."""
+        with self._lock:
+            count = self._held.get(key, 0)
+            if count >= self.cap:
+                return False
+            self._held[key] = count + 1
+            return True
+
+    def release(self, key: str) -> None:
+        """Give back one slot of `key`; a key with no count is a programming error."""
+        with self._lock:
+            count = self._held.get(key, 0)
+            if count < 1:
+                raise RuntimeError("released an in-flight slot that was never taken")
+            if count == 1:
+                del self._held[key]
+            else:
+                self._held[key] = count - 1
+
+    @contextmanager
+    def slot(self, key: str) -> Iterator[bool]:
+        """`with gate.slot(key) as got:` for tests and sync code; releases only a slot it took,
+        so a refused block changes nothing and raises nothing on exit. Never held across an
+        await."""
+        got = self.try_acquire(key)
+        try:
+            yield got
+        finally:
+            if got:
+                self.release(key)
+
+    @property
+    def held(self) -> dict[str, int]:
+        """A copy of the live counts (keys with a count above zero)."""
+        with self._lock:
+            return dict(self._held)
+
+
 def _strip_port(address: str) -> str:
     address = address.strip()
     if address.startswith("["):  # [v6]:port or [v6]

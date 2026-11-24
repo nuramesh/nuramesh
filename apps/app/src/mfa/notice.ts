@@ -1,5 +1,5 @@
 /**
- * The lost-codes notice flag (spec/mfa-web W-23): the one thing the MFA screens may put in browser storage.
+ * The lost-codes notice flag: the one thing the MFA screens may put in browser storage.
  * A fixed key and the value `1`: no user, no challenge, no code. `sessionStorage` only, and every access is
  * guarded (a private window or blocked storage must not break the screen).
  */

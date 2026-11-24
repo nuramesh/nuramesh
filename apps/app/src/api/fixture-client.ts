@@ -79,7 +79,7 @@ export interface FixtureOptions {
   role?: FixtureRole;
   /** Makes the sample app ask for a sign-in (tests and screenshots of the login screens). Without it there is none. */
   signIn?: FixtureAuthOptions;
-  /** Which halt, role pause and breaker state to start from (default `running`; spec/e19 section 12). */
+  /** Which halt, role pause and breaker state to start from (default `running`; the organization safety notes section 12). */
   orgSafety?: OrgSafetyScenario;
   /**
    * Agent credentials (E2): the starting list and who is asking. A non-owner gets

@@ -24,13 +24,13 @@ type Stage =
   /** The secrets were dropped (pagehide, bfcache, five minutes hidden); `committed` says whether setup had succeeded. */
   | { k: "cleared"; committed: boolean; apply?: () => Promise<void> };
 
-/** S4 is dropped after this long with the tab hidden. S5 never is (spec/mfa-web W-6). */
+/** S4 is dropped after this long with the tab hidden. S5 never is. */
 const HIDDEN_CLEAR_MS = 5 * 60 * 1000;
 /** The server lets an enrolment challenge live at most this long (AU-1). */
 const ENROL_CHALLENGE_MAX = 300;
 
 /**
- * S2, then S4 and S5 inside the login page (spec/mfa-web): an owner whose organization requires a second step and who has
+ * S2, then S4 and S5 inside the login page: an owner whose organization requires a second step and who has
  * none enrols before getting a session. The session cookie is set by the confirm, but `AuthState` stays signed out and no
  * other tab is told until "Continue" in S5 (AU-3); while S4 or S5 shows, the page holds the session state still (AU-6).
  */

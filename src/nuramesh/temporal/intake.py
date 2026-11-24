@@ -5,7 +5,7 @@ id. The worker, which has the team's code, does the rest here: claim the request
 check its age, have the `RunBuilder` build the engine and plan, run the deny checks and call
 `begin_run` once. This is the same sequence as the light runner's (`LightRunner._begin`), with the
 same refusal codes, so a request ends the same way on either engine, except that this intake
-refuses every real plan (`real_model_not_supported`, `spec/real-models` R2: Temporal runs the fake
+refuses every real plan (`real_model_not_supported`, the real-models rules: Temporal runs the fake
 model only at launch) and skips the sandbox check (R12). No `temporalio` import: the
 function is plain and testable on a store alone.
 
@@ -85,7 +85,7 @@ def take_start_request(
             recheck=recheck,
             content=content,
             on_started=lambda uow, r: None,  # the workflow needs no job row
-            admission=TEMPORAL_ADMISSION,  # spec/real-models R2: the fake model only
+            admission=TEMPORAL_ADMISSION,  # real-models rules: the fake model only
         )
     except (
         ConcurrencyError

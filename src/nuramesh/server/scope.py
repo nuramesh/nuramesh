@@ -23,7 +23,7 @@ MAX_REMEMBERED: Final = 10_000
 """Streams whose owner ONE organization remembers (oldest forgotten first, within that
 organization only); a forgotten one is re-read. There is no cap on the number of organizations:
 a memory exists only for an organization present in the store, so the total is bounded by
-(organizations in the store) x this (ND168, spec/r120c)."""
+(organizations in the store) x this (ND168)."""
 MAX_NEW_LOOKUPS: Final = 5_000
 """Streams one request may look up for the first time (spec R9)."""
 MAX_NEW_LOOKUPS_PER_TICK: Final = 500
@@ -66,7 +66,7 @@ class OrgScope:
     up is remembered for that caller's organization only, with a fixed size cap of its own
     (`remembered`), and an entry is only ever evicted by the same organization's later lookups.
     No cap spans organizations, so one organization's traffic never changes what another is told
-    (`truncated` would otherwise show other tenants' reads, spec/r120c). A memory is created only
+    (`truncated` would otherwise show other tenants' reads). A memory is created only
     for an organization present in the store (it has an `org:` stream, or the app serves it:
     `orgs`), and for the local inspector; any other caller gets the normal answer and no memory."""
 

@@ -13,7 +13,7 @@ import { routes } from "@/app/routes";
 import { landingFor, ROLE_RULES } from "@/auth/roles";
 import { NAV_GROUPS, navGroupsFor } from "./nav";
 
-// The five role values of spec/rbac (R2.13); the app's union has three until that lands, the rows are data.
+// The five role values of the role notes (R2.13); the app's union has three until that lands, the rows are data.
 const FIVE = ["owner", "admin", "builder", "approver", "viewer"] as const;
 const labels = (role: string | null): string[] => navGroupsFor(role).flatMap((g) => g.items.map((i) => i.label));
 const ALL = NAV_GROUPS.flatMap((g) => g.items.map((i) => i.label));

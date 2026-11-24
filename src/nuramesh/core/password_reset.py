@@ -1,4 +1,4 @@
-"""Password reset (R1.41, `spec/identity/password-reset.md`): the stored shapes.
+"""Password reset (R1.41): the stored shapes.
 
 Pure (stdlib and pydantic). A reset token and an API-token revoke link are one-time link tokens
 (`nuramesh.core.identity`): only the SHA-256 of the full token is stored. A decoy has no user

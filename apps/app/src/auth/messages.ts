@@ -60,7 +60,7 @@ export function describeMfaFailure(error: unknown): LoginFailure & { startOver: 
 }
 
 export const MFA_ENROLL_MESSAGE =
-  "Your organization requires a second step and yours is not set up yet. Sign in through the API to get a challenge and set it up there (see docs/api.md), then sign in here again.";
+  "Your organization requires a second step and yours is not set up yet. Sign in through the API to get a challenge and set it up there (see the REST API guide), then sign in here again.";
 
 /** A refused setup in plain words. The server gives one answer for a wrong, used or expired token. */
 export function describeSetupFailure(error: unknown): LoginFailure {

@@ -1,4 +1,4 @@
-"""`nuramesh scorecards show` and `nuramesh autonomy ...` (E13 + E14, `spec/autonomy/README.md`).
+"""`nuramesh scorecards show` and `nuramesh autonomy ...` (E13 + E14).
 
 The commands open the team's store like `nuramesh stop` does and call the same engine functions
 as the HTTP routes. Reading needs no `--human`. A decision (`grant`, `revoke`, `ceiling set`,
@@ -110,7 +110,7 @@ def _scorecard(args: argparse.Namespace, factory: StoreFactory) -> int:
 
 def solo_report(items: list[dict[str, Any]]) -> list[str]:
     """The solo share of each proposal item, as lines for a person (SA-18 item 2 of
-    `spec/rbac/solo-approval.md`), each named by its subject and cell."""
+    the solo-approval rules), each named by its subject and cell."""
     lines: list[str] = []
     for item in items:
         subject, cell, kind = item["subject"], item["cell"], item.get("kind")

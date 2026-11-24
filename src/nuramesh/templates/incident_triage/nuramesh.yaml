@@ -1,0 +1,58 @@
+# The Incident triage template: a Triager reads the bundled sample alert and runbook and rates the
+# incident, a Responder proposes the fix, a HUMAN approves before any production action, and a
+# Postmortem writer drafts the write-up. An independent Incident reviewer (a different model)
+# checks the triage and the postmortem. Default deny: only the listed actions are allowed, and
+# nothing here can touch production by itself. Offline on the fake model.
+# Run it:  nuramesh init my-incident --template incident-triage && nuramesh try my-incident --fake --approve-as human:oncall
+version: 1
+org:
+  id: incident-triage
+  name: Incident triage team
+  roles:
+    - {id: incident-lead, name: Incident lead, kind: chief_of_staff}
+    - {id: triager, name: Triager, default_model: fake/worker-1}
+    - {id: responder, name: Responder, default_model: fake/worker-1}
+    - {id: postmortem-writer, name: Postmortem writer, default_model: fake/worker-1}
+    - {id: incident-reviewer, name: Incident reviewer, kind: verifier, default_model: fake/reviewer-1}
+  agents:
+    - {id: incident-lead, name: Incident lead, role: incident-lead}
+    - {id: triager, name: Triager, role: triager, reports_to: incident-lead}
+    - {id: responder, name: Responder, role: responder, reports_to: incident-lead}
+    - {id: postmortem-writer, name: Postmortem writer, role: postmortem-writer, reports_to: incident-lead}
+    - {id: incident-reviewer, name: Incident reviewer, role: incident-reviewer, reports_to: incident-lead, checks: [triager, postmortem-writer]}
+policies:
+  policies:
+    - role: incident-lead
+      rules:
+        - {action: delegate, decision: allow, target: "*"}
+    - role: triager
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+        - {action: use_tool, decision: deny, target: "*", reason: "triage reads the alert and runbook only"}
+    - role: responder
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+        - {action: use_tool, decision: ask, target: "rollback-*", reason: "a human approves every production change"}
+        - {action: use_tool, decision: deny, target: "delete-*", reason: "nothing is deleted during an incident"}
+    - role: postmortem-writer
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+        - {action: external_message, decision: ask, target: "*", reason: "a human approves before a postmortem is shared"}
+    - role: incident-reviewer
+      rules:
+        - {action: call_model, decision: allow, target: "fake/*"}
+        - {action: spend, decision: allow}
+budgets:
+  - {id: triager-monthly, scope: agent, scope_id: triager, limit: {amount: "5.00", currency: USD}}
+  - {id: responder-monthly, scope: agent, scope_id: responder, limit: {amount: "5.00", currency: USD}}
+  - {id: postmortem-writer-monthly, scope: agent, scope_id: postmortem-writer, limit: {amount: "5.00", currency: USD}}
+  - {id: incident-reviewer-monthly, scope: agent, scope_id: incident-reviewer, limit: {amount: "5.00", currency: USD}}
+prices:
+  prices:
+    - {provider: fake, model: worker-1, input_per_million: "3", output_per_million: "15",
+       effective_from: "2026-01-01T00:00:00Z", source: "template price list (fake model)"}
+    - {provider: fake, model: reviewer-1, input_per_million: "3", output_per_million: "15",
+       effective_from: "2026-01-01T00:00:00Z", source: "template price list (fake model)"}

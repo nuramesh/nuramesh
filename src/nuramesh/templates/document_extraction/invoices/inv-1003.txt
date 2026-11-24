@@ -1,0 +1,6 @@
+INVOICE (sample document, fictional)
+Invoice No: INV-1003
+Vendor: Lumen Office Supplies
+Date: 2026-03-15
+Description: Desk lamps and cables
+Total due: 467.25 USD

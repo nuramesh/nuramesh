@@ -4,7 +4,7 @@ import type { ApiClient } from "./client";
 import { createServerClient } from "./server-client";
 
 /**
- * The Idempotency-Key guard (spec/idempotency/README.md section 8), by behaviour: every method of the
+ * The Idempotency-Key guard (the idempotency notes section 8), by behaviour: every method of the
  * server client is driven against a fake fetch and the header the request carries is recorded. The
  * kill switch (halt, role pause) and the secret-bearing routes (credential issue and rotate, every
  * /v1/auth/ call, model keys) never send a key; the listed writes always do. The method list is read

@@ -140,7 +140,7 @@ class Price(_Frozen):
     effective_from: datetime
     source: Annotated[str, StringConstraints(strip_whitespace=True, min_length=3, max_length=500)]
     bound_endpoint: str | None = None
-    """The normalised endpoint a zero price was declared for (spec/openai-compatible 12)."""
+    """The normalised endpoint a zero price was declared for."""
     bound_epoch: int | None = Field(default=None, ge=1)
     """The ledger sequence at which the connection took the facts (endpoint, auth, key name) a
     zero price was declared for. Any later change of those facts, even one that comes back to the

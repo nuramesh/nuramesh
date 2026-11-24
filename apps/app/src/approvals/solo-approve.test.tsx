@@ -25,7 +25,7 @@ const base: Approval = {
   runId: "run-128",
   runLabel: "#128",
   taskId: "t-retries",
-  requestedAt: "2026-10-23T10:00:00Z",
+  requestedAt: new Date(Date.now() - 2 * 3600 * 1000).toISOString(),
   state: "pending",
   effect: "",
   rule: "merge: ask",

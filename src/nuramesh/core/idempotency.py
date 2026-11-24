@@ -2,7 +2,7 @@
 
 Header rules, the request fingerprint, the outcome of `begin`, the sealed-response envelope and its
 associated data, and the route-mode types. Stdlib and pydantic only. The store holds the rows, the
-engine seals, the server connects them (`spec/idempotency/README.md`).
+engine seals, the server connects them.
 """
 
 import hashlib
@@ -66,7 +66,7 @@ class Mode(StrEnum):
     HONORED = "honored"
     EXCLUDED_READONLY = "excluded_readonly"
     EXCLUDED_SECRET = "excluded_secret"
-    IGNORED = "ignored"  # the header is not read: no 400, nothing stored (mfa.md section 4)
+    IGNORED = "ignored"  # the header is not read: no 400, nothing stored
 
 
 @dataclass(frozen=True)

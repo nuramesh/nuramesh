@@ -6,11 +6,11 @@ import { Input } from "@/components/ui/input";
 
 import { totpOf } from "./messages";
 
-// Its own chunk (spec/mfa-web OQ-1 / M36): the QR library is loaded only when a code is drawn, and can be checked alone.
+// Its own chunk: the QR library is loaded only when a code is drawn, and can be checked alone.
 const QrCode = lazy(() => import("./qr-code").then((m) => ({ default: m.QrCode })));
 
 /**
- * S4 (spec/mfa-web): the QR drawn here from the `otpauth` address, the key as text behind a click, one code field.
+ * S4: the QR drawn here from the `otpauth` address, the key as text behind a click, one code field.
  * The enrolment and the typed code are React state of this page only (AU-4, W-6).
  */
 export function SetupBody({

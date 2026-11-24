@@ -48,7 +48,7 @@ SCOPE = "https://cognitiveservices.azure.com/.default"
 ENDPOINT = re.compile(r"https://[a-z0-9][a-z0-9-]{0,62}\.(openai|cognitiveservices)\.azure\.com/?")
 # Providers that authenticate with Entra ID, so a connection to them holds no secret.
 KEYLESS_PROVIDERS = ("azure-openai", "azure-ai")
-# the role the owner holds on the account of each provider (infra/foundry), named in a 403 message
+# the role the owner holds on the account of each provider, named in a 403 message
 ROLE_HINT = {
     "azure-openai": "Cognitive Services OpenAI User",
     "azure-ai": "Cognitive Services User",

@@ -1,5 +1,5 @@
 /**
- * The data hook of the first-run checklist (spec/first-run/checklist.md FR-1, FR-4, FR-11, FR-12).
+ * The data hook of the first-run checklist (the first-run checklist notes FR-1, FR-4, FR-11, FR-12).
  * It reads, it never decides: three bounded reads, polled every 5 seconds while the page shows, and one
  * browser-local preference per (organization, person).
  */

@@ -9,7 +9,7 @@ import { approversOf } from "@/model/config";
 import type { Role } from "@/model/org";
 
 import { copyFragment, type Fragment, PASTE_OFFSET, pasteFragment } from "./clipboard";
-import { addCheck, addGate, addPerson, removeCheck, removePerson, setApprovers, setRoleEvals, stripPeople } from "./config-ops";
+import { addCheck, addPerson, removeCheck, removePerson, setApprovers, setRoleEvals, stripPeople } from "./config-ops";
 import { blankDocument, type BuilderDocument, type XY } from "./document";
 import { edgeRef } from "./edge-ids";
 import { emptyHistory, type History, record, redo as redoHistory, undo as undoHistory } from "./history";
@@ -295,8 +295,10 @@ export function createBuilderStore(initial: BuilderDocument = blankDocument(), s
         let next = doc;
         let label: string;
         if (item === "rule" || item === "test_command") {
-          next = addGate(doc, role.id, item, role.name);
-          label = `Add ${item === "rule" ? "rule check" : "test command"} to ${role.name}`;
+          // A gate is written only with its settings (issue #1407): show where they are typed.
+          set({ selection: { nodes: new Set([agent.id]), edges: EMPTY }, panel: "inspector" });
+          announce(`A ${item === "rule" ? "rule check" : "test command"} needs settings: add it under Gates in the inspector for ${role.name}`);
+          return false;
         } else if (item === "eval") {
           const existing = doc.config.evals.find((e) => e.role === role.id)?.suites ?? [];
           const suite = uniqueId(`${role.id}-basics`, new Set(existing));
@@ -313,12 +315,12 @@ export function createBuilderStore(initial: BuilderDocument = blankDocument(), s
             verifier = next.org.agents.find((a) => a.id === added.id);
           }
           if (verifier === undefined) return false;
+          // The verification line is drawn here; the verifier gate is added under Gates, with its settings.
           next = addCheck(next, verifier.id, agent.id);
-          next = addGate(next, role.id, "verifier", role.name);
           label = `Add independent verifier ${verifier.name} for ${agent.name}`;
         }
         const changed = commit(label, next);
-        if (changed) announce(label);
+        if (changed) announce(item === "verifier" ? `${label}; add the verifier gate with its settings under Gates` : label);
         return changed;
       },
 

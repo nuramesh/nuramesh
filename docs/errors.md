@@ -5,8 +5,8 @@ the tail of the `type` urn), the HTTP `status`, and a `detail` written for peopl
 `code`, never on the `detail`. This page lists every code the server (and anything it calls in
 the engine and core) can answer with, what it means and how to fix it.
 
-This page is kept current by `tests/test_error_catalogue.py`: it scans the source with
-`scripts/error_sites.py` and fails when the code raises a code that is not listed here, or this
+This page is kept current by an internal test: it scans the source with
+an internal script and fails when the code raises a code that is not listed here, or this
 page lists a code nobody raises. Trigger: the test runs in CI.
 
 To add a code: raise it with literal status and code arguments, then add one row below (the
@@ -34,7 +34,7 @@ codes are sorted). A status of `any` means the status of the underlying HTTP err
 | `bad_request` | 400 | A dashboard request carries a query parameter that is not allowed (an `organization` or `org` parameter: the organization is always the session's, never an input). | Remove the parameter; sign in as a member of the organization you want. |
 | `bad_window` | 400 | A dashboard time window is not valid: a timestamp that does not parse or is out of range, or `from` not before `to` (an empty window is refused too). | Send ISO 8601 UTC instants with `from` not after `to`. |
 | `breaker_tripped` | 409 | The breaker is tripped, so it cannot be disabled. | Reset the breaker first, then disable it. |
-| `busy` | 429,503 | The server is busy (hashing passwords, computing dashboards, verifying ledgers (at most 8 at once), or sending mail: 503 when the mail slots are taken); the request was not tried. | Retry after the `Retry-After` seconds. |
+| `busy` | 429,503 | The server is busy (hashing passwords, computing dashboards, verifying ledgers (at most 8 at once) or too many of your verifications are running (at most 2 at once), or sending mail: 503 when the mail slots are taken); the request was not tried. | Retry after the `Retry-After` seconds. |
 | `calibration_unavailable` | 503 | A stored calibration result of the organization is unreadable, so the route refuses to show a partial answer. | Retry later; if it persists, the ledger needs inspection. |
 | `challenge_invalid` | 401 | The sign-in step is unknown, used, expired or does not match; one answer for every cause. | Sign in again with your password. |
 | `conflict` | 409 | The data changed while the request ran. | Read the current state and retry. |
@@ -156,6 +156,7 @@ codes are sorted). A status of `any` means the status of the underlying HTTP err
 | `self_approval` | 403 | You started this work (or issued the token that did), so you cannot approve it. Nothing was recorded. | Ask another person with the decide permission to approve it. |
 | `session_invalid` | 401 | You are not signed in, or the session expired. | Sign in again. |
 | `shipped_prices_invalid` | 503 | The price list that ships with NuraMesh failed its checks, so no price was guessed and the request was refused. | Report it to the operator: the installation is damaged or modified. Reinstall the same version, then try again. |
+| `shutting_down` | 503 | The server is shutting down, so the off-loop ledger verification could not be started. | Retry after the restart. |
 | `solo_rate_limited` | 429 | You approved alone too many times in the last hour (30 by default; the configuration can only lower it). Nothing was recorded. | Wait the seconds in `Retry-After`. A reject is never limited. |
 | `stale_round` | 409 | The decision is for an earlier round of the gate. | Fetch the task and decide the current round. |
 | `step_up_required` | 403 | A solo approval of a high-risk action needs a fresh proof: your sign-in or a password confirmation within the last 10 minutes. Nothing was recorded. | Sign in again or confirm your password (`POST /v1/auth/password/confirm`), then approve again. |

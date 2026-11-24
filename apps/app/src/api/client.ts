@@ -287,7 +287,7 @@ export interface BreakersApi {
 }
 
 /**
- * Per-agent credentials (E2, spec/agent-identity section 7). Owner only: any other caller gets
+ * Per-agent credentials (E2, the agent identity notes section 7). Owner only: any other caller gets
  * `NotAllowedError` (`forbidden`), and the screens show "Only an owner can manage agent access.".
  * Issue and rotate answer `ConflictError` `agent_suspended` while the organization is halted or the
  * agent's role is paused, and `credential_limit` at the maximum; revoke always works.
@@ -306,7 +306,7 @@ export interface AgentCredentialsApi {
 }
 
 /**
- * The three bounded reads of the first-run checklist (spec/first-run/checklist.md FR-4). Each returns the
+ * The three bounded reads of the first-run checklist (the first-run checklist notes FR-4). Each returns the
  * server's raw body (the checklist parses it and treats any other shape as unknown); a failure rejects.
  */
 export interface FirstRunReads {

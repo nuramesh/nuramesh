@@ -1,6 +1,6 @@
 /**
  * Graph rules for an organization: the same rules, codes, severities and subjects as
- * `validate_org` in `src/nuramesh/core/org.py`. The shared fixtures in `spec/org-validation/`
+ * `validate_org` in `src/nuramesh/core/org.py`. The shared fixtures
  * run against both, so the canvas and the backend can't disagree about what is valid.
  */
 import type { Agent, Role } from "./org";

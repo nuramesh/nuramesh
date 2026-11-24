@@ -12,6 +12,15 @@ test.beforeEach(async ({ page }) => {
 
 const gateCount = (page: Page) => page.getByTestId("gate-diamond");
 
+/** Adds a gate to the selected agent's role from the inspector: a kind, then its settings (a gate is never added without them). */
+async function addGate(page: Page, kind: string, settings: string): Promise<void> {
+  await page.getByRole("combobox", { name: "Add a gate" }).selectOption({ label: kind });
+  await expect(page.getByRole("button", { name: "Add gate" })).toBeDisabled();
+  await page.getByRole("textbox", { name: `Settings for the ${kind} (YAML)` }).fill(settings);
+  await page.getByRole("button", { name: "Add gate" }).click();
+  await expect(page.getByRole("button", { name: `Remove ${kind}` })).toBeVisible();
+}
+
 test("the header shows the file, the Git ref and that the organization is valid", async ({ page }) => {
   await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText("example-org");
   await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText("Dev team");
@@ -36,19 +45,22 @@ test("nodes show model chips (dashed for open weights), gates are diamonds with 
   await node(page, "dana").click();
   await page.getByRole("combobox", { name: "Model" }).fill("meta/llama-3.1-70b");
   await expect(node(page, "dana").getByTestId("model-chip")).toHaveAttribute("data-open-weight", "true");
-  // dana (3 gates), theo (1) and omar (1)
-  await expect(gateCount(page)).toHaveCount(3);
-  await expect(gateCount(page).first()).toContainText(/\d/);
+  // a template brings no gates; one added for the developer role shows on the one developer
+  await expect(gateCount(page)).toHaveCount(0);
+  await addGate(page, "Independent verifier", "verifier: reviewer");
+  await expect(gateCount(page)).toHaveCount(1);
+  await expect(gateCount(page).first()).toContainText("1");
 });
 
-test("drags a check from the palette onto an agent", async ({ page }) => {
-  await expect(gateCount(page)).toHaveCount(3);
+test("drags a check from the palette onto an agent: the gate is added in the inspector, with its settings", async ({ page }) => {
+  await expect(gateCount(page)).toHaveCount(0);
   await page.getByRole("button", { name: /^Add Rule check/ }).dragTo(node(page, "rhea"));
-  await expect(gateCount(page)).toHaveCount(4);
-  await node(page, "rhea").click();
-  // the reviewer's gate list now has the rule check, listed in the inspector
+  // the drop writes no gate (it would have no settings); it opens the reviewer's inspector
+  await expect(gateCount(page)).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Gates" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Remove Rule check" })).toBeVisible();
+  await addGate(page, "Rule check", 'rules:\n  - criterion: cited\n    check: {type: contains, value: "Evidence:"}');
+  await expect(gateCount(page)).toHaveCount(1);
+  await expect(page.getByTestId("validity-chip")).toHaveText("Valid · in sync with YAML");
 });
 
 test("connects a human approver to an agent with an approval line, and a verifier to the work it checks", async ({ page }) => {
@@ -96,6 +108,8 @@ test("applies a policy preset and changes permissions and gates", async ({ page 
   await page.getByRole("button", { name: "Add rule", exact: true }).click();
   await expect(page.getByRole("combobox", { name: "Rule 3 decision" })).toBeVisible();
   // gates are ordered cheapest first: a verifier before a test command is a problem, and moving it back fixes it
+  await addGate(page, "Independent verifier", "verifier: reviewer");
+  await addGate(page, "Test command", "image: registry.example/tests@sha256:" + "a".repeat(64) + "\ncommand: [pytest, -q]");
   await page.getByRole("button", { name: "Move Independent verifier up" }).click();
   await expect(page.getByTestId("validity-chip")).toHaveText(/1 problem/);
   await page.getByRole("button", { name: "Move Independent verifier down" }).click();

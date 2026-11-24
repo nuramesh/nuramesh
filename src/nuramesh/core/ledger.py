@@ -85,7 +85,7 @@ class CostBasis(StrEnum):
 
 
 class EventType(StrEnum):
-    """What happened. Payload fields per type are documented in docs/architecture.md §4.6."""
+    """What happened. Payload fields per type are documented with the ledger event types."""
 
     RUN_STARTED = "run.started"
     RUN_PAUSED = "run.paused"
@@ -213,7 +213,7 @@ class EventType(StrEnum):
     OPERATOR_RECOVERY_CODE_USED = "operator.recovery_code_used"
     MINTER_ANCHOR_RECORDED = "minter.anchor_recorded"
     MINTER_ANCHOR_CONFLICT = "minter.anchor_conflict"
-    # Verified Merge (spec/verified-merge LA-1; actors per type in core.vm_events, F-8).
+    # Merge Gate (spec LA-1; actors per type in core.vm_events, F-8).
     # Additive: payloads hold ids, hashes, states, reason codes and times only (ND60).
     MERGE_EVIDENCE_RECORDED = "merge.evidence_recorded"
     MERGE_REVIEW_REQUESTED = "merge.review_requested"
@@ -379,7 +379,7 @@ def event_content(
     cost_basis: str | None,
     prev_hash: str,
 ) -> dict[str, Any]:
-    """The canonical dictionary an event's hash is computed over (spec: docs/architecture.md)."""
+    """The canonical dictionary an event's hash is computed over."""
     return {
         "actor": actor,
         "at": format_time(at),
@@ -442,7 +442,7 @@ def next_event(
     else:
         raise ValueError(f"unknown event type {type!r}; writers must use EventType")
     if type_name.startswith("merge."):
-        # Verified Merge F-8 / GC-13: who may append which `merge.*` event is enforced here, on
+        # Merge Gate F-8 / GC-13: who may append which `merge.*` event is enforced here, on
         # the one append path, so no store or route can write a verdict as another actor.
         # Local import: `vm_events` imports `EventType` from this module.
         from nuramesh.core.vm_events import check_merge_actor

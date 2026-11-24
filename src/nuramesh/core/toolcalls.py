@@ -1,4 +1,4 @@
-"""The pure rules of the adapter tool-call contract (`spec/adapters/README.md`, S4).
+"""The pure rules of the adapter tool-call contract (S4).
 
 What every adapter and both transports of the seam (`nuramesh.adapters._toolcheck`) share and
 what needs no store: the tool name (AD-7), the call id (AD-8), which arguments are readable
@@ -72,6 +72,11 @@ class ReasonCode(StrEnum):
     GUARDED_RUN_STOPPED = "guarded_run_stopped"
     PATH_OUTSIDE_WORKSPACE = "path_outside_workspace"
     SHELL_TEXT = "shell_text"
+    # `task.refused` codes of a guarded LangGraph run (#971, LG-1 and LG-3): never a
+    # `policy.decided` reason, because no call exists that could be decided
+    TOOL_TOKEN_INVALID = "tool_token_invalid"
+    TOOL_CALLS_UNANSWERED = "tool_calls_unanswered"
+    TOOL_MESSAGE_ORPHAN = "tool_message_orphan"
 
 
 _SOFT = frozenset(
@@ -106,6 +111,9 @@ _STOP = frozenset(
         ReasonCode.CREDENTIAL_REJECTED,
         ReasonCode.ROLE_MISMATCH,
         ReasonCode.MODEL_MISMATCH,
+        ReasonCode.TOOL_TOKEN_INVALID,
+        ReasonCode.TOOL_CALLS_UNANSWERED,
+        ReasonCode.TOOL_MESSAGE_ORPHAN,
     }
 )
 _NEVER_SHOWN = frozenset({ReasonCode.ALLOW, ReasonCode.SHELL_TEXT})
@@ -321,7 +329,7 @@ class ManifestError(ValueError):
 class ManifestEntry:
     """One tool or handoff the framework could dispatch: its dispatch name and its `schema_hash`,
     or `None` when the framework exposes no schema for it (AD-14). `network` declares the tool
-    network-capable (C-3 of `spec/network-guard`, #1119): only a declared tool may be handed the
+    network-capable (C-3, #1119): only a declared tool may be handed the
     guarded network client; an undeclared one is governed by its name only (AD-12)."""
 
     name: str

@@ -4,13 +4,12 @@
  * (tests/test_app_config_roundtrip.py) takes that same file through `nuramesh validate` and a
  * fake-model run, so the two tests together are the round trip app -> CLI (issue #1326).
  */
-import { parse, stringify } from "yaml";
 import { describe, expect, it } from "vitest";
 
 import type { Role } from "@/model/org";
 
 import { addCheck, addGate, addRule, setAgentBudget } from "./config-ops";
-import { agentSnippet, applyAgentSnippet, exportYaml, importOrgYaml } from "./config-yaml";
+import { exportYaml, importOrgYaml } from "./config-yaml";
 import { blankDocument, type BuilderDocument } from "./document";
 import { computeIssues } from "./issues";
 import { addAgent, updateOrg, updateRole } from "./ops";
@@ -24,7 +23,7 @@ function palette(id: string): Role {
   return role;
 }
 
-/** What a gate needs to run, typed into the inspector's YAML tab (the form adds a gate without it). */
+/** What a gate needs to run, typed into the add-gate form. */
 const GATE_SETTINGS: Record<string, Record<string, unknown>> = {
   rule: { rules: [{ criterion: "change-made", check: { type: "contains", value: "Done:" } }] },
   verifier: { verifier: "reviewer", require_different_model: true },
@@ -52,15 +51,11 @@ function buildCheckedTeam(): BuilderDocument {
   // budgets
   doc = setAgentBudget(doc, developer.id, "1.00");
   doc = setAgentBudget(doc, reviewer.id, "1.00");
-  // gates for the developer's work: a cheap rule first, then the independent verifier
-  doc = addGate(doc, "developer", "verifier", "Developer");
-  doc = addGate(doc, "developer", "rule", "Developer");
-  // the gates' settings, in the YAML tab of the developer
-  const slice = parse(agentSnippet(doc, developer.id)) as { gates: { id: string; config?: unknown }[] };
-  for (const gate of slice.gates) gate.config = GATE_SETTINGS[gate.id];
-  const edited = applyAgentSnippet(doc, developer.id, stringify(slice));
-  if (!edited.ok) throw new Error(edited.errors.join("; "));
-  return edited.doc;
+  // gates for the developer's work, each added with its settings (a gate is never written without them):
+  // a cheap rule first, then the independent verifier
+  doc = addGate(doc, "developer", "verifier", "Developer", GATE_SETTINGS.verifier);
+  doc = addGate(doc, "developer", "rule", "Developer", GATE_SETTINGS.rule);
+  return doc;
 }
 
 describe("a team built by hand in the builder", () => {

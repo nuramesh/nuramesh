@@ -9,7 +9,7 @@ import { CSP_POLICY, injectCspMeta } from "./csp";
 
 const src = fileURLToPath(new URL("./src", import.meta.url));
 const repoRoot = fileURLToPath(new URL("../..", import.meta.url));
-// The brand folder at the repository root (shared with apps/web): see docs/design/DESIGN-TOKENS.md.
+// The brand folder at the repository root (shared with apps/web):.
 const brand = fileURLToPath(new URL("../../brand", import.meta.url));
 
 // `nuramesh serve` answers only requests that name its own loopback address (no CORS, no
@@ -36,7 +36,7 @@ export default defineConfig({
   },
   // Tests read shared fixtures (spec/), the design doc and the shared logo from the repository root.
   // Bound to loopback on purpose: with the forward in place, any other host would hand the server's
-  // loopback-only API to the network (docs/app.md). Do not pass --host.
+  // loopback-only API to the network (see the app guide on the docs site). Do not pass --host.
   server: { fs: { allow: [repoRoot] }, host: "127.0.0.1", proxy: forward },
   preview: { host: "127.0.0.1", proxy: forward, headers: { "Content-Security-Policy": CSP_POLICY } },
   build: {

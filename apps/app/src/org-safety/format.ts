@@ -1,4 +1,4 @@
-/** Display text for the kill switch, role pause and breakers (spec/e19/README.md section 12). Pure functions. */
+/** Display text for the kill switch, role pause and breakers (the organization safety notes section 12). Pure functions. */
 import type { BreakerAction, BreakerRow, BreakerSignal, DisableReason, OrgRole, OrgStatus } from "@/api/types";
 
 const plural = (n: number, unit: string): string => `${String(n)} ${unit}${n === 1 ? "" : "s"}`;
@@ -80,7 +80,7 @@ export function haltedLine(status: OrgStatus, now: Date = new Date()): string {
   return `${status.by ?? "Someone"} halted it at ${time}.`;
 }
 
-/** The D7 report line (spec/rbac/solo-approval.md SA-18 item 4), shown whenever the count is above 0; null otherwise. */
+/** The D7 report line (the solo approval notes SA-18 item 4), shown whenever the count is above 0; null otherwise. */
 export function soloRemovalLine(count: number): string | null {
   return count > 0 ? `solo approvals within 7 days of an approver being removed: ${String(count)}` : null;
 }

@@ -1,4 +1,4 @@
-"""Renamed routes of R1.43 (spec/cli-api-naming section 4 and 8): the old path is served by the
+"""Renamed routes of R1.43: the old path is served by the
 same handler for one release and answers with `Deprecation` (RFC 9745), `Sunset` (RFC 8594) and
 `Link: <new>; rel="successor-version"`. A new path carries none of the three.
 

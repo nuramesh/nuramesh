@@ -1,4 +1,4 @@
-"""The API token endpoints (R1.22 PR 3; `docs/architecture-platform.md` §11).
+"""The API token endpoints (R1.22 PR 3).
 
 An **owner in a human session** creates, lists and revokes tokens (the `admin` rule). The secret
 is in the creation answer only (`Cache-Control: no-store`); listing and revoking show the token's

@@ -1,4 +1,4 @@
-// M36 (spec/mfa-web OQ-1): the production build's QR chunk must hold no network API name.
+// M36: the production build's QR chunk must hold no network API name.
 // Run `pnpm build` first. The QR library is loaded by a dynamic import, so it has its own chunk: the one that holds
 // the drawing component (its "mfa-qr" test id). The bare word "http" is not searched (it would match
 // comments and licence text).

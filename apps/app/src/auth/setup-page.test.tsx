@@ -16,7 +16,7 @@ afterEach(() => {
   window.history.replaceState(null, "", "/");
 });
 
-// Case S0-44 of spec/rbac/solo-approval.md.
+// Case S0-44 of the solo approval notes.
 describe("the setup page and the one-time link (S0-44)", () => {
   it("reads the token from the fragment, removes the fragment and fills the token field", async () => {
     window.history.replaceState(null, "", `/setup#token=${TOKEN}`);

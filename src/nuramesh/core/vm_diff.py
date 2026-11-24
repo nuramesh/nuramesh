@@ -1,5 +1,5 @@
-"""Verified Merge change hash: the `diff-2` normaliser, with the frozen `diff-1` kept (spec
-`spec/verified-merge` section 4 "Change hash", Fable fix F-2, #944).
+"""Merge Gate change hash: the `diff-2` normaliser, with the frozen `diff-1` kept (spec
+spec section 4 "Change hash", Fable fix F-2, #944).
 
 The **change hash** identifies a pull request's own change independently of where its lines sit.
 The caller (engine: the collector, the signer and the offline verifier, never this module) renders

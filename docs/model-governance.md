@@ -30,7 +30,7 @@ Pausing, retiring, disabling and disconnecting only restrict, so the CLI has the
 | --- | --- | --- |
 | CLI | `nuramesh models catalog\|assignments\|connections\|check` | `pause`, `retire`, `disable`, `disconnect`, `test` |
 | API | `GET /v1/models/catalog`, `/assignments`, `/connections`, `/resolution` (`docs/api.md`) | admin routes: entries, edit, approve, pause, retire, remove, prices, regions, assignments, connections (PUT, remove, test) |
-| App | `/models/catalog`, `/assignments`, `/connections`, `/resolution` (an internal document) | the same actions, each with a required reason |
+| App | `/models/catalog`, `/assignments`, `/connections`, `/resolution` | the same actions, each with a required reason |
 
 `nuramesh models check --data customer --team <team>` is the read-only "would this run start?" answer; it exits 3 with the block texts (4 when the organization is halted).
 
@@ -40,7 +40,7 @@ A run whose provider is a fake or plain one (not a connection-based provider) ca
 
 ## The halt is real
 
-The organization halt and role pause (E19) are wired through every model path. `call_model` checks them first (a halted org or a paused role writes `model.blocked` and raises before the resolver runs), the start stage and the connection test read the same state through `HaltWatch`, and a halt state that cannot be read counts as a halt (fail closed). `cli_models.org_halted`, `create_app(halted=None)` and `Governance(halted=None)` all default to the real watch; `tests/test_halt_seam_stubs.py` keeps a never-halted stub from coming back. Exit 4 for a halt and for a paused role: `docs/cli.md`.
+The organization halt and role pause (E19) are wired through every model path. `call_model` checks them first (a halted org or a paused role writes `model.blocked` and raises before the resolver runs), the start stage and the connection test read the same state through `HaltWatch`, and a halt state that cannot be read counts as a halt (fail closed). `cli_models.org_halted`, `create_app(halted=None)` and `Governance(halted=None)` all default to the real watch; an internal test keeps a never-halted stub from coming back. Exit 4 for a halt and for a paused role: `docs/cli.md`.
 
 ## The Anthropic direct provider (R1.14b, the internal specification, T239)
 
@@ -66,8 +66,8 @@ No command here puts a key on a command line or into the environment (spec r114b
 
 ### Stored keys (R1.14c)
 
-An owner can instead store the Anthropic key in the server's secret store (`NURAMESH_SECRET_DIR` for self-hosted; a vault adapter exists in the enterprise layer): set, rotate and revoke through the owner-only key routes, never returned, never in the ledger (fingerprints only). Steps, states and recovery: https://docs.nuramesh.com/guides/model-connections/.
+An owner can instead store the Anthropic key in the server's secret store (`NURAMESH_SECRET_DIR` for self-hosted; a vault adapter exists in the enterprise layer): set, rotate and revoke through the owner-only key routes, never returned, never in the ledger (fingerprints only).
 
 ## Not built (stated, not silent)
 
-A secret store for hosted use (the Anthropic key file is self-hosted only), roles other than the owner, and stripping connection details from the resolution report for a lower role. `infra/staging/main.tf` still sets `AZURE_OPENAI_ENDPOINT`, which NuraMesh no longer reads; removing it is a Terraform change for the owner.
+A secret store for hosted use (the Anthropic key file is self-hosted only), roles other than the owner, and stripping connection details from the resolution report for a lower role.

@@ -20,7 +20,7 @@ export const ROLE_RULES: Record<string, RoleRule> = {
 
 const VIEWER: RoleRule = { landing: "/runs", menu: "viewer" };
 
-/** An unknown role value is a viewer (spec/rbac); no signed-in person at all keeps today's `/builder`. */
+/** An unknown role value is a viewer (the role notes); no signed-in person at all keeps today's `/builder`. */
 export function ruleFor(role: string | null): RoleRule {
   if (role === null) return { landing: "/builder", menu: "all" };
   return Object.hasOwn(ROLE_RULES, role) ? (ROLE_RULES[role] ?? VIEWER) : VIEWER;

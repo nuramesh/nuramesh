@@ -1,5 +1,5 @@
 /**
- * Pure logic of the first-run checklist (spec/first-run/checklist.md FR-1 to FR-7): who sees it and which
+ * Pure logic of the first-run checklist (the first-run checklist notes FR-1 to FR-7): who sees it and which
  * steps are done. "Done" comes only from what the server answered (FR-4); nothing here stores or guesses it.
  */
 import type { AuthState } from "@/auth/types";

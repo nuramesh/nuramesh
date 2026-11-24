@@ -1,4 +1,4 @@
-"""Verified Merge signer keys in the engine (spec `spec/verified-merge` SV-4, SV-6, SV-14, GT-17,
+"""Merge Gate signer keys in the engine (spec `spec/verified-merge` SV-4, SV-6, SV-14, GT-17,
 GT-20 a, LA-2, LY-1; Fable fixes F-17 strict verification, F-12 throwaway shadow keys).
 
 Custody option A: the signer's private key is a 64-hex Ed25519 seed in a file with mode **0400**
@@ -59,7 +59,7 @@ SIGNER_KEY_FILE_REASONS = (
     "not a 32-byte hex seed",
     "reviewer id is not a plain name",
 )
-_PREFIX = "verified-merge signer: the key file is not usable ("
+_PREFIX = "merge-gate signer: the key file is not usable ("
 SIGNER_KEY_SUFFIX = ".seed"
 _REVIEWER_FILE_NAME = re.compile(r"[a-z0-9][a-z0-9_-]{0,63}")
 
@@ -153,7 +153,7 @@ class SignerKeyError(Exception):
 
 def _require_crypto() -> None:
     if Ed25519PrivateKey is None:  # pragma: no cover
-        raise SignerKeyError("verified-merge signer: install nuramesh[anchors] for Ed25519")
+        raise SignerKeyError("merge-gate signer: install nuramesh[anchors] for Ed25519")
 
 
 def _raw_public(private: Ed25519PrivateKey) -> bytes:
@@ -350,7 +350,7 @@ def generate_signer_key_file(path: str) -> tuple[str, str]:
         descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o400)
     except FileExistsError:
         raise SignerKeyError(
-            "verified-merge signer: the key file exists; refusing to overwrite a key"
+            "merge-gate signer: the key file exists; refusing to overwrite a key"
         ) from None
     except OSError:
         raise SignerKeyError(_PREFIX + "cannot be read)") from None

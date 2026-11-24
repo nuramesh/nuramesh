@@ -1,4 +1,4 @@
-"""One classifier for IP addresses an agent's network action may reach (spec/network-guard, NG-1 to
+"""One classifier for IP addresses an agent's network action may reach (NG-1 to
 NG-3, NG-10 (d)). Pure: stdlib `ipaddress` only, no I/O.
 
 The class of an address comes from a fixed table of networks written below. It never asks the

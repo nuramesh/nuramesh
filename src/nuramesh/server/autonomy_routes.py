@@ -1,4 +1,4 @@
-"""Earned autonomy and agent scorecards over HTTP (E13 + E14, `spec/autonomy/README.md`).
+"""Earned autonomy and agent scorecards over HTTP (E13 + E14).
 
 - Reads: `GET /v1/scorecards` (read), `GET /v1/autonomy/grants` (read),
   `GET /v1/autonomy/proposals` (decide: owner and approver, a viewer is 403).

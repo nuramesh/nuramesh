@@ -1,4 +1,4 @@
-"""Verified Merge wire formats (spec `spec/verified-merge` section 6; SV-4, SV-14, QA-8; Fable
+"""Merge Gate wire formats (spec section 6; SV-4, SV-14, QA-8; Fable
 fixes F-2 `pins`, F-7 `holder`, F-8 formats 6.8 to 6.10, F-11 `roles`, F-15 `repo_id`).
 
 Every object is canonical JSON as the ledger writes it (`core.canonical`, LCF-1: UTF-16 key

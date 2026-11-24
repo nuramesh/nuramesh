@@ -43,6 +43,49 @@
     ]
   },
   {
+    "id": "data-analysis",
+    "roles": [
+      {
+        "id": "analysis-lead",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "analyst",
+        "kind": "worker"
+      },
+      {
+        "id": "summarizer",
+        "kind": "worker"
+      },
+      {
+        "id": "number-checker",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "analysis-lead",
+        "role": "analysis-lead",
+        "reports_to": null
+      },
+      {
+        "id": "analyst",
+        "role": "analyst",
+        "reports_to": "analysis-lead"
+      },
+      {
+        "id": "summarizer",
+        "role": "summarizer",
+        "reports_to": "analysis-lead"
+      },
+      {
+        "id": "number-checker",
+        "role": "number-checker",
+        "reports_to": "analysis-lead"
+      }
+    ]
+  },
+  {
     "id": "dev-team",
     "roles": [
       {
@@ -138,6 +181,101 @@
     ]
   },
   {
+    "id": "document-extraction",
+    "roles": [
+      {
+        "id": "extraction-lead",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "extractor",
+        "kind": "worker"
+      },
+      {
+        "id": "exporter",
+        "kind": "worker"
+      },
+      {
+        "id": "invoice-checker",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "extraction-lead",
+        "role": "extraction-lead",
+        "reports_to": null
+      },
+      {
+        "id": "extractor",
+        "role": "extractor",
+        "reports_to": "extraction-lead"
+      },
+      {
+        "id": "exporter",
+        "role": "exporter",
+        "reports_to": "extraction-lead"
+      },
+      {
+        "id": "invoice-checker",
+        "role": "invoice-checker",
+        "reports_to": "extraction-lead"
+      }
+    ]
+  },
+  {
+    "id": "incident-triage",
+    "roles": [
+      {
+        "id": "incident-lead",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "triager",
+        "kind": "worker"
+      },
+      {
+        "id": "responder",
+        "kind": "worker"
+      },
+      {
+        "id": "postmortem-writer",
+        "kind": "worker"
+      },
+      {
+        "id": "incident-reviewer",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "incident-lead",
+        "role": "incident-lead",
+        "reports_to": null
+      },
+      {
+        "id": "triager",
+        "role": "triager",
+        "reports_to": "incident-lead"
+      },
+      {
+        "id": "responder",
+        "role": "responder",
+        "reports_to": "incident-lead"
+      },
+      {
+        "id": "postmortem-writer",
+        "role": "postmortem-writer",
+        "reports_to": "incident-lead"
+      },
+      {
+        "id": "incident-reviewer",
+        "role": "incident-reviewer",
+        "reports_to": "incident-lead"
+      }
+    ]
+  },
+  {
     "id": "kanban",
     "roles": [
       {
@@ -181,6 +319,63 @@
     ]
   },
   {
+    "id": "multi-framework-org",
+    "roles": [
+      {
+        "id": "chief",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "team-lead",
+        "kind": "worker"
+      },
+      {
+        "id": "researcher",
+        "kind": "worker"
+      },
+      {
+        "id": "graph-drafter",
+        "kind": "worker"
+      },
+      {
+        "id": "central-reviewer",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "chief",
+        "role": "chief",
+        "reports_to": null
+      },
+      {
+        "id": "research-lead",
+        "role": "team-lead",
+        "reports_to": "chief"
+      },
+      {
+        "id": "researcher",
+        "role": "researcher",
+        "reports_to": "research-lead"
+      },
+      {
+        "id": "ops-lead",
+        "role": "team-lead",
+        "reports_to": "chief"
+      },
+      {
+        "id": "graph-drafter",
+        "role": "graph-drafter",
+        "reports_to": "ops-lead"
+      },
+      {
+        "id": "central-reviewer",
+        "role": "central-reviewer",
+        "reports_to": "chief"
+      }
+    ]
+  },
+  {
     "id": "qa",
     "roles": [
       {
@@ -220,6 +415,49 @@
         "id": "test-reviewer",
         "role": "test-reviewer",
         "reports_to": "qa-lead"
+      }
+    ]
+  },
+  {
+    "id": "research-report",
+    "roles": [
+      {
+        "id": "research-lead",
+        "kind": "chief_of_staff"
+      },
+      {
+        "id": "researcher",
+        "kind": "worker"
+      },
+      {
+        "id": "writer",
+        "kind": "worker"
+      },
+      {
+        "id": "fact-checker",
+        "kind": "verifier"
+      }
+    ],
+    "agents": [
+      {
+        "id": "research-lead",
+        "role": "research-lead",
+        "reports_to": null
+      },
+      {
+        "id": "researcher",
+        "role": "researcher",
+        "reports_to": "research-lead"
+      },
+      {
+        "id": "writer",
+        "role": "writer",
+        "reports_to": "research-lead"
+      },
+      {
+        "id": "fact-checker",
+        "role": "fact-checker",
+        "reports_to": "research-lead"
       }
     ]
   },

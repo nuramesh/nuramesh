@@ -32,7 +32,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
   }, [userId, queries]);
   const lastKnown = useRef<string | null>(null);
   useEffect(() => {
-    // The lost-codes flag (spec/mfa-web W-23) never reaches the next person: a sign-out, or another person, drops it.
+    // The lost-codes flag never reaches the next person: a sign-out, or another person, drops it.
     if (signedOut || (userId !== null && lastKnown.current !== null && lastKnown.current !== userId)) clearCodesUnsaved();
     if (userId !== null) lastKnown.current = userId;
   }, [signedOut, userId]);
@@ -40,7 +40,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
     if (signedOut) queries.clear(); // the next person must not see this one's data
   }, [signedOut, queries]);
 
-  // A screen is showing secrets (spec/mfa-web AU-6): it stays mounted until it lets go; the real state is acted on then.
+  // A screen is showing secrets: it stays mounted until it lets go; the real state is acted on then.
   // (the page sits in a keyed Fragment in BOTH returns, so it is matched by key, not by position: adding a notice never
   // remounts it when a hold starts or ends)
   const page = <Fragment key="page">{children}</Fragment>;

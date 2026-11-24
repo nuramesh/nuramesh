@@ -1,8 +1,8 @@
 # ruff: noqa: E501
-"""The `Examples:` block of every command's `--help` (R1.43, `spec/cli-api-naming` section 6.5),
+"""The `Examples:` block of every command's `--help` (R1.43),
 and the finishing pass over the parser tree: the flags every command accepts (`--dry-run`,
 `--org`) and the examples. One line per example, 1 to 3 lines per command, taken from
-`docs/cli.md`."""
+the CLI guide on the docs site."""
 
 import argparse
 
@@ -82,7 +82,11 @@ EXAMPLES: dict[str, tuple[str, ...]] = {
     "otel rotate-pseudonym-key": ("nuramesh otel rotate-pseudonym-key",),
     "email status": ("nuramesh email status",),
     "doctor": ("nuramesh doctor", "nuramesh doctor --port 9000 --output json"),
-    "demo": ("nuramesh demo", "nuramesh demo --dir my-demo --allow-unsandboxed"),
+    "demo": (
+        "nuramesh demo",
+        "nuramesh demo --dir my-demo --allow-unsandboxed",
+        "nuramesh demo --stack --port 8765",
+    ),
     "email check": ("nuramesh email check --to you@example.com --team my-team",),
     "serve": ("nuramesh serve my-team", "nuramesh serve my-team --port 9000"),
     "worker": ("nuramesh worker my-team --address localhost:7233",),

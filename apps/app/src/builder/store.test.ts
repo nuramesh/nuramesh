@@ -193,6 +193,24 @@ describe("builder store", () => {
     expect(s().announcement.text).toMatch(/Couldn't save the template/);
   });
 
+  it("a check from the palette never writes a gate without settings (issue #1407)", () => {
+    const store = createBuilderStore(blankDocument());
+    const s = () => store.getState();
+    s().addAgentFromRole(cos);
+    const worker = s().addAgentFromRole(dev);
+    for (const item of ["rule", "test_command"] as const) {
+      expect(s().addCheckItem(item, worker)).toBe(false);
+      expect(s().doc.config.presets).toEqual({ policy: [], gate: [], assignments: [] });
+      expect(s().announcement.text).toMatch(/needs settings: add it under Gates in the inspector/);
+      expect([...s().selection.nodes]).toEqual([worker]);
+    }
+    // an independent verifier still draws its verification line; the gate waits for its settings
+    expect(s().addCheckItem("verifier", worker)).toBe(true);
+    expect(s().doc.org.agents.some((a) => a.checks.includes(worker))).toBe(true);
+    expect(s().doc.config.presets).toEqual({ policy: [], gate: [], assignments: [] });
+    expect(s().announcement.text).toMatch(/add the verifier gate with its settings under Gates/);
+  });
+
   it("edge ids map to the reporting agent", () => {
     expect(reportOfEdge(edgeId("dev-1"))).toBe("dev-1");
   });

@@ -1,4 +1,4 @@
-"""Model epochs, the floor and honouring a grant (spec/model-change sections 2 to 5, ND391).
+"""Model epochs, the floor and honouring a grant (ND391).
 
 Pure derivations from the organization stream's entries; nothing here writes or reads a store.
 A subject (an agent or a role) starts a new **model epoch** at every recorded model change and at
@@ -206,7 +206,7 @@ def honour(
 ) -> Honour:
     """The honour state of the grant an entry records, at `as_of` (MC12).
 
-    This is one more condition of "active" beside the checks of spec/autonomy 6.2; it never
+    This is one more condition of "active" beside the checks; it never
     makes a grant active that another check ends."""
     if isinstance(carry_days, bool) or not 1 <= carry_days <= CARRY_DAYS:
         raise ValueError(f"carry_days must be 1 to {CARRY_DAYS} (stricter is shorter)")

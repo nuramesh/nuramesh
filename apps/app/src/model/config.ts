@@ -130,6 +130,7 @@ export interface ConfigProblem {
     | "too_many_gates"
     | "duplicate_gate"
     | "bad_gate_kind"
+    | "gate_without_settings"
     | "eval_suite_undefined"
     | "duplicate_preset_use"
     | "bad_amount"
@@ -149,10 +150,18 @@ export function ruleProblem(rule: PolicyRule): string | null {
   return null;
 }
 
-/** Cheapest-first order, 1–20 gates, unique ids and at least one required gate, as `GatePreset` demands. */
+/** True when a gate carries settings (the core's `GateTemplate.config`); every kind the builder writes needs them to run. */
+export function gateHasSettings(gate: GatePresetGate): boolean {
+  return gate.config !== undefined && Object.keys(gate.config).length > 0;
+}
+
+/**
+ * Cheapest-first order, 1–20 gates, unique ids and at least one required gate, as `GatePreset`
+ * demands; and settings on every gate, without which no task can carry it (issue #1407).
+ */
 export function gateProblem(
   gates: readonly GatePresetGate[],
-): "bad_gate_order" | "no_required_gate" | "too_many_gates" | "duplicate_gate" | "bad_gate_kind" | null {
+): "bad_gate_order" | "no_required_gate" | "too_many_gates" | "duplicate_gate" | "bad_gate_kind" | "gate_without_settings" | null {
   if (gates.length > MAX_GATES) return "too_many_gates";
   if (new Set(gates.map((g) => g.id)).size !== gates.length) return "duplicate_gate";
   if (gates.some((g) => !GATE_KINDS.includes(g.kind))) return "bad_gate_kind";
@@ -164,7 +173,8 @@ export function gateProblem(
       costly = true;
     }
   }
-  return !gates.some((g) => g.required) ? "no_required_gate" : null;
+  if (!gates.some((g) => g.required)) return "no_required_gate";
+  return gates.some((g) => !gateHasSettings(g)) ? "gate_without_settings" : null;
 }
 
 /** Every cross-reference problem between the configuration and the organization. */
@@ -229,6 +239,7 @@ export function configProblems(org: Org, config: OrgConfig): ConfigProblem[] {
       too_many_gates: `has more than ${String(MAX_GATES)} gates`,
       duplicate_gate: "uses the same gate id twice",
       bad_gate_kind: "has a gate kind the builder can't write for the core (rule, test command and verifier only)",
+      gate_without_settings: `has a gate with no settings (${preset.gates.filter((g) => !gateHasSettings(g)).map((g) => `'${g.id}'`).join(", ")}): no task can carry it, so nothing this role does could run`,
     };
     if (problem !== null) add(problem, `Gate preset '${preset.id}' ${text[problem]}`, null);
   }

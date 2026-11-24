@@ -1,4 +1,4 @@
-"""Reads the ledger for the cost views (spec/costs): which runs, which entries, which facts.
+"""Reads the ledger for the cost views: which runs, which entries, which facts.
 
 Nothing is stored and nothing is written: every number is computed from the ledger streams of
 the organization's runs, up to `as_of`. A request reads at most `MAX_ENTRIES` ledger entries; a

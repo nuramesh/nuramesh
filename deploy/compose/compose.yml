@@ -1,4 +1,4 @@
-# NuraMesh self-hosting stack (R1.29, spec/r129). One machine, Docker Compose v2.
+# NuraMesh self-hosting stack. One machine, Docker Compose v2.
 #
 #   sh deploy/compose/init-secrets.sh       # first: generates secrets/ (never committed)
 #   cp deploy/compose/env.example deploy/compose/.env   # then edit NURAMESH_COMPOSE_TEAM_PATH
@@ -15,7 +15,7 @@
 # The Temporal dev server in this stack is for evaluation only; production needs a real Temporal cluster.
 # The Docker Compose stack uses PostgreSQL only; SQLite single-user mode is the local install and is not part of this stack.
 #
-# Rules this file keeps (each is checked by tests/test_compose_static.py):
+# Rules this file keeps (each is checked by the stack's static tests):
 #  - only `web` publishes a port, on 127.0.0.1; `api` is never published and listens on a fixed
 #    address of the internal `app` network that only `web` can reach (ND188 Q5/N1);
 #  - every service: cap_drop ALL, no-new-privileges, non-root user, read-only root, tmpfs /tmp
@@ -83,7 +83,7 @@ services:
       <<: *nuramesh-env
       NURAMESH_DB_USER: nuramesh_owner
       NURAMESH_DB_PASSWORD_FILE: /run/secrets/nuramesh_owner_password
-      # a not-additive migration refuses without it (issue 897): the highest pending number,
+      # a not-additive migration refuses without it: the highest pending number,
       # set in .env only after the backup of docs/upgrade-notes.md exists
       NURAMESH_MIGRATE_ACK: ${NURAMESH_MIGRATE_ACK:-}
     secrets: [nuramesh_owner_password]

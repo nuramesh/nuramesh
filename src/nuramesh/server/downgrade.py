@@ -35,8 +35,8 @@ tasks. If any call of that role and model has no recorded price (or another curr
 *unknown* and shown as unknown, never guessed (ND3); a model with an unknown price is never
 suggested and never compared with.
 
-**The recommendation (R1.34 Part B, core.downgrade_evidence; cases in
-spec/token-savings/cases.json b01..b31, choices in T188e).**
+**The recommendation (R1.34 Part B, core.downgrade_evidence; cases b01..b31 in
+the shared token-savings fixtures, choices in T188e).**
 One answer per role: `recommendation`, from the evidence of finished tasks in a window (`from`,
 `to`, `as_of`), counted per attempt and compared exactly, with no tolerance. The sample threshold
 is `min_sample` tasks (default 30). A candidate must also be eligible for the role and of another
@@ -344,7 +344,7 @@ def build_report(
     lookups = MAX_NEW_LOOKUPS  # first-entry reads of runs that turn out to be another's
     for head in heads:
         # another organization's run costs one first-entry read, never a full read, and does not
-        # count against the caller's window (spec/auth/org-scope.md R9)
+        # count against the caller's window
         if store.run_owner(head.stream) != org.id:
             first = None
         else:

@@ -5,7 +5,7 @@ titles and cannot carry this; see the release notes.)
 
 ## The upgrade procedure
 
-1. **Back up** the store and the key folder together (`runbooks/backup-restore.md`).
+1. **Back up** the store and the key folder together (see the backup and restore runbook).
 2. If any migration you are about to apply is **not additive** (the notes below start with "Not additive": today
    migrations 7, 8, 11, 15, 22, 24 and 27), stop every process that uses the database first (servers, workers, the CLI,
    schedulers; Compose: `docker compose stop api worker retention`) while still on the old version. If you move
@@ -17,7 +17,7 @@ titles and cannot carry this; see the release notes.)
    (with `NURAMESH_DATABASE_URL` set) prints the pending migrations, marks the not-additive ones, and names any right
    the connecting role lacks; it changes nothing. Then apply: the services (`serve`, `worker`, the retention and
    purge commands) never migrate: they refuse to start while the schema is behind and tell you to run
-   `nuramesh db migrate`. That command needs the table owner's rights (`docs/store-maintenance.md`), applies only what
+   `nuramesh db migrate`. That command needs the table owner's rights (see the Store maintenance guide), applies only what
    is pending, in order, and prints `schema at version N`. While a not-additive migration is pending it refuses
    unless you acknowledge the backup of step 1: `nuramesh db migrate --i-have-a-backup <dump file or timestamp>` or
    `NURAMESH_MIGRATE_ACK=<highest pending number>` (Compose: set it in `.env`; the `migrate` service passes it on).
@@ -26,7 +26,7 @@ titles and cannot carry this; see the release notes.)
 5. **Roll back = restore the backup** and start the old version. Downgrade is not supported: the old code refuses a
    newer schema. The ledger is never rewritten by a migration (the notes below say so wherever it matters).
 
-The migration list is `src/nuramesh/stores/migration_names.txt`. A test (`tests/test_docs_operator.py`) fails when a
+The migration list is `src/nuramesh/stores/migration_names.txt`. A release test fails when a
 migration in that list has no `### Migration N (name)` note below. Add the note in the same change that adds the
 migration, and say plainly whether it is additive.
 
@@ -35,7 +35,7 @@ migration, and say plainly whether it is additive.
 Compose: refresh grace is now on. The `api` service now runs the 30 second refresh grace window, with its key as a
 Docker secret.
 
-1. Rebuild the images first (`sh scripts/images/build.sh api worker`): a stale image has the old wrapper, which
+1. Rebuild the images first: a stale image has the old wrapper, which
    ignores the `_FILE` variable (it fails closed, but the message misleads).
 2. Before `up`, run `sh deploy/compose/init-secrets.sh` once. It prints `created refresh_successor_key` and
    `kept    <name>` for the rest (padded as in the script). Without it `docker compose up` stops on the missing secret.
@@ -150,7 +150,7 @@ it on `nuramesh_definer`, granted by the provider's bootstrap superuser (`azures
 PostgreSQL Flexible Server, `rdsadmin` on AWS RDS; PostgreSQL 16 records every superuser's grant under that
 one role). You cannot run the printed `REVOKE ... GRANTED BY <that role>` yourself (no customer holds it).
 So, for this one case, name that role in `NURAMESH_PG_PROVIDER_ROLE` (no default; it is listed in the
-environment table in `configuration-env.md`; never set it on self-hosted PostgreSQL): a member's row is then allowed only when it is ADMIN-only (no SET, no INHERIT) **and** its
+environment table in the Environment variables reference; never set it on self-hosted PostgreSQL): a member's row is then allowed only when it is ADMIN-only (no SET, no INHERIT) **and** its
 grantor is exactly that role, which allows any ADMIN-only row that any superuser grants. Every other
 member, and every other ADMIN row, is still refused. Each start that relies on this writes a
 `decision.recorded` ledger entry (`kind` `provider_role_exception`, `role`, `grantor`, `member`) on the
@@ -255,7 +255,7 @@ from `idempotency_keys`. All rows are kept. Roll back by restoring the backup.
 
 ### Migration 14 (idempotency_keys)
 
-Additive. Adds the table behind `Idempotency-Key` (`runbooks/idempotency.md`). Rows expire after 24 hours.
+Additive. Adds the table behind `Idempotency-Key` (see the idempotency keys runbook). Rows expire after 24 hours.
 
 ### Migration 13 (agent_credentials)
 
@@ -265,7 +265,7 @@ Additive. Adds the table of agent credentials. Only the SHA-256 of each secret i
 
 Additive. Adds `key_tombstones` (permanent: no update, delete or truncate) and `store_identity`. The application then
 creates the store's identity and backfills tombstones from the ledger's `content_shred` entries. Keys are kept in a
-per-store folder from this version on (`runbooks/key-tombstone.md`, including keys made before it).
+per-store folder from this version on (see the organization keys, erasure and restore runbook, including keys made before it).
 
 ### Migration 11 (budgets_by_org)
 
@@ -303,7 +303,7 @@ Additive. Adds the tables for users, credentials and one-time setup tokens.
 ### Migration 4 (content_records)
 
 Additive. Adds the encrypted content table and legal holds. Content is unreadable without the key folder
-(`runbooks/backup-restore.md`).
+(see the backup and restore runbook).
 
 ### Migration 3 (approval_requests)
 
@@ -406,15 +406,15 @@ The prompt-caching opt-in route was never released and changed before the launch
 
 ### Contract freeze PR C: the API's cross-cutting promises
 
-- `docs/api.md` now states the `NuraMesh-Version` header, the one page shape, "key on `code`" and the status rule in one section ("Versioning, pages and errors"); nothing changed on the wire for them (built in R1.43 C).
+- the API contract notes now state the `NuraMesh-Version` header, the one page shape, "key on `code`" and the status rule in one section ("Versioning, pages and errors"); nothing changed on the wire for them (built in R1.43 C).
 - The published OpenAPI text carries no internal references any more (task ids, decision numbers, release names were in 18 descriptions); `info.x-nuramesh-contract` names the current header value (`2026-12`). `info.version` stays `1`.
 - `POST /v1/models/catalog/entries`, `POST /v1/models/catalog/prices` and `POST /v1/runs/{run_id}/tasks/{task_id}/gates/{gate_id}/decisions` always answered 201 on a new record and 200 on a repeat; the schema said 200 only. The schema now declares both. No runtime change; a client generated from the old schema that checks `=== 200` on a create was already wrong.
 - `PUT /v1/models/connections/{provider}/key` and the deprecated `POST .../gates/{gate_id}/decision` also answered 201 (a new key, a new decision) and 200 (a rotate, a repeat) while the schema said 200 only; the schema now declares both. No runtime change.
-- The page-size `limit` is 1 to 200 (default 50) everywhere except four routes, now named in `docs/api.md`: the ledger stream and the run ledger (1 to 500, default 100), catalog events (1 to 1000, default 500) and ledger verify (1 to 100). No runtime change.
+- The page-size `limit` is 1 to 200 (default 50) everywhere except four routes, now named in the API contract notes: the ledger stream and the run ledger (1 to 500, default 100), catalog events (1 to 1000, default 500) and ledger verify (1 to 100). No runtime change.
 
 ### SDK method names: one rule
 
-Every method of the TypeScript SDK (`apps/sdk-ts`) is named by one rule, applied before the public launch with no aliases (the SDK is unpublished): the server's OpenAPI `operationId` is **verb-first snake_case**, `<verb>_<noun phrase>`, and the SDK method is its lowerCamelCase (`set_org_prompt_cache` -> `setOrgPromptCache`). The verb is one of a closed list (`accept`, `approve`, `confirm`, `create`, `decide`, `delete`, `disable`, `enable`, `enroll`, `get`, `halt`, `inspect`, `issue`, `list`, `login`, `logout`, `pause`, `quote`, `redeem`, `refresh`, `regenerate`, `reject`, `request`, `resend`, `reset`, `resume`, `retire`, `reveal`, `revoke`, `rotate`, `set`, `start`, `stop`, `test`, `unblock`, `update`, `validate`, `verify`); `get` is one resource or one computed view, `list` a collection (plural noun), `create` a POST that makes a resource, `set` a PUT of the whole value, `update` a change of an existing one, `delete` a DELETE or a `.../remove` action, and an action route takes its own verb (`approveApproval`, `rotateAgentCredential`, `stopRun`). The noun phrase is the resource as a developer says it: singular for one item, plural for a collection, the parent kept where it reads naturally (`listRunTasks`, `getTaskTimeline`, `revokeAllAgentCredentials`). A deprecated twin of a renamed route ends in `Deprecated` and is tagged `@deprecated`. The one source is the table `src/nuramesh/server/operation_ids.py`: FastAPI takes every operation id from it, a route without a row cannot be served, and `tests/test_sdk_names.py` checks the grammar, the generated client and the table below. A new verb is a rule change recorded there and in `docs/sdk-typescript.md`. This rule supersedes the earlier noun-verb id rule (kept routes keep their generated names).
+Every method of the TypeScript SDK (`apps/sdk-ts`) is named by one rule, applied before the public launch with no aliases (the SDK is unpublished): the server's OpenAPI `operationId` is **verb-first snake_case**, `<verb>_<noun phrase>`, and the SDK method is its lowerCamelCase (`set_org_prompt_cache` -> `setOrgPromptCache`). The verb is one of a closed list (`accept`, `approve`, `confirm`, `create`, `decide`, `delete`, `disable`, `enable`, `enroll`, `get`, `halt`, `inspect`, `issue`, `list`, `login`, `logout`, `pause`, `quote`, `redeem`, `refresh`, `regenerate`, `reject`, `request`, `resend`, `reset`, `resume`, `retire`, `reveal`, `revoke`, `rotate`, `set`, `start`, `stop`, `test`, `unblock`, `update`, `validate`, `verify`); `get` is one resource or one computed view, `list` a collection (plural noun), `create` a POST that makes a resource, `set` a PUT of the whole value, `update` a change of an existing one, `delete` a DELETE or a `.../remove` action, and an action route takes its own verb (`approveApproval`, `rotateAgentCredential`, `stopRun`). The noun phrase is the resource as a developer says it: singular for one item, plural for a collection, the parent kept where it reads naturally (`listRunTasks`, `getTaskTimeline`, `revokeAllAgentCredentials`). A deprecated twin of a renamed route ends in `Deprecated` and is tagged `@deprecated`. The one source is the table `src/nuramesh/server/operation_ids.py`: FastAPI takes every operation id from it, a route without a row cannot be served, and a release test checks the grammar, the generated client and the table below. A new verb is a rule change recorded there and in the TypeScript SDK page. This rule supersedes the earlier noun-verb id rule (kept routes keep their generated names).
 
 ### SDK method names: the rename table
 
@@ -616,7 +616,7 @@ Applies to SQLite and PostgreSQL stores that already hold budgets. Approved 2026
   or nothing; a row count check stops it if anything is lost). Every amount and version is kept.
 - The ledger is not touched. Ledger rows, hashes and anchors are unchanged, and
   `nuramesh ledger verify` and anchor verification give the same answers before and after
-  (`tests/stores/test_budget_org_migration_ledger.py`).
+  (a release test checks this).
 - The owner of a budget is the organization of its earliest `budget.defined` entry. A run-scoped
   budget with no such entry belongs to its run's organization (from `run.started`). A budget with
   neither is unowned: no call matches it (a call is refused with `no_budget`), it stays readable by

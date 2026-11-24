@@ -4,7 +4,7 @@ All notable changes to NuraMesh are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project follows
 [Semantic Versioning](https://semver.org/).
 
-## 0.1.0 (unreleased)
+## 0.1.0 (2026-11-24)
 
 The first release of the open core.
 

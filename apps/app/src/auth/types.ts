@@ -44,26 +44,26 @@ import type { LoginConfirmInput, MfaConfirmInput, MfaEnrollment, MfaPasswordCode
 export type Unsubscribe = () => void;
 
 /**
- * Screens that show secrets and the multi-factor routes (spec/mfa-web AU-2, AU-6). Optional on `AuthApi` so a source
+ * Screens that show secrets and the multi-factor routes. Optional on `AuthApi` so a source
  * without them (and a small test stub) still type-checks; `hasMfa` narrows.
  */
 export interface MfaAuth {
   /**
    * Keeps a screen that shows secrets (the setup key, recovery codes) mounted: while any hold is open, a
    * sign-in or sign-out announced by another tab, and a refresh that fails, are remembered and acted on
-   * only when the last hold is released (spec/mfa-web AU-6). Returns the function that releases this hold (once).
+   * only when the last hold is released. Returns the function that releases this hold (once).
    */
   hold(): Unsubscribe;
   /** True while a hold is open (part of the `state()` snapshot so screens re-render on release). */
   held(): boolean;
-  /** Multi-factor routes for the signed-in person (spec/mfa-web AU-2). The answers that carry secrets are never cached or logged. */
+  /** Multi-factor routes for the signed-in person. The answers that carry secrets are never cached or logged. */
   mfaStatus(): Promise<MfaStatus>;
   mfaEnroll(password: string): Promise<MfaEnrollment>;
   mfaConfirm(input: MfaConfirmInput): Promise<string[]>;
   mfaRegenerate(input: MfaPasswordCode): Promise<string[]>;
   mfaDisable(input: MfaPasswordCode): Promise<void>;
   /**
-   * The enrolment an owner with the policy on and no factor must do before getting a session (spec/mfa-web AU-2). It uses
+   * The enrolment an owner with the policy on and no factor must do before getting a session. It uses
    * its own client (no CSRF header). The code step of a sign-in is `AuthApi.completeMfa`.
    */
   loginEnroll(challenge: string): Promise<MfaEnrollment>;

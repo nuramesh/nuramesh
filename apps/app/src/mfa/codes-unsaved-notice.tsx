@@ -7,7 +7,7 @@ import { hasMfa } from "@/auth/types";
 import { codesUnsaved } from "./notice";
 
 /**
- * The lost-codes notice on the first page of a signed-in view (spec/mfa-web W-23): shown while the non-secret flag is
+ * The lost-codes notice on the first page of a signed-in view: shown while the non-secret flag is
  * set and the server says MFA is on, until the person goes to another page. (The flag is dropped when the signed-in
  * person changes or signs out by `AuthGate`, which stays mounted while the state is being re-read.)
  */

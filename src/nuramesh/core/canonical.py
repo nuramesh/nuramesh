@@ -6,8 +6,8 @@ identical bytes:
 - object keys are sorted by UTF-16 code units (as JavaScript and RFC 8785 do), not code points;
 - integers must fit in ±(2**53 - 1) so JavaScript represents them exactly;
 - floats are rejected here (their text forms differ); `canonical_json_jcs` (task outputs only,
-  never the ledger or any hash of org data, ND78) writes them by the RFC 8785 number rule
-  (`spec/canonical/rfc8785-numbers.md`); decimals (money, prices) are written as JSON
+  never the ledger or any hash of org data, ND78) writes them by the RFC 8785 number rule;
+  decimals (money, prices) are written as JSON
   strings in plain notation (`decimal_text`: `0.0000001`, never `1E-7`; trailing zeros kept, so
   `1.0` and `1` hash differently on purpose; negative zero written as zero);
 - strings are escaped exactly as JavaScript's `JSON.stringify` does and hashed as given (no

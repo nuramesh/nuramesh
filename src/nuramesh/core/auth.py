@@ -12,7 +12,7 @@ leaves the id, so ledger events that name the id keep their bytes and the chain 
 **Passwords** are hashed with scrypt (standard library, ND53 B). Every stored hash is
 self-describing, `scrypt$n$r$p$salt$hash`, so a later move to Argon2id verifies old hashes and
 re-hashes at the next login (`needs_rehash`) with no resets. The parameters are data
-(`ScryptParams`), measured in T64. `spec/auth/README.md` is the precise format.
+(`ScryptParams`), measured in T64.
 
 **Setup token:** no default password exists. The first start issues one random 256-bit token for
 the first owner; only its SHA-256 is stored, it is single use and it expires (24 h by default).
@@ -48,8 +48,8 @@ from nuramesh.core.people import is_human_id
 
 
 class Role(StrEnum):
-    """What a person may do (`ROLE_PERMISSIONS`; the endpoint table is
-    `docs/architecture-platform.md` §11)."""
+    """What a person may do (`ROLE_PERMISSIONS`; the endpoint table is in the
+    platform architecture doc)."""
 
     OWNER = "owner"
     ADMIN = "admin"
@@ -68,7 +68,7 @@ _ROLE_RANK: dict[Role, int] = {
 
 
 def role_rank(role: Role) -> int:
-    """The rank used by the rank rule (spec/rbac section 2): viewer 1, approver 2, builder 2,
+    """The rank used by the rank rule: viewer 1, approver 2, builder 2,
     admin 3, owner 4. Approver and builder are equal, so neither outranks the other.
 
     Raises ValueError if `role` is not a Role member (a plain string is refused, even "owner")."""
@@ -505,16 +505,15 @@ class AuthSession(BaseModel):
     revoked_at: datetime | None = None
     revoke_reason: str | None = Field(default=None, pattern=r"^[a-z_]{1,32}$")
     step_up_at: datetime | None = None
-    """When the person last authenticated strongly on this session, by any method (spec/rbac
-    section 6, SU-1 of spec/auth/step-up-vs-password-confirmed.md); NULL until then, so a session
-    from before R2.13 is asked once. Per session, never per person."""
+    """When the person last authenticated strongly on this session, by any method; NULL until
+    then, so a session from before R2.13 is asked once. Per session, never per person."""
     # How the person signed in (R1.38, MA-R2): required by the constructor, closed set. A stored
     # row read back with `model_validate` may hold None or an unknown value (a defect); the
     # refresh rules refuse such a session, they never read it as a password session.
     login_via: str | None = None
     mfa_verified_at: datetime | None = None
     mfa_method: str | None = Field(default=None, pattern=r"^(totp|recovery)$")
-    # SA-8 (spec/rbac/solo-approval.md): when this session last re-confirmed the password. Set
+    # SA-8: when this session last re-confirmed the password. Set
     # only by the confirm route; a sign-in never sets it, a refresh never changes it.
     password_confirmed_at: datetime | None = None
 
@@ -1039,7 +1038,7 @@ class TokenScope(StrEnum):
 
 
 class Permission(StrEnum):
-    """What an endpoint needs (the authorization matrix, `docs/architecture-platform.md` §11)."""
+    """What an endpoint needs (the authorization matrix)."""
 
     READ = "read"  # read state, the ledger and reports; validate a configuration
     RUN = "run"  # act on runs as a program or a person (stop a run)
@@ -1256,7 +1255,7 @@ def looks_like_api_token(value: str) -> bool:
     return value.startswith(API_TOKEN_PREFIX) and 4 < len(value) <= MAX_API_TOKEN_LENGTH
 
 
-# ---- agent credentials (E2; spec/agent-identity) -------------------------------------------
+# ---- agent credentials (E2) -------------------------------------------
 
 AGENT_CREDENTIAL_PREFIX = "nma_"
 AGENT_CREDENTIAL_ID_PREFIX = "agc_"

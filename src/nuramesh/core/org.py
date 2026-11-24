@@ -12,7 +12,7 @@ independent.
 
 `validate_org` returns every problem at once (the builder shows them all); `OrgGraph` refuses to
 exist while any error remains, and `OrgGraph.build` raises `OrgValidationError` with every issue,
-including malformed fields. Rules are mirrored by fixtures in `spec/org-validation/`, which the
+including malformed fields. Rules are mirrored by fixtures, which the
 TypeScript builder runs too.
 """
 
@@ -58,7 +58,7 @@ EndpointId = Annotated[str, StringConstraints(pattern=r"^[a-z0-9][a-z0-9-]{0,39}
 """Names one connection of the `openai-compatible` provider (`local`, `groq`); never a provider."""
 
 OPENAI_COMPATIBLE = "openai-compatible"
-"""The only provider id that carries an endpoint id (spec/openai-compatible 2.1)."""
+"""The only provider id that carries an endpoint id."""
 
 Name = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=120)]
 

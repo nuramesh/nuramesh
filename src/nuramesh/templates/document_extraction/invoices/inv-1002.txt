@@ -1,0 +1,6 @@
+INVOICE (sample document, fictional)
+Invoice No: INV-1002
+Vendor: Harbor Cloud Hosting
+Date: 2026-03-09
+Description: Hosting, March
+Total due: 2,310.00 USD

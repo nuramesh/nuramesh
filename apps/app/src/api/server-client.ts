@@ -111,11 +111,11 @@ function wsUrl(base: string, path: string): string {
 }
 
 /**
- * The client for `nuramesh serve` (docs/api.md): REST under /v1 and the per-run WebSocket. What
+ * The client for `nuramesh serve` (the API notes): REST under /v1 and the per-run WebSocket. What
  * the server has no endpoint for (organization storage, templates, presets, starting or pausing a
  * run) rejects with `NotAvailableError`, so no screen ever shows invented data.
  */
-/** A credential as the server sends it (spec/agent-identity section 7). */
+/** A credential as the server sends it (the agent identity notes section 7). */
 interface RawAgentCredential {
   id: string;
   agent: string;
