@@ -36,16 +36,55 @@ built-in sample data).*
 ## Why NuraMesh
 
 Agent frameworks make it easy to get agents to act. They do not tell you whether the work is right, what
-it cost, or who allowed it. NuraMesh is the trust layer around the framework you already use:
+it cost, or who allowed it. NuraMesh is the control plane around the framework you already use. One task,
+one loop:
 
-- **Verification gates:** a task counts as done only when its gates pass, checked by independent verifiers
-  that never see the worker's reasoning.
-- **Budgets with hard stops:** checked before every model call and recorded after it.
-- **Default-deny autonomy policies:** an agent does only what its role allows; everything else asks a person.
-- **Append-only ledger:** every action, model call, cost, gate result and approval, hash-chained and
-  checkable offline.
-- **Canon from Git:** each run records which version of your documents it used.
-- **Evals per role:** measure each role, not only the final answer.
+**1. Connect:** your frameworks, models and tools.
+- **LangGraph adapter:** run your LangGraph agents under NuraMesh control.
+- **Model providers:** Azure OpenAI, Anthropic and any OpenAI-compatible endpoint, including local models.
+- **Model catalog:** admins decide which models may be used, and by which agent.
+- **Python SDK and CLI:** define teams, checks, budgets and rules in code, and run them on your laptop.
+- **REST and WebSocket API**, and **OpenTelemetry export** to your own monitoring stack.
+
+**2. Build:** design your agent team.
+- **Workflow builder:** draw your team on a canvas, with its checks and human approvers.
+- **Team templates:** start from a ready team: dev team, code review, support, sales and more.
+- **YAML/JSON export:** export the team as a file, or import one; it stays in step with the canvas.
+
+**3. Govern:** what an agent may do, spend and decide.
+- **Autonomy policies:** allow, ask or deny for each role and action. Denied unless you allow it.
+- **Budgets:** spend is checked before each model call. Over budget is refused.
+- **Kill switch:** stop an organization, a role or a rule. Only a person can restart it.
+- **Agent identity:** each agent has its own credential, and you can revoke it.
+- **Output caps** per role, and **cost views** per verified result.
+- **Accounts and sign-in:** sign-in, invites and two-step verification; owner, approver and viewer roles.
+
+**4. Run:** start a run and follow it.
+- **Live run view:** watch each agent work, see the cost so far, and stop the run.
+- **Chief of Staff:** give the team a goal; it comes back as checked work and a report.
+- **Dashboards:** checks, costs and waiting approvals at a glance.
+- **Durable runs** on the light engine, and **durable storage**: PostgreSQL in production, a single file on
+  your laptop.
+
+**5. Approve:** a person signs off where the rules say so.
+- **Approvals:** each approval works once, for one action, and goes on the record.
+
+**6. Verify:** work is checked before it counts.
+- **Gates:** nothing counts as done until its checks pass.
+- **Independent verifier:** a separate reviewer that never sees the worker's reasoning.
+- **Sandbox:** test commands run in a locked-down container.
+- **Evals per role:** agents pass their evals before they take work.
+- **Verifier calibration:** know how often each reviewer catches bad work.
+
+**7. Record:** evidence of everything that happened.
+- **Audit ledger:** a tamper-evident record of every action, cost, check and approval.
+- **Offline ledger check:** check the record yourself, offline, without trusting our software.
+- **Git anchoring:** signed checkpoints of the record, kept in a Git repository you control.
+- **Task audit view** and **ledger export** for an auditor.
+- **Content store and retention:** content is kept only if you opt in, encrypted, with a retention limit.
+- **Canon from Git:** one pinned source of truth for every agent and reviewer.
+
+**Your data stays yours:** self-hosted, and no telemetry unless you turn on export.
 
 ## Quickstart
 
