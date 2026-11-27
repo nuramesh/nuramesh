@@ -17,7 +17,7 @@
 
 <div align="center">
 
-[Docs](#documentation) · [Quickstart](docs/quickstart.md) · [Examples](examples/) · [Discussions](https://github.com/nuramesh/nuramesh/discussions) · [Security](SECURITY.md)
+[Docs](https://docs.nuramesh.com) · [Quickstart](docs/quickstart.md) · [Examples](examples/) · [Discussions](https://github.com/nuramesh/nuramesh/discussions) · [Security](SECURITY.md)
 
 </div>
 
@@ -186,15 +186,15 @@ Framework: LangGraph today; LangChain, OpenAI Agents SDK, Claude Agent SDK and C
 
 | To do this | Read |
 | --- | --- |
-| Run your first verified team | [`docs/quickstart.md`](docs/quickstart.md) |
+| Run your first verified team | [Quickstart](https://docs.nuramesh.com/get-started/quickstart/) |
 | Start from a ready-made team | [Examples and templates](https://docs.nuramesh.com/get-started/templates/) on the docs site, and [`examples/`](examples/) |
 | Create the first owner and sign in | [`docs/first-run.md`](docs/first-run.md) |
-| Use the command line | [`docs/cli.md`](docs/cli.md) |
-| Call the REST API | [`docs/api.md`](docs/api.md) |
-| Configure with environment variables | [`docs/configuration-env.md`](docs/configuration-env.md) |
-| Approve and connect real models | [`docs/model-governance.md`](docs/model-governance.md), or [model governance](https://docs.nuramesh.com/concepts/model-governance/) on the docs site |
-| See what leaves your machine (nothing, unless you set an endpoint) | [`docs/telemetry.md`](docs/telemetry.md) |
-| Preview the Docker Compose self-hosting setup (coming soon, not yet supported) | [`docs/self-hosting.md`](docs/self-hosting.md) |
+| Use the command line | [Command line](https://docs.nuramesh.com/reference/cli/) |
+| Call the REST API | [REST API](https://docs.nuramesh.com/reference/api/) |
+| Configure with environment variables | [Environment variables](https://docs.nuramesh.com/reference/environment/) |
+| Approve and connect real models | [Model governance](https://docs.nuramesh.com/concepts/model-governance/) |
+| See what leaves your machine (nothing, unless you set an endpoint) | [Telemetry](https://docs.nuramesh.com/guides/telemetry/) |
+| Preview the Docker Compose self-hosting setup (coming soon, not yet supported) | [Docker Compose preview](https://docs.nuramesh.com/self-host/compose/) |
 
 How the code is laid out:
 
@@ -231,9 +231,3 @@ vulnerability.
 
 Apache License 2.0: see `LICENSE` and `NOTICE`. Third-party notices: `THIRD_PARTY_NOTICES.md`. The
 name and logo are covered by `TRADEMARKS.md`. What changed in each release: `CHANGELOG.md`.
-
----
-
-<p align="center">
-  NuraMesh is built by AI Collective Labs Inc. · <a href="https://nuramesh.com">nuramesh.com</a>
-</p>
