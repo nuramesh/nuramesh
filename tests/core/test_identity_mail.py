@@ -1,4 +1,4 @@
-"""The pure part of outgoing email (R1.39; spec/identity/email.md sections 1 and 2)."""
+"""The pure part of outgoing email (R1.39; sections 1 and 2)."""
 
 import pytest
 

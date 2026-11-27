@@ -1,4 +1,4 @@
-"""Shared pieces of the Merge Gate tier and trust-root tests (`spec/verified-merge/tiers.md`):
+"""Shared pieces of the Merge Gate tier and trust-root tests:
 the spec file, its fenced blocks and our repository's `extra_trust_roots` list (`XN`)."""
 
 from __future__ import annotations

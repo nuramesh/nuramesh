@@ -1,7 +1,7 @@
 """The Anthropic direct model provider: non-streaming Messages API, key from a key file (R1.14b).
 
 `AnthropicProvider.complete` sends one request to the Messages API (`API_URL`) and maps
-the answer to a `ModelResponse`. Spec: `spec/r114b/README.md` (rule numbers below refer to it).
+the answer to a `ModelResponse`. The design notes (rule numbers below refer to it).
 
 - **Key (4.1, 4.2).** Only from a `0400` or `0600` file outside every repository, owned by
   the server user and not by the agent account (ND156), self-hosted only (hosted is refused

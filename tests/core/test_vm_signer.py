@@ -1,4 +1,4 @@
-"""Merge Gate signer core (spec `spec/verified-merge` SV-1, SV-3 to SV-9, SV-11, 7.2, cases
+"""Merge Gate signer core (SV-1, SV-3 to SV-9, SV-11, 7.2, cases
 S-01 to S-04, S-07, S-12, S-13, S-15, S-16, S-19, S-20, S-22; Fable fixes F-6 requester, F-7 holder,
 F-8 actor table on append, F-12 compromised keys; tier 3).
 

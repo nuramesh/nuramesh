@@ -1,4 +1,4 @@
-"""Proposals (E13): the cases P1 to P45 of `spec/autonomy/README.md` section 9.4."""
+"""Proposals (E13): the cases P1 to P45 of section 9.4."""
 
 from datetime import datetime, timedelta
 from typing import Any

@@ -56,10 +56,10 @@ describe("the catalog (recorded real answers)", () => {
   it("maps assignments with where each model comes from", async () => {
     const { api } = replay(["assignments", "assignments_after"]);
     const before = await api.models.assignments();
-    expect(before.find((r) => r.subject === "agent=dana")).toMatchObject({ ref: "fake/dev-1", from: "role config", role: "developer" });
+    expect(before.find((r) => r.subject === "agent=developer")).toMatchObject({ ref: "fake/dev-1", from: "role config", role: "developer" });
     expect(before.find((r) => r.subject === "agent=chief")).toMatchObject({ ref: null, from: "none" });
     const after = await api.models.assignments();
-    expect(after.find((r) => r.subject === "agent=dana")).toMatchObject({ ref: "azure-openai/gpt-5.4-mini", from: "agent ledger" });
+    expect(after.find((r) => r.subject === "agent=developer")).toMatchObject({ ref: "azure-openai/gpt-5.4-mini", from: "agent ledger" });
   });
 
   it("maps the history with plain words and the reason", async () => {
@@ -102,7 +102,7 @@ describe("a model on an openai-compatible connection (#1485, recorded real answe
     expect(approved.already).toBe(false);
     await api.models.editEntry({ ...named, family: "llama", reason: "its family" });
     const paused = await api.models.pause({ ...named, reason: "under review" });
-    expect(paused.affected).toEqual(["agent=theo"]);
+    expect(paused.affected).toEqual(["agent=tester"]);
     await api.models.retire({ ...named, reason: "replaced" });
     const removed = await api.models.remove({ ...named, reason: "clean up" }).catch((e: unknown) => e);
     expect((removed as ProblemError).title).toBe("in_use");
@@ -133,8 +133,8 @@ describe("a model on an openai-compatible connection (#1485, recorded real answe
     expect(entry).toMatchObject({ ref: "openai-compatible/local-one/llama3.1", endpointId: "local-one", status: "approved" });
     expect(entry?.price).toMatchObject({ inputPerMillion: "0", outputPerMillion: "0", source: "declared free (local)" }); // the server's text, the later version
     expect(catalog.entries.find((e) => e.ref === "azure-openai/gpt-5.4-mini")).not.toHaveProperty("endpointId");
-    const theo = (await api.models.assignments()).find((r) => r.subject === "agent=theo");
-    expect(theo?.ref).toBe(entry?.ref);
+    const tester = (await api.models.assignments()).find((r) => r.subject === "agent=tester");
+    expect(tester?.ref).toBe(entry?.ref);
   });
 
   it("a zero price is refused unless it is declared free; the history names the connection", async () => {
@@ -170,7 +170,7 @@ describe("writes (recorded real answers)", () => {
   it("reports who is affected by a pause", async () => {
     const { api } = replay(["pause_assigned"]);
     const done = await api.models.pause({ provider: "azure-openai", model: "gpt-5.4-mini", reason: "under review" });
-    expect(done.affected).toEqual(["agent=dana"]);
+    expect(done.affected).toEqual(["agent=developer"]);
   });
 
   it("reports the entry a widening edit paused, and the entries a regions write paused", async () => {
@@ -209,9 +209,9 @@ describe("writes (recorded real answers)", () => {
 
   it("assigns and clears (a null model)", async () => {
     const { api, calls } = replay(["assign", "assign"]);
-    await api.models.assign({ scope: "agent", id: "dana", model: "azure-openai/gpt-5.4-mini", reason: "try it" });
-    await api.models.assign({ scope: "agent", id: "dana", model: null, reason: "back" });
-    expect(calls.map((c) => `${c.method} ${c.path}`)).toEqual(["PUT /v1/models/assignments/agent/dana", "PUT /v1/models/assignments/agent/dana"]);
+    await api.models.assign({ scope: "agent", id: "developer", model: "azure-openai/gpt-5.4-mini", reason: "try it" });
+    await api.models.assign({ scope: "agent", id: "developer", model: null, reason: "back" });
+    expect(calls.map((c) => `${c.method} ${c.path}`)).toEqual(["PUT /v1/models/assignments/agent/developer", "PUT /v1/models/assignments/agent/developer"]);
     expect(calls.map((c) => c.body)).toEqual([
       { model: "azure-openai/gpt-5.4-mini", reason: "try it" },
       { model: null, reason: "back" },
@@ -270,14 +270,14 @@ describe("resolution (recorded real answers)", () => {
     const report = await api.models.resolution("synthetic");
     expect(calls[0]?.path).toBe("/v1/models/resolution?data_class=synthetic");
     expect(report.ok).toBe(true);
-    expect(report.resolutions.map((r) => r.subject)).toEqual(["agent=dana", "agent=theo", "agent=rhea", "agent=omar"]);
+    expect(report.resolutions.map((r) => r.subject)).toEqual(["agent=developer", "agent=tester", "agent=reviewer", "agent=devops"]);
   });
 
   it("a blocked report has the texts and no resolutions", async () => {
     const report = await replay(["resolution_customer"]).api.models.resolution("customer");
     expect(report.ok).toBe(false);
     expect(report.resolutions).toEqual([]);
-    expect(report.blocks[0]).toMatchObject({ subject: "agent=dana", reason: "residency_refused" });
+    expect(report.blocks[0]).toMatchObject({ subject: "agent=developer", reason: "residency_refused" });
     expect(report.blocks[0]?.text).toContain("may not receive customer data");
   });
 });

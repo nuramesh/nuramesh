@@ -1,4 +1,4 @@
-"""The shared key-file reader (spec/r114b 4.1, 4.2, 4.2a, 4.7; spec/openai-compatible 4.3).
+"""The shared key-file reader (4.1, 4.2, 4.2a, 4.7; 4.3).
 
 Moved out of `engine.anthropic` so a second provider reads key files by the very same rules.
 The texts are parametrised by provider (`KeyTexts`); the behaviour is unchanged. A key file is

@@ -3,7 +3,7 @@
 
 Standard library only. This file imports nothing from NuraMesh and shares no code with it: the
 hash chain, the canonical JSON rules and the Ed25519 signature check are written out again here
-from the specification (`spec/verify/README.md`, `spec/ledger/README.md`), so a bug in the main
+from the specification, so a bug in the main
 verifier cannot hide in this one. Read it top to bottom; the sections follow the specification.
 
     python3 nuramesh_verify.py LEDGER.jsonl [--anchors DIR --pubkey KEY.pem ...]
@@ -333,8 +333,8 @@ class Report:
 
 _STREAM = re.compile(r"^(run|org):[a-z0-9][a-z0-9_-]{0,62}$", re.ASCII)
 _TYPE = re.compile(r"^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$", re.ASCII)
-# Same grammar as the ledger's `Actor` type (core/ledger.py); spec/verifier/actors.md and
-# spec/verifier/actors.json keep the two in step. Use only with fullmatch: `$` also matches before a
+# Same grammar as the ledger's `Actor` type (core/ledger.py); the design notes and
+# The design notes keep the two in step. Use only with fullmatch: `$` also matches before a
 # trailing newline, so `.match` would let "agent:a\n" through.
 _ACTOR = re.compile(
     r"^(system(:[a-z][a-z0-9-]{0,63})?|(agent|service):[A-Za-z0-9._@-]{1,128}"

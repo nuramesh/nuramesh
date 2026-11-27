@@ -38,13 +38,13 @@ def base() -> dict[str, Any]:
             ],
             "agents": [
                 {"id": "chief", "name": "Chief", "role": "cos"},
-                {"id": "dana", "name": "Dana", "role": "dev", "reports_to": "chief"},
+                {"id": "developer", "name": "Developer", "role": "dev", "reports_to": "chief"},
                 {
-                    "id": "rhea",
-                    "name": "Rhea",
+                    "id": "reviewer",
+                    "name": "Reviewer",
                     "role": "rev",
                     "reports_to": "chief",
-                    "checks": ["dana"],
+                    "checks": ["developer"],
                 },
             ],
         },
@@ -205,7 +205,7 @@ def test_a_verifier_must_be_a_different_family_than_the_worker_it_checks() -> No
     # the verifier's model comes from its role's default, so the path points at the role
     assert "$.org.agents[2].model" not in found
     message = found["$.org.roles[2].default_model"]
-    assert "family" in message and "dana" in message
+    assert "family" in message and "developer" in message
 
 
 def test_the_family_rule_uses_the_agents_own_model_override() -> None:
@@ -226,12 +226,12 @@ def test_a_family_is_a_lowercase_slug() -> None:
 def test_two_checked_agents_each_count() -> None:
     data = copy.deepcopy(base())
     data["org"]["agents"].append(
-        {"id": "omar", "name": "Omar", "role": "dev", "reports_to": "chief"}
+        {"id": "devops", "name": "DevOps", "role": "dev", "reports_to": "chief"}
     )
-    data["org"]["agents"][2]["checks"] = ["dana", "omar"]
-    data["org"]["agents"][3]["model"] = "azure-ai/Llama-4-Maverick"  # omar is meta, verifier meta
+    data["org"]["agents"][2]["checks"] = ["developer", "devops"]
+    data["org"]["agents"][3]["model"] = "azure-ai/Llama-4-Maverick"  # devops is meta, verifier meta
     found = problems(data)
-    assert "omar" in found["$.org.roles[2].default_model"]
+    assert "devops" in found["$.org.roles[2].default_model"]
 
 
 def test_core_names_no_cloud_vendor() -> None:

@@ -30,10 +30,10 @@ org:
     - {id: devops, name: DevOps engineer, default_model: azure-openai/gpt-5.4-mini}
   agents:
     - {id: chief, name: Chief of Staff, role: cos}
-    - {id: dana, name: Dana (developer), role: developer, reports_to: chief}
-    - {id: theo, name: Theo (tester), role: tester, reports_to: chief}
-    - {id: rhea, name: Rhea (reviewer), role: reviewer, reports_to: chief}
-    - {id: omar, name: Omar (DevOps), role: devops, reports_to: chief}
+    - {id: developer, name: Developer, role: developer, reports_to: chief}
+    - {id: tester, name: Tester, role: tester, reports_to: chief}
+    - {id: reviewer, name: Reviewer, role: reviewer, reports_to: chief}
+    - {id: devops, name: DevOps engineer, role: devops, reports_to: chief}
 policies:
   policies:
     - role: cos
@@ -61,8 +61,8 @@ models:
     - {provider: anthropic, model: claude-sonnet-5-5, family: anthropic, processing: global,
        status: approved}
 budgets:
-  - {id: dana-monthly, scope: agent, scope_id: dana, limit: {amount: "5.00", currency: USD}}
-  - {id: rhea-monthly, scope: agent, scope_id: rhea, limit: {amount: "5.00", currency: USD}}
+  - {id: developer-monthly, scope: agent, scope_id: developer, limit: {amount: "5.00", currency: USD}}
+  - {id: reviewer-monthly, scope: agent, scope_id: reviewer, limit: {amount: "5.00", currency: USD}}
   - {id: org-daily, scope: org, scope_id: demo-anthropic, window: day, limit: {amount: "30.00", currency: USD}}
 prices:
   prices:

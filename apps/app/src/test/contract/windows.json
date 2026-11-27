@@ -7,7 +7,7 @@
    },
    "blocked": true,
    "definition": {
-    "id": "dana-daily",
+    "id": "developer-daily",
     "limit": {
      "amount": "0.01",
      "currency": "USD"
@@ -15,7 +15,7 @@
     "on_breach": "hold",
     "org_id": "demo",
     "scope": "agent",
-    "scope_id": "dana",
+    "scope_id": "developer",
     "window": "day"
    },
    "history": [
@@ -24,12 +24,12 @@
      "at": "2026-10-24T09:00:03+00:00",
      "ledger_seq": 2,
      "payload": {
-      "budget": "dana-daily",
+      "budget": "developer-daily",
       "currency": "USD",
       "limit": "0.01",
       "on_breach": "hold",
       "scope": "agent",
-      "scope_id": "dana",
+      "scope_id": "developer",
       "window": "day",
       "window_start": "2026-10-24T00:00:00.000000Z"
      },
@@ -38,7 +38,7 @@
     }
    ],
    "history_truncated": false,
-   "id": "dana-daily",
+   "id": "developer-daily",
    "limit": {
     "amount": "0.01",
     "currency": "USD"
@@ -49,7 +49,7 @@
     "currency": "USD"
    },
    "scope": "agent",
-   "scope_id": "dana",
+   "scope_id": "developer",
    "spent": {
     "amount": "0",
     "currency": "USD"
@@ -68,7 +68,7 @@
    },
    "blocked": false,
    "definition": {
-    "id": "rhea-daily",
+    "id": "reviewer-daily",
     "limit": {
      "amount": "0.005",
      "currency": "USD"
@@ -76,7 +76,7 @@
     "on_breach": "reset",
     "org_id": "demo",
     "scope": "agent",
-    "scope_id": "rhea",
+    "scope_id": "reviewer",
     "window": "day"
    },
    "history": [
@@ -85,12 +85,12 @@
      "at": "2026-10-24T09:00:04+00:00",
      "ledger_seq": 3,
      "payload": {
-      "budget": "rhea-daily",
+      "budget": "reviewer-daily",
       "currency": "USD",
       "limit": "0.005",
       "on_breach": "reset",
       "scope": "agent",
-      "scope_id": "rhea",
+      "scope_id": "reviewer",
       "window": "day",
       "window_start": "2026-10-24T00:00:00.000000Z"
      },
@@ -99,7 +99,7 @@
     }
    ],
    "history_truncated": false,
-   "id": "rhea-daily",
+   "id": "reviewer-daily",
    "limit": {
     "amount": "0.005",
     "currency": "USD"
@@ -110,7 +110,7 @@
     "currency": "USD"
    },
    "scope": "agent",
-   "scope_id": "rhea",
+   "scope_id": "reviewer",
    "spent": {
     "amount": "0",
     "currency": "USD"
@@ -130,7 +130,7 @@
     },
     "blocked": true,
     "definition": {
-     "id": "dana-daily",
+     "id": "developer-daily",
      "limit": {
       "amount": "0.01",
       "currency": "USD"
@@ -138,10 +138,10 @@
      "on_breach": "hold",
      "org_id": "demo",
      "scope": "agent",
-     "scope_id": "dana",
+     "scope_id": "developer",
      "window": "day"
     },
-    "id": "dana-daily",
+    "id": "developer-daily",
     "limit": {
      "amount": "0.01",
      "currency": "USD"
@@ -152,7 +152,7 @@
      "currency": "USD"
     },
     "scope": "agent",
-    "scope_id": "dana",
+    "scope_id": "developer",
     "spent": {
      "amount": "0",
      "currency": "USD"
@@ -168,7 +168,7 @@
     },
     "blocked": false,
     "definition": {
-     "id": "omar-daily",
+     "id": "devops-daily",
      "limit": {
       "amount": "0.01",
       "currency": "USD"
@@ -176,10 +176,10 @@
      "on_breach": null,
      "org_id": "demo",
      "scope": "agent",
-     "scope_id": "omar",
+     "scope_id": "devops",
      "window": "day"
     },
-    "id": "omar-daily",
+    "id": "devops-daily",
     "limit": {
      "amount": "0.01",
      "currency": "USD"
@@ -190,7 +190,7 @@
      "currency": "USD"
     },
     "scope": "agent",
-    "scope_id": "omar",
+    "scope_id": "devops",
     "spent": {
      "amount": "0.001",
      "currency": "USD"
@@ -244,7 +244,7 @@
     },
     "blocked": false,
     "definition": {
-     "id": "rhea-daily",
+     "id": "reviewer-daily",
      "limit": {
       "amount": "0.005",
       "currency": "USD"
@@ -252,10 +252,10 @@
      "on_breach": "reset",
      "org_id": "demo",
      "scope": "agent",
-     "scope_id": "rhea",
+     "scope_id": "reviewer",
      "window": "day"
     },
-    "id": "rhea-daily",
+    "id": "reviewer-daily",
     "limit": {
      "amount": "0.005",
      "currency": "USD"
@@ -266,7 +266,7 @@
      "currency": "USD"
     },
     "scope": "agent",
-    "scope_id": "rhea",
+    "scope_id": "reviewer",
     "spent": {
      "amount": "0",
      "currency": "USD"
@@ -282,7 +282,7 @@
     },
     "blocked": false,
     "definition": {
-     "id": "theo-daily",
+     "id": "tester-daily",
      "limit": {
       "amount": "0.01",
       "currency": "USD"
@@ -290,10 +290,10 @@
      "on_breach": null,
      "org_id": "demo",
      "scope": "agent",
-     "scope_id": "theo",
+     "scope_id": "tester",
      "window": "day"
     },
-    "id": "theo-daily",
+    "id": "tester-daily",
     "limit": {
      "amount": "0.01",
      "currency": "USD"
@@ -304,7 +304,7 @@
      "currency": "USD"
     },
     "scope": "agent",
-    "scope_id": "theo",
+    "scope_id": "tester",
     "spent": {
      "amount": "0",
      "currency": "USD"
@@ -321,7 +321,7 @@
    "approvals": [],
    "budget_alerts": [
     {
-     "budget": "dana-daily",
+     "budget": "developer-daily",
      "held": true,
      "kind": "limit_passed",
      "ledger_seq": 6,
@@ -329,13 +329,13 @@
      "on_breach": "hold",
      "over_by": "0.01",
      "scope": "agent",
-     "scope_id": "dana",
+     "scope_id": "developer",
      "spent": "0.02",
      "window": "day",
      "window_start": "2026-10-24T00:00:00.000000Z"
     },
     {
-     "budget": "rhea-daily",
+     "budget": "reviewer-daily",
      "held": false,
      "kind": "limit_passed",
      "ledger_seq": 10,
@@ -344,7 +344,7 @@
      "over_by": "0.025",
      "resets_at": "2026-10-25T00:00:00.000000Z",
      "scope": "agent",
-     "scope_id": "rhea",
+     "scope_id": "reviewer",
      "spent": "0.03",
      "window": "day",
      "window_start": "2026-10-24T00:00:00.000000Z"
@@ -358,7 +358,7 @@
      },
      "blocked": true,
      "definition": {
-      "id": "dana-daily",
+      "id": "developer-daily",
       "limit": {
        "amount": "0.01",
        "currency": "USD"
@@ -366,10 +366,10 @@
       "on_breach": "hold",
       "org_id": "demo",
       "scope": "agent",
-      "scope_id": "dana",
+      "scope_id": "developer",
       "window": "day"
      },
-     "id": "dana-daily",
+     "id": "developer-daily",
      "limit": {
       "amount": "0.01",
       "currency": "USD"
@@ -380,7 +380,7 @@
       "currency": "USD"
      },
      "scope": "agent",
-     "scope_id": "dana",
+     "scope_id": "developer",
      "spent": {
       "amount": "0",
       "currency": "USD"
@@ -434,7 +434,7 @@
      },
      "blocked": false,
      "definition": {
-      "id": "rhea-daily",
+      "id": "reviewer-daily",
       "limit": {
        "amount": "0.005",
        "currency": "USD"
@@ -442,10 +442,10 @@
       "on_breach": "reset",
       "org_id": "demo",
       "scope": "agent",
-      "scope_id": "rhea",
+      "scope_id": "reviewer",
       "window": "day"
      },
-     "id": "rhea-daily",
+     "id": "reviewer-daily",
      "limit": {
       "amount": "0.005",
       "currency": "USD"
@@ -456,7 +456,7 @@
       "currency": "USD"
      },
      "scope": "agent",
-     "scope_id": "rhea",
+     "scope_id": "reviewer",
      "spent": {
       "amount": "0",
       "currency": "USD"
@@ -476,9 +476,9 @@
     "passed": 0,
     "total": 0
    },
-   "head": "82c95280562157044e7e62673c6bb813c0f9a38f69d4ba71b99afa70a91e5fd6",
+   "head": "42a0adec244436e3d5ec2fe5c67c2813c437403ae9e06dd0b8ccc1357d6df29a",
    "ledger": {
-    "head": "82c95280562157044e7e62673c6bb813c0f9a38f69d4ba71b99afa70a91e5fd6",
+    "head": "42a0adec244436e3d5ec2fe5c67c2813c437403ae9e06dd0b8ccc1357d6df29a",
     "ok": true,
     "seq": 11,
     "stream": "run:run-demo-window"
@@ -595,16 +595,16 @@
       "currency": "USD"
      },
      "cost_basis": "reserved",
-     "hash": "1e9881c7f17195eeb4c75e856b151c557eeab50fdef7f8eb23946c1458416fdf",
+     "hash": "ac7cddb453fc56e6eb45904cc6f55d2f25b7dd61fd41a5ce5b0b55e5613889e6",
      "payload": {
-      "agent": "dana",
+      "agent": "developer",
       "budgets": [
-       "dana-daily",
+       "developer-daily",
        "org-daily"
       ],
       "reservation": "w2",
       "windows": {
-       "dana-daily": "2026-10-24T00:00:00.000000Z",
+       "developer-daily": "2026-10-24T00:00:00.000000Z",
        "org-daily": "2026-10-24T00:00:00.000000Z"
       }
      },
@@ -623,14 +623,14 @@
       "currency": "USD"
      },
      "cost_basis": "actual",
-     "hash": "a25bab5a966b7031bafc68a1a509d8150a2f6a6d924d1d3982ef916434e96b99",
+     "hash": "a53a0c0121c547f26b39625b17956f9dec78b57eba4cce775a3d24d92283cc19",
      "payload": {
-      "agent": "dana",
+      "agent": "developer",
       "budget_charge": "0.02",
       "budgets": [
        {
         "available": "-0.010",
-        "budget": "dana-daily",
+        "budget": "developer-daily",
         "overrun": "0.018",
         "released": "0",
         "spent": "0.02",
@@ -648,7 +648,7 @@
       "reservation": "w2",
       "reserved": "0.002"
      },
-     "prev_hash": "1e9881c7f17195eeb4c75e856b151c557eeab50fdef7f8eb23946c1458416fdf",
+     "prev_hash": "ac7cddb453fc56e6eb45904cc6f55d2f25b7dd61fd41a5ce5b0b55e5613889e6",
      "run_id": "run-demo-window",
      "seq": 5,
      "stream": "run:run-demo-window",
@@ -660,18 +660,18 @@
      "at": "2026-10-24T09:00:08Z",
      "cost": null,
      "cost_basis": null,
-     "hash": "071959ad77924346581258e146208b923fb1b02e2680790134ffbe09533c513f",
+     "hash": "75eb5f8c26c48b8ac2ecbaa45fa4f2cad39e6c06b6187df967d099709a4e7c7a",
      "payload": {
-      "agent": "dana",
+      "agent": "developer",
       "budgets": [
        {
-        "budget": "dana-daily",
+        "budget": "developer-daily",
         "held": true,
         "limit": "0.01",
         "on_breach": "hold",
         "over_by": "0.01",
         "scope": "agent",
-        "scope_id": "dana",
+        "scope_id": "developer",
         "spent": "0.02",
         "window": "day",
         "window_start": "2026-10-24T00:00:00.000000Z"
@@ -681,7 +681,7 @@
       "reason": "settlement_overrun",
       "reservation": "w2"
      },
-     "prev_hash": "a25bab5a966b7031bafc68a1a509d8150a2f6a6d924d1d3982ef916434e96b99",
+     "prev_hash": "a53a0c0121c547f26b39625b17956f9dec78b57eba4cce775a3d24d92283cc19",
      "run_id": "run-demo-window",
      "seq": 6,
      "stream": "run:run-demo-window",
@@ -693,18 +693,18 @@
      "at": "2026-10-24T09:00:08Z",
      "cost": null,
      "cost_basis": null,
-     "hash": "bb742c680c0a47ed094e1b2aff3dc44b2bf0a5a8b4a6a5c815a9f9e8516f58aa",
+     "hash": "3e073d98a0163e0e0576abdf4a2d524066422421d873c2c887e3320b8364db48",
      "payload": {
-      "agent": "dana",
+      "agent": "developer",
       "budgets": [
        {
-        "budget": "dana-daily",
+        "budget": "developer-daily",
         "limit": "0.01",
         "on_breach": "hold",
         "overrun": "0.018",
         "overspent": true,
         "scope": "agent",
-        "scope_id": "dana",
+        "scope_id": "developer",
         "spent": "0.02",
         "window": "day",
         "window_start": "2026-10-24T00:00:00.000000Z"
@@ -726,7 +726,7 @@
       "reason": "overrun",
       "reservation": "w2"
      },
-     "prev_hash": "071959ad77924346581258e146208b923fb1b02e2680790134ffbe09533c513f",
+     "prev_hash": "75eb5f8c26c48b8ac2ecbaa45fa4f2cad39e6c06b6187df967d099709a4e7c7a",
      "run_id": "run-demo-window",
      "seq": 7,
      "stream": "run:run-demo-window",
@@ -741,20 +741,20 @@
       "currency": "USD"
      },
      "cost_basis": "reserved",
-     "hash": "f5578cc725db47f286d77543dbe6c55bc0767929074b0d9f4e0aa2c7769e5f03",
+     "hash": "c368270e18f2cecbc7383c559ff55fea4fa26c1d7524cebedb78831c1ab22c87",
      "payload": {
-      "agent": "rhea",
+      "agent": "reviewer",
       "budgets": [
        "org-daily",
-       "rhea-daily"
+       "reviewer-daily"
       ],
       "reservation": "w3",
       "windows": {
        "org-daily": "2026-10-24T00:00:00.000000Z",
-       "rhea-daily": "2026-10-24T00:00:00.000000Z"
+       "reviewer-daily": "2026-10-24T00:00:00.000000Z"
       }
      },
-     "prev_hash": "bb742c680c0a47ed094e1b2aff3dc44b2bf0a5a8b4a6a5c815a9f9e8516f58aa",
+     "prev_hash": "3e073d98a0163e0e0576abdf4a2d524066422421d873c2c887e3320b8364db48",
      "run_id": "run-demo-window",
      "seq": 8,
      "stream": "run:run-demo-window",
@@ -769,9 +769,9 @@
       "currency": "USD"
      },
      "cost_basis": "actual",
-     "hash": "8b202c0d8fcbc749a7e3296e50e0c9afcbce69bab9cfe430df04c17eafb64cd2",
+     "hash": "b51c03254cf89cf5560c2edec580937371abf4355d71d09da5bc6bc43e1b5a79",
      "payload": {
-      "agent": "rhea",
+      "agent": "reviewer",
       "budget_charge": "0.03",
       "budgets": [
        {
@@ -784,7 +784,7 @@
        },
        {
         "available": "-0.025",
-        "budget": "rhea-daily",
+        "budget": "reviewer-daily",
         "overrun": "0.029",
         "released": "0",
         "spent": "0.03",
@@ -794,7 +794,7 @@
       "reservation": "w3",
       "reserved": "0.001"
      },
-     "prev_hash": "f5578cc725db47f286d77543dbe6c55bc0767929074b0d9f4e0aa2c7769e5f03",
+     "prev_hash": "c368270e18f2cecbc7383c559ff55fea4fa26c1d7524cebedb78831c1ab22c87",
      "run_id": "run-demo-window",
      "seq": 9,
      "stream": "run:run-demo-window",
@@ -806,19 +806,19 @@
      "at": "2026-10-24T09:00:10Z",
      "cost": null,
      "cost_basis": null,
-     "hash": "0138f78aacdfb1bc52f2247cdb87c11aa41bdfd384398367c05aa3a3e4376845",
+     "hash": "a6ba6460eddbfefbe4a913afad95f698005f344640c654b39cbb6ae9ddc57bb6",
      "payload": {
-      "agent": "rhea",
+      "agent": "reviewer",
       "budgets": [
        {
-        "budget": "rhea-daily",
+        "budget": "reviewer-daily",
         "held": false,
         "limit": "0.005",
         "on_breach": "reset",
         "over_by": "0.025",
         "resets_at": "2026-10-25T00:00:00.000000Z",
         "scope": "agent",
-        "scope_id": "rhea",
+        "scope_id": "reviewer",
         "spent": "0.03",
         "window": "day",
         "window_start": "2026-10-24T00:00:00.000000Z"
@@ -828,7 +828,7 @@
       "reason": "settlement_overrun",
       "reservation": "w3"
      },
-     "prev_hash": "8b202c0d8fcbc749a7e3296e50e0c9afcbce69bab9cfe430df04c17eafb64cd2",
+     "prev_hash": "b51c03254cf89cf5560c2edec580937371abf4355d71d09da5bc6bc43e1b5a79",
      "run_id": "run-demo-window",
      "seq": 10,
      "stream": "run:run-demo-window",
@@ -840,9 +840,9 @@
      "at": "2026-10-24T09:00:10Z",
      "cost": null,
      "cost_basis": null,
-     "hash": "82c95280562157044e7e62673c6bb813c0f9a38f69d4ba71b99afa70a91e5fd6",
+     "hash": "42a0adec244436e3d5ec2fe5c67c2813c437403ae9e06dd0b8ccc1357d6df29a",
      "payload": {
-      "agent": "rhea",
+      "agent": "reviewer",
       "budgets": [
        {
         "budget": "org-daily",
@@ -858,14 +858,14 @@
         "window_start": "2026-10-24T00:00:00.000000Z"
        },
        {
-        "budget": "rhea-daily",
+        "budget": "reviewer-daily",
         "limit": "0.005",
         "on_breach": "reset",
         "overrun": "0.029",
         "overspent": true,
         "resets_at": "2026-10-25T00:00:00.000000Z",
         "scope": "agent",
-        "scope_id": "rhea",
+        "scope_id": "reviewer",
         "spent": "0.03",
         "window": "day",
         "window_start": "2026-10-24T00:00:00.000000Z"
@@ -874,7 +874,7 @@
       "reason": "overrun",
       "reservation": "w3"
      },
-     "prev_hash": "0138f78aacdfb1bc52f2247cdb87c11aa41bdfd384398367c05aa3a3e4376845",
+     "prev_hash": "a6ba6460eddbfefbe4a913afad95f698005f344640c654b39cbb6ae9ddc57bb6",
      "run_id": "run-demo-window",
      "seq": 11,
      "stream": "run:run-demo-window",
@@ -883,7 +883,7 @@
     }
    ],
    "has_more": false,
-   "head": "82c95280562157044e7e62673c6bb813c0f9a38f69d4ba71b99afa70a91e5fd6",
+   "head": "42a0adec244436e3d5ec2fe5c67c2813c437403ae9e06dd0b8ccc1357d6df29a",
    "head_seq": 11,
    "next_after_seq": 11,
    "stream": "run:run-demo-window"
@@ -895,7 +895,7 @@
    "approvals": [],
    "budget_alerts": [
     {
-     "budget": "omar-daily",
+     "budget": "devops-daily",
      "held": false,
      "kind": "limit_passed",
      "ledger_seq": 4,
@@ -903,7 +903,7 @@
      "on_breach": "reset",
      "over_by": "0.02",
      "scope": "agent",
-     "scope_id": "omar",
+     "scope_id": "devops",
      "spent": "0.03",
      "window": "day",
      "window_closed": true,
@@ -918,7 +918,7 @@
      },
      "blocked": false,
      "definition": {
-      "id": "omar-daily",
+      "id": "devops-daily",
       "limit": {
        "amount": "0.01",
        "currency": "USD"
@@ -926,10 +926,10 @@
       "on_breach": null,
       "org_id": "demo",
       "scope": "agent",
-      "scope_id": "omar",
+      "scope_id": "devops",
       "window": "day"
      },
-     "id": "omar-daily",
+     "id": "devops-daily",
      "limit": {
       "amount": "0.01",
       "currency": "USD"
@@ -940,7 +940,7 @@
       "currency": "USD"
      },
      "scope": "agent",
-     "scope_id": "omar",
+     "scope_id": "devops",
      "spent": {
       "amount": "0.001",
       "currency": "USD"
@@ -998,9 +998,9 @@
     "passed": 0,
     "total": 0
    },
-   "head": "01bfc7e101c4dedceb841a83008c8dc74557270de90dc086e0df8e3858b3728d",
+   "head": "2fdc7ef5763150207d6fb1ff6cf3a2917ea3cd8c36cdfce5a72d1f32489583b9",
    "ledger": {
-    "head": "01bfc7e101c4dedceb841a83008c8dc74557270de90dc086e0df8e3858b3728d",
+    "head": "2fdc7ef5763150207d6fb1ff6cf3a2917ea3cd8c36cdfce5a72d1f32489583b9",
     "ok": true,
     "seq": 5,
     "stream": "run:run-closed-window"
@@ -1059,16 +1059,16 @@
       "currency": "USD"
      },
      "cost_basis": "reserved",
-     "hash": "d4701c5ec0bf6b0b99a6f0cc13c1b140bae7cdeaead29ec46d6906adafec4454",
+     "hash": "19660c5e47013b221767d00fb9d9e9642e877ba75ab6ee665c43bbb3c7edde65",
      "payload": {
-      "agent": "omar",
+      "agent": "devops",
       "budgets": [
-       "omar-daily",
+       "devops-daily",
        "org-daily"
       ],
       "reservation": "w4",
       "windows": {
-       "omar-daily": "2026-10-24T00:00:00.000000Z",
+       "devops-daily": "2026-10-24T00:00:00.000000Z",
        "org-daily": "2026-10-24T00:00:00.000000Z"
       }
      },
@@ -1087,14 +1087,14 @@
       "currency": "USD"
      },
      "cost_basis": "actual",
-     "hash": "990e209424c1dbefa1df71b62cc720e5d2881670b6f66d500b3fb5abf0bfcce2",
+     "hash": "a75ef93dd5b9bb3ef6a31e329a6c7223fdca05980a95e57dc5261c74ec390945",
      "payload": {
-      "agent": "omar",
+      "agent": "devops",
       "budget_charge": "0.03",
       "budgets": [
        {
         "available": "-0.020",
-        "budget": "omar-daily",
+        "budget": "devops-daily",
         "overrun": "0.028",
         "released": "0",
         "spent": "0.03",
@@ -1114,7 +1114,7 @@
       "reservation": "w4",
       "reserved": "0.002"
      },
-     "prev_hash": "d4701c5ec0bf6b0b99a6f0cc13c1b140bae7cdeaead29ec46d6906adafec4454",
+     "prev_hash": "19660c5e47013b221767d00fb9d9e9642e877ba75ab6ee665c43bbb3c7edde65",
      "run_id": "run-closed-window",
      "seq": 3,
      "stream": "run:run-closed-window",
@@ -1126,18 +1126,18 @@
      "at": "2026-10-25T09:00:16Z",
      "cost": null,
      "cost_basis": null,
-     "hash": "a5a2a7ffc6b421f6d88894cfa8826c32440ab4957ef3097f0c125d5a53127a1c",
+     "hash": "1adb05db45449c3ad3893e8b3c1786e2e818013681ab21670056b501cae8a682",
      "payload": {
-      "agent": "omar",
+      "agent": "devops",
       "budgets": [
        {
-        "budget": "omar-daily",
+        "budget": "devops-daily",
         "held": false,
         "limit": "0.01",
         "on_breach": "reset",
         "over_by": "0.02",
         "scope": "agent",
-        "scope_id": "omar",
+        "scope_id": "devops",
         "spent": "0.03",
         "window": "day",
         "window_closed": true,
@@ -1148,7 +1148,7 @@
       "reason": "settlement_overrun",
       "reservation": "w4"
      },
-     "prev_hash": "990e209424c1dbefa1df71b62cc720e5d2881670b6f66d500b3fb5abf0bfcce2",
+     "prev_hash": "a75ef93dd5b9bb3ef6a31e329a6c7223fdca05980a95e57dc5261c74ec390945",
      "run_id": "run-closed-window",
      "seq": 4,
      "stream": "run:run-closed-window",
@@ -1160,18 +1160,18 @@
      "at": "2026-10-25T09:00:16Z",
      "cost": null,
      "cost_basis": null,
-     "hash": "01bfc7e101c4dedceb841a83008c8dc74557270de90dc086e0df8e3858b3728d",
+     "hash": "2fdc7ef5763150207d6fb1ff6cf3a2917ea3cd8c36cdfce5a72d1f32489583b9",
      "payload": {
-      "agent": "omar",
+      "agent": "devops",
       "budgets": [
        {
-        "budget": "omar-daily",
+        "budget": "devops-daily",
         "limit": "0.01",
         "on_breach": "reset",
         "overrun": "0.028",
         "overspent": true,
         "scope": "agent",
-        "scope_id": "omar",
+        "scope_id": "devops",
         "spent": "0.03",
         "window": "day",
         "window_closed": true,
@@ -1194,7 +1194,7 @@
       "reason": "overrun",
       "reservation": "w4"
      },
-     "prev_hash": "a5a2a7ffc6b421f6d88894cfa8826c32440ab4957ef3097f0c125d5a53127a1c",
+     "prev_hash": "1adb05db45449c3ad3893e8b3c1786e2e818013681ab21670056b501cae8a682",
      "run_id": "run-closed-window",
      "seq": 5,
      "stream": "run:run-closed-window",
@@ -1203,7 +1203,7 @@
     }
    ],
    "has_more": false,
-   "head": "01bfc7e101c4dedceb841a83008c8dc74557270de90dc086e0df8e3858b3728d",
+   "head": "2fdc7ef5763150207d6fb1ff6cf3a2917ea3cd8c36cdfce5a72d1f32489583b9",
    "head_seq": 5,
    "next_after_seq": 5,
    "stream": "run:run-closed-window"
@@ -1215,7 +1215,7 @@
    "approvals": [],
    "budget_alerts": [
     {
-     "budget": "theo-daily",
+     "budget": "tester-daily",
      "held": false,
      "kind": "limit_passed",
      "ledger_seq": 4,
@@ -1224,7 +1224,7 @@
      "over_by": "0.02",
      "resets_at": "2026-10-25T00:00:00.000000Z",
      "scope": "agent",
-     "scope_id": "theo",
+     "scope_id": "tester",
      "spent": "0.03",
      "window": "day",
      "window_start": "2026-10-24T00:00:00.000000Z"
@@ -1276,7 +1276,7 @@
      },
      "blocked": false,
      "definition": {
-      "id": "theo-daily",
+      "id": "tester-daily",
       "limit": {
        "amount": "0.01",
        "currency": "USD"
@@ -1284,10 +1284,10 @@
       "on_breach": null,
       "org_id": "demo",
       "scope": "agent",
-      "scope_id": "theo",
+      "scope_id": "tester",
       "window": "day"
      },
-     "id": "theo-daily",
+     "id": "tester-daily",
      "limit": {
       "amount": "0.01",
       "currency": "USD"
@@ -1298,7 +1298,7 @@
       "currency": "USD"
      },
      "scope": "agent",
-     "scope_id": "theo",
+     "scope_id": "tester",
      "spent": {
       "amount": "0",
       "currency": "USD"
@@ -1318,9 +1318,9 @@
     "passed": 0,
     "total": 0
    },
-   "head": "4a1ad5aa9c315247bb057be07f40043cf95fe2c44dd7e0aa4acb3812768c2b55",
+   "head": "c21e3751896623618178ce919acdf7f1b29a318b9f81a7eb867d0c68df7be049",
    "ledger": {
-    "head": "4a1ad5aa9c315247bb057be07f40043cf95fe2c44dd7e0aa4acb3812768c2b55",
+    "head": "c21e3751896623618178ce919acdf7f1b29a318b9f81a7eb867d0c68df7be049",
     "ok": true,
     "seq": 5,
     "stream": "run:run-unrolled-window"
@@ -1379,17 +1379,17 @@
       "currency": "USD"
      },
      "cost_basis": "reserved",
-     "hash": "2056b16c9ad4418dd0c4595d1d2104394fd868e96081f4db8fe3d6e75a885e1e",
+     "hash": "b41e4d76bf5fecdc7031b6b6a4b57ba8bd3ee8c5038c225551625f082d16ac93",
      "payload": {
-      "agent": "theo",
+      "agent": "tester",
       "budgets": [
        "org-daily",
-       "theo-daily"
+       "tester-daily"
       ],
       "reservation": "w6",
       "windows": {
        "org-daily": "2026-10-24T00:00:00.000000Z",
-       "theo-daily": "2026-10-24T00:00:00.000000Z"
+       "tester-daily": "2026-10-24T00:00:00.000000Z"
       }
      },
      "prev_hash": "2ce203c167ee614e1997886b619d8784dadacf9decd5915b1b29f0a3d2e22a84",
@@ -1407,9 +1407,9 @@
       "currency": "USD"
      },
      "cost_basis": "actual",
-     "hash": "152da5457455b407b89f4431ecf9bb2bf1bcb6e51d11bf1201dfcbc677d45cc7",
+     "hash": "a415d7ce39ad8306e1233af4f4c492b4519e80621a19008dfec237566af55f8e",
      "payload": {
-      "agent": "theo",
+      "agent": "tester",
       "budget_charge": "0.03",
       "budgets": [
        {
@@ -1423,7 +1423,7 @@
        },
        {
         "available": "-0.020",
-        "budget": "theo-daily",
+        "budget": "tester-daily",
         "overrun": "0.028",
         "released": "0",
         "spent": "0.03",
@@ -1433,7 +1433,7 @@
       "reservation": "w6",
       "reserved": "0.002"
      },
-     "prev_hash": "2056b16c9ad4418dd0c4595d1d2104394fd868e96081f4db8fe3d6e75a885e1e",
+     "prev_hash": "b41e4d76bf5fecdc7031b6b6a4b57ba8bd3ee8c5038c225551625f082d16ac93",
      "run_id": "run-unrolled-window",
      "seq": 3,
      "stream": "run:run-unrolled-window",
@@ -1445,19 +1445,19 @@
      "at": "2026-10-25T09:00:18Z",
      "cost": null,
      "cost_basis": null,
-     "hash": "dd36ce09db2165eeff70247d75a9dc26a6ab51ac3d84fea70c1cf8dfc4cb3e5a",
+     "hash": "6beed32f1e80cbb7db304c6677c4fd4fe184b7e652c9258b06b4ad8ec1e071ff",
      "payload": {
-      "agent": "theo",
+      "agent": "tester",
       "budgets": [
        {
-        "budget": "theo-daily",
+        "budget": "tester-daily",
         "held": false,
         "limit": "0.01",
         "on_breach": "reset",
         "over_by": "0.02",
         "resets_at": "2026-10-25T00:00:00.000000Z",
         "scope": "agent",
-        "scope_id": "theo",
+        "scope_id": "tester",
         "spent": "0.03",
         "window": "day",
         "window_start": "2026-10-24T00:00:00.000000Z"
@@ -1467,7 +1467,7 @@
       "reason": "settlement_overrun",
       "reservation": "w6"
      },
-     "prev_hash": "152da5457455b407b89f4431ecf9bb2bf1bcb6e51d11bf1201dfcbc677d45cc7",
+     "prev_hash": "a415d7ce39ad8306e1233af4f4c492b4519e80621a19008dfec237566af55f8e",
      "run_id": "run-unrolled-window",
      "seq": 4,
      "stream": "run:run-unrolled-window",
@@ -1479,9 +1479,9 @@
      "at": "2026-10-25T09:00:18Z",
      "cost": null,
      "cost_basis": null,
-     "hash": "4a1ad5aa9c315247bb057be07f40043cf95fe2c44dd7e0aa4acb3812768c2b55",
+     "hash": "c21e3751896623618178ce919acdf7f1b29a318b9f81a7eb867d0c68df7be049",
      "payload": {
-      "agent": "theo",
+      "agent": "tester",
       "budgets": [
        {
         "budget": "org-daily",
@@ -1497,14 +1497,14 @@
         "window_start": "2026-10-24T00:00:00.000000Z"
        },
        {
-        "budget": "theo-daily",
+        "budget": "tester-daily",
         "limit": "0.01",
         "on_breach": "reset",
         "overrun": "0.028",
         "overspent": true,
         "resets_at": "2026-10-25T00:00:00.000000Z",
         "scope": "agent",
-        "scope_id": "theo",
+        "scope_id": "tester",
         "spent": "0.03",
         "window": "day",
         "window_start": "2026-10-24T00:00:00.000000Z"
@@ -1513,7 +1513,7 @@
       "reason": "overrun",
       "reservation": "w6"
      },
-     "prev_hash": "dd36ce09db2165eeff70247d75a9dc26a6ab51ac3d84fea70c1cf8dfc4cb3e5a",
+     "prev_hash": "6beed32f1e80cbb7db304c6677c4fd4fe184b7e652c9258b06b4ad8ec1e071ff",
      "run_id": "run-unrolled-window",
      "seq": 5,
      "stream": "run:run-unrolled-window",
@@ -1522,7 +1522,7 @@
     }
    ],
    "has_more": false,
-   "head": "4a1ad5aa9c315247bb057be07f40043cf95fe2c44dd7e0aa4acb3812768c2b55",
+   "head": "c21e3751896623618178ce919acdf7f1b29a318b9f81a7eb867d0c68df7be049",
    "head_seq": 5,
    "next_after_seq": 5,
    "stream": "run:run-unrolled-window"
@@ -1541,7 +1541,7 @@
       "passed": 0,
       "total": 0
      },
-     "head": "4a1ad5aa9c315247bb057be07f40043cf95fe2c44dd7e0aa4acb3812768c2b55",
+     "head": "c21e3751896623618178ce919acdf7f1b29a318b9f81a7eb867d0c68df7be049",
      "org": "demo",
      "run_id": "run-unrolled-window",
      "spend": {
@@ -1571,7 +1571,7 @@
       "passed": 0,
       "total": 0
      },
-     "head": "cf5c03076aa3e612cd879a132c28781c0aa07fb4d380ab080742e8e0c03c928a",
+     "head": "237ddede1bd7493f4a6277a290dd639f55e4507dc5530946a844f6782a70b2d0",
      "org": "demo",
      "run_id": "run-next-day",
      "spend": {
@@ -1601,7 +1601,7 @@
       "passed": 0,
       "total": 0
      },
-     "head": "01bfc7e101c4dedceb841a83008c8dc74557270de90dc086e0df8e3858b3728d",
+     "head": "2fdc7ef5763150207d6fb1ff6cf3a2917ea3cd8c36cdfce5a72d1f32489583b9",
      "org": "demo",
      "run_id": "run-closed-window",
      "spend": {
@@ -1631,7 +1631,7 @@
       "passed": 0,
       "total": 0
      },
-     "head": "82c95280562157044e7e62673c6bb813c0f9a38f69d4ba71b99afa70a91e5fd6",
+     "head": "42a0adec244436e3d5ec2fe5c67c2813c437403ae9e06dd0b8ccc1357d6df29a",
      "org": "demo",
      "run_id": "run-demo-window",
      "spend": {

@@ -38,6 +38,8 @@ export function createUnavailableClient(): ApiClient {
       get: unavailable("runs.get"),
       taskAudit: unavailable("runs.taskAudit"),
       start: unavailable("runs.start"),
+      startPlan: unavailable("runs.startPlan"),
+      startStatus: unavailable("runs.startStatus"),
       pause: unavailable("runs.pause"),
       stop: unavailable("runs.stop"),
       events: unavailable("runs.events"),

@@ -1,4 +1,4 @@
-"""A tiny ledger builder for the earned-autonomy tests (`spec/autonomy/README.md`, section 9).
+"""A tiny ledger builder for the earned-autonomy tests (section 9).
 
 Entries get increasing commit positions in the order they are added, so "committed after the
 grant" is the order of the calls. Only the fields the autonomy maths reads are meaningful; the

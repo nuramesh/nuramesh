@@ -551,7 +551,7 @@ function readHandoff(state: unknown): { doc: BuilderDocument; label: string } | 
   return parsed.ok ? { doc: parsed.value, label: handoff.label } : null;
 }
 
-/** The graph builder (PLAN A.1–A.5): canvas, palette, properties, roles and live validation. */
+/** The Workflow builder (PLAN A.1–A.5): canvas, palette, properties, roles and live validation. */
 function BuilderForScope() {
   const location = useLocation();
   const navigate = useNavigate();

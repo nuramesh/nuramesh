@@ -181,7 +181,7 @@ class AuthSettings:
     # server secret (at least 32 random bytes) the successor pair is derived under; required when
     # the window is on, never stored in the database, shared by every replica (T109, spec 11.7)
     refresh_successor_key: bytes | None = field(default=None, repr=False)
-    # MFA (R1.38): the auth key files that seal TOTP secrets (None: enrolment is off, mfa.md 2a),
+    # MFA (R1.38): the auth key files that seal TOTP secrets (None: enrolment is off, 2a),
     # the name shown in the authenticator app and the life of a login challenge in seconds
     mfa_keys: KeyRing | None = None
     mfa_issuer: str = "NuraMesh"
@@ -1554,7 +1554,7 @@ class AuthService:
         is not an active owner is always fine (T126)."""
         self._require_other_owner(self.store.list_users(self.org_id), user_id)
 
-    # -- people, roles, disable and enable (E1 PR 1; spec/e1 sections 9.1 and 10) -------------
+    # -- people, roles, disable and enable (E1 PR 1; sections 9.1 and 10) -------------
 
     def list_people(self) -> list[User]:
         """Every person of the organization who is not erased, ordered by id."""

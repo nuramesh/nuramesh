@@ -146,7 +146,8 @@ def _yaml_module() -> ModuleType:
         import yaml
     except ImportError as exc:  # pragma: no cover - exercised in the core-only CI job
         raise ConfigError(
-            "YAML support needs the extra: pip install 'nuramesh[yaml]' (JSON works without it)"
+            'YAML support needs the extra: pip install "nuramesh[local]" '
+            "(the quickstart install; JSON works without it)"
         ) from exc
     return yaml
 

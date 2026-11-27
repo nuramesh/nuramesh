@@ -188,8 +188,8 @@ describe("budget windows", () => {
     expect(row).toMatchObject({ scope: "Organization", period: "Daily (UTC)", window: "day", onBreach: "reset", status: "ok", percentUsed: 13 });
     expect(row.resetsAt).toBe("2026-10-25T00:00:00.000Z");
     expect(row.windowStart).toBe("2026-10-24T00:00:00.000000Z");
-    const held = budgetRow(budget({ id: "b2", scope: "agent", scope_id: "dana", on_breach: "hold", blocked: true }));
-    expect(held).toMatchObject({ scope: "Agent: dana", onBreach: "hold", status: "blocked" });
+    const held = budgetRow(budget({ id: "b2", scope: "agent", scope_id: "developer", on_breach: "hold", blocked: true }));
+    expect(held).toMatchObject({ scope: "Agent: developer", onBreach: "hold", status: "blocked" });
     const lifetime = budgetRow(budget({ window: "none", window_start: null, on_breach: "hold", spent: { amount: "28", currency: "USD" } }));
     expect(lifetime).toMatchObject({ period: "Lifetime", resetsAt: null, windowStart: null, status: "near" });
   });
@@ -197,14 +197,14 @@ describe("budget windows", () => {
   it("reads the real alerts: held has no reset time, a reset budget has one, from the server only", () => {
     const run = body<RawRunDetail>("windows", "run_alerts");
     const [held, reset] = run.budget_alerts.map((a) => budgetAlert(a, "run:run-demo-window"));
-    expect(held).toMatchObject({ budget: "dana-daily", held: true, resetsAt: null, kind: "limit_passed", window: "day" });
+    expect(held).toMatchObject({ budget: "developer-daily", held: true, resetsAt: null, kind: "limit_passed", window: "day" });
     expect(held?.limit).toEqual({ amount: "0.01", currency: "USD" }); // the server sends plain text here
     expect(held?.spent).toEqual({ amount: "0.02", currency: "USD" });
-    expect(reset).toMatchObject({ budget: "rhea-daily", held: false, resetsAt: "2026-10-25T00:00:00.000000Z" });
+    expect(reset).toMatchObject({ budget: "reviewer-daily", held: false, resetsAt: "2026-10-25T00:00:00.000000Z" });
   });
 
   it("never computes a reset time the server did not send", () => {
-    const found = body<RawRunDetail>("windows", "run_alerts").budget_alerts.find((x) => x.budget === "rhea-daily");
+    const found = body<RawRunDetail>("windows", "run_alerts").budget_alerts.find((x) => x.budget === "reviewer-daily");
     if (found === undefined) throw new Error("the reset budget's alert is missing from the recording");
     const alert: RawBudgetAlert = found;
     expect(alert.resets_at).toBeTruthy();
@@ -233,10 +233,10 @@ describe("budget windows", () => {
 
   it("maps the budgets of the real windows store", () => {
     const rows = body<RawBudget[]>("windows", "budgets").map(budgetRow);
-    const held = rows.find((r) => r.id === "dana-daily");
-    expect(held).toMatchObject({ window: "day", onBreach: "hold", status: "blocked", scope: "Agent: dana" });
+    const held = rows.find((r) => r.id === "developer-daily");
+    expect(held).toMatchObject({ window: "day", onBreach: "hold", status: "blocked", scope: "Agent: developer" });
     // the day after the breaches: the reset budget started fresh by itself, the held one stays blocked
-    expect(rows.find((r) => r.id === "rhea-daily")).toMatchObject({ onBreach: "reset", status: "ok", windowStart: "2026-10-25T00:00:00.000000Z", resetsAt: "2026-10-26T00:00:00.000Z" });
+    expect(rows.find((r) => r.id === "reviewer-daily")).toMatchObject({ onBreach: "reset", status: "ok", windowStart: "2026-10-25T00:00:00.000000Z", resetsAt: "2026-10-26T00:00:00.000Z" });
     expect(held?.windowStart).toBe("2026-10-25T00:00:00.000000Z");
     expect(rows.find((r) => r.id === "org-daily")).toMatchObject({ scope: "Organization", period: "Daily (UTC)", status: "ok" });
   });
@@ -302,7 +302,7 @@ describe("approvals (real answers)", () => {
   const decided = body<RawApproval>("approvals", "decided");
   it("shows a pending request with evidence and no decision", () => {
     const a = approval(pending, null);
-    expect(a).toMatchObject({ state: "pending", title: "omar wants to merge main.", requester: "omar", runLabel: "#approvals", decision: null, runSpend: null });
+    expect(a).toMatchObject({ state: "pending", title: "devops wants to merge main.", requester: "devops", runLabel: "#approvals", decision: null, runSpend: null });
     expect(a.rule).toBe("rule 0 says ask");
     expect(a.evidence.map((e) => e.state)).toEqual(["ok", "wait"]);
   });
@@ -327,7 +327,7 @@ describe("approvals (real answers)", () => {
     expect(a.effect).toBe("Lets ev wants to il do this one thing, once, in this run: merge main.");
   });
   it("spend approvals name the amount", () => {
-    expect(approval({ ...pending, action: { kind: "spend", target: null, amount: { amount: "25", currency: "USD" } } }, null).title).toBe("omar wants to spend $25.00.");
+    expect(approval({ ...pending, action: { kind: "spend", target: null, amount: { amount: "25", currency: "USD" } } }, null).title).toBe("devops wants to spend $25.00.");
   });
 });
 
@@ -405,7 +405,7 @@ describe("proposalList", () => {
   it("a cell that counts nothing has no approved asks (null, not 0), and the share text stays as the server wrote it", () => {
     // `never_grantable` and `no_such_rule`: the evidence is the cell alone (`core/proposals.py`)
     const list = proposalList({
-      items: [{ subject: { kind: "agent", id: "dana" }, cell: { role: "writer", rule_key: 1 }, kind: null, status: "no_such_rule", reasons: ["no_such_rule"], evidence: {}, evidence_hash: "h", solo: { approved_asks_solo: 0, solo_share: null } }],
+      items: [{ subject: { kind: "agent", id: "developer" }, cell: { role: "writer", rule_key: 1 }, kind: null, status: "no_such_rule", reasons: ["no_such_rule"], evidence: {}, evidence_hash: "h", solo: { approved_asks_solo: 0, solo_share: null } }],
       ledger_position: 3,
       as_of: "2026-11-12T00:00:00Z",
     });

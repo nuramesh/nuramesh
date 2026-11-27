@@ -1,4 +1,4 @@
-"""People and roles (E1 PR 1; `spec/e1/README.md` sections 9.1 and 10).
+"""People and roles (E1 PR 1; sections 9.1 and 10).
 
 An **owner in a human session** lists the organization's people, disables and enables a person
 and sets a role (`viewer` or `approver`). All four routes are the `admin` rule, so an API token or

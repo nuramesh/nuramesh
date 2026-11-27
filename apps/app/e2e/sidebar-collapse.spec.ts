@@ -71,7 +71,7 @@ test.describe("collapsible sidebar", () => {
     await fitView(page);
     const before = await width(page);
     // The YAML editor is a textarea: typing there must never toggle the sidebar.
-    await node(page, "dana").click();
+    await node(page, "developer").click();
     await page.getByRole("tab", { name: "YAML" }).click();
     const field = page.getByRole("textbox", { name: /^YAML for/ });
     await field.focus();

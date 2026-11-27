@@ -1,4 +1,4 @@
-"""Earned autonomy in the engine (E13 + E14, `spec/autonomy/README.md`): reads, writers, overlay.
+"""Earned autonomy in the engine (E13 + E14): reads, writers, overlay.
 
 The pure maths is in `nuramesh.core` (`autonomy`, `scorecard`, `proposals`, `overlay`). This module
 reads the ledger of one organization (its `org:<id>` stream and the run streams that started under
@@ -1163,7 +1163,7 @@ def set_floor_in(
     reason: str,
     content: ContentService,
 ) -> dict[str, Any]:
-    """Set the model-change floor of `role` (spec/model-change MC6): the only writer of
+    """Set the model-change floor of `role` (MC6): the only writer of
     `model_change_floor_set`. A person who is the owner only; `kinds` must be a list of floor
     kinds (else 400 `not_floor_kind`); setting the value in force writes nothing."""
     _need_human(actor, {"owner"}, actor_role)

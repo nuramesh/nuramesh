@@ -1,228 +1,239 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset=".github/images/logo-dark.svg">
-    <img alt="NuraMesh" src=".github/images/logo-light.svg" width="380">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.svg">
+    <img src="docs/assets/logo-light.svg" alt="NuraMesh" width="320">
   </picture>
 </p>
 
-<h3 align="center">The control plane for AI agents.</h3>
+<h3 align="center">The Control Plane for AI Agents.</h3>
 
 <p align="center">Every action verified, approved where it matters, and always on the record.</p>
 
-<p align="center">
-  <a href="https://github.com/nuramesh/nuramesh/releases"><img alt="Release v0.1.0" src="https://img.shields.io/badge/release-v0.1.0-71D9A0?labelColor=141833"></a>
-  <a href="LICENSE"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-71D9A0?labelColor=141833"></a>
-  <a href="https://www.linkedin.com/company/nuramesh"><img alt="Follow @NuraMesh on LinkedIn" src="https://img.shields.io/static/v1?style=social&label=Follow%20%40NuraMesh&message=%20&logo=data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAACgAAAAiCAYAAAAtZZsLAAAF0UlEQVR42u1YTWxcVxX%2BvnvvezMTOzhtaNRWICGrqt20TYn6w6JCjovaipAoYjGREBEgpDpuq1Zihdgwnl3ZgcKiLpsqAlU4RW1iSilSFVuIBQjL0CpuUiIjEUra9C9y4sy8ee%2Bdj8Ub2%2BOfIIfUhkWvdDSad87c%2B71zz883hzufOH6bFD0v4AFZRgLE5izRR5nMXmvZ%2FLdnR6tzxclUp5GzjM%2B7qPwg8jQQCAD8JkmwrBWHSs%2BBiKUfgtRAbcKvfAsn6Et5Mm8gl3tOMEEZJNsoF5KUtRpG8EEAmMTEqrMciRSEWw5OxhA7H3cHF5XdRoIszlZ6NXXAqpiTXLzF5WnjbeTJDMFeF1d2WdoUNio%2Bxavuu8pzLtpCpcmP%2Fc3Nu8%2BMHvj66dH9X7Ss9QMXSoRg2OTlll9ryVnaPPPW6L7vzdQPtgZqJwMAnH523zN52vy9i8sOQL6ZAMNSTsB8iF2WJdOo1dwA9rjJ%2BmB279Cfo%2B5bTuq983N%2FpIu%2FLDVEcvM9SJLKUxC4A%2FW6TWLC7h0ajbpvuaTJ%2BmAG4G4pAzYTXacHAXhLm%2Bbiyj39Q7%2F%2B%2Fun6vh9NoYi5%2Fsdf%2BRbpH7bkipHw%2FyuAAOksbYoheqb%2F8IlHJP0V5O0Uvial6sjhXJCKpBbabvXtUMkBiYIDKUkCl%2FTXB3ARZoAv9zxEHx6C5chb81CrsQjPRRVPOizUHQGw1jwgyZe6PEnIcgAEnYdkbT10rSESVlZNQHnearyap43LHRleIvFV0JUBwNLm64A%2BAuQAmqCIwgEXlWlpcxxmJ%2BTyczAfA%2FoC6B5xLtoHiMqzawIZOosg6AhZkpeib549sneu07B%2F6Pg7dP5WQKD49Mzo3pkF3a5DR7taXdv%2BnmetJ86M7n9xjXOO9A2PP0oXXqCPepSn60621Vcs0JJsW7U6Nj97Q6%2Fr%2FXjWpuOkS8Tijqasp1od89M3d4fd717OTm0pb6fwjdPP7X%2F9tqd%2BUwKAnuSc9X58g13YeRMvn9%2FKqWfve63vsZcec6WuF5Wntt6utFYMwpP5sWMHc9Skqefus12HjubJ8gZe6KtjOHvsYA7gH23B2SN7F02nJIIUAA7UTobJ%2BuCv%2BoaOT%2FuostvShmEdTgyfVDMFqF2Hjna1erYPUtGW7PLFP%2FyNfGdB11FuX6WPditt2Hq4p7t%2BbCIA9H335Vtb3Tf%2ByfvKuAvhl6F761%2F6h8fvAgjUaq7D%2BhRkwDrz5LoBDoxMeIBC5J4OlW07s%2BalJGvOJT7u%2BiyUPwVAA9jjJmfeVxEe7oKUg5LbFICT2GPtAvWApQ0jGUgXLGsK4u0riShzaxb0cpM8iDra8aXuoi4uFVWBZQDAyIiWWlBukP4LuvV%2Fuj4FuOpAHzyuoR1%2F6sFPlg8uZpp8tTrmZ89Pud7qGKeV%2BE4yZ239KcDfNDDBHTvG9OaadUOsVsf8hZEJvg%2B4O6tjeJPe8boAEnJxuHis6LH5VPF0rn%2Fo%2BGJtoGluQb%2Fw7I7DJ7I1qGXWtgMAzADof%2FLEJSC%2BOqJazaFet%2BJzRGEllZEQfCvf3zc8%2FoEgR9CcrGxAmVJBTwO%2F0jc8%2FjlT5qnI6CST3ehkQJt3SwZC2%2FuGxx%2BVI5WnzjHkynEXnWFFjy7WSF0gBIio04B6pwdJFOw8dqH085UXxjSBVDiDofQTT8KjtHTtWQvKWliYUihrAc73%2BxD%2Ftoj2eOHfbdtudSrvHBmLssOl%2B6P4d11Z8nLKyN4Iq94CQJsKaRkhIBcTSmliIrRGwq2Y75gsbdpKvrlq1MLid9m7pfsdtMOkGNAVpH7ACQoQrHg1FAIWGy1I8b1Dj%2BX6QrTMphCtsmsPptrDKQO42PoIi3L4WQiDDv5KzvyfgeIvfOUz31Ha%2BE8jko0YyICCcyGCJXihmAUyeGprnrZeMfIDT%2F%2F50Eg%2BfLxC%2FIs%2BGrAscYBb5HgbN9EqXEYXp60rF196%2B2cHfopazSXvVd6I1HjYlbeeQ2P%2BTlJv%2FRvNq%2B6vvTqD3wAAAABJRU5ErkJggg%3D%3D"></a>
-  <a href="https://x.com/NuraMeshAI"><img alt="Follow @NuraMeshAI on X" src="https://img.shields.io/twitter/url/https/x.com/NuraMeshAI.svg?style=social&label=Follow%20%40NuraMeshAI"></a>
-</p>
+<div align="center">
 
-<p align="center">
-  <a href="https://nuramesh.com"><b>Website</b></a> &nbsp;·&nbsp;
-  <a href="https://docs.nuramesh.com/quickstart/"><b>Quickstart</b></a> &nbsp;·&nbsp;
-  <a href="examples/"><b>Examples</b></a> &nbsp;·&nbsp;
-  <a href="https://github.com/nuramesh/nuramesh/discussions"><b>Discussions</b></a> &nbsp;·&nbsp;
-  <a href="https://nuramesh.com"><b>Request access</b></a>
-</p>
+[![License: Apache 2.0](https://img.shields.io/badge/license-Apache--2.0-5BB8C8)](LICENSE)
+[![CI](https://github.com/nuramesh/nuramesh/actions/workflows/ci.yml/badge.svg)](https://github.com/nuramesh/nuramesh/actions/workflows/ci.yml)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-5BB8C8)](pyproject.toml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/nuramesh/nuramesh/badge)](SECURITY.md)
+[![Discussions](https://img.shields.io/github/discussions/nuramesh/nuramesh)](https://github.com/nuramesh/nuramesh/discussions)
 
-<br>
+[Docs](#documentation) · [Quickstart](docs/quickstart.md) · [Examples](examples/) · [Discussions](https://github.com/nuramesh/nuramesh/discussions) · [Security](SECURITY.md)
 
-NuraMesh is an open-core control plane for teams of AI agents. Describe your agents as a team, and NuraMesh checks every action against policy, stops spending at hard limits, accepts work only when it is verified, and records everything in a tamper-evident ledger that anyone can check offline.
+</div>
 
-**Two ways to use it**
+NuraMesh is an open-core platform for agent teams whose work is verified. You define an organization of
+agents as a graph. NuraMesh adds verification gates, evals per role, budgets with hard stops, a shared
+canon from Git, an append-only ledger of every action, and default-deny autonomy policies. It builds on
+existing frameworks (LangGraph first) and does not replace them. Status: pre-1.0, interfaces may change.
 
-- **No framework needed.** Build a team in the visual builder or in one YAML file, start from a template, and NuraMesh runs it with its own engine.
-- **Already have agents?** NuraMesh sits on top of the framework you use, LangGraph today, and adds control and proof without a rewrite.
+![NuraMesh architecture: the command line, API server, web app and SDKs drive the trust layer, which checks your LangGraph agent team with policies, budgets and gates and records every action in the audit ledger](docs/assets/architecture.svg)
 
-> [!TIP]
-> Try it in two minutes on the built-in fake model. No API keys, no cost. See [Quickstart](#quickstart).
+![The NuraMesh web app: the Workflow builder with the Dev team template loaded (sample data)](docs/assets/app-builder.png)
 
-<br>
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset=".github/images/architecture-dark.svg">
-    <img alt="Agents call models and tools through the NuraMesh control plane, and every step is recorded in the ledger" src=".github/images/architecture-light.svg" width="100%">
-  </picture>
-</p>
+*The web app's Workflow builder with the Dev team template loaded (a screenshot of the app on its
+built-in sample data).*
 
 ## Why NuraMesh
 
-<table>
-<tr>
-<td width="33%" valign="top">
+Agent frameworks make it easy to get agents to act. They do not tell you whether the work is right, what
+it cost, or who allowed it. NuraMesh is the trust layer around the framework you already use.
 
-**Verified work**<br>
-Done means its gates passed, with evidence. Not when an agent says so.
-
-</td>
-<td width="33%" valign="top">
-
-**Default-deny control**<br>
-Every action is allowed, asked or denied by policy. One switch stops everything.
-
-</td>
-<td width="33%" valign="top">
-
-**Hard budgets**<br>
-Spend is checked before every model call. A limit is a stop, not a warning.
-
-</td>
-</tr>
-<tr>
-<td valign="top">
-
-**Tamper-evident ledger**<br>
-Every step is hash-chained and anchored in Git. Anyone can verify it offline.
-
-</td>
-<td valign="top">
-
-**Earned autonomy**<br>
-Agents earn freedom from evidence and evals, within ceilings you set.
-
-</td>
-<td valign="top">
-
-**Your stack, your cloud**<br>
-Self-hosted, no telemetry, no license check over the network.
-
-</td>
-</tr>
-</table>
-
-## See it in action
-
-NuraMesh comes with a web app (included in the first release): build teams visually, watch runs live, approve actions and check the ledger.
-
-<p align="center"><a href="#see-it-in-action"><img alt="A tour of the NuraMesh web app: live run, builder, approvals and ledger" src=".github/images/screens/tour.gif" width="100%"></a></p>
+- **Verification gates.** A task is done only when its gates pass: rules, test commands, independent
+  verifiers that never see the worker's reasoning, and people.
+- **Evals per role.** Each role has eval suites, so you know what an agent in that role can do before
+  you rely on it.
+- **Hard budgets.** Spending is checked before a model call and recorded after it. A limit is a stop,
+  never a warning.
+- **Canon from Git.** The approved documents your agents follow are kept in Git, so every run says
+  which version it used.
+- **Append-only ledger.** Actions, model calls, costs, gate results and approvals go into a
+  hash-chained audit ledger. Signed anchors let anyone check it offline.
+- **Default-deny autonomy.** Each agent does a job (planner, developer, reviewer, tester). Its role in
+  the team sets what it may do. Everything else asks a person.
 
 ## Quickstart
 
-**1. Install from source** (Python 3.12 or newer, and [uv](https://docs.astral.sh/uv/))
+Four commands take you from nothing to a verified run on the built-in fake model (no keys, no cost).
+You need Python 3.12 or newer. The first line installs NuraMesh and is not counted; run the four
+commands after it in a throwaway folder.
 
-```bash
-git clone https://github.com/nuramesh/nuramesh && cd nuramesh
-uv sync --locked --extra local
-uv run nuramesh doctor           # checks your machine and says how to fix anything missing
+```sh
+pip install "nuramesh[local]"
+nuramesh init my-team --template dev-team
+nuramesh validate my-team/nuramesh.yaml
+nuramesh try my-team --fake --approve-as human:you --allow-unsandboxed --run-id first-run
+nuramesh ledger verify --team my-team
 ```
 
-**2. Create a team from a template**
+The `local` extra adds YAML team files and the API server; `pip install nuramesh` alone is the
+library and the CLI only. Quotes are needed in zsh because of the square brackets. Install into a virtual environment so that
+`python` is on your PATH: the sample team's test gate runs `python -m unittest`. The sample team fixes
+a failing test in a tiny project, so the run executes that project's tests on your machine:
+`--allow-unsandboxed` says you accept that. Use a throwaway folder. The `try` command prints its report:
 
-```bash
-uv run nuramesh init my-team            # a ready-made team with gates, policies and budgets
+```text
+Run first-run
+Tasks: 3 done
+  [done] first-run-fix-add (developer, attempts 1): Fix the failing add() test in calc.py
+      gate has-fix (rule): passed by gate:rule
+      gate tests (test_command): passed by gate:test_command
+      gate review (verifier): passed by agent:reviewer
+  [done] first-run-test-suite (tester, attempts 1): Run the whole test suite on the fix
+      gate green (rule): passed by gate:rule
+  [done] first-run-deploy (devops, attempts 1): Deploy the fix to staging
+      gate deploy-plan (rule): passed by gate:rule
+      gate approve-deploy (human): passed by human:you
+Budgets:
+  developer-monthly (agent developer): spent 0.001335 of 5.00, reserved 0.000000
+  devops-monthly (agent devops): spent 0 of 5.00, reserved 0
+  rb-486e135495bd (run first-run): spent 0.003471 of 2.00, reserved 0.000000
+  reviewer-monthly (agent reviewer): spent 0.002136 of 5.00, reserved 0.000000
+Spend: $0.003471 (2 calls)
+Ledger: run:first-run seq …, head f2d7755b0f573903… (verified)
 ```
 
-**3. Run it on the built-in fake model**
+Numbers in your run may differ: the ledger head and the sequence number change from run to run, so the
+sequence number is shown as `…`. With no container runtime (Podman or Docker) installed, `try` also prints
+a `SANDBOX OFF` notice and records that opt-out in the ledger; that is expected there, because
+`--allow-unsandboxed` runs the sample project's tests on your machine without isolation.
+`docs/quickstart.md` explains each step. The last command, `ledger verify`, checks the hash chains
+again from the record alone and ends with `0 broken`.
 
-```bash
-uv run nuramesh try my-team \
-  --fake \
-  --approve-as human:you \
-  --allow-unsandboxed \
-  --run-id first-run
+### In Python
+
+The same rules are a library. This example needs only the library (`pip install nuramesh`): a developer role may call
+the fake model and nothing else, so the merge is denied by default.
+
+```python
+from nuramesh.core.models import FakeModel, Message, ModelRequest
+from nuramesh.core.policy import Action, ActionKind, Policy, PolicyRule, evaluate
+
+rule = PolicyRule(action=ActionKind.CALL_MODEL, target="fake/*", decision="allow")
+dev = Policy(role="developer", rules=[rule])
+for kind, target in [(ActionKind.CALL_MODEL, "fake/dev-1"), (ActionKind.MERGE, "main")]:
+    v = evaluate(dev, Action(kind=kind, target=target))
+    print(f"{kind.value} {target}: {v.decision.value} ({v.reason})")
+ask = Message(role="user", content="Fix add() so it returns the sum.")
+req = ModelRequest(provider="fake", model="dev-1", messages=[ask], max_output_tokens=200)
+print(FakeModel(["def add(a, b): return a + b"]).complete(req).text)
 ```
 
-> [!NOTE]
-> `--fake` uses the built-in model, so nothing is sent anywhere and nothing costs money. `--allow-unsandboxed` is needed only when no container runtime (Podman or Docker) is found: the sample project's tests then run directly on your machine, so try it in a throwaway folder. With a runtime installed the flag has no effect and the tests run in a container.
+Expected output:
 
-**4. Prove what happened**
-
-```bash
-uv run nuramesh ledger verify --team my-team    # proves nothing was changed after the fact
-uv run nuramesh serve my-team            # start the API server at http://127.0.0.1:8765
+```text
+call_model fake/dev-1: allow (rule 0 says allow)
+merge main: deny (default deny: no rule matches)
+def add(a, b): return a + b
 ```
 
-**How the rules look.** Your team lives in one readable file, `my-team/nuramesh.yaml`. An excerpt:
+### From source
 
-```yaml
-policies:
-  # the policies section holds a list of role rules
-  policies:
-    - role: developer
-      rules:
-        # developers may use the fake model
-        - {action: call_model, decision: allow, target: "fake/*"}
-    - role: devops
-      rules:
-        # a merge waits for a person to approve
-        - {action: merge, decision: ask, target: "*"}
-budgets:
-  # "dana" is the developer agent in the template; she may spend at most $5
-  - id: dana-monthly
-    scope: agent
-    scope_id: dana
-    limit: {amount: "5.00", currency: USD}
-```
+To run from a clone of this repository instead of the package (to work on NuraMesh itself, or to try
+the main branch), you need Python 3.12 or newer and `uv`. With the package installed, the same commands
+work without `uv run`, for example `nuramesh serve my-team`. In a clone:
 
-Anything no rule allows is denied. The full walkthrough is in the [Quickstart guide](https://docs.nuramesh.com/quickstart/).
+1. Install from the lockfile, with the `local` extra (YAML team files and the API server; the plain
+   install is the library only): `uv sync --locked --extra local`
+2. Create a team folder: `uv run nuramesh init my-team`. Check it with
+   `uv run nuramesh validate my-team/nuramesh.yaml` and run it on the built-in fake model (no keys,
+   no cost) as `docs/quickstart.md` shows.
+3. Start the API server for that team folder: `uv run nuramesh serve my-team`. Sign-in is on by
+   default; the first start prints a one-time setup link to create the owner (`docs/first-run.md`).
+
+Docker Compose self-hosting for a small team is coming soon: `docs/self-hosting.md` is a preview for
+evaluation, not a supported install. To hear when it is ready, [request access](https://nuramesh.com/request-access).
+
+The example teams under `examples/` run from a clone of the repository.
+
+## Open core and Enterprise
+
+This repository is the open core, licensed under the Apache License 2.0. It sends no telemetry and never
+checks a licence over the network. NuraMesh Enterprise is a separate commercial product in development;
+its code is not in this repository.
+
+| Capability | Open core | Enterprise |
+| --- | :---: | :---: |
+| Verification gates, independent verifiers and evals per role | Yes | Yes |
+| Budgets with hard stops, default-deny policies, canon from Git | Yes | Yes |
+| Audit ledger, signed anchors and the offline ledger verifier | Yes | Yes |
+| Command line, REST API, web app with the Workflow builder, Python and TypeScript SDKs | Yes | Yes |
+| Team templates and governed real-model connections | Yes | Yes |
+| Sign-in with the roles owner, approver and viewer (builder and admin exist in the permission table but cannot be assigned yet) | Yes | Yes |
+| Single sign-on (OIDC, SAML) and SCIM user sync | – | Yes |
+| Custom roles and scoped permissions | – | Yes |
+| Streaming audit export and retention policy administration | – | Yes |
+| Automatic model cost optimisation | – | Yes |
 
 ## Works with
 
-Use NuraMesh on its own, or on top of the framework you already have.
+Framework: LangGraph today; LangChain, OpenAI Agents SDK, Claude Agent SDK and CrewAI planned. Model providers: Anthropic, OpenAI, Azure OpenAI, Google Gemini, Mistral, Groq, Together AI, Ollama, vLLM, LM Studio and any OpenAI-compatible endpoint.
 
-<table>
-<tbody>
-<tr>
-<td width="50%" valign="top">
+[nuramesh.com](https://nuramesh.com) · [Docs](https://docs.nuramesh.com) · [LinkedIn](https://www.linkedin.com/company/nuramesh) · [X](https://x.com/NuraMeshAI)
 
-<h3 align="center">Agent frameworks</h3>
+## Integrations
 
-<div align="center">
-
-| Framework | Status |
-|---|---|
-| NuraMesh built-in engine | Available |
-| LangGraph | Available |
+| Integration | Status |
+| --- | --- |
+| LangGraph | Available: `src/nuramesh/adapters/` and the example team under `examples/` |
+| CrewAI | Coming soon |
+| AutoGen | Coming soon |
 | OpenAI Agents SDK | Coming soon |
 | Claude Agent SDK | Coming soon |
-| LangChain | Coming soon |
-| CrewAI | Coming soon |
+| Model providers: Anthropic, Azure OpenAI, OpenAI-compatible endpoints, local servers such as Ollama | Available, through the approved model catalog (`docs/model-governance.md`) |
+| OpenTelemetry export to your own collector | Available, off unless you set an endpoint (`docs/telemetry.md`) |
 
-</div>
+## Documentation
 
-</td>
-<td width="50%" valign="top">
+| To do this | Read |
+| --- | --- |
+| Run your first verified team | [`docs/quickstart.md`](docs/quickstart.md) |
+| Start from a ready-made team | [Examples and templates](https://docs.nuramesh.com/get-started/templates/) on the docs site, and [`examples/`](examples/) |
+| Create the first owner and sign in | [`docs/first-run.md`](docs/first-run.md) |
+| Use the command line | [`docs/cli.md`](docs/cli.md) |
+| Call the REST API | [`docs/api.md`](docs/api.md) |
+| Configure with environment variables | [`docs/configuration-env.md`](docs/configuration-env.md) |
+| Approve and connect real models | [`docs/model-governance.md`](docs/model-governance.md), or [model governance](https://docs.nuramesh.com/concepts/model-governance/) on the docs site |
+| See what leaves your machine (nothing, unless you set an endpoint) | [`docs/telemetry.md`](docs/telemetry.md) |
+| Preview the Docker Compose self-hosting setup (coming soon, not yet supported) | [`docs/self-hosting.md`](docs/self-hosting.md) |
 
-<h3 align="center">Models</h3>
+How the code is laid out:
 
-<div align="center">
+| Part | Where | What it does |
+| --- | --- | --- |
+| Core | [`src/nuramesh/core/`](src/nuramesh/core/) | The domain model: organization graph, tasks, gates, budgets, policies, ledger, money. Imports only the standard library and pydantic. |
+| Engine | [`src/nuramesh/engine/`](src/nuramesh/engine/) | Runs a team: gates and verifiers, budgets, policy checks, canon, evals, anchors, sandbox. |
+| Stores | [`src/nuramesh/stores/`](src/nuramesh/stores/) | Memory, SQLite and PostgreSQL behind one interface. |
+| Adapters | [`src/nuramesh/adapters/`](src/nuramesh/adapters/) | Thin framework adapters. LangGraph is the first. |
+| Server | [`src/nuramesh/server/`](src/nuramesh/server/) | The REST API. Sign-in is on by default. |
+| Command line | [`src/nuramesh/cli.py`](src/nuramesh/cli.py) | The `nuramesh` command. |
+| Web app | [`apps/app/`](apps/app/) | The web app with the Workflow builder and approvals. |
+| TypeScript SDK | [`apps/sdk-ts/`](apps/sdk-ts/) | A typed client for the API. |
+| Ledger verifier | [`verifier/`](verifier/) | One standard-library file that checks a ledger export against signed anchors, sharing no code with NuraMesh. |
 
-| Provider | Status |
-|---|---|
-| Azure OpenAI, Anthropic | Available |
-| OpenAI, Gemini, Mistral, Groq | Available |
-| Ollama, vLLM, LM Studio (local) | Available |
-| AWS Bedrock | Coming soon |
-| Google Vertex AI | Coming soon |
-| Azure AI Foundry (non-OpenAI) | Coming soon |
+## Community
 
-</div>
+- Questions and ideas: [Discussions](https://github.com/nuramesh/nuramesh/discussions). Bug reports: the
+  issues of this repository. `SUPPORT.md` says what to include.
+- Anything else about the open-source project: opensource@nuramesh.com.
+- Everyone taking part follows `CODE_OF_CONDUCT.md`. How the project is run: `GOVERNANCE.md`.
 
-</td>
-</tr>
-</tbody>
-</table>
+## Contributing
 
-## Run it your way
+Bug reports and discussion are welcome. Please open an issue before sending a pull request:
+`CONTRIBUTING.md` has the setup and the checks to run.
 
-| | Laptop | Team server | Enterprise |
-|---|---|---|---|
-| **For** | Trying it, solo builders | A small team on one machine | Organizations at scale |
-| **How** | Library and CLI, SQLite | `nuramesh serve`, PostgreSQL, web app (Docker Compose coming soon) | NuraMesh Enterprise edition |
-| **Includes** | The full open core | Sign-in, MFA, invites | SSO (OIDC, SAML), SCIM, custom roles, streaming audit export, support |
-| **Start** | [Quickstart](https://docs.nuramesh.com/quickstart/) | [Self-hosting](https://docs.nuramesh.com/guides/self-hosting/) | [Request access](https://nuramesh.com) |
+## Security
 
-## Resources
+Email security@nuramesh.com, as `SECURITY.md` describes. Do not open a public issue for a
+vulnerability.
 
-- [Documentation](https://docs.nuramesh.com/): guides, concepts and how-tos
-- [How NuraMesh works](https://docs.nuramesh.com/concepts/ledger/): the ledger and its anchors, the [kill switch](https://docs.nuramesh.com/guides/kill-switch/) and [model governance](https://docs.nuramesh.com/)
-- [CLI](https://docs.nuramesh.com/reference/cli/) and [API](https://docs.nuramesh.com/reference/api/) reference: every command and endpoint
-- [Examples and templates](https://docs.nuramesh.com/): ready-made agent teams you can run in minutes
-- [Security policy](SECURITY.md): how to report an issue and what is in scope
-- [Discussions](https://github.com/nuramesh/nuramesh/discussions): questions, ideas and feedback
-- [Contributing](CONTRIBUTING.md): how to get involved
-- [Code of Conduct](CODE_OF_CONDUCT.md): community guidelines and standards
-- Follow [@NuraMeshAI on X](https://x.com/NuraMeshAI) and [NuraMesh on LinkedIn](https://www.linkedin.com/company/nuramesh)
+## Licence
 
-Found a security issue? Please do not open a public issue. Email security@nuramesh.com or see [SECURITY.md](SECURITY.md).
+Apache License 2.0: see `LICENSE` and `NOTICE`. Third-party notices: `THIRD_PARTY_NOTICES.md`. The
+name and logo are covered by `TRADEMARKS.md`. What changed in each release: `CHANGELOG.md`.
 
+---
+
+<p align="center">
+  NuraMesh is built by AI Collective Labs Inc. · <a href="https://nuramesh.com">nuramesh.com</a>
+</p>

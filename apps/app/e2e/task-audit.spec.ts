@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import { expectNoSeriousA11yViolations } from "./a11y";
 
-// Real-browser spec for R1.27 (spec/r127 section 11). The fixture client serves run r1, task t1. It cannot run on the
+// Real-browser spec for R1.27 (section 11). The fixture client serves run r1, task t1. It cannot run on the
 // build VM (ND135); CI runs it. The live-update cases (U7 to U11, U23, U24, U28) need a pushed stream and are covered
 // by vitest with a fake socket in src/runs/task-audit.test.tsx.
 

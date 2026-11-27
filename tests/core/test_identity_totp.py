@@ -1,4 +1,4 @@
-"""R1.38 MFA, pure TOTP and recovery-code functions (spec/identity/mfa.md section 1, T1-T8)."""
+"""R1.38 MFA, pure TOTP and recovery-code functions (section 1, T1-T8)."""
 
 from __future__ import annotations
 

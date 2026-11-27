@@ -28,7 +28,8 @@ COPY --from=builder /opt/venv /opt/venv
 # apt remain; this makes installing harder, not impossible).
 RUN /usr/local/bin/python -m pip uninstall -y pip setuptools wheel
 RUN useradd --uid 10001 --no-create-home --shell /usr/sbin/nologin nuramesh \
- && mkdir -p /data /keys && chown nuramesh /data /keys
+ && mkdir -p /data /keys /secret-store && chown nuramesh /data /keys /secret-store \
+ && chmod 0700 /secret-store
 # R1.29: builds NURAMESH_DATABASE_URL from a password file (deploy/compose); a no-op without it
 COPY --chmod=755 build/images/nuramesh-env /usr/local/bin/nuramesh-env
 USER 10001

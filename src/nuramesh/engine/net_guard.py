@@ -87,7 +87,7 @@ def _allowed() -> bool:
 
 def is_private_address(address: str) -> bool:
     """Is this IP address one an outbound request must not reach: anything but class `public` of the
-    one classifier (`core.netaddr`, spec/network-guard NG-1 to NG-4). One pair of `[` `]` is
+    one classifier (`core.netaddr`, NG-1 to NG-4). One pair of `[` `]` is
     stripped first. Text that is not exactly one IP address (a zone id, a name) is treated as
     private. The classifier refuses everything the stdlib `is_global` check did, and more."""
     if address.startswith("[") and address.endswith("]"):

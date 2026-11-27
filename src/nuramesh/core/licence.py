@@ -10,8 +10,9 @@ clock and fetches nothing; `nuramesh.licence` (outside `nuramesh.core`) does the
 refusal is one named problem from `PROBLEMS`. A licence can only switch paid features on; nothing
 here, and nothing that reads this module, may switch an open feature off.
 
-`NOT_BEFORE_SKEW` and `EXPIRY_GRACE` are placeholder values (spec section 9): code constants,
-never a setting, a flag or a claim.
+`NOT_BEFORE_SKEW` is a placeholder value (spec section 9); `EXPIRY_GRACE` is 30 days (ND472):
+paid features keep working for 30 days after `expires_at` and stop at `expires_at + 30 days`; the
+open core never stops. Both are code constants, never a setting, a flag or a claim.
 """
 
 import json
@@ -32,7 +33,33 @@ MAX_LICENCE_BYTES: Final = 16384
 MAX_FEATURES: Final = 64
 MAX_CUSTOMER_CHARS: Final = 200
 NOT_BEFORE_SKEW: Final = timedelta(minutes=5)  # placeholder (spec section 9, item 1)
-EXPIRY_GRACE: Final = timedelta(0)  # placeholder (spec section 9, item 2)
+EXPIRY_GRACE: Final = timedelta(days=30)  # ND472: paid features only; the open core never stops
+
+
+def grace_over(now: datetime, expires_at: datetime) -> bool:
+    """True when `now` is at or past `expires_at + EXPIRY_GRACE`. The grace is never added to
+    `expires_at` (a signed 9999 expiry would overflow and stop the open core); `now` is moved
+    back instead, and a time at the edge of the calendar counts as "not over"."""
+    try:
+        return now - EXPIRY_GRACE >= expires_at
+    except OverflowError:
+        return False
+
+
+def _too_early(now: datetime, not_before: datetime) -> bool:
+    try:
+        return now + NOT_BEFORE_SKEW < not_before
+    except OverflowError:  # a clock at the end of the calendar is long past any start
+        return False
+
+
+def grace_end(expires_at: datetime) -> datetime | None:
+    """`expires_at + EXPIRY_GRACE`, or None when that is past the end of the calendar."""
+    try:
+        return expires_at + EXPIRY_GRACE
+    except OverflowError:
+        return None
+
 
 CLAIM_NAMES: Final = (
     "v",
@@ -244,9 +271,9 @@ def verify_licence(
     if valid is not True:
         return _refuse("bad_signature", f"the signature does not match key {parsed.key_id}")
     stamp = parsed.expires_at.strftime("%Y-%m-%dT%H:%M:%SZ")
-    if now + NOT_BEFORE_SKEW < parsed.not_before:
+    if _too_early(now, parsed.not_before):
         starts = parsed.not_before.strftime("%Y-%m-%dT%H:%M:%SZ")
         return _refuse("not_yet_valid", f"{parsed.licence_id} is not valid before {starts}", parsed)
-    if now >= parsed.expires_at + EXPIRY_GRACE:
+    if grace_over(now, parsed.expires_at):
         return _refuse("expired", f"{parsed.licence_id} expired at {stamp}", parsed)
     return LicenceResult(True, None, "", parsed)

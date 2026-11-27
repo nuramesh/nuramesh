@@ -13,7 +13,7 @@ store and the ledger; the runner keeps a cache only.
   request whose claimer died after `begin_run` finds the run and only schedules it.
 - **Jobs.** Due jobs are leased (`claim_light_jobs`, epoch +1) up to the free worker slots and
   passed to `run_pass`. A parked job is due again at its next `WaitClock` timer or on a wake.
-- **Real models on (spec/real-models R6).** A runner started without `--fake` writes one
+- **Real models on (R6).** A runner started without `--fake` writes one
   `runner.real_models_on` to the stream of each organization it serves, once per leadership term
   and before the first claim of that organization's request; if the entry cannot be written it
   claims nothing of that organization. A `--fake` runner writes none.
@@ -352,7 +352,7 @@ class LightRunner:
         return True
 
     def _announce(self, orgs: Iterable[str]) -> frozenset[str]:
-        """spec/real-models R6: before the first claim of an organization's request in this
+        """R6: before the first claim of an organization's request in this
         leadership term, a real-capable runner writes `runner.real_models_on` to that
         organization's stream. Returns the organizations of which nothing may be claimed now: the
         entry could not be written, or the organization's state could not be read. An erased or

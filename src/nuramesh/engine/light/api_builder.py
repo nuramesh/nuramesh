@@ -5,7 +5,7 @@ the planned tasks. This is where a role name becomes an assignee (the org graph,
 which only a runner or worker process holds), where the role's gate preset becomes the task's
 gates, and where a plan that cannot be accepted is refused with a fixed code. Whether the plan's
 models may run on this runner is not decided here: that is admission (`engine/admission.py`,
-`spec/real-models` R10), which the begin sequence applies to the built plan.
+R10), which the begin sequence applies to the built plan.
 
 The tasks are made in `text_ref` mode: the tasks table and the ledger hold a placeholder and the
 content ids, never the plan's text (4.3). The real text is read from the content store when a

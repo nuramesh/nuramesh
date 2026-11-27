@@ -56,7 +56,7 @@ def status(fold: CatalogFold) -> str | None:
 def test_only_a_person_changes_a_catalog_entry() -> None:
     events = [
         seed(),
-        ev(2, "model.catalog_paused", "agent:dana", {**MINI, "previous": "approved", **H}),
+        ev(2, "model.catalog_paused", "agent:developer", {**MINI, "previous": "approved", **H}),
     ]
     fold = fold_catalog(events)
     assert status(fold) == "approved" and fold.ignored == 1 and fold.applied == 1
@@ -164,13 +164,13 @@ def test_assignments_keep_the_latest_per_scope_and_null_clears() -> None:
 
     fold = fold_catalog(
         [
-            assign(1, "agent", "dana", "azure-openai/gpt-5.4"),
-            assign(2, "agent", "dana", "azure-openai/gpt-5.4-mini"),
+            assign(1, "agent", "developer", "azure-openai/gpt-5.4"),
+            assign(2, "agent", "developer", "azure-openai/gpt-5.4-mini"),
             assign(3, "role", "dev", "azure-ai/m"),
             assign(4, "role", "dev", None),
         ]
     )
-    assert fold.assignments == {("agent", "dana"): "azure-openai/gpt-5.4-mini"}
+    assert fold.assignments == {("agent", "developer"): "azure-openai/gpt-5.4-mini"}
     assert fold.exists is False  # assignments alone are not a catalog
 
 

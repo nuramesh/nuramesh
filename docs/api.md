@@ -159,7 +159,7 @@ The summary plus:
   "ledger": {"stream": "run:run-...", "seq": 32, "head": "7356...", "ok": true},
   "tasks": [{
     "id": "run-20261023-193348-ef9e-fix-add", "title": "Fix the failing add() test in calc.py",
-    "assignee": "dana", "status": "needs_human", "attempt": 2, "max_attempts": 2, "submission": 2,
+    "assignee": "developer", "status": "needs_human", "attempt": 2, "max_attempts": 2, "submission": 2,
     "note": "attempts used up; failed: tests",
     "definition_of_done": {"criteria": [{"id": "fixed", "text": "..."}], "gates": [{"id": "tests", "kind": "test_command", "required": true, "checks": ["tests-pass"]}]},
     "attempts": [{
@@ -175,7 +175,7 @@ The summary plus:
     "spend": {"total": {"amount": "0.00109500", "currency": "USD"}, "calls": 2, "unknown_cost_calls": 0}
   }],
   "spend": {"total": {...}, "calls": 2, "unknown_cost_calls": 0,
-            "by_agent": [{"agent": "dana", "total": {...}, "calls": 2, "unknown_cost_calls": 0}],
+            "by_agent": [{"agent": "developer", "total": {...}, "calls": 2, "unknown_cost_calls": 0}],
             "by_model": [{"model": "azure-openai/gpt-5.4-mini", "total": {...}, "calls": 2, "unknown_cost_calls": 0}]},
   "budgets": [{"id": "rb-9c2aeb60cd4c", "scope": "run", "scope_id": "run-...", "limit": {"amount": "2.00", "currency": "USD"},
                "spent": {...}, "reserved": {...}, "available": {...}, "blocked": false, "definition": {...}, "version": 7}],
@@ -284,7 +284,7 @@ Nine routes, all acting at the server level: they act on the caller's own organi
 | `POST /v1/org/breakers/{name}/disable` | decide | a person only | body `{"reason": "false_positive" or "planned_work" or "rule_being_replaced" or "other"}`; 409 `already_disabled`, 409 `breaker_tripped` |
 | `POST /v1/org/breakers/{name}/enable` | decide | a person only | no body; 409 `not_disabled` |
 
-- **The app sends no idempotency key.** Repeating a POST is safe: the state check answers 409 and writes nothing. The app treats such a 409 as "already done" and refetches. A resume is never refused because of the tick: it works at once.
+- **The app sends an `Idempotency-Key` on the halt, resume and breaker POSTs above (and on run start, run stop, approvals, gate decisions and credential revoke); the command line sends none.** A repeated POST without a key is still safe: the state check answers 409 and writes nothing. The app treats such a 409 as "already done" and refetches. A resume is never refused because of the tick: it works at once.
 - **`halt` object:** `{"halted", "by", "at", "cause", "rule", "ledger_seq", "phase", "error_class", "failing_rule", "failed_ticks", "roles", "can_act"}`. `cause` is `human`, `breaker` or `evaluation_unavailable` while halted (else null); `phase`, `error_class`, `failing_rule` and `failed_ticks` are set only for `evaluation_unavailable` (the fail-closed halt of the tick). `roles` lists every role of the config (then orphans that are still paused) as `{"role", "paused", "by", "at", "cause", "rule", "ledger_seq", "in_config"}`.
 - **`can_act`** is true exactly when the caller is a signed-in person whose role allows `decide` (or, with `--auth off`, the in-process `dev_human` harness). It only decides whether the app shows the buttons; the server enforces the rule on every POST. A token of any scope, an anonymous caller and a viewer get false.
 - **`GET /v1/org/breakers`** answers `{"org", "halt", "evaluation", "breakers"}`. `evaluation.state` is `not_configured`, `starting`, `ok`, `failing` or `stopped`, with `tick_seconds`, `halt_after_failed_ticks`, `last_evaluated_at`, `last_error_*`, `last_failing_rule` and `consecutive_failures` (they describe this server process). Each breaker has `name`, `signal`, `action`, `role`, `window_seconds`, `dry_run`, `limit`, `observed` (decimal text), `observed_as` (`live` or `at_trip`), `unknown_cost_calls`, `window_start`, `state` (`ok`, `tripped`, `disabled`), the `tripped_*` and `disabled_*` fields, `last_reset_at`, `manual` and `in_config`.
@@ -504,6 +504,7 @@ route, window and `as_of` slot, in memory.
 | `runs.events(id, cursor)` | `GET /v1/runs/{id}/ledger?after_seq=` (category filter: `type` prefix) |
 | `runs.subscribe` | `WS /v1/runs/{id}/events?after_seq=` |
 | `runs.stop` | `POST /v1/runs/{id}/stop` |
+| `runs.startPlan` | `POST /v1/runs` (the Runs page's Start a run dialog: a plan as JSON, sent with a fresh `Idempotency-Key` per start: a retry is the same run) |
 | `runs.pause`, `runs.start` | not available (R1.20) |
 | `ledger.list`, `ledger.verifyChain` | `GET /v1/runs/{id}/ledger`, `GET /v1/ledger/verify` |
 | `approvals.list`, `get` | `GET /v1/approvals`, `GET /v1/approvals/{id}` |

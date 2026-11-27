@@ -1,5 +1,5 @@
 """The server tick: evaluate the circuit breakers on a timer, and fail closed (E19, ND106,
-`spec/e19/README.md` section 9).
+section 9).
 
 `BreakerTicker.tick_once()` is one cycle and never sleeps (tests call it with a fake clock and
 injected faults); `run()` is the loop the app lifespan starts. A cycle runs one evaluation on a

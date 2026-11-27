@@ -20,7 +20,7 @@ NOW = datetime(2026, 3, 1, 12, 0, 0, tzinfo=UTC)
 
 
 def test_role_ranks_are_exactly_the_spec_values() -> None:
-    # spec/rbac section 2: viewer 1, approver 2, builder 2, admin 3, owner 4
+    # section 2: viewer 1, approver 2, builder 2, admin 3, owner 4
     ranks = {role: role_rank(role) for role in Role}
     assert ranks == {
         Role.VIEWER: 1,

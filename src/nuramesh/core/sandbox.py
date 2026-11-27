@@ -1,4 +1,4 @@
-"""The sandbox: run a command in an isolated copy of a workspace, under limits (A6, ND24; R1.08).
+"""The sandbox: run a command in an isolated copy of a workspace, under limits (R1.08).
 
 This module is the **interface** and the rules; running containers is `engine.sandbox`.
 
@@ -8,7 +8,7 @@ This module is the **interface** and the rules; running containers is `engine.sa
 - A `Sandbox` runs it against a **copy** of the workspace (the original is never changed) and
   returns a `SandboxResult`: exit code, whether the time limit hit, the tail of the output, the
   duration and which isolation was used.
-- `oci_run_args` builds the hardened `run` command line for Podman or Docker (ND24): no network,
+- `oci_run_args` builds the hardened `run` command line for Podman or Docker: no network,
   read-only root filesystem with a small `/tmp`, the workspace copy as the only writable mount
   (`--mount`, so a missing source is an error), all
   capabilities dropped, `no-new-privileges`, a non-root user, memory/CPU/process limits, the
@@ -32,6 +32,8 @@ IMAGE_PATTERN = r"^[a-z0-9][a-z0-9._/:-]*@sha256:[0-9a-f]{64}$"
 _ENV_KEY = re.compile(r"^[A-Z_][A-Z0-9_]{0,63}$")
 SANDBOX_USER = "65532:65532"  # "nonroot" in distroless images; any non-zero id would do
 WORKDIR = "/workspace"
+SERVICE_RUNTIME = "sandboxd/bwrap"  # `SandboxResult.runtime` of the sandbox service (R58)
+SERVICE_COMMAND_ID = 65532  # uid and gid of a command in the sandbox service (R56)
 
 Image = Annotated[str, StringConstraints(pattern=IMAGE_PATTERN, max_length=300)]
 Arg = Annotated[str, StringConstraints(min_length=1, max_length=4_096)]
@@ -91,7 +93,8 @@ class Isolation(StrEnum):
     """How a command was isolated."""
 
     OCI = "oci"
-    HOST = "host"  # the LOCAL-only opt-out (A6): no isolation, recorded in the ledger
+    HOST = "host"  # the LOCAL-only opt-out: no isolation, recorded in the ledger
+    SERVICE = "service"  # the team server's sandbox service (`sandboxd`, real-models spec R58)
 
 
 class SandboxResult(_Frozen):
@@ -105,6 +108,12 @@ class SandboxResult(_Frozen):
     isolation: Isolation
     runtime: str
     started: bool = True  # False when the sandbox itself couldn't start the command
+    # Set by the sandbox service only (real-models spec R58): a tail was cut, and the SHA-256 of
+    # the workspace archive as the service counted it.
+    output_truncated: bool = False
+    workspace_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+    # True only when the engine's own stop cut the command (R27); never read from output.
+    cancelled: bool = False
 
     @property
     def ok(self) -> bool:
@@ -208,3 +217,69 @@ def oci_run_args(
     args.append(request.image)
     args.extend(request.command[1:])
     return args
+
+
+def bwrap_args(
+    *,
+    rootfs: str,
+    workspace_copy: str,
+    env: Mapping[str, str],
+    tmp_bytes: int,
+    seccomp_fd: int,
+    status_fd: int,
+    command: Sequence[str],
+) -> list[str]:
+    """The `bwrap` argument list of the sandbox service, exactly R56 (real-models spec).
+
+    One command in new user, PID, network, IPC, UTS and cgroup namespaces, no nested user
+    namespace, uid and gid 65532, no capability, a read-only root, a read-only fresh `/proc`, a
+    sized `/tmp`, the workspace copy as `/workspace`, the command's own seccomp filter. No `-try`
+    form of any option: a host that cannot do one of these fails, it is never skipped. The
+    environment is written in sorted order so the list is the same for the same request.
+    """
+    args = [
+        "--unshare-user",
+        "--unshare-pid",
+        "--unshare-net",
+        "--unshare-ipc",
+        "--unshare-uts",
+        "--unshare-cgroup",
+        "--disable-userns",
+        "--uid",
+        str(SERVICE_COMMAND_ID),
+        "--gid",
+        str(SERVICE_COMMAND_ID),
+        "--die-with-parent",
+        "--new-session",
+        "--clearenv",
+    ]
+    for key in sorted(env):
+        args += ["--setenv", key, env[key]]
+    args += [
+        "--cap-drop",
+        "ALL",
+        "--ro-bind",
+        rootfs,
+        "/",
+        "--proc",
+        "/proc",
+        "--remount-ro",
+        "/proc",
+        "--dev",
+        "/dev",
+        "--size",
+        str(tmp_bytes),
+        "--tmpfs",
+        "/tmp",
+        "--bind",
+        workspace_copy,
+        WORKDIR,
+        "--chdir",
+        WORKDIR,
+        "--seccomp",
+        str(seccomp_fd),
+        "--json-status-fd",
+        str(status_fd),
+        "--",
+    ]
+    return [*args, *command]

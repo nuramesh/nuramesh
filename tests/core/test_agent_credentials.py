@@ -1,4 +1,4 @@
-"""E2 per-agent identity, core side (spec/agent-identity section 2, 3, 19): the credential
+"""E2 per-agent identity, core side (section 2, 3, 19): the credential
 format and record, the fingerprint formula (recomputed here independently), the team key and the
 sliding-window cap's arithmetic (cases A2, A3, A8, A9, A21, A29, A30, I5, I36, P1)."""
 
@@ -34,7 +34,7 @@ READ = frozenset({TokenScope.READ})
 def _issue(scopes: frozenset[TokenScope] = READ, days: int = 30, by: str = "human:u_own1") -> Any:
     return issue_agent_credential(
         "acme",
-        "dana",
+        "developer",
         team="dev-team",
         fingerprint="a" * 64,
         scopes=scopes,
@@ -53,7 +53,7 @@ def test_format_is_nma_plus_43_characters_and_stores_only_the_hash() -> None:
     assert record.token_hash == hash_agent_credential(issued.credential)
     assert issued.credential not in repr(issued) and issued.credential not in repr(record)
     assert record.id.startswith("agc_") and len(record.id) == 28
-    assert record.actor == "agent:dana"
+    assert record.actor == "agent:developer"
     assert not is_human_id(record.actor)
 
 
@@ -90,7 +90,7 @@ def test_created_by_and_revoked_by_forms() -> None:
     for by in ("human:u_x1", "service:cli", "erased-user", "system"):
         AgentCredential.model_validate({**ok, "revoked_by": by})
     with pytest.raises(ValidationError):
-        AgentCredential.model_validate({**ok, "revoked_by": "agent:dana"})
+        AgentCredential.model_validate({**ok, "revoked_by": "agent:developer"})
     with pytest.raises(ValidationError):
         AgentCredential.model_validate({**ok, "revoked_by": None})  # both or neither
     with pytest.raises(ValidationError):
@@ -116,8 +116,8 @@ def test_no_free_text_field() -> None:  # P1
 
 
 def test_agent_actor_is_a_slug_only() -> None:
-    assert agent_actor("dana") == "agent:dana"
-    for bad in ("Dana", "", "a b", "x" * 64, "_x"):
+    assert agent_actor("developer") == "agent:developer"
+    for bad in ("Developer", "", "a b", "x" * 64, "_x"):
         with pytest.raises(ValueError):
             agent_actor(bad)
 
@@ -136,8 +136,8 @@ def _expected(entry: dict[str, Any]) -> str:  # the formula of section 2.6, writ
 def test_fingerprint_formula() -> None:  # I36
     role = Role(id="developer", name="Developer", kind=RoleKind.WORKER)
     agent = Agent(
-        id="dana",
-        name="Dana",
+        id="developer",
+        name="Developer",
         role="developer",
         reports_to="cos",
         model="m1",
@@ -145,7 +145,7 @@ def test_fingerprint_formula() -> None:  # I36
     )
     assert agent_fingerprint(agent, role) == _expected(
         {
-            "id": "dana",
+            "id": "developer",
             "role": "developer",
             "role_kind": "worker",
             "reports_to": "cos",
@@ -168,9 +168,9 @@ def test_fingerprint_formula() -> None:  # I36
 
 def test_fingerprint_ignores_names_and_role_text_but_not_definition() -> None:  # A25-A27
     role = Role(id="developer", name="Developer")
-    base = Agent(id="dana", name="Dana", role="developer", model="m1")
+    base = Agent(id="developer", name="Developer", role="developer", model="m1")
     fp = agent_fingerprint(base, role)
-    renamed = base.model_copy(update={"name": "Dana Q"})
+    renamed = base.model_copy(update={"name": "Developer Q"})
     texty = role.model_copy(update={"description": "d", "instructions": "i", "name": "Dev"})
     assert agent_fingerprint(renamed, texty) == fp
     for changed in (

@@ -1,4 +1,5 @@
-# Weekly, grouped version updates: one pull request per ecosystem keeps review small.
+# Version updates are off (open-pull-requests-limit: 0) until the owner switches them on.
+# Security alerts and Dependabot security updates are separate and stay on.
 version: 2
 updates:
   - package-ecosystem: uv
@@ -6,7 +7,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    open-pull-requests-limit: 1
+    open-pull-requests-limit: 0
     groups:
       python:
         patterns: ["*"]
@@ -21,7 +22,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    open-pull-requests-limit: 1
+    open-pull-requests-limit: 0
     groups:
       npm:
         patterns: ["*"]
@@ -34,7 +35,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    open-pull-requests-limit: 1
+    open-pull-requests-limit: 0
     groups:
       actions:
         patterns: ["*"]

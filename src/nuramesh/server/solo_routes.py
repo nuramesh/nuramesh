@@ -1,4 +1,4 @@
-"""Solo approval at the HTTP edge (spec/rbac/solo-approval.md, #942 PR 1).
+"""Solo approval at the HTTP edge (#942 PR 1).
 
 Three things live here, so `app.py` only wires them:
 

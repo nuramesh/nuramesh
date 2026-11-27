@@ -134,7 +134,7 @@ def begin_from_request(
     admission: RunnerAdmission | None = None,
 ) -> None:
     """The checks of ND347 4.6 in order, then `begin_run` once (module docstring). After the plan
-    checks and before `begin_run` the admission checks of `spec/real-models` R10 decide (the
+    checks and before `begin_run` the admission checks of R10 decide (the
     budget check is its check 6); `admission` says what this runner is (None: the most closed
     one for the request's engine: fake models only, no sandbox). The
     organization's state comes first (4.6): an erased or key-lost organization gets no entry, not
@@ -209,7 +209,7 @@ def begin_from_request(
             runner = admission or (
                 TEMPORAL_ADMISSION if row.engine == TEMPORAL else RunnerAdmission()
             )
-            code = admit(  # spec/real-models R10: checks 1 to 5, the budget check, the sandbox
+            code = admit(  # R10: checks 1 to 5, the budget check, the sandbox
                 engine,
                 row.org_id,
                 planned,

@@ -1,4 +1,4 @@
-"""The embedded ledger writer for adapter tool calls (spec/adapters/README.md, S4; section 16 N1,
+"""The embedded ledger writer for adapter tool calls (S4; section 16 N1,
 N5, N9): one transaction per check, in the order of AD-2 as the writer sees it.
 
 1. the recorded stop of the guarded run (AD-44a): deny `guarded_run_stopped`, one entry;

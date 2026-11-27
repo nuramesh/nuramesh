@@ -45,7 +45,10 @@ import type {
   RunEvent,
   RunStatus,
   RunSummary,
+  RunPlan,
   StartRunInput,
+  StartedRun,
+  StartStatus,
   TemplateDetail,
   TemplateSummary,
   TemplateVersionInfo,
@@ -204,6 +207,14 @@ export interface RunsApi {
   /** Everything that happened to one task, in order, with evidence (R1.27); read only. */
   taskAudit(runId: string, taskId: string): Promise<TaskAudit>;
   start(input: StartRunInput): Promise<Mutation<RunSummary>>;
+  /**
+   * Starts a run from a plan (`POST /v1/runs`, answered 202). The start is asynchronous: a runner
+   * begins the run or refuses it, visibly, in the run itself. Refusals at the door keep the
+   * server's code (`run_budget_missing`, `engine_unavailable`, `org_halted`...).
+   */
+  startPlan(plan: RunPlan): Promise<StartedRun>;
+  /** What became of an accepted plan: still waiting for a runner, begun, or refused by it (with its code). */
+  startStatus(runId: string): Promise<StartStatus>;
   pause(id: string): Promise<Mutation<RunSummary>>;
   /**
    * Asks the run to stop. The reason (optional) is kept in the content store, the ledger holds its

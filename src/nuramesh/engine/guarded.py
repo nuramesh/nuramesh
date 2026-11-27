@@ -1,4 +1,4 @@
-"""What the ledger says about one guarded run of an adapter (spec/adapters/README.md, S4; AD-19,
+"""What the ledger says about one guarded run of an adapter (S4; AD-19,
 AD-42, AD-44a; decision T267), the `denial_limit` entry, and the budget gate (AD-32, N4).
 
 This module imports the core and the stores only, so both `engine.policy` (a person's answer and

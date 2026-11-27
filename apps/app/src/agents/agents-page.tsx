@@ -33,7 +33,7 @@ export function AgentsPage() {
         </p>
       )}
       {!denied && agents.isSuccess && agents.data.length === 0 && (
-        <p className="text-sm text-muted-foreground">This organization has no agents yet. Add one in the graph builder.</p>
+        <p className="text-sm text-muted-foreground">This organization has no agents yet. Add one in the Workflow builder.</p>
       )}
       {!denied && (
         <ul className="m-0 flex list-none flex-col gap-4 p-0">

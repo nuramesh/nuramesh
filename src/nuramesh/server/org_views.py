@@ -1,4 +1,4 @@
-"""The answers of the org safety routes (E19, `spec/e19/README.md` section 11).
+"""The answers of the org safety routes (E19, section 11).
 
 Pure reads of the `org:<id>` stream (and, for the breakers, the organization's run entries): these
 functions write nothing. The routes in `server/app.py` call them after the engine's actions.

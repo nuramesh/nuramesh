@@ -1,5 +1,5 @@
 """Verification line, presets, renames, ids and templates (app spec §5; T39). The blind-written
-cases in spec/config-s5/ are run by test_config_s5_cases.py; these are the author's own tests."""
+cases in the design notes are run by test_config_s5_cases.py; these are the author's own tests."""
 
 from datetime import UTC, datetime
 from decimal import Decimal
@@ -43,7 +43,7 @@ def org_data(**agent_changes: Any) -> dict[str, Any]:
     agents: dict[str, dict[str, Any]] = {
         "boss": {"id": "boss", "name": "Boss", "role": "cos"},
         "dev": {"id": "dev", "name": "Dev", "role": "dev", "reports_to": "boss"},
-        "rhea": {"id": "rhea", "name": "Rhea", "role": "rev", "reports_to": "boss"},
+        "reviewer": {"id": "reviewer", "name": "Reviewer", "role": "rev", "reports_to": "boss"},
     }
     for key, change in agent_changes.items():
         agents[key] = {**agents[key], **change}
@@ -71,43 +71,43 @@ def codes(data: dict[str, Any]) -> set[tuple[str, str | None]]:
 
 
 def test_a_verifier_may_check_a_peer_and_reporting_is_a_separate_line() -> None:
-    org = OrgGraph.build(org_data(rhea={"checks": ["dev"]}))
-    assert org.checkers_of("dev") == ("rhea",)
-    assert org.checkers_of("rhea") == ()
-    assert org.agent("rhea").reports_to == "boss"  # the management line is untouched
+    org = OrgGraph.build(org_data(reviewer={"checks": ["dev"]}))
+    assert org.checkers_of("dev") == ("reviewer",)
+    assert org.checkers_of("reviewer") == ()
+    assert org.agent("reviewer").reports_to == "boss"  # the management line is untouched
 
 
 def test_checks_default_to_nothing_and_leave_the_version_hash_alone() -> None:
     before = OrgGraph.build(org_data()).version_hash()
-    assert OrgGraph.build(org_data(rhea={"checks": []})).version_hash() == before
-    assert OrgGraph.build(org_data(rhea={"checks": ["dev"]})).version_hash() != before
+    assert OrgGraph.build(org_data(reviewer={"checks": []})).version_hash() == before
+    assert OrgGraph.build(org_data(reviewer={"checks": ["dev"]})).version_hash() != before
 
 
 @pytest.mark.parametrize(
     ("changes", "expected"),
     [
-        ({"rhea": {"checks": ["rhea"]}}, {(IssueCode.SELF_CHECK, "rhea")}),
-        ({"rhea": {"checks": ["ghost"]}}, {(IssueCode.UNKNOWN_CHECKED, "rhea")}),
-        ({"rhea": {"checks": ["dev", "dev"]}}, {(IssueCode.DUPLICATE_CHECK, "rhea")}),
+        ({"reviewer": {"checks": ["reviewer"]}}, {(IssueCode.SELF_CHECK, "reviewer")}),
+        ({"reviewer": {"checks": ["ghost"]}}, {(IssueCode.UNKNOWN_CHECKED, "reviewer")}),
+        ({"reviewer": {"checks": ["dev", "dev"]}}, {(IssueCode.DUPLICATE_CHECK, "reviewer")}),
         ({"dev": {"checks": ["boss"]}}, {(IssueCode.CHECKER_NOT_VERIFIER, "dev")}),
         # the verifier is above the work it checks
         (
-            {"dev": {"reports_to": "rhea"}, "rhea": {"checks": ["dev"]}},
-            {(IssueCode.VERIFIER_IN_CHAIN, "rhea")},
+            {"dev": {"reports_to": "reviewer"}, "reviewer": {"checks": ["dev"]}},
+            {(IssueCode.VERIFIER_IN_CHAIN, "reviewer")},
         ),
         # the verifier answers to the author
         (
-            {"rhea": {"reports_to": "dev", "checks": ["dev"]}},
-            {(IssueCode.VERIFIER_IN_CHAIN, "rhea")},
+            {"reviewer": {"reports_to": "dev", "checks": ["dev"]}},
+            {(IssueCode.VERIFIER_IN_CHAIN, "reviewer")},
         ),
         # two levels up counts too
         (
             {
-                "dev": {"reports_to": "rhea"},
+                "dev": {"reports_to": "reviewer"},
                 "boss": {"reports_to": None},
-                "rhea": {"checks": ["dev"]},
+                "reviewer": {"checks": ["dev"]},
             },
-            {(IssueCode.VERIFIER_IN_CHAIN, "rhea")},
+            {(IssueCode.VERIFIER_IN_CHAIN, "reviewer")},
         ),
     ],
 )
@@ -121,9 +121,11 @@ def test_verification_line_problems(
 
 
 def test_a_verifier_checking_the_top_agent_is_refused_and_a_cousin_is_fine() -> None:
-    assert (IssueCode.VERIFIER_IN_CHAIN.value, "rhea") in codes(org_data(rhea={"checks": ["boss"]}))
+    assert (IssueCode.VERIFIER_IN_CHAIN.value, "reviewer") in codes(
+        org_data(reviewer={"checks": ["boss"]})
+    )
     # a verifier under the Chief of Staff checking a worker in another branch is independent
-    data = org_data(rhea={"checks": ["dev"]})
+    data = org_data(reviewer={"checks": ["dev"]})
     data["agents"].append({"id": "lead", "name": "Lead", "role": "dev", "reports_to": "boss"})
     data["agents"][1]["reports_to"] = "lead"
     assert codes(data) == set()
@@ -349,20 +351,20 @@ def test_preset_models_are_immutable_and_strict() -> None:
 
 def test_a_rename_changes_one_name_and_no_id() -> None:
     cfg = config(presets=presets_data())
-    new, record = rename_in_config(cfg, RenameKind.AGENT, "dev", "  Dana  ")
-    assert new.org.agent("dev").name == "Dana"
+    new, record = rename_in_config(cfg, RenameKind.AGENT, "dev", "  Developer  ")
+    assert new.org.agent("dev").name == "Developer"
     assert record.ledger_payload() == {
         "kind": "rename",
         "what": "agent",
         "id": "dev",
         "old_name": "Dev",
-        "new_name": "Dana",
+        "new_name": "Developer",
     }
     assert id_changes(cfg, new).removed == {k: frozenset() for k in id_changes(cfg, new).removed}
     check_ids_stable(cfg, new)
     # the agent keeps its manager and every other agent is untouched
     assert new.org.agent("dev").reports_to == "boss"
-    assert [a.name for a in new.org.agents if a.id != "dev"] == ["Boss", "Rhea"]
+    assert [a.name for a in new.org.agents if a.id != "dev"] == ["Boss", "Reviewer"]
 
 
 @pytest.mark.parametrize(
@@ -404,11 +406,11 @@ def test_dropping_an_id_is_refused_and_adding_one_is_fine() -> None:
     old = config(presets=presets_data())
     only_two = parse_config({"org": {**org_data(), "agents": org_data()["agents"][:2]}})
     changes = id_changes(old, only_two)
-    assert changes.removed["agent"] == frozenset({"rhea"}) and changes.any_removed
-    with pytest.raises(ValueError, match="rhea"):
+    assert changes.removed["agent"] == frozenset({"reviewer"}) and changes.any_removed
+    with pytest.raises(ValueError, match="reviewer"):
         check_ids_stable(old, only_two)
     check_ids_stable(only_two, old)  # adding is fine
-    assert id_changes(only_two, old).added["agent"] == frozenset({"rhea"})
+    assert id_changes(only_two, old).added["agent"] == frozenset({"reviewer"})
     # a preset id counts too
     bare = config()
     with pytest.raises(ValueError, match="no-merge"):
@@ -436,7 +438,7 @@ def test_saving_makes_numbered_versions_and_never_repeats_one() -> None:
     assert (v1.version, rename) == (1, None)
     with pytest.raises(ValueError, match="nothing changed since version 1"):
         saved(cfg, existing=[v1])
-    changed, _ = rename_in_config(cfg, RenameKind.AGENT, "dev", "Dana")
+    changed, _ = rename_in_config(cfg, RenameKind.AGENT, "dev", "Developer")
     v2, rename = saved(changed, existing=[v1])
     assert v2.version == 2 and v2.document_hash != v1.document_hash and rename is None
     again, _ = saved(changed, existing=[v2, v1], description="now with a note")

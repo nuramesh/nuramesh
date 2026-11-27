@@ -140,11 +140,11 @@ def test_a_seed_that_does_not_parse_seeds_nothing_and_a_later_valid_seed_still_c
 @pytest.mark.parametrize(
     "body",
     [
-        {"scope": "team", "id": "dana", "model": "azure-openai/gpt-5.4-mini"},
+        {"scope": "team", "id": "developer", "model": "azure-openai/gpt-5.4-mini"},
         {"scope": "agent", "model": "azure-openai/gpt-5.4-mini"},
-        {"scope": "agent", "id": "Dana Smith", "model": "azure-openai/gpt-5.4-mini"},
-        {"scope": "agent", "id": "dana", "model": 5},
-        {"scope": "agent", "id": "dana", "model": "no-slash"},
+        {"scope": "agent", "id": "Developer Smith", "model": "azure-openai/gpt-5.4-mini"},
+        {"scope": "agent", "id": "developer", "model": 5},
+        {"scope": "agent", "id": "developer", "model": "no-slash"},
     ],
 )
 def test_an_assignment_with_a_bad_scope_subject_or_model_changes_nothing(
@@ -154,10 +154,10 @@ def test_an_assignment_with_a_bad_scope_subject_or_model_changes_nothing(
         2,
         "model.assignment_set",
         ADMIN,
-        {"scope": "agent", "id": "dana", "model": "azure-openai/gpt-5.4-mini", **H},
+        {"scope": "agent", "id": "developer", "model": "azure-openai/gpt-5.4-mini", **H},
     )
     fold = fold_catalog([seed(), good, ev(3, "model.assignment_set", ADMIN, {**body, **H})])
-    assert fold.assignments == {("agent", "dana"): "azure-openai/gpt-5.4-mini"}
+    assert fold.assignments == {("agent", "developer"): "azure-openai/gpt-5.4-mini"}
 
 
 def test_a_connection_entry_without_a_provider_name_is_skipped() -> None:

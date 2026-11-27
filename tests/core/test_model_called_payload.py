@@ -35,7 +35,7 @@ def test_price_version_time_is_the_effective_time_not_the_call_time() -> None:
 
 
 def test_price_version_time_is_none_without_a_version_time_or_a_price() -> None:
-    # `price.at` is the call time (spec/costs section 1): it is never taken for a version
+    # `price.at` is the call time (section 1): it is never taken for a version
     p = ModelCalledPayload.model_validate({**BASE, "price": {"at": "2026-01-01T00:00:00Z"}})
     assert p.price_version_at is None
     assert ModelCalledPayload.model_validate(BASE).price_version_at is None

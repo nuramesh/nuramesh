@@ -1,4 +1,4 @@
-"""The token and cache report (R1.34 Part A, `spec/token-savings` sections 3 and 6): one function
+"""The token and cache report (R1.34 Part A, sections 3 and 6): one function
 for the route and for `nuramesh savings tokens`, so both answer with the same bytes.
 
 A **read**: it takes the facts from the ledger through `cost_reader` (the same bound and the same

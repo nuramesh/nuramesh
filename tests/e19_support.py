@@ -1,5 +1,5 @@
-"""Shared helpers for the E19 tests: the worked examples of `spec/e19/scenarios.json` and builders
-that turn their entries into ledger events (spec/e19/README.md section 14)."""
+"""Shared helpers for the E19 tests: the worked examples of the design notes and builders
+that turn their entries into ledger events (section 14)."""
 
 import json
 from datetime import UTC, datetime

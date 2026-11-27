@@ -1,5 +1,5 @@
-"""R1.37 core: shared link-token rules (spec/identity/README.md section 2) and the invite model
-(spec/identity/invites.md section 1)."""
+"""R1.37 core: shared link-token rules (section 2) and the invite model
+(section 1)."""
 
 import re
 from datetime import UTC, datetime, timedelta

@@ -19,7 +19,7 @@ from typing import Any, Final
 INTERNAL_REFERENCE: Final = re.compile(
     r"\b(?:R\d\.\d+[a-z]?|R\d+[a-z]?|ND\d+|T\d{2,3}|OD-\d+[a-z]?|#\d{3,4}|[EADHC]\d{1,3}|(?:SA|MC|GC|PA)-?\d{1,3})\b(?![-A-Za-z])"
 )
-# a pointer into the spec folder: "(spec R8a)", "(spec 6 step 3)", "(spec/steps/README.md, ...)"
+# a pointer into the spec folder: "(spec R8a)", "(spec 6 step 3)", "(...)"
 SPEC_POINTER: Final = re.compile(r"\s*\(spec(?:\s|/)[^()]*\)")
 _SEP: Final = r"(?:\s*(?:,|;|and|/)\s*|\s+)"
 # a parenthesis whose content is references only (with optional "spec", "section N", "review" words)

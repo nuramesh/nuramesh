@@ -47,6 +47,8 @@ const CASES: Record<string, Case> = {
   "runs.get": read("run-1"),
   "runs.taskAudit": read("run-1", "t"),
   "runs.start": read({ template: "t", budget: { amount: "1", currency: "USD" } }),
+  "runs.startPlan": keyed({ tasks: [] }),
+  "runs.startStatus": read("run-1"),
   "runs.pause": read("run-1"),
   "runs.reportUrl": read("run-1"),
   "runs.stop": keyed("run-1", "why"),
@@ -237,6 +239,7 @@ describe("Idempotency-Key per client method", () => {
       "gates.decide",
       "org.resume",
       "org.resumeRole",
+      "runs.startPlan",
       "runs.stop",
     ]);
   });

@@ -1,4 +1,4 @@
-"""The `mt-1` pinned merge-tree runner (spec `spec/verified-merge` section 4 "Pinned recomputation",
+"""The `mt-1` pinned merge-tree runner (section 4 "Pinned recomputation",
 GT-15 b, SV-8 d, VF-3.9).
 
 Every `git merge-tree` the gate, the signer and the verifier run goes through this class so that

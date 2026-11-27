@@ -7,7 +7,7 @@ it on**. Turning it on or off is one `decision.recorded` entry on the organizati
 (`kind: "prompt_cache"`), so the audit trail names who and when. With it off, no marker is ever sent
 to a provider and a marked request is recorded as `stripped_not_enabled`.
 
-`decide_cache` is the status of section 5.4 of spec/token-savings, decided before anything is
+`decide_cache` is the status of section 5.4 of the design notes, decided before anything is
 reserved. It reads no prompt text into the ledger and makes no network call.
 """
 
@@ -187,7 +187,7 @@ def decide_cache(
     price: ResolvedPrice,
 ) -> CacheDecision | None:
     """None when the request did not ask for caching (no `cache` object at all); else the first
-    status that holds (spec/token-savings 5.4, ND312)."""
+    status that holds (5.4, ND312)."""
     if not request.cache_prefix:
         return None
     b = request.cache_breakpoint

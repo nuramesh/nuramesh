@@ -90,7 +90,7 @@ class KeyReaders:
 
     def key_current(self, org_id: str, key_ref: str, connection: str) -> bool:
         """Whether the key fold of `org_id` says the stored key of `connection` is `current` now
-        (`spec/real-models` R10 check 4). The ledger fold only, never a secret-store call (R11)."""
+        (R10 check 4). The ledger fold only, never a secret-store call (R11)."""
         from nuramesh.engine.admission import key_fold_current
 
         fold = self.reader_for(org_id).fold()

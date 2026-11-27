@@ -158,11 +158,11 @@ describe("the live view of a real run", () => {
     report("reconnecting");
     expect(screen.getByTestId("timeline-mode")).toHaveTextContent(/reconnecting/);
     report("live");
-    push({ seq: 41, at: "2026-10-24T12:00:02Z", kind: "budget.settled", category: "spend", text: "Charged dana's call $0.0005", tone: "muted" });
-    expect(await within(screen.getByRole("log")).findByText(/Charged dana's call/)).toBeInTheDocument();
+    push({ seq: 41, at: "2026-10-24T12:00:02Z", kind: "budget.settled", category: "spend", text: "Charged developer's call $0.0005", tone: "muted" });
+    expect(await within(screen.getByRole("log")).findByText(/Charged developer's call/)).toBeInTheDocument();
     // the same entry delivered twice (a replay after reconnecting) is shown once
-    push({ seq: 41, at: "2026-10-24T12:00:02Z", kind: "budget.settled", category: "spend", text: "Charged dana's call $0.0005", tone: "muted" });
-    expect(within(screen.getByRole("log")).getAllByText(/Charged dana's call/)).toHaveLength(1);
+    push({ seq: 41, at: "2026-10-24T12:00:02Z", kind: "budget.settled", category: "spend", text: "Charged developer's call $0.0005", tone: "muted" });
+    expect(within(screen.getByRole("log")).getAllByText(/Charged developer's call/)).toHaveLength(1);
     // while the socket is live the page does not also poll
     expect(events).toHaveBeenCalledTimes(1);
   });
@@ -246,9 +246,9 @@ describe("the live view of a real run", () => {
       const { client } = setup(fromContract("run_alerts"));
       renderAt(`/runs/${RUN}`, client);
       const items = within(await screen.findByRole("region", { name: "Budget alerts" })).getAllByRole("listitem");
-      expect(items[0]).toHaveTextContent(/dana-daily.*Held: stays blocked until a person lifts it/);
+      expect(items[0]).toHaveTextContent(/developer-daily.*Held: stays blocked until a person lifts it/);
       expect(items[0]).toHaveAttribute("data-held", "true");
-      expect(items[1]).toHaveTextContent(/rhea-daily.*Resets Sun 25 Oct, 00:00 UTC/);
+      expect(items[1]).toHaveTextContent(/reviewer-daily.*Resets Sun 25 Oct, 00:00 UTC/);
       expect(items[1]).not.toHaveTextContent(/Only a person/);
     });
 
@@ -257,7 +257,7 @@ describe("the live view of a real run", () => {
       const { client } = setup(fromContract("run_alerts"));
       renderAt(`/runs/${RUN}`, client);
       const items = within(await screen.findByRole("region", { name: "Budget alerts" })).getAllByRole("listitem");
-      expect(items[1]).toHaveTextContent(/rhea-daily.*\bReset Sun 25 Oct, 00:00 UTC/);
+      expect(items[1]).toHaveTextContent(/reviewer-daily.*\bReset Sun 25 Oct, 00:00 UTC/);
       expect(items[1]).not.toHaveTextContent(/Resets/);
     });
 
@@ -265,7 +265,7 @@ describe("the live view of a real run", () => {
       const { client } = setup(fromContract("run_closed_window"));
       renderAt(`/runs/${RUN}`, client);
       const [item] = within(await screen.findByRole("region", { name: "Budget alerts" })).getAllByRole("listitem");
-      expect(item).toHaveTextContent(/omar-daily.*\(\$0\.01 daily, spent \$0\.03\) was passed\. Overspent in a window that has ended: nothing is blocked, flagged for review\./);
+      expect(item).toHaveTextContent(/devops-daily.*\(\$0\.01 daily, spent \$0\.03\) was passed\. Overspent in a window that has ended: nothing is blocked, flagged for review\./);
       expect(item).not.toHaveTextContent(/Only a person|Held|Resets/);
       expect(item).toHaveAttribute("data-held", "false");
     });
@@ -275,7 +275,7 @@ describe("the live view of a real run", () => {
       const { client } = setup(fromContract("run_unrolled_window"));
       renderAt(`/runs/${RUN}`, client);
       const [item] = within(await screen.findByRole("region", { name: "Budget alerts" })).getAllByRole("listitem");
-      expect(item).toHaveTextContent(/theo-daily.*\bReset Sun 25 Oct, 00:00 UTC/);
+      expect(item).toHaveTextContent(/tester-daily.*\bReset Sun 25 Oct, 00:00 UTC/);
       expect(item).not.toHaveTextContent(/Resets|Only a person/);
     });
   });

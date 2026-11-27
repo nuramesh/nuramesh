@@ -29,6 +29,7 @@ reconnecting, `server/http.ts` the JSON calls and the problem+json errors. What 
 | `runs.listPage`, `runs.get` | `GET /v1/runs` (status filter, `truncated`), `GET /v1/runs/{id}` |
 | `runs.events`, `runs.subscribe` | `GET /v1/runs/{id}/ledger` (paged), `WS /v1/runs/{id}/events?after_seq=` |
 | `runs.stop` | `POST /v1/runs/{id}/stop` |
+| `runs.startPlan`, `runs.startStatus` | `POST /v1/runs` (a plan as JSON, answered 202; the Runs page's Start a run dialog), then `GET /v1/runs/{id}` until the runner has begun or refused it |
 | `approvals.*` | `GET /v1/approvals`, `GET /v1/approvals/{id}`, `POST /v1/approvals/{id}/approve` or `/reject` |
 | `budgets.list`, `summary`, `unblock` | `GET /v1/budgets`, `GET /v1/budgets/{id}`, `POST .../unblock` (summary is derived from budgets, runs and run details) |
 | `spend.byModel` | derived from the run details' `spend.by_model` |

@@ -1,4 +1,4 @@
-"""Tool pinning core (spec/mcp-gateway rules 10 to 20, #910): hash, diff, static checks, pins.
+"""Tool pinning core (the design notes rules 10 to 20, #910): hash, diff, static checks, pins.
 
 The literal digests were computed outside the package (stdlib `json.dumps(sort_keys=True,
 separators=(",", ":"))` and `hashlib.sha256`), so they are goldens, not echoes.

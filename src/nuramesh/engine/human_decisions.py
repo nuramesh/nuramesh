@@ -2,7 +2,7 @@
 
 One code path for the API and for the orchestrator (`RunEngine.record_human_decision`): it needs
 only a store, the organization and the content service, never an engine. The order of checks and
-the cases are the table in `spec/steps/README.md` ("Human decisions in a durable run").
+the cases are the table in the design notes ("Human decisions in a durable run").
 
 The decision text is kept in the content store (kind `reason`); the ledger entry names it by its
 keyed hash and carries no text. The task is not moved here: the next step of the task applies the
@@ -130,7 +130,7 @@ def record_decision(
     (including the ones inside the writing transaction) and nothing is written: the result's
     outcome is `dry_run`.
 
-    `solo` (spec/rbac/solo-approval.md SA-2, SA-19) defaults to "never solo": without it the run's
+    `solo` (SA-2, SA-19) defaults to "never solo": without it the run's
     originator is refused (`SelfApproval`) even when nobody else could decide, and the mode
     written is `peer` or `no_originator`. Only the server route passes the terms, for a person in
     a cookie session; then the decision of the organization's only active decide-holder is a

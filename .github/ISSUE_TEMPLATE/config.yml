@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Report a vulnerability privately
-    url: https://github.com/nuramesh/nuramesh/security/policy
-    about: Report a vulnerability privately, never in a public issue. See SECURITY.md for how.
-  - name: Ask a question in Discussions
+  - name: Questions and ideas
     url: https://github.com/nuramesh/nuramesh/discussions
-    about: Ask a question in Discussions. Questions and ideas do not belong in the issue tracker.
+    about: Ask in Discussions first.
+  - name: Report a security vulnerability
+    url: https://github.com/nuramesh/nuramesh/security/advisories/new
+    about: Private report, or write to security@nuramesh.com. Do not open a public issue.

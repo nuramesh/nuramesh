@@ -1,4 +1,4 @@
-"""Scorecards (E14): the cases S1 to S54 of `spec/autonomy/README.md` sections 9.1 to 9.3."""
+"""Scorecards (E14): the cases S1 to S54 of sections 9.1 to 9.3."""
 
 from datetime import datetime, timedelta
 from decimal import Decimal
@@ -437,7 +437,7 @@ def test_s39_s40_role_and_agent_cost_views() -> None:
 
 def no_solo(share: str | None, **counts: int) -> dict[str, Any]:
     """The `approvals` object of entries that carry no `approval_mode` (written before ND396):
-    never solo, counted in the totals (spec/rbac/solo-approval.md SA-18 item 1)."""
+    never solo, counted in the totals (SA-18 item 1)."""
     return {**counts, "approved_solo": 0, "denied_solo": 0, "solo_share": share}
 
 

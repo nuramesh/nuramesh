@@ -70,6 +70,40 @@ describe("runs", () => {
     expect((await api.runs.events(RUN, 32)).events.length).toBe(0);
   });
 
+  it("starts a run from a plan: POSTs it as written and returns the server's run id", async () => {
+    const plan = { data_class: "synthetic", tasks: [{ ref: "deploy", role: "devops", title: "Deploy", definition_of_done: "Deployed" }] };
+    const { api, calls } = client({ "POST /v1/runs": () => ({ status: 202, body: { run_id: "run-0f0f", state: "accepted", engine: "light" } }) });
+    expect(await api.runs.startPlan(plan)).toEqual({ runId: "run-0f0f", state: "accepted", engine: "light" });
+    expect(calls).toHaveLength(1);
+    expect(calls[0]?.body).toEqual(plan);
+    // every start carries its own random key (a retry of the same start is the same run)
+    const key = calls[0]?.headers["idempotency-key"];
+    expect(key).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
+    await api.runs.startPlan(plan);
+    expect(calls[1]?.headers["idempotency-key"]).toMatch(/^[0-9a-f-]{36}$/);
+    expect(calls[1]?.headers["idempotency-key"]).not.toBe(key);
+  });
+
+  it("reads a start request's state: requested, refused with its code, or begun (a real run)", async () => {
+    const request = (state: string, code: string | null) => ({ body: { run_id: "run-0f0f", state, refusal_code: code, engine: "light", data_class: "synthetic", requested_at: "2026-10-24T12:00:00+00:00" } });
+    const { api: waiting } = client({ "GET /v1/runs/run-0f0f": () => request("requested", null) });
+    expect(await waiting.runs.startStatus("run-0f0f")).toEqual({ state: "requested", refusalCode: null });
+    const { api: refused } = client({ "GET /v1/runs/run-0f0f": () => request("refused", "plan_gate_preset_missing") });
+    expect(await refused.runs.startStatus("run-0f0f")).toEqual({ state: "refused", refusalCode: "plan_gate_preset_missing" });
+    const { api: begun } = client({ [`GET /v1/runs/${RUN}`]: () => ({ body: rawDone }) });
+    expect(await begun.runs.startStatus(RUN)).toEqual({ state: "begun", refusalCode: null });
+    await expect(begun.runs.startStatus("nope")).rejects.toBeInstanceOf(NotFoundError);
+  });
+
+  it("keeps the server's code when a plan start is refused at the door", async () => {
+    const { api } = client({ "POST /v1/runs": () => problem(409, "run_budget_missing", "the organization has no budget to start a run") });
+    const refused = await api.runs.startPlan({ data_class: "synthetic", tasks: [] }).catch((e: unknown) => e);
+    expect(refused).toBeInstanceOf(ProblemError);
+    expect((refused as ProblemError).title).toBe("run_budget_missing");
+    const { api: down } = client({ "POST /v1/runs": () => problem(503, "engine_unavailable", "no engine can take a run start now") });
+    expect(((await down.runs.startPlan({ data_class: "synthetic", tasks: [] }).catch((e: unknown) => e)) as ProblemError).title).toBe("engine_unavailable");
+  });
+
   it("not wired: starting and pausing say so", async () => {
     const { api } = client({});
     await expect(api.runs.start({ template: "t", budget: { amount: "1", currency: "USD" } })).rejects.toBeInstanceOf(NotAvailableError);

@@ -637,6 +637,9 @@ export function createFixtureClient(options: FixtureOptions = {}): ApiClient {
         emit(run.id, "tasks", "run.started", `Run ${run.label} started by You`, "muted");
         return Promise.resolve({ result: summary(run), ledgerEntry: entry });
       },
+      // Sample data has no runner: a plan cannot become a run here, and no run is invented.
+      startPlan: () => Promise.reject(new NotAvailableError("runs.startPlan")),
+      startStatus: () => Promise.reject(new NotAvailableError("runs.startStatus")),
       pause: (id) =>
         settle(() => {
           const run = findRun(id);

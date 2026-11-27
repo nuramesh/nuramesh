@@ -372,7 +372,7 @@ def _round_key(payload: Mapping[str, Any]) -> tuple[Any, Any, Any]:
 def record_gate_started(
     store: Store, task: Task, spec: GateSpec, *, actor: str, role: str | None = None
 ) -> int:
-    """Record `gate.started` for the round of `task` (E3, ND117, `spec/e3-otel/README.md` 5.5)
+    """Record `gate.started` for the round of `task` (E3, ND117, 5.5)
     and return the seq of the start in force.
 
     Refused (`GateError`, nothing written) unless the stored task exists, is `verifying`, is at

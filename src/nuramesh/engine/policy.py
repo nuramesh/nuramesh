@@ -659,7 +659,7 @@ def answer_approval_in(
     `dry_run` runs every refusal and returns before the reason is captured (no key is made,
     nothing is appended).
 
-    `solo` (spec/rbac/solo-approval.md SA-2, SA-12) defaults to "never solo": without it the
+    `solo` (SA-2, SA-12) defaults to "never solo": without it the
     run's originator is refused (`SelfApproval`) even when nobody else could decide, and the
     mode written is `peer` or `no_originator`. Only the server route passes the terms, for a
     person in a cookie session; then a sole decide-holder's answer is a solo decision, whoever

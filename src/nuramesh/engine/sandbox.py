@@ -1,8 +1,8 @@
-"""Run commands in hardened OCI containers, and the test-command gate (A6, ND24; R1.08).
+"""Run commands in hardened OCI containers, and the test-command gate (R1.08).
 
 - `detect_runtime` finds a working container runtime: **Podman first, then Docker** (Docker Engine
   on Linux, or the `docker` CLI of Colima on a Mac). Docker Desktop works but isn't required or
-  recommended (ND24). A runtime counts only if `<runtime> info` answers.
+  recommended. A runtime counts only if `<runtime> info` answers.
 - `OciSandbox` copies the workspace into a fresh directory under `~/.nuramesh/sandbox/` (the home
   folder is shared with the Podman and Colima VMs by default on a Mac), runs the request in a
   container with the hardened flags of `core.sandbox.oci_run_args` (bind-mounted with `--mount`,
@@ -17,7 +17,7 @@
   `--timeout` as a backstop.
 - `open_sandbox` is the only supported way to get a sandbox, and the caller must say where it runs
   (`mode`): **hosted mode refuses** (hosted command execution stays closed until a stronger tier is
-  chosen, ND24); with no runtime it **refuses** (`SandboxUnavailable`) unless the LOCAL-only opt-out
+  chosen); with no runtime it **refuses** (`SandboxUnavailable`) unless the LOCAL-only opt-out
   is set, in which case it prints a loud warning **every time**, records `sandbox.opt_out` in the
   run's ledger and returns a `HostSandbox` (no isolation: same copy, time and output limits only;
   processes that leave their session can outlive it).
@@ -71,6 +71,20 @@ RUNTIMES = ("podman", "docker")
 LABEL = "nuramesh.sandbox.owner"
 STALE_COPY_SECONDS = 24 * 3600
 CANCELLED_TEXT = "the run was stopped"
+
+
+class CommandCancelled(Exception):  # noqa: N818 (named for the spec, like `CallCancelled`)
+    """A stop request or a halt cut a command gate's command (the real-models spec R27, C37s): the
+    command did not complete, so the gate has no result (not even `error`). The engine decides
+    what follows (the stop path) and writes no gate result. `isolation` names the sandbox that
+    was cut (None when the raiser did not say): the engine's scope rule reads it (decision note
+    x-963-pr3-cut-gate)."""
+
+    def __init__(self, message: str = "", *, isolation: Isolation | None = None) -> None:
+        super().__init__(message)
+        self.isolation = isolation
+
+
 CANCEL_POLL = 0.1  # seconds between looks at the cancel flag while a command runs
 CLI_TIMEOUT = 30  # seconds for each runtime housekeeping call (inspect, kill, rm, ps)
 PULL_TIMEOUT = 600
@@ -331,11 +345,17 @@ class OciSandbox:
                 **kw,
             )
 
-        def not_started(why: str) -> SandboxResult:
-            return result(exit_code=None, timed_out=False, started=False, stderr_tail=why)
+        def not_started(why: str, cancelled: bool = False) -> SandboxResult:
+            return result(
+                exit_code=None,
+                timed_out=False,
+                started=False,
+                stderr_tail=why,
+                cancelled=cancelled,
+            )
 
         if self._cancelled.is_set():
-            return not_started(CANCELLED_TEXT)
+            return not_started(CANCELLED_TEXT, cancelled=True)
         try:
             copy = _copy_workspace(workspace, _sandbox_root())
         except SandboxUnavailable as exc:
@@ -399,6 +419,7 @@ class OciSandbox:
                     started=True,
                     stdout_tail=out,
                     stderr_tail=(err + "\n" + CANCELLED_TEXT).strip(),
+                    cancelled=True,
                 )
             if timed_out:
                 return result(exit_code=None, timed_out=True, stdout_tail=out, stderr_tail=err)
@@ -416,7 +437,7 @@ class OciSandbox:
 
 
 class HostSandbox:
-    """The LOCAL-only opt-out (A6): runs on the host, in a copy, with time and output limits only.
+    """The LOCAL-only opt-out: runs on the host, in a copy, with time and output limits only.
 
     **No isolation**: the command can read the host, use the network and run as the caller, and a
     process that leaves its session isn't stopped. Only `open_sandbox` should create it, after the
@@ -445,7 +466,11 @@ class HostSandbox:
 
         if self._cancelled.is_set():
             return result(
-                exit_code=None, timed_out=False, started=False, stderr_tail=CANCELLED_TEXT
+                exit_code=None,
+                timed_out=False,
+                started=False,
+                stderr_tail=CANCELLED_TEXT,
+                cancelled=True,
             )
         try:
             copy = _copy_workspace(workspace)
@@ -485,6 +510,7 @@ class HostSandbox:
                     started=True,
                     stdout_tail=out,
                     stderr_tail=(err + "\n" + CANCELLED_TEXT).strip(),
+                    cancelled=True,
                 )
             return result(exit_code=code, timed_out=timed_out, stdout_tail=out, stderr_tail=err)
         except OSError as exc:
@@ -507,19 +533,20 @@ def open_sandbox(
     """The sandbox for a run (module docstring). Raises `SandboxUnavailable` when none may run."""
     if mode is Mode.HOSTED:
         if allow_unsandboxed:
-            raise SandboxUnavailable("the unsandboxed opt-out is refused in hosted mode (A6)")
+            raise SandboxUnavailable("the unsandboxed opt-out is refused in hosted mode")
         raise SandboxUnavailable(
-            "command execution is closed in hosted mode until a stronger sandbox tier is chosen "
-            "(ND24)"
+            "command execution is closed in hosted mode until a stronger sandbox tier is chosen"
         )
     found = runtime or detect()
     if found is not None:
         return OciSandbox(found)
     if not allow_unsandboxed:
         raise SandboxUnavailable(
-            "no container runtime found: install Podman (`brew install podman && podman machine "
-            "init && podman machine start`) or Colima (`brew install colima docker && colima "
-            "start`); commands never fall back to the host unless the LOCAL opt-out is set"
+            "no container runtime found (no Podman or Docker answered `info`): install Podman "
+            "(`brew install podman && podman machine init && podman machine start`) or Colima "
+            "(`brew install colima docker && colima start`). For a local experiment only, add "
+            "--allow-unsandboxed: the commands then run on this machine without isolation, "
+            "printed and recorded in the ledger (never a default; refused in hosted mode)"
         )
     message = (
         "SANDBOX OFF: commands will run on this machine WITHOUT isolation (local opt-out). "
@@ -542,6 +569,20 @@ def open_sandbox(
             )
         )
     return HostSandbox()
+
+
+def _service_evidence(image: str, outcome: SandboxResult) -> str:
+    """What R58 adds to the gate evidence of a sandbox service result (real-models spec).
+
+    Fixed text only: the digest of the image used, the SHA-256 of the workspace archive as the
+    service counted it, and whether the service cut the output. Empty for `oci` and `host`.
+    """
+    if outcome.isolation is not Isolation.SERVICE:
+        return ""
+    digest = image.rsplit("@sha256:", 1)[-1]
+    archive = outcome.workspace_sha256 or "not reported"
+    truncated = "yes" if outcome.output_truncated else "no"
+    return f"; image sha256:{digest}; archive sha256 {archive}; output truncated: {truncated}"
 
 
 def command_gate_runner(
@@ -582,23 +623,29 @@ def command_gate_runner(
             return error(str(exc))
         except Exception as exc:  # a sandbox must never turn a crash into a pass or an escape
             return error(f"the sandbox failed ({type(exc).__name__})")
+        if (
+            outcome.exit_code is None and not outcome.timed_out and outcome.cancelled
+        ):  # the sandbox was cut by a stop or a halt (R27): the engine asks which and stops
+            raise CommandCancelled(CANCELLED_TEXT, isolation=outcome.isolation)
         seconds = outcome.duration_ms / 1000
         where = f"{outcome.isolation.value} sandbox ({outcome.runtime})"
+        held = _service_evidence(config.image, outcome)  # R58: fixed text, never output
         program = config.command[0]
         if outcome.timed_out:
-            return error(f"timed out after {config.limits.timeout_seconds}s in the {where}")
+            return error(f"timed out after {config.limits.timeout_seconds}s in the {where}{held}")
         if not outcome.started or outcome.exit_code is None:
             why = outcome.stderr_tail.strip()[-300:] or "no detail"
-            return error(f"the {where} couldn't run the command: {why}")
+            return error(f"the {where} couldn't run the command: {why}{held}")
         if outcome.exit_code in _NOT_RUNNABLE:
             return error(
                 f"`{program}` isn't in the image or isn't executable "
-                f"(exit {outcome.exit_code}) in the {where}"
+                f"(exit {outcome.exit_code}) in the {where}{held}"
             )
         if outcome.exit_code == 0:
-            return judged(True, f"`{program}` exited 0 in {seconds:.1f}s in the {where}")
+            return judged(True, f"`{program}` exited 0 in {seconds:.1f}s in the {where}{held}")
         tail = (outcome.stdout_tail + outcome.stderr_tail).strip()[-400:]
         detail = f"`{program}` exited {outcome.exit_code} in {seconds:.1f}s in the {where}"
-        return judged(False, f"{detail}; last output: {tail}" if tail else detail)
+        # the retry feedback keeps the start of this text: the output tail goes before the R58 text
+        return judged(False, f"{detail}; last output: {tail}{held}" if tail else f"{detail}{held}")
 
     return run

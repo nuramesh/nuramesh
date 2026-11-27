@@ -1,6 +1,6 @@
 """A small world for the E19 engine tests: a store with a movable clock, an organization with the
 roles of a scenario, and a way to seed a scenario's streams and compare what was written
-(spec/e19/README.md section 14)."""
+(section 14)."""
 
 from collections.abc import Callable, Iterable
 from datetime import datetime

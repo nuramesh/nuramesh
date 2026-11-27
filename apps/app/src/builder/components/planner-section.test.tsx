@@ -35,7 +35,7 @@ function template() {
 
 describe("Run plan section", () => {
   it("asks for criteria per gate of the role's preset and shows what is missing", () => {
-    mount(["dana"]);
+    mount(["developer"]);
     expect(screen.getByRole("heading", { name: "Run plan" })).toBeInTheDocument();
     for (const id of ["rule", "test-command", "verifier"]) {
       expect(screen.getByRole("textbox", { name: `Criteria for gate ${id}` })).toHaveValue("");
@@ -44,7 +44,7 @@ describe("Run plan section", () => {
   });
 
   it("stores checks in the document, shows the instantiated gates and survives save and load", async () => {
-    const store = mount(["dana"]);
+    const store = mount(["developer"]);
     await userEvent.type(screen.getByRole("textbox", { name: "Criteria for gate rule" }), "style, lint");
     await userEvent.type(screen.getByRole("textbox", { name: "Criteria for gate test-command" }), "green");
     await userEvent.type(screen.getByRole("textbox", { name: "Criteria for gate verifier" }), "done");
@@ -60,7 +60,7 @@ describe("Run plan section", () => {
   });
 
   it("lists the eval suites the role needs, its own then the preset's", () => {
-    mount(["dana"], (d) => ({
+    mount(["developer"], (d) => ({
       ...d,
       config: {
         ...d.config,
@@ -78,7 +78,7 @@ describe("Run plan section", () => {
   });
 
   it("says it is a planning view and does not claim the run carries the checks", () => {
-    mount(["dana"]);
+    mount(["developer"]);
     const text = document.body.textContent;
     expect(text).not.toMatch(/carries these gates/);
     expect(text).toMatch(/planning view/i);
@@ -87,18 +87,18 @@ describe("Run plan section", () => {
   });
 
   it("keeps an invalid criterion draft per agent when another agent is selected and reselected", async () => {
-    const store = mount(["dana"]);
+    const store = mount(["developer"]);
     const box = () => screen.getByRole("textbox", { name: "Criteria for gate rule" });
     await userEvent.type(box(), "Bad Id");
     expect(screen.getByText(/'Bad Id' is not a valid criterion id/)).toBeInTheDocument();
     act(() => { store.getState().setSelection([]); });
-    act(() => { store.getState().setSelection(["dana"]); });
+    act(() => { store.getState().setSelection(["developer"]); });
     expect(box()).toHaveValue("Bad Id");
     expect(screen.getByText(/'Bad Id' is not a valid criterion id/)).toBeInTheDocument();
     await userEvent.clear(box());
     await userEvent.type(box(), "fine");
     act(() => { store.getState().setSelection([]); });
-    act(() => { store.getState().setSelection(["dana"]); });
+    act(() => { store.getState().setSelection(["developer"]); });
     expect(box()).toHaveValue("fine");
   });
 });

@@ -215,6 +215,94 @@ def check_docker() -> dict[str, str]:
     )  # fmt: skip
 
 
+# the sandbox service answers one of these codes (core.sandbox_service); doctor shows only these
+_SANDBOX_REFUSALS = {
+    "sandbox_rootful": (
+        "the sandbox host is not rootless (its user namespace is the host's), so it is refused",
+        "run the sandbox service rootless (Podman rootless, or Docker with user namespaces)",
+    ),
+    "sandbox_unlimited": (
+        "the sandbox service has no finite memory, CPU or process limit",
+        "set memory, CPU and pids limits on the sandbox container (the shipped Compose stack does)",
+    ),
+    "sandbox_selftest_failed": (
+        "the sandbox service self-test failed, so it refuses every command",
+        "check the sandbox service log and the host kernel and user namespace settings",
+    ),
+    "sandbox_caps_too_small": (
+        "the sandbox service limits are smaller than a command needs",
+        "raise the sandbox container limits",
+    ),
+    "no answer": (
+        "the sandbox service did not answer the health probe",
+        "start the sandbox service and check that the socket is shared with this process",
+    ),
+}
+# a variable that says runs use a team server or a real model, so commands really run
+_SANDBOX_REAL_VARS = (
+    "NURAMESH_DATABASE_URL", "NURAMESH_DATABASE_URL_FILE", "NURAMESH_REQUIRE_DATABASE",
+    "NURAMESH_ANTHROPIC_KEY_FILE", "NURAMESH_OPENAI_COMPATIBLE_KEYS",
+)  # fmt: skip
+
+
+def sandbox_real_mode_variable() -> str | None:
+    """The name (never the value) of a setting that makes runs execute real commands."""
+    for name in _SANDBOX_REAL_VARS:
+        value = os.environ.get(name)
+        if not value:
+            continue
+        if name == "NURAMESH_REQUIRE_DATABASE":
+            try:
+                if not env_bool(name):
+                    continue
+            except EnvBoolError:
+                pass  # a malformed flag fails closed: treat it as real mode (#1722)
+        return name
+    return None
+
+
+def sandbox_service_state(path: str, uid: int | None) -> str:
+    """Ask the sandbox service for its health state (`ready`, a refusal code or `no answer`);
+    tests replace this."""
+    from nuramesh.engine.sandbox_remote import RemoteSandbox
+
+    return RemoteSandbox(path, peer_uid=uid).health()
+
+
+def check_sandbox() -> dict[str, str]:
+    """The sandbox service is ready and rootless. FAIL only when this configuration runs real
+    commands (team server or real model); with the fake model it is a WARN, never a FAIL."""
+    real = sandbox_real_mode_variable()
+    bad = "FAIL" if real is not None else "WARN"
+    why = (
+        f"; {real} is set, so runs execute real commands"
+        if real
+        else " (fake model: runs use no real commands)"
+    )
+    path = os.environ.get("NURAMESH_SANDBOX_SOCKET", "")
+    fix = "set NURAMESH_SANDBOX_SOCKET to the sandbox service socket"
+    if not path:
+        # no service is configured, so none is probed: a host runtime may serve the commands
+        # (the container-runtime check covers it) and runs refuse without any sandbox (#1846)
+        return _check(
+            "sandbox", "WARN",
+            "NURAMESH_SANDBOX_SOCKET is not set: no sandbox service is used" + why,
+            "if you run the Compose sandbox service, set NURAMESH_SANDBOX_SOCKET to its socket",
+        )  # fmt: skip
+    if not path.startswith("/"):
+        return _check("sandbox", bad, "NURAMESH_SANDBOX_SOCKET is not an absolute path" + why, fix)
+    uid_text = os.environ.get("NURAMESH_SANDBOX_UID", "")
+    uid = int(uid_text) if uid_text.isdigit() else None
+    try:
+        code = sandbox_service_state(path, uid)
+    except (OSError, ValueError):  # the message may name a path: show a fixed one
+        code = "no answer"
+    if code == "ready":
+        return _check("sandbox", "PASS", "the sandbox service is ready and rootless")
+    message, hint = _SANDBOX_REFUSALS.get(code, _SANDBOX_REFUSALS["no answer"])
+    return _check("sandbox", bad, message + why, hint)
+
+
 def free_bytes() -> int:
     """Free bytes where runs write (the current directory; tests replace this)."""
     return shutil.disk_usage(os.getcwd()).free
@@ -283,9 +371,9 @@ def check_email_connect(network: bool) -> dict[str, str]:
         conn = net_guard.connect((host, port), CONNECT_TIMEOUT)
         try:
             if security == "tls":
-                import ssl
+                from nuramesh.core.tls import default_client_context
 
-                ssl.create_default_context().wrap_socket(conn, server_hostname=host).close()
+                default_client_context().wrap_socket(conn, server_hostname=host).close()
         finally:
             conn.close()
     except net_guard.PrivateNetworkError:
@@ -376,6 +464,7 @@ def run_checks(host: str, port: int, network: bool = False) -> list[dict[str, st
         check_database(network),
         check_auth_key(),
         check_docker(),
+        check_sandbox(),
         check_extras(),
         check_email(),
         check_email_connect(network),

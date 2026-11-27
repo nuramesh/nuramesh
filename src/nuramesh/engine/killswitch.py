@@ -1,4 +1,4 @@
-"""The org kill switch, role pause and circuit breakers: the actions (E19, ND106, spec/e19/).
+"""The org kill switch, role pause and circuit breakers: the actions (E19, ND106).
 
 The rules are pure and live in `core.breakers`; this module reads the ledger, appends what they
 call for, and applies the existing cooperative Stop (`run_control.request_stop`, T57) to the

@@ -174,7 +174,7 @@ checks that the `--json` warning is built from the CLI one).
 `PASS`, `WARN` or `FAIL`, a fixed message and a `fix:` hint. Checks: Python 3.12 or newer, the
 `serve` port is free (default 8765), the database (`NURAMESH_DATABASE_URL` reachable; SQLite when
 unset), the auth key file (`NURAMESH_AUTH_KEY_FILE`: unset is a warning, a missing or too-open file
-fails), a container runtime (Podman or Docker: a warning in local fake-model use, a failure when a team database or real-model setting is set: `NURAMESH_DATABASE_URL[_FILE]`, `NURAMESH_REQUIRE_DATABASE` on or malformed, `NURAMESH_ANTHROPIC_KEY_FILE`, `NURAMESH_OPENAI_COMPATIBLE_KEYS`, `NURAMESH_SECRET_DIR`, `NURAMESH_SECRET_STORE` other than `fake`), and the installed extras (a warning
+fails), a container runtime (Podman or Docker: a warning in local fake-model use, a failure when a team database or real-model setting is set: `NURAMESH_DATABASE_URL[_FILE]`, `NURAMESH_REQUIRE_DATABASE` on or malformed, `NURAMESH_ANTHROPIC_KEY_FILE`, `NURAMESH_OPENAI_COMPATIBLE_KEYS`, `NURAMESH_SECRET_DIR`, `NURAMESH_SECRET_STORE` other than `fake`), the sandbox service (`sandbox`: probed only when `NURAMESH_SANDBOX_SOCKET` is set; ready and rootless passes, a refusal is a failure when a team database or real-model setting is set and a warning otherwise; an unset socket is a warning and is never probed, so a host with only Podman or Docker still exits 0), and the installed extras (a warning
 listing what is missing), email (`NURAMESH_SMTP_HOST` unset is a warning; a host without a
 sender or `NURAMESH_PUBLIC_URL`, a bad `NURAMESH_SMTP_SECURITY`, or `none` to a remote host fails; nothing is sent), TLS and
 proxy (a `SSL_CERT_FILE` or `REQUESTS_CA_BUNDLE` naming a missing file fails; a proxy address is

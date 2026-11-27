@@ -1,4 +1,4 @@
-"""Reading the organization's halt and role-pause state (E19, ND106, spec/e19/).
+"""Reading the organization's halt and role-pause state (E19, ND106).
 
 The state is never stored: it is folded from the `org:<id>` stream (`core.breakers.halt_state`,
 `core.breakers.role_states`). `read_halt_state` reads the stream; `HaltWatch` keeps a cursor so the

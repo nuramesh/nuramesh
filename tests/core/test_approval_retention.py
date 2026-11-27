@@ -1,4 +1,4 @@
-"""Approval retention (ND195 a, spec/auth/token-lifecycle.md Part C R25 to R29): 396 days from
+"""Approval retention (ND195 a, Part C R25 to R29): 396 days from
 the last change."""
 
 from datetime import UTC, datetime, timedelta

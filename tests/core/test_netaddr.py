@@ -1,4 +1,4 @@
-"""#1153 PR 1: the address classifier (spec/network-guard NG-1 to NG-4, NG-10 (d), section 9.1)."""
+"""#1153 PR 1: the address classifier (NG-1 to NG-4, NG-10 (d), section 9.1)."""
 
 import ipaddress
 import re

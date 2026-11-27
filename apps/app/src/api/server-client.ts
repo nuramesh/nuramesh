@@ -112,8 +112,8 @@ function wsUrl(base: string, path: string): string {
 
 /**
  * The client for `nuramesh serve` (the API notes): REST under /v1 and the per-run WebSocket. What
- * the server has no endpoint for (organization storage, templates, presets, starting or pausing a
- * run) rejects with `NotAvailableError`, so no screen ever shows invented data.
+ * the server has no endpoint for (organization storage, templates, presets, starting a run from a
+ * template, pausing a run) rejects with `NotAvailableError`, so no screen ever shows invented data.
  */
 /** A credential as the server sends it (the agent identity notes section 7). */
 interface RawAgentCredential {
@@ -297,6 +297,17 @@ export function createServerClient(options: ServerClientOptions = {}): ApiClient
       taskAudit: async (runId, taskId) =>
         taskAudit(await http.get<RawTaskAudit>(`/v1/runs/${encodeURIComponent(runId)}/tasks/${encodeURIComponent(taskId)}/audit`)),
       start: unavailable("runs.start"),
+      startPlan: async (plan) => {
+        const answer = await http.post<{ run_id: string; state: string; engine: string }>("/v1/runs", plan, KEYED);
+        return { runId: answer.run_id, state: answer.state === "already_requested" ? "already_requested" : "accepted", engine: answer.engine };
+      },
+      startStatus: async (id) => {
+        // A request the runner has not begun (or refused) answers its own small shape; a run answers the run.
+        const raw = await http.get<{ state?: string; refusal_code?: string | null }>(`/v1/runs/${encodeURIComponent(id)}`);
+        if (raw.state === "refused") return { state: "refused", refusalCode: raw.refusal_code ?? null };
+        if (raw.state === "requested") return { state: "requested", refusalCode: null };
+        return { state: "begun", refusalCode: null };
+      },
       pause: unavailable("runs.pause"),
       stop: async (id, reason) => {
         const path = `/v1/runs/${encodeURIComponent(id)}/stop`;

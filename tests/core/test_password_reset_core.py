@@ -1,4 +1,4 @@
-"""R1.41 core types (spec/identity/password-reset.md sections 1, 4a): reset tokens, revoke links
+"""R1.41 core types (sections 1, 4a): reset tokens, revoke links
 and the password-login block are pure data; the link-token check is shared with R1.37."""
 
 from datetime import UTC, datetime, timedelta

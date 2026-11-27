@@ -1,4 +1,4 @@
-"""Admission of a claimed start request (spec/real-models section 4, R10 to R15).
+"""Admission of a claimed start request (section 4, R10 to R15).
 
 The early answer of a runner before `begin_run`: is this plan one this runner may start at all?
 `admission_code` is the pure rule (the order of the seven checks of R10; the first check that

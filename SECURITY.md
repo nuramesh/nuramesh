@@ -1,6 +1,7 @@
 # Security policy
 
-NuraMesh is the AI control plane for agent teams, so we take reports about its checks, budgets, ledger and anchors seriously.
+NuraMesh is a trust layer for AI agent teams, so we take reports about its checks, budgets, ledger and
+anchors seriously.
 
 ## Reporting a vulnerability
 
@@ -11,7 +12,8 @@ credentials in a report.
 You can also use GitHub's **private vulnerability reporting** (the repository's Security tab,
 "Report a vulnerability").
 
-We will acknowledge a report within 3 business days, share our assessment and next steps within 10 business days, and keep you updated until it is resolved. Please give us up to 90 days to release a fix before you share details publicly.
+We will acknowledge a report within 5 business days and tell you what we plan to do. Please give us a
+reasonable time to fix a problem before you share it.
 
 ## What is in scope
 
@@ -22,22 +24,6 @@ We will acknowledge a report within 3 business days, share our assessment and ne
 - Leaks of secrets, or of data a verifier or another tenant should not see.
 - Weaknesses in the API server, the app or the website.
 
-## Out of scope
-
-- Denial of service and volume-based attacks.
-- Social engineering or phishing of NuraMesh staff.
-- Issues in third-party model providers or dependencies without a working exploit against NuraMesh.
-- Reports from automated scanners without a proof of impact.
-
-## Recognition
-
-We do not run a paid bug bounty at this time. With your permission, we credit reporters in the release notes for the fix.
-
 ## Supported versions
 
-The latest 0.1.x release is supported.
-
-## Safe harbor
-
-If you act in good faith, stay within these rules and give us time to respond, we will not take legal
-action against you for your research.
+Only the `main` branch is supported until the first release is published.

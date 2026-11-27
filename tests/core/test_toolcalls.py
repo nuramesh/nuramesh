@@ -1,4 +1,4 @@
-"""The pure rules of the adapter tool-call contract (spec/adapters/README.md, S4): tool names,
+"""The pure rules of the adapter tool-call contract (S4): tool names,
 call ids, readable arguments, the arguments digest, the manifest and `tool_set_hash`, reason
 codes, the fixed texts and the option ranges. Test names carry the spec's rule and case ids."""
 

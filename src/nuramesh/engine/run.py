@@ -135,6 +135,7 @@ from nuramesh.core.presets import (
 from nuramesh.core.price_words import COST_UNKNOWN_SHORT, at_least_words, cost_unknown_call_words
 from nuramesh.core.prices import PriceBook, PriceOverride
 from nuramesh.core.redaction import reason_text_visible
+from nuramesh.core.sandbox import Isolation
 from nuramesh.core.tasks import FINAL, Task, TaskStatus, TaskTransitionError
 from nuramesh.core.toolcalls import DEADLINE_WAIT_SECONDS, DENIAL_LIMIT
 from nuramesh.core.verifier import CanonDocument
@@ -193,6 +194,7 @@ from nuramesh.engine.plan_text import (
 from nuramesh.engine.policy import ApprovalRequired, ModelPolicy, check_action, pending_approvals
 from nuramesh.engine.reconcile import ReconcileReport, reconcile_stale_reservations
 from nuramesh.engine.run_control import HALT_VIAS, StopWatch
+from nuramesh.engine.sandbox import CommandCancelled
 from nuramesh.engine.steps import (
     DEPENDENCY_WAITING,
     HUMAN_DECISION,
@@ -2796,6 +2798,27 @@ class RunEngine:
                     submission=task.submission,
                 )
             return result
+        except CommandCancelled as cut:  # R27, C37s: a stop or a halt cut the command
+            stopped = self._stop_check()
+            # R27 is for the light runner only (decision note x-963-pr3-cut-gate): a real-capable
+            # runner (`runner_calls`), or a cut of the sandbox service, which only a runner uses
+            # (`--fake` included)
+            in_scope = self.settings.runner_calls or cut.isolation is Isolation.SERVICE
+            if stopped and in_scope:
+                self._fire_hooks()
+                raise RunStopped from None  # no gate result
+            return error_result(  # OCI or host cut (rows 17, 29), or no stop: an error result
+                spec,
+                checked_by=f"gate:{spec.kind.value}",
+                message=(
+                    "the command was cut by a stop or a halt"
+                    if stopped
+                    else "the command was cancelled and no stop or halt is recorded"
+                ),
+                task_id=task.id,
+                attempt=task.attempt,
+                submission=task.submission,
+            )
         except Exception as exc:
             return error_result(
                 spec,

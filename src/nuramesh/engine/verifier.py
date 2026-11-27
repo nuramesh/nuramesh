@@ -231,7 +231,7 @@ def run_verifier_gate(
         if result.cap_hit:  # an applied output cap cut the answer: never a pass (R1.42, Q5)
             return failed(OUTPUT_CAPPED_MESSAGE)
     if control is not None and (response.finish_reason == "filtered" or response.text == ""):
-        # spec/real-models R28 (the runner): a tool-call or empty answer is never a pass
+        # R28 (the runner): a tool-call or empty answer is never a pass
         return failed("the verifier gave no usable answer (model_no_usable_answer)")
     judgement = parse_reply(response.text, spec.checks)
     if not judgement.usable:

@@ -1,4 +1,4 @@
-"""R1.38 MA-R2 (spec/identity/mfa.md section 2, case T69): every session insert names how the
+"""R1.38 MA-R2 (section 2, case T69): every session insert names how the
 person signed in (`login_via`), with no default."""
 
 import ast

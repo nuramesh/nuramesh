@@ -7,7 +7,7 @@ import { renderSafety } from "@/org-safety/test-utils";
 import { AgentsPage } from "./agents-page";
 import { credential } from "./test-data";
 
-const LIVE = credential({ id: "agc_" + "a".repeat(24), agent: "dana" });
+const LIVE = credential({ id: "agc_" + "a".repeat(24), agent: "developer" });
 
 /** Counts every call the page makes to the agent credential API. */
 function spied(role: "owner" | "approver" | "viewer") {
@@ -28,8 +28,8 @@ describe("Agents page (the agent identity notes section 10)", () => {
   it("lists the organization's agents from the agent list, each with an Access panel", async () => {
     const { client, calls } = spied("owner");
     renderSafety(<AgentsPage />, client);
-    expect(await screen.findByRole("group", { name: "Access for dana" })).toBeInTheDocument();
-    expect(screen.getAllByRole("heading", { name: /Dana/ }).length).toBeGreaterThan(0);
+    expect(await screen.findByRole("group", { name: "Access for developer" })).toBeInTheDocument();
+    expect(screen.getAllByRole("heading", { name: /Developer/ }).length).toBeGreaterThan(0);
     expect(calls).toContain("agents");
   });
 

@@ -309,6 +309,8 @@ class World:
     default_owners: frozenset[str] = frozenset({OWNER})
     task_key: str | None = "task-1"
     human_quorum: str = "evaluate"
+    quorum_entitled: bool = True
+    """The enterprise quorum is granted in the kit; the tests of the refusal turn it off."""
     inputs_read_at: str | None = None
     recompute_missing: bool = False
     sharers: list[World] = field(default_factory=list)
@@ -486,6 +488,7 @@ class World:
             owners_of=self.owners_of,
             task_key=self.task_key,
             human_quorum=self.human_quorum,  # type: ignore[arg-type]
+            quorum_entitled=self.quorum_entitled,
         )
 
     def in_base_history(self, commit: str) -> bool:

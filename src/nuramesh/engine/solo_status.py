@@ -1,5 +1,5 @@
 """The committed-value reads of the solo approval view and `solo_approval` of the organization
-status (spec/rbac/solo-approval.md SA-16, SA-18 item 4), shared by the server and the CLI."""
+status (SA-16, SA-18 item 4), shared by the server and the CLI."""
 
 from collections.abc import Callable, Sequence
 from datetime import datetime

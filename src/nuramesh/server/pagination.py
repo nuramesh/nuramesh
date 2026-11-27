@@ -1,4 +1,4 @@
-"""Cursor pagination of the list routes (R1.43 C4, spec/cli-api-naming section 4.4, case H08).
+"""Cursor pagination of the list routes (R1.43 C4, section 4.4, case H08).
 
 A request may send `limit` (1 to 200) and `cursor`. A client that sends `NuraMesh-Version:
 2026-12` gets `{"items": [...], "next_cursor": "..." | null}`; without the header the route keeps

@@ -7,8 +7,10 @@ import { describeProblem } from "@/api/problems";
 import type { RunStatus } from "@/api/types";
 import { Button } from "@/components/ui/button";
 import { FilterPill } from "@/components/ui/chip";
+import { useCanAct } from "@/org-safety/use-org-safety";
 
 import { formatStarted, STATUS_LABEL } from "./format";
+import { StartRun } from "./start-run";
 import { StatusPill } from "./status-pill";
 import { useRuns } from "./use-run";
 
@@ -33,6 +35,7 @@ const FILTERS: (RunStatus | "all")[] = ["all", "running", "stopping", "waiting",
 export function RunsPage() {
   const [filter, setFilter] = useState<RunStatus | "all">("all");
   const runs = useRuns(filter === "all" ? undefined : filter);
+  const canAct = useCanAct();
   const data = runs.data?.runs;
   const running = data?.filter((r) => r.status === "running" || r.status === "stopping").length ?? 0;
   const waiting = data?.filter((r) => r.status === "waiting").length ?? 0;
@@ -47,6 +50,8 @@ export function RunsPage() {
           {data === undefined ? "Loading…" : `${String(data.length)} run${data.length === 1 ? "" : "s"} · ${String(running)} running · ${String(waiting)} waiting for you`}
         </p>
       </header>
+      {/* Only a caller who may act sees the button (default deny); the server checks the call itself. */}
+      {canAct && <StartRun />}
       <div role="group" aria-label="Filter by status" className="flex flex-wrap gap-1.5">
         {FILTERS.map((f) => (
           <FilterPill

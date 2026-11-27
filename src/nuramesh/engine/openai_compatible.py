@@ -1,4 +1,4 @@
-"""The OpenAI-compatible endpoint provider (spec/openai-compatible, ND259, ND260, ND262).
+"""The OpenAI-compatible endpoint provider (ND259, ND260, ND262).
 
 One named connection (`openai-compatible/<endpoint id>`) is one `base_url` and an auth of `none`
 or `key`. The adapter makes a non-streaming `POST {base_url}/chat/completions` and holds no

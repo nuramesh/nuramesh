@@ -1,4 +1,4 @@
-"""Key rotation, the pure rules (R1.30 PR 5, H-14; spec/r130/anchor-remote-rotation.md R10 to R13).
+"""Key rotation, the pure rules (R1.30 PR 5, H-14; R10 to R13).
 
 No Git here: records are built with keys generated when the test runs, the chain walk and the
 key-per-anchor rules take their inputs as data."""

@@ -13,11 +13,19 @@ from collections.abc import Callable, Iterable
 from datetime import datetime
 from typing import Protocol
 
-from nuramesh.core.licence import EXPIRY_GRACE, NOT_BEFORE_SKEW
+from nuramesh.core.licence import NOT_BEFORE_SKEW, grace_end, grace_over
 
 ENTERPRISE_KEYS: frozenset[str] = frozenset(
     {
-        "sso.oidc",
+        "sso.idp_oidc",
+        "vm.quorum_n",
+        "gateway.ha",
+        "gateway.central_policy",
+        "vm.kms_signer",
+        "vm.attestation",
+        "attest.sign",
+        "audit.evidence_packs",
+        "secrets.external_store",
         "sso.saml",
         "rbac.scoped",
         "audit.export_stream",
@@ -108,7 +116,8 @@ class LicenceEntitlements:
 
     `features` outside `known` are ignored and listed in `ignored` (a newer licence must not break
     an older package); a badly shaped feature is a `ValueError`. The window is
-    `not_before - NOT_BEFORE_SKEW <= clock() < expires_at + EXPIRY_GRACE`."""
+    `not_before - NOT_BEFORE_SKEW <= clock()` and `clock() - EXPIRY_GRACE < expires_at` (never
+    `expires_at + EXPIRY_GRACE`, which overflows for a far-future expiry)."""
 
     def __init__(
         self,
@@ -145,9 +154,23 @@ class LicenceEntitlements:
         now = self._clock()
         _aware(now, "the clock's value")
         try:
-            return self._not_before - NOT_BEFORE_SKEW <= now < self._expires_at + EXPIRY_GRACE
-        except OverflowError:  # a time at the edge of the calendar: fail closed
+            started = self._not_before - NOT_BEFORE_SKEW <= now
+        except OverflowError:  # a start at the edge of the calendar: fail closed
             return False
+        return started and not grace_over(now, self._expires_at)
+
+    @property
+    def grace_ends_at(self) -> datetime | None:
+        """When paid features stop (`expires_at` plus the grace), None past the calendar's end."""
+        return grace_end(self._expires_at)
+
+    @property
+    def in_grace(self) -> bool:
+        """True while the licence has expired but its 30-day grace (ND472) still holds: paid
+        features work and a caller may show a warning. Re-read from the clock on every call."""
+        now = self._clock()
+        _aware(now, "the clock's value")
+        return self._expires_at <= now and not grace_over(now, self._expires_at)
 
     def is_granted(self, key: str) -> bool:
         if _foreign(key, self._known):

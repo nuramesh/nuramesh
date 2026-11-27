@@ -1,4 +1,4 @@
-"""Password reset routes (R1.41; `spec/identity/password-reset.md` section 2).
+"""Password reset routes (R1.41; section 2).
 
 Two public routes (request and redeem), one owner route (`admin` rule) and one public route that
 revokes an API token by its emailed link. The request answer is the same bytes and headers for

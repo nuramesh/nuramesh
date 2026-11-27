@@ -1,4 +1,4 @@
-"""`GET /v1/savings/tokens` (R1.34 Part A, `spec/token-savings` section 6): tokens by kind, the
+"""`GET /v1/savings/tokens` (R1.34 Part A, section 6): tokens by kind, the
 cache hit rate and what the cache saved, per provider, model or role.
 
 Read only: no body, no ledger entry, no store write, the caller's organization only. The arithmetic

@@ -1,4 +1,4 @@
-"""The API's own first-owner setup page, `GET /setup` (spec/rbac/solo-approval.md SA-0.10; #950).
+"""The API's own first-owner setup page, `GET /setup` (SA-0.10; #950).
 
 `nuramesh serve` prints `http://<host>:<port>/setup#token=<token>`; this is the page behind it. It
 is self-contained (no app, no bundle, nothing from another origin) and follows the

@@ -8,10 +8,10 @@ can never block every approver. It refuses a person only when the ledger positiv
 
 `originator_of` is called inside the transaction that records an approval or a gate decision, so it
 reads the values that transaction will write over. Since solo approval
-(`spec/rbac/solo-approval.md`) the two callers (`engine.policy`, `engine.human_decisions`) read the
+ the two callers (`engine.policy`, `engine.human_decisions`) read the
 originator themselves and raise `SelfApproval` unless the decision is a solo one;
 `refuse_self_approval` is the rule without the solo exception, kept for callers that have no solo
-path (`spec/r210b` names it).
+path (the design notes names it).
 """
 
 from typing import Protocol
@@ -35,7 +35,7 @@ class SelfApproval(Exception):
 
 class OriginatorReads(Protocol):
     """What reading the originator needs: a unit of work has it, and so does a read-only adapter
-    over the store (the approval view, spec/rbac/solo-approval.md SA-16)."""
+    over the store (the approval view, SA-16)."""
 
     def events_after(self, stream: str, after_seq: int, limit: int) -> list[LedgerEvent]: ...
 

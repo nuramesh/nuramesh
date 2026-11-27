@@ -3,13 +3,13 @@
 What happens in a run:
 
 1. The Chief of Staff delegates three tasks, in order.
-2. **Fix** (Dana, developer): asks the model for a corrected `calc.py`. Gates, cheapest first:
+2. **Fix** (developer): asks the model for a corrected `calc.py`. Gates, cheapest first:
    a rule (the fix is there), the **tests in the sandbox** (`python -m unittest` in a container,
-   no network), then an **independent reviewer** (Rhea) who sees only the task, the definition of
-   done and the output, never Dana's reasoning.
-3. **Test** (Theo, tester): runs the whole suite in the sandbox and reports; a rule gate checks the
+   no network), then an **independent reviewer** (reviewer) who sees only the task, the definition
+   of done and the output, never the developer's reasoning.
+3. **Test** (tester): runs the whole suite in the sandbox and reports; a rule gate checks the
    report says everything passed.
-4. **Deploy** (Omar, DevOps): prepares a staging deploy; a **human must approve** it.
+4. **Deploy** (DevOps): prepares a staging deploy; a **human must approve** it.
 
 With `--fake` every model answer comes from a script below: no API keys, no cost. Budgets, prices,
 policies, gates and the ledger are all real.
@@ -146,6 +146,12 @@ def build(env: TeamEnv, wrap_workers: Any = None) -> Team:
         }
 
     def devops(task: Task, ctx: WorkContext) -> dict[str, Any]:
+        if task.text_ref is not None:
+            # A run started through the API (`nuramesh start`, `POST /v1/runs`) has no scripted
+            # approver and its gates come from the role's preset, so the deploy asks a person
+            # first: the role's `merge: ask` rule opens an approval request (Approvals in the app).
+            # In `nuramesh try` the plan below carries a human gate for the same decision.
+            ctx.authorize(ActionKind.MERGE, "staging")
         return {"deploy": "staging", "change": "calc.add fix", "rollback": "redeploy previous"}
 
     run = env.run_id
@@ -154,7 +160,7 @@ def build(env: TeamEnv, wrap_workers: Any = None) -> Team:
         run_id=run,
         title="Fix the failing add() test in calc.py",
         instructions="add(2, 3) must return 5. Change as little as possible.",
-        assignee="dana",
+        assignee="developer",
         max_attempts=2,
         definition_of_done=DefinitionOfDone(
             criteria=(
@@ -192,7 +198,7 @@ def build(env: TeamEnv, wrap_workers: Any = None) -> Team:
                     checks=("safe-change",),
                     # The verifier must be a different model family from the developer (ND48); the
                     # model gate enforces that independently of this flag (ND92).
-                    config={"verifier": "rhea", "require_different_model": True},
+                    config={"verifier": "reviewer", "require_different_model": True},
                 ),
             ),
         ),
@@ -201,7 +207,7 @@ def build(env: TeamEnv, wrap_workers: Any = None) -> Team:
         id=f"{run}-test-suite",
         run_id=run,
         title="Run the whole test suite on the fix",
-        assignee="theo",
+        assignee="tester",
         definition_of_done=DefinitionOfDone(
             criteria=(Criterion(id="suite-green", text="Every test passes"),),
             gates=(
@@ -225,10 +231,32 @@ def build(env: TeamEnv, wrap_workers: Any = None) -> Team:
         id=f"{run}-deploy",
         run_id=run,
         title="Deploy the fix to staging",
-        assignee="omar",
+        assignee="devops",
         definition_of_done=DefinitionOfDone(
-            criteria=(Criterion(id="approved", text="A human approved this deploy"),),
+            criteria=(
+                # "dod" is the one criterion id of a plan started through the API, and the
+                # preset's rule names it; the gate here must equal the preset's
+                Criterion(id="dod", text="The deploy targets staging"),
+                Criterion(id="approved", text="A human approved this deploy"),
+            ),
             gates=(
+                GateSpec(  # the devops role's gate preset (nuramesh.yaml) requires this gate
+                    id="deploy-plan",
+                    kind=GateKind.RULE,
+                    checks=("dod",),
+                    config={
+                        "rules": [
+                            {
+                                "criterion": "dod",
+                                "check": {
+                                    "type": "path_equals",
+                                    "path": "deploy",
+                                    "value": "staging",
+                                },
+                            }
+                        ]
+                    },
+                ),
                 GateSpec(
                     id="approve-deploy",
                     kind=GateKind.HUMAN,
@@ -243,7 +271,7 @@ def build(env: TeamEnv, wrap_workers: Any = None) -> Team:
         files = output.get("files") if isinstance(output, dict) else None
         return workspace(dict(files) if files else dict(fixed))  # the tester checks the fix
 
-    workers = {"dana": developer, "theo": tester, "omar": devops}
+    workers = {"developer": developer, "tester": tester, "devops": devops}
     if wrap_workers is not None:
         workers = wrap_workers(workers, fixed, sandbox, workspace)
 

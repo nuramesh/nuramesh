@@ -307,6 +307,29 @@ export interface StartRunInput {
   budget: Money;
 }
 
+/**
+ * A run plan as `POST /v1/runs` takes it (the API notes): `data_class` and `tasks`. The app sends the
+ * object as written; the server checks every field and refuses what it does not know.
+ */
+export type RunPlan = Record<string, unknown>;
+
+/** The server's answer to an accepted plan: the run exists as a request; a runner begins or refuses it. */
+export interface StartedRun {
+  runId: string;
+  /** `already_requested`: the same request was sent before (same run). */
+  state: "accepted" | "already_requested";
+  engine: string;
+}
+
+/**
+ * Where a start request stands (`GET /v1/runs/{id}`): `requested` until a runner looks at it, then
+ * `begun` (it is a run, with a page of its own) or `refused` with the runner's code.
+ */
+export interface StartStatus {
+  state: "requested" | "begun" | "refused";
+  refusalCode: string | null;
+}
+
 // ---- approvals ---------------------------------------------------------------------------
 
 export type ApprovalState = "pending" | "approved" | "denied";

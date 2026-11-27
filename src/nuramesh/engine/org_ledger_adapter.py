@@ -1,4 +1,4 @@
-"""The Merge Gate ledger seam (spec `spec/verified-merge` LA-2): `core.vm_signer.Ledger` over a
+"""The Merge Gate ledger seam (LA-2): `core.vm_signer.Ledger` over a
 `Store`. It lives outside `engine/vm_keys.py` on purpose: it imports the store, and the store's
 import closure must not enter the trust roots (TC-176 a)."""
 

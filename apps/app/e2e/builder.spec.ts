@@ -51,15 +51,15 @@ test("connects agents by dragging handles; a new manager replaces the old one", 
   await expectAgents(page, 5);
   await expect(edges(page)).toHaveCount(4);
 
-  await connect(page, "dana", "theo");
-  await expect(page.locator('.react-flow__edge[data-id="edge:theo"]')).toHaveCount(1);
-  await node(page, "theo").click();
-  await expect(page.getByRole("combobox", { name: "Reports to" })).toHaveValue("dana");
+  await connect(page, "developer", "tester");
+  await expect(page.locator('.react-flow__edge[data-id="edge:tester"]')).toHaveCount(1);
+  await node(page, "tester").click();
+  await expect(page.getByRole("combobox", { name: "Reports to" })).toHaveValue("developer");
   await expect(edges(page)).toHaveCount(4); // still one line per agent
 
   // A line that would close a loop is refused.
-  await connect(page, "theo", "dana");
-  await node(page, "dana").click();
+  await connect(page, "tester", "developer");
+  await node(page, "developer").click();
   await expect(page.getByRole("combobox", { name: "Reports to" })).toHaveValue("chief");
 });
 
@@ -98,7 +98,7 @@ test("undo and redo every edit, with buttons and keyboard", async ({ page }) => 
 test("auto-layout keeps manual positions until asked, then re-arranges", async ({ page }) => {
   await loadTemplate(page, "Dev team");
   await expectAgents(page, 5);
-  const tester = node(page, "theo");
+  const tester = node(page, "tester");
   const before = await center(tester);
   await drag(page, before, { x: before.x + 150, y: before.y + 120 });
   const moved = await center(tester);
@@ -121,7 +121,7 @@ test("auto-layout keeps manual positions until asked, then re-arranges", async (
     .toBe(true);
   // Every report sits below its manager.
   const chief = await node(page, "chief").boundingBox();
-  for (const id of ["dana", "omar", "theo", "rhea"]) {
+  for (const id of ["developer", "devops", "tester", "reviewer"]) {
     const box = await node(page, id).boundingBox();
     expect(box?.y ?? 0).toBeGreaterThan((chief?.y ?? 0) + (chief?.height ?? 0));
   }
@@ -131,15 +131,15 @@ test("multi-select, select all, copy/paste, duplicate and cut", async ({ page })
   await loadTemplate(page, "Dev team");
   await expectAgents(page, 5);
 
-  await node(page, "dana").click();
-  await node(page, "theo").click({ modifiers: ["Shift"] });
+  await node(page, "developer").click();
+  await node(page, "tester").click({ modifiers: ["Shift"] });
   await expect(page.getByRole("heading", { name: "2 agents selected" })).toBeVisible();
 
   await page.keyboard.press(`${mod}+c`);
   await page.keyboard.press(`${mod}+v`);
   await expectAgents(page, 7);
   await fitView(page);
-  await expect(node(page, "dana-2")).toContainText("Dana (developer) (copy)");
+  await expect(node(page, "developer-2")).toContainText("Developer (copy)");
 
   await page.keyboard.press(`${mod}+d`);
   await expectAgents(page, 9);
@@ -150,8 +150,8 @@ test("multi-select, select all, copy/paste, duplicate and cut", async ({ page })
   await fitView(page);
   // Clicking a node inside a multi-selection keeps the group (React Flow), so clear it first.
   await page.locator(".react-flow__pane").click({ position: { x: 5, y: 5 } });
-  await node(page, "rhea").click();
-  await expect(page.getByRole("heading", { name: "Rhea (reviewer)", level: 3 })).toBeVisible();
+  await node(page, "reviewer").click();
+  await expect(page.getByRole("heading", { name: "Reviewer", level: 3 })).toBeVisible();
   await page.keyboard.press(`${mod}+x`);
   await expectAgents(page, 8);
   await page.keyboard.press(`${mod}+v`);
@@ -172,18 +172,18 @@ test("box select with Shift-drag", async ({ page }) => {
 test("problems panel lists issues and focuses the agent", async ({ page }) => {
   await loadTemplate(page, "Dev team");
   await expectAgents(page, 5);
-  await node(page, "theo").click();
+  await node(page, "tester").click();
   await page.getByRole("combobox", { name: "Reports to" }).selectOption("");
   await expect(page.getByRole("tab", { name: /Problems/ })).toContainText("3");
   await page.getByRole("tab", { name: /Problems/ }).click();
-  const problem = page.getByRole("button", { name: /The top agent 'theo' must have a Chief of Staff role/ });
+  const problem = page.getByRole("button", { name: /The top agent 'tester' must have a Chief of Staff role/ });
   await expect(problem).toBeVisible();
-  await expect(node(page, "theo").getByText("2")).toBeVisible(); // two errors on the node
+  await expect(node(page, "tester").getByText("2")).toBeVisible(); // two errors on the node
 
   await page.locator(".react-flow__pane").click({ position: { x: 5, y: 5 } });
   await problem.click();
-  await expect(node(page, "theo")).toBeFocused();
-  await expect(node(page, "theo")).toHaveClass(/selected/);
+  await expect(node(page, "tester")).toBeFocused();
+  await expect(node(page, "tester")).toHaveClass(/selected/);
 });
 
 test("edits roles: create, rename id (agents follow), and protect roles in use", async ({ page }) => {
@@ -203,7 +203,7 @@ test("edits roles: create, rename id (agents follow), and protect roles in use",
   await expect(page.getByRole("button", { name: "Delete role" })).toBeDisabled();
   await page.getByLabel("Role id").fill("qa");
   await page.getByRole("tab", { name: "Properties" }).click();
-  await node(page, "theo").click();
+  await node(page, "tester").click();
   await expect(page.getByRole("combobox", { name: "Role", exact: true })).toHaveValue("qa");
 });
 
@@ -285,7 +285,7 @@ test("rejects invalid imports with clear errors and changes nothing", async ({ p
 test("builder passes axe with a template loaded, in both themes and with a dialog open", async ({ page }) => {
   await loadTemplate(page, "Dev team");
   await expectAgents(page, 5);
-  await node(page, "theo").click();
+  await node(page, "tester").click();
   await expectNoSeriousA11yViolations(page);
   await page.getByRole("tab", { name: "Roles" }).click();
   await roleList(page).getByRole("button", { name: /^Developer/ }).click();

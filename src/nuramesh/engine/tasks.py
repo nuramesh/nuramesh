@@ -3,11 +3,13 @@
 from collections.abc import Callable, Iterable, Mapping
 from typing import Any
 
+from pydantic import TypeAdapter, ValidationError
+
 from nuramesh.core.calibration import CalibrationConfig, calibration_problems
 from nuramesh.core.gate_config import definition_problems, verifier_problems
 from nuramesh.core.gates import GateKind, GateResult
 from nuramesh.core.ledger import EventType
-from nuramesh.core.org import OrgGraph
+from nuramesh.core.org import RESERVED_ORG_IDS, OrgGraph, Slug
 from nuramesh.core.tasks import Task, TaskMove, TaskStatus, transition
 from nuramesh.engine.content import LedgerHashing
 from nuramesh.engine.result_match import recorded_hash_of
@@ -35,6 +37,18 @@ class UnrecordedGateResultError(ValueError):
     """A move used a gate result that isn't in the ledger (nothing counts unrecorded)."""
 
 
+_ORG_ID = TypeAdapter(Slug)
+
+
+def _is_org_id(value: object) -> bool:
+    """True if `value` is shaped like `OrgGraph.id`: a strict str slug that is not reserved."""
+    try:
+        text = _ORG_ID.validate_python(value, strict=True)
+    except ValidationError:
+        return False
+    return text not in RESERVED_ORG_IDS
+
+
 def create_task(
     store: Store,
     task: Task,
@@ -59,10 +73,18 @@ def create_task(
     The task is refused with `ForeignRun` (nothing written, #1587) if its run belongs to another
     organization: the caller's organization is `org_id`, or `org.id` when only `org` is given. A
     run with no stream, or whose first entry is not `run.started`, is nobody's (same rule as
-    `check_action` and `record_canon_loaded`). With neither `org` nor `org_id` there is no caller
-    organization to compare, so the check is skipped (engine callers always pass `org`).
+    `check_action` and `record_canon_loaded`). The caller's organization is required (default
+    deny, #1634): with neither `org` nor a non-empty `org_id` a `ValueError` is raised, and if both
+    are given and differ a `ValueError` is raised; an `org_id` that is not shaped like `OrgGraph.id`
+    (a strict lower-case slug, not reserved) is a `ValueError` too; nothing is written either way.
     """
-    caller_org = org_id if org_id is not None else (org.id if org is not None else None)
+    if org_id is not None and org_id != "" and not _is_org_id(org_id):
+        raise ValueError("org_id is not a valid organization id (a lower-case slug)")
+    if org is not None and org_id and org_id != org.id:
+        raise ValueError(f"org_id {org_id!r} differs from org.id {org.id!r}: pass one organization")
+    caller_org = org_id or (org.id if org is not None else None)
+    if not caller_org:
+        raise ValueError("create_task needs the caller's organization: pass `org` or `org_id`")
     problems = definition_problems(task.definition_of_done)
     has_verifier = any(g.kind is GateKind.VERIFIER for g in task.definition_of_done.gates)
     if org is not None:
@@ -98,8 +120,7 @@ def create_task(
             payload["title_content"] = ref.title_id
             payload["dod_content"] = ref.dod_id
     with store.transaction() as uow:
-        if caller_org is not None:
-            refuse_foreign_run(uow, caller_org, task.run_id)  # before any write (#1587)
+        refuse_foreign_run(uow, caller_org, task.run_id)  # before any write (#1587)
         version = uow.put_task(task, expected_version=None)
         uow.append(
             EventDraft(

@@ -1,4 +1,4 @@
-"""Solo approval inside the decision transaction (spec/rbac/solo-approval.md, #942 PR 1).
+"""Solo approval inside the decision transaction (#942 PR 1).
 
 The **solo condition** is `D(org) == {approver}`: the approver is the organization's only active
 person whose role holds `decide`, read inside the transaction that records the decision. It does

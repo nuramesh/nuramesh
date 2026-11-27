@@ -1,4 +1,4 @@
-"""Model epochs, the floor and honouring a grant: spec/model-change section 9 (E1 to E20, P1, P2).
+"""Model epochs, the floor and honouring a grant: section 9 (E1 to E20, P1, P2).
 
 Expected values come from the spec's table, never from the code under test."""
 

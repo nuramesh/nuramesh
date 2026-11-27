@@ -1,4 +1,4 @@
-"""The approvals sweep (ND195 a; spec/auth/token-lifecycle.md Part C): decided and consumed
+"""The approvals sweep (ND195 a; Part C): decided and consumed
 approvals are deleted 13 months (396 days, `APPROVAL_RETENTION`) after their last status
 change. Pending approvals are never deleted and the ledger is never edited.
 

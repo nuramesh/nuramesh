@@ -116,22 +116,22 @@
         "reports_to": null
       },
       {
-        "id": "dana",
+        "id": "developer",
         "role": "developer",
         "reports_to": "chief"
       },
       {
-        "id": "theo",
+        "id": "tester",
         "role": "tester",
         "reports_to": "chief"
       },
       {
-        "id": "rhea",
+        "id": "reviewer",
         "role": "reviewer",
         "reports_to": "chief"
       },
       {
-        "id": "omar",
+        "id": "devops",
         "role": "devops",
         "reports_to": "chief"
       }

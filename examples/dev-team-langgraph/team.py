@@ -1,7 +1,8 @@
 """The dev-team demo with its workers as LangGraph graphs (R1.D, R1.16).
 
 Same plan, gates, budgets, policies and ledger as `examples/dev-team`; the difference is that
-Dana, Theo and Omar each run as a compiled LangGraph graph through `nuramesh.adapters.langgraph`.
+Developer, Tester and DevOps each run as a compiled LangGraph graph through
+`nuramesh.adapters.langgraph`.
 NuraMesh stays the trust layer: the graph's model calls go through `NuraMeshChatModel` (policy,
 price, budget, ledger) and its actions ask `authorize` / `authorize_command` first. Gates, not the
 graphs, decide whether a task is done. On `--fake` no model API is called.
@@ -124,9 +125,9 @@ def setup(env: TeamEnv) -> Team:
             return g.compile()
 
         return {
-            "dana": langgraph_worker(developer_graph, max_output_tokens=400),
-            "theo": langgraph_worker(tester_graph),
-            "omar": langgraph_worker(devops_graph),
+            "developer": langgraph_worker(developer_graph, max_output_tokens=400),
+            "tester": langgraph_worker(tester_graph),
+            "devops": langgraph_worker(devops_graph),
         }
 
     return plain.build(env, graph_workers)

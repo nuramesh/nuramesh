@@ -140,6 +140,38 @@ def status_name(mode: str) -> str:
     return STATUS_NAMES[mode]
 
 
+QUORUM_KEY = "vm.quorum_n"
+
+
+class QuorumRequiresEnterprise(ValueError):
+    """A policy asks for a quorum beyond one AI and one human reviewer without the entitlement."""
+
+    def __init__(self) -> None:
+        super().__init__(f"a quorum beyond 1/1 requires Enterprise ({QUORUM_KEY})")
+
+
+def check_quorum_entitlement(policy: Policy, *, entitled: bool) -> None:
+    """Fail closed (`QuorumRequiresEnterprise`) when any tier of `policy` needs more than one AI or
+    one human reviewer and `entitled` is False. A 1/1 quorum is always open (ND378).
+
+    "More than one AI" includes `min_model_families` above 1 while `ai` is at least 1: that asks
+    for several distinct-family AI ACCEPTs (GC-7 e, QA-1, LY-2). `codeowner` and
+    `author_family_differs` are the open tier-3 defaults and stay open; `min_model_families` has no
+    effect with `ai` 0.
+
+    The future adapter must derive `GateInputs.quorum_entitled` ONLY from
+    `is_granted(entitlements, "vm.quorum_n")` in the enterprise layer, never from policy,
+    request or PR data. The check runs before step 2, so a draft or closed PR under such a policy
+    reports `gate_error`, not `pr_draft` (policy problem first, like `policy_invalid`)."""
+    if entitled:
+        return
+    if any(
+        q.ai > 1 or q.human > 1 or (q.ai >= 1 and q.min_model_families > 1)
+        for q in policy.quorum.values()
+    ):
+        raise QuorumRequiresEnterprise
+
+
 def gate_error_detail(code: str | None) -> str | None:
     """The detail a `gate_error` may carry for a code (README 7.1), else None."""
     if code is None:
@@ -239,6 +271,10 @@ class GateInputs:
     owners_of: Callable[[str], frozenset[str]]
     """CODEOWNERS at the base tip, resolved through the org's team table to human ids (QA-6)."""
     task_key: str | None = None
+    quorum_entitled: bool = False
+    """True when the caller holds the `vm.quorum_n` entitlement (the commercial layer
+    answers it; this open code never asks, ND72). Without it a policy asking for more than one
+    AI and one human reviewer in any tier fails closed (#1829)."""
     human_quorum: HumanQuorum = "evaluate"
     """`not_built` until VM-3 lands: a tier that wants a human (or a codeowner) is `pending
     quorum_unmet` with `ignored: human_quorum not_built` (QA-3, item 12, PROVISIONAL); a tier
@@ -397,6 +433,7 @@ def _run_steps(inputs: GateInputs, c: GateCallables, ctx: _Ctx, *, in_queue: boo
     early = inputs.recompute
     if isinstance(early, CollectError) and early.code in ("policy_invalid", "policy_read_error"):
         raise early
+    check_quorum_entitlement(inputs.policy, entitled=inputs.quorum_entitled)  # #1829: fail closed
     # step 2: eligibility (GT-5)
     if pr.state != "open" or pr.base_ref != inputs.protected_branch:
         raise _Stop("2", "failure", "pr_not_eligible")

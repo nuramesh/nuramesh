@@ -1,4 +1,4 @@
-"""R1.27-H rule cases R-1 to R-13 (spec/r127h/README.md): who may show reason and note text."""
+"""R1.27-H rule cases R-1 to R-13: who may show reason and note text."""
 
 import copy
 from collections.abc import Mapping

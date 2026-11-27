@@ -9,7 +9,7 @@ tag=${1:-python:3.12-slim-bookworm}
 docker pull -q "$tag" >/dev/null
 digest=$(docker image inspect "$tag" --format '{{index .RepoDigests 0}}' | sed 's/.*@//')
 case $digest in sha256:*) ;; *) echo "no digest found for $tag" >&2; exit 1 ;; esac
-for f in api worker anchor; do
+for f in api worker anchor sandbox sandbox-pull; do
   sed -i.bak -E "s#^FROM ${tag}@sha256:[0-9a-f]{64}#FROM ${tag}@${digest}#" \
     "$root/scripts/images/$f.Dockerfile"
   rm -f "$root/scripts/images/$f.Dockerfile.bak"
@@ -20,6 +20,8 @@ stamp=$(docker run --rm --entrypoint sh "$tag" -c 'cat /etc/apt/sources.list.d/*
 case $stamp in [0-9]*T*Z) ;; *) echo "no snapshot timestamp found in $tag" >&2; exit 1 ;; esac
 echo "$stamp" > "$root/scripts/images/base-snapshot.txt"
 sed -i.bak -E "s#(snapshot.debian.org/archive/debian(-security)?/)[0-9]{8}T[0-9]{6}Z#\1${stamp}#" \
-  "$root/scripts/images/anchor.Dockerfile"
-rm -f "$root/scripts/images/anchor.Dockerfile.bak"
+  "$root/scripts/images/anchor.Dockerfile" "$root/scripts/images/sandbox.Dockerfile" \
+  "$root/scripts/images/sandbox-pull.Dockerfile"
+rm -f "$root"/scripts/images/*.Dockerfile.bak
+echo "check by hand: the exact apt versions in sandbox.Dockerfile and sandbox-pull.Dockerfile" >&2
 echo "pinned $tag@$digest (Debian snapshot $stamp)"

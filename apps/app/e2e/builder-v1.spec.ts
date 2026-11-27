@@ -40,11 +40,11 @@ test("the palette offers agents, checks and people", async ({ page }) => {
 });
 
 test("nodes show model chips (dashed for open weights), gates are diamonds with counts", async ({ page }) => {
-  await expect(node(page, "dana").getByTestId("model-chip")).toHaveText("anthropic/claude-sonnet-5-5");
-  await expect(node(page, "dana").getByTestId("model-chip")).not.toHaveAttribute("data-open-weight", "true");
-  await node(page, "dana").click();
+  await expect(node(page, "developer").getByTestId("model-chip")).toHaveText("anthropic/claude-sonnet-5-5");
+  await expect(node(page, "developer").getByTestId("model-chip")).not.toHaveAttribute("data-open-weight", "true");
+  await node(page, "developer").click();
   await page.getByRole("combobox", { name: "Model" }).fill("meta/llama-3.1-70b");
-  await expect(node(page, "dana").getByTestId("model-chip")).toHaveAttribute("data-open-weight", "true");
+  await expect(node(page, "developer").getByTestId("model-chip")).toHaveAttribute("data-open-weight", "true");
   // a template brings no gates; one added for the developer role shows on the one developer
   await expect(gateCount(page)).toHaveCount(0);
   await addGate(page, "Independent verifier", "verifier: reviewer");
@@ -54,7 +54,7 @@ test("nodes show model chips (dashed for open weights), gates are diamonds with 
 
 test("drags a check from the palette onto an agent: the gate is added in the inspector, with its settings", async ({ page }) => {
   await expect(gateCount(page)).toHaveCount(0);
-  await page.getByRole("button", { name: /^Add Rule check/ }).dragTo(node(page, "rhea"));
+  await page.getByRole("button", { name: /^Add Rule check/ }).dragTo(node(page, "reviewer"));
   // the drop writes no gate (it would have no settings); it opens the reviewer's inspector
   await expect(gateCount(page)).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Gates" })).toBeVisible();
@@ -68,13 +68,13 @@ test("connects a human approver to an agent with an approval line, and a verifie
   const person = page.locator(".react-flow__node-person");
   await fitView(page); // people start left of the organization, outside the view
   await expect(person).toHaveCount(1);
-  await drag(page, await center(person.locator(".react-flow__handle-right")), await center(node(page, "dana").locator(".react-flow__handle-left")));
+  await drag(page, await center(person.locator(".react-flow__handle-right")), await center(node(page, "developer").locator(".react-flow__handle-left")));
   // the one developer holds the role, so it gets an approval line
   await expect(page.locator(".react-flow__edge.ng-edge-approve")).toHaveCount(1);
 
   // verification lines: the reviewer checks three agents; a new one is added from the inspector
   await expect(page.locator(".react-flow__edge.ng-edge-verify")).toHaveCount(3);
-  await node(page, "rhea").click();
+  await node(page, "reviewer").click();
   await page.getByRole("combobox", { name: "Verify another agent" }).selectOption({ label: "Chief of Staff" });
   await expect(page.locator(".react-flow__edge.ng-edge-verify")).toHaveCount(4);
   // ...but a verifier can't check what it answers to: the problem is reported
@@ -82,14 +82,14 @@ test("connects a human approver to an agent with an approval line, and a verifie
 });
 
 test("renames an agent: the name changes, the id (what ledger and budgets use) stays", async ({ page }) => {
-  await node(page, "dana").click();
+  await node(page, "developer").click();
   await page.getByRole("textbox", { name: "Name", exact: true }).fill("Ada");
-  await expect(node(page, "dana")).toContainText("Ada");
-  await expect(page.getByRole("textbox", { name: "Id" })).toHaveValue("dana");
+  await expect(node(page, "developer")).toContainText("Ada");
+  await expect(page.getByRole("textbox", { name: "Id" })).toHaveValue("developer");
 });
 
 test("a verifier must be a different model family from the work it checks", async ({ page }) => {
-  await node(page, "rhea").click();
+  await node(page, "reviewer").click();
   await expect(page.getByTestId("model-family")).toContainText("openai");
   await page.getByRole("combobox", { name: "Model" }).fill("anthropic/claude-opus-5-5");
   await expect(page.getByTestId("validity-chip")).toHaveText(/problem/);
@@ -101,7 +101,7 @@ test("a verifier must be a different model family from the work it checks", asyn
 });
 
 test("applies a policy preset and changes permissions and gates", async ({ page }) => {
-  await node(page, "dana").click();
+  await node(page, "developer").click();
   await page.getByRole("combobox", { name: "Apply policy preset" }).selectOption({ label: "Read-only" });
   await expect(page.getByRole("list", { name: "Applied presets" })).toContainText("Read-only");
   await expect(page.getByRole("list", { name: "Rules from presets" })).toBeVisible();
@@ -117,22 +117,22 @@ test("applies a policy preset and changes permissions and gates", async ({ page 
 });
 
 test("the YAML tab is two-way synced with the canvas", async ({ page }) => {
-  await node(page, "dana").click();
+  await node(page, "developer").click();
   await page.getByRole("tab", { name: "YAML" }).click();
   const yaml = page.getByRole("textbox", { name: /^YAML for/ });
-  await expect(yaml).toHaveValue(/name: Dana \(developer\)/);
+  await expect(yaml).toHaveValue(/name: Developer\b/);
   // YAML -> canvas
-  const text = (await yaml.inputValue()).replace("name: Dana (developer)", "name: Grace");
+  const text = (await yaml.inputValue()).replace("name: Developer", "name: Grace");
   await yaml.fill(text);
-  await expect(node(page, "dana")).toContainText("Grace");
+  await expect(node(page, "developer")).toContainText("Grace");
   await expect(page.getByRole("status").filter({ hasText: "In sync with the canvas." })).toBeVisible();
   // an invalid edit is explained and changes nothing
   await yaml.fill("agent: {id: someone-else}");
   await expect(page.getByRole("alert")).toContainText("agent.id");
-  await expect(node(page, "dana")).toContainText("Grace");
+  await expect(node(page, "developer")).toContainText("Grace");
   // canvas -> YAML (undo goes through the document)
   await page.getByRole("button", { name: "Undo" }).click();
-  await expect(yaml).toHaveValue(/name: Dana \(developer\)/);
+  await expect(yaml).toHaveValue(/name: Developer\b/);
 });
 
 test("Export YAML downloads a nuramesh.yaml", async ({ page }) => {
@@ -154,7 +154,7 @@ test("starts a run from the header", async ({ page }) => {
 for (const scheme of ["light", "dark"] as const) {
   test(`passes axe with an agent open on Settings and on YAML (${scheme})`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: scheme });
-    await node(page, "dana").click();
+    await node(page, "developer").click();
     await expectNoSeriousA11yViolations(page);
     await page.getByRole("tab", { name: "YAML" }).click();
     await expectNoSeriousA11yViolations(page);
@@ -182,7 +182,7 @@ test("no console errors while editing", async ({ page }) => {
     if (m.type() === "error") errors.push(m.text());
   });
   page.on("pageerror", (e) => errors.push(e.message));
-  await node(page, "dana").click();
+  await node(page, "developer").click();
   await page.getByRole("tab", { name: "YAML" }).click();
   await page.getByRole("tab", { name: "Settings" }).click();
   await page.getByRole("button", { name: /^Add Human approver/ }).click();

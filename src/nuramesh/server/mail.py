@@ -43,6 +43,7 @@ from nuramesh.core.identity import (
     parse_public_url,
 )
 from nuramesh.core.ledger import EventType
+from nuramesh.core.tls import default_client_context
 from nuramesh.env_bool import EnvBoolError, env_bool
 from nuramesh.server.secevents import SecurityRecorder
 from nuramesh.stores import Store
@@ -260,7 +261,7 @@ class SmtpMailSender:
                 password = read_secret_file(s.password_file or "")
             except OSError:
                 raise MailSendError(MailErrorCode.AUTH) from None
-        context = ssl.create_default_context()
+        context = default_client_context()
         client: smtplib.SMTP | None = None
         try:
             try:

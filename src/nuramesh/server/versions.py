@@ -1,4 +1,4 @@
-"""The `NuraMesh-Version` header (R1.43 C3, spec/cli-api-naming sections 7.2 and 8).
+"""The `NuraMesh-Version` header (R1.43 C3, sections 7.2 and 8).
 
 A client that sends `2026-12` asks for the new shapes; no header keeps today's. Any other value
 is refused before anything runs with 400 `version_unsupported`. The check is by exact text, on

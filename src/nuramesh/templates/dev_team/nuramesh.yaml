@@ -12,10 +12,10 @@ org:
     - {id: devops, name: DevOps engineer, default_model: fake/dev-1}
   agents:
     - {id: chief, name: Chief of Staff, role: cos}
-    - {id: dana, name: Dana (developer), role: developer, reports_to: chief}
-    - {id: theo, name: Theo (tester), role: tester, reports_to: chief}
-    - {id: rhea, name: Rhea (reviewer), role: reviewer, reports_to: chief}
-    - {id: omar, name: Omar (DevOps), role: devops, reports_to: chief}
+    - {id: developer, name: Developer, role: developer, reports_to: chief}
+    - {id: tester, name: Tester, role: tester, reports_to: chief}
+    - {id: reviewer, name: Reviewer, role: reviewer, reports_to: chief}
+    - {id: devops, name: DevOps engineer, role: devops, reports_to: chief}
 policies:
   policies:
     - role: cos
@@ -36,9 +36,25 @@ policies:
     - role: devops
       rules:
         - {action: merge, decision: ask, target: "*"}
+# Gates for a run started through the API (`nuramesh start`, `POST /v1/runs`): such a plan names
+# roles, and each role's tasks get the gates of its preset. `nuramesh try` uses team.py's own plan,
+# which must carry the same gate for the role.
+presets:
+  gate:
+    - id: deploy-gates
+      name: Deploy gates
+      gates:
+        - id: deploy-plan
+          kind: rule
+          config:
+            rules:
+              - {criterion: dod, check: {type: path_equals, path: deploy, value: staging}}
+  assignments:
+    - {role: devops, gate_preset: deploy-gates}
 budgets:
-  - {id: dana-monthly, scope: agent, scope_id: dana, limit: {amount: "5.00", currency: USD}}
-  - {id: rhea-monthly, scope: agent, scope_id: rhea, limit: {amount: "5.00", currency: USD}}
+  - {id: developer-monthly, scope: agent, scope_id: developer, limit: {amount: "5.00", currency: USD}}
+  - {id: reviewer-monthly, scope: agent, scope_id: reviewer, limit: {amount: "5.00", currency: USD}}
+  - {id: devops-monthly, scope: agent, scope_id: devops, limit: {amount: "5.00", currency: USD}}
 prices:
   prices:
     - {provider: fake, model: dev-1, input_per_million: "3", output_per_million: "15",

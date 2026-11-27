@@ -13,8 +13,8 @@ What the adapter guarantees:
   budgets, settled and recorded as the task's assignee, with the assignee's model. Unsupported
   inputs are refused, never silently changed: non-text content and extra call arguments
   (`max_tokens`, `temperature`, `tool_choice`...) raise `ValueError`.
-- **Tool-bound agents and tool-call messages (S4, #971).** `model.bind_tools(tools)` and
-  `guarded_tool_node(model, tools)` together make a tool-using agent: tool definitions and
+- **Tool-bound agents and tool-call messages (S4, #971).** `nuramesh_tool_model(model, tools)` and
+  `nuramesh_tool_node(model, tools)` together make a tool-using agent: tool definitions and
   tool-call/tool-result messages travel inside the NuraMesh model call as counted text (a fixed
   JSON envelope, so the reservation covers every byte, AD-36); the model's reply in that envelope
   becomes `AIMessage.tool_calls` (arguments that are not one JSON object become
@@ -29,9 +29,13 @@ What the adapter guarantees:
   AD-18). A bound tool run by a node this adapter did not make is refused before the first model
   call (AD-77) when it can be detected: a `langgraph.prebuilt.ToolNode` (or a subclass) in the
   graph is refused before the run starts, and a tool the adapter does not run is refused at the
-  first model call. A custom node that calls a tool's `invoke` itself cannot be seen, so graph code
-  must not do that. A turn with only invalid tool calls reaches the tool node only with a routing
-  condition that looks at `invalid_tool_calls` (LangGraph's `tools_condition` does not).
+  first model call. A tool that a hidden node runs still runs, with no policy check and no ledger
+  entry: its side effects stay. The run is refused afterwards only if the tool's result reaches the
+  graph's messages (the run-token check on the next model turn, or the last-turn check when the
+  run ends); if it does not, nothing refuses it. A custom node that calls a tool's `invoke`
+  itself cannot be seen, so graph code must not do that. A turn with only invalid tool calls
+  reaches the tool node only with a routing condition that looks at `invalid_tool_calls`
+  (LangGraph's `tools_condition` does not).
 - **Tool answers are tied to this run, in this process.** Each answer of the tool node carries a
   run token (HMAC-SHA256 over the run id, the call id and the frozen tool set's hash). The key is
   random per attempt and lives only in this process's memory: it is never written to the ledger,
@@ -122,9 +126,18 @@ DEFAULT_MAX_OUTPUT_TOKENS = 1_024
 RUN_TOKEN_KEY = "nuramesh_run_token"
 _SEEDED_TEXT = (
     "tool-call messages are only accepted when the adapter's tool node made them: "
-    "the graph input can't carry AIMessage.tool_calls or ToolMessage (LG-3)"
+    "the graph input can't carry AIMessage.tool_calls or ToolMessage"
 )
-_ORPHAN_TEXT = "a tool message answers no tool call of this run (LG-3)"
+_BIND_TEXT = (
+    "bind_tools isn't supported on the NuraMesh model: use "
+    "nuramesh_tool_model(model, tools) with nuramesh_tool_node(model, tools)"
+)
+_STRUCTURED_TEXT = "structured output isn't supported on the NuraMesh model (it needs tool-calling)"
+_PREBUILT_TEXT = (
+    "a prebuilt ToolNode runs tools outside NuraMesh's checks: "
+    "use nuramesh_tool_node(model, tools) instead"
+)
+_ORPHAN_TEXT = "a tool message answers no tool call of this run"
 _LANGGRAPH_VERSION = version("langgraph")
 
 
@@ -292,7 +305,7 @@ _WALK_DEPTH = 32
 
 def _not_guarded_text(name: object) -> str:
     return (
-        f"bound tool {str(name)[:64]!r} is not run by a guarded_tool_node "
+        f"bound tool {str(name)[:64]!r} is not run by a nuramesh_tool_node "
         "(a tool node the adapter did not make is refused)"
     )
 
@@ -341,10 +354,7 @@ def _refuse_foreign_tool_nodes(graph: Any) -> None:
     this is the documented limit (the fuller compile-time walk of the tool-bound design is not
     built yet)."""
     if _find_tool_node(graph, set()):
-        raise ValueError(
-            "the graph holds a langgraph ToolNode, which runs tools without the team's rules; "
-            "use guarded_tool_node(model, tools) instead"
-        )
+        raise ValueError(_PREBUILT_TEXT)
 
 
 class ToolRegistry:
@@ -429,7 +439,7 @@ class ToolRegistry:
         self.guard.raise_if_stopped()
         if not self.tools:
             raise ValueError(
-                "tools are bound to the model but no guarded_tool_node runs them: "
+                "tools are bound to the model but no nuramesh_tool_node runs them: "
                 "tool calls are only supported with the adapter's tool node"
             )
         for d in definitions:
@@ -508,7 +518,7 @@ def guarded_tool_node(
     (AD-51). A soft denial gives the model one fixed text; a stop raises `ToolStop` from the node
     (AD-43)."""
     if not isinstance(model, NuraMeshChatModel):
-        raise ValueError("guarded_tool_node needs the NuraMeshChatModel the graph was built with")
+        raise ValueError("nuramesh_tool_node needs a NuraMeshChatModel")
     built = [t if isinstance(t, BaseTool) else make_tool(t) for t in tools]
     registry = model.registry
     registry.register(built)
@@ -632,20 +642,17 @@ class NuraMeshChatModel(BaseChatModel):
         return "nuramesh"
 
     def bind_tools(  # type: ignore[override]
-        self,
-        tools: Sequence[BaseTool | Callable[..., Any]],
-        *,
-        tool_choice: Any = None,
-        **kwargs: Any,
+        self, tools: Sequence[BaseTool | Callable[..., Any]], **kwargs: Any
     ) -> Any:
-        """Offer tools to the model. Only the definitions: they run through `guarded_tool_node`
-        (a tool node made by this adapter). `tool_choice` and other options are refused."""
-        if tool_choice is not None:
-            raise ValueError("tool_choice isn't supported: the model decides from the tool offer")
-        if kwargs:
-            raise ValueError(f"call arguments aren't supported (got {sorted(kwargs)})")
-        built = [t if isinstance(t, BaseTool) else make_tool(t) for t in tools]
-        return self.bind(tools=[convert_to_openai_tool(t) for t in built])
+        """Always refused (LG-1): use `nuramesh_tool_model(model, tools)`, the one way to offer
+        tools, so a graph can't hand the model tools some other tool node would run."""
+        raise ValueError(_BIND_TEXT)
+
+    def with_structured_output(self, *args: Any, **kwargs: Any) -> Any:
+        """Always refused (LG-7): structured output needs provider tool-calling, which
+        NuraMesh does not offer; ask for the format in the prompt.
+        The owner confirmed this default on 2026-11-22."""
+        raise ValueError(_STRUCTURED_TEXT)
 
     def _check_transcript(self, messages: Sequence[BaseMessage]) -> None:
         """Turn n+1, before the model call (LG-1, LG-3): every `ToolMessage` answers a prior call
@@ -711,6 +718,27 @@ class NuraMeshChatModel(BaseChatModel):
         message = (_tool_calls_of(text) if definitions else None) or AIMessage(content=text)
         message.response_metadata = meta
         return ChatResult(generations=[ChatGeneration(message=message)])
+
+
+def nuramesh_tool_model(
+    model: NuraMeshChatModel, tools: Sequence[BaseTool | Callable[..., Any]]
+) -> Any:
+    """The model offering `tools` (only their definitions; they run through
+    `nuramesh_tool_node`). The one way to bind tools to a NuraMesh model (LG-1)."""
+    if not isinstance(model, NuraMeshChatModel):
+        raise ValueError("nuramesh_tool_model needs a NuraMeshChatModel")
+    built = [t if isinstance(t, BaseTool) else make_tool(t) for t in tools]
+    return model.bind(tools=[convert_to_openai_tool(t) for t in built])
+
+
+def nuramesh_tool_node(
+    model: NuraMeshChatModel,
+    tools: Sequence[BaseTool | Callable[..., Any]],
+    *,
+    messages_key: str = "messages",
+) -> RunnableLambda[Any, Any]:
+    """The graph node that runs the tool calls (see `guarded_tool_node`, the same node)."""
+    return guarded_tool_node(model, tools, messages_key=messages_key)
 
 
 def _has_tool_messages(messages: Sequence[BaseMessage]) -> bool:
@@ -975,5 +1003,7 @@ __all__ = [
     "default_input",
     "guarded_tool_node",
     "langgraph_worker",
+    "nuramesh_tool_model",
+    "nuramesh_tool_node",
     "nuramesh_tools_condition",
 ]

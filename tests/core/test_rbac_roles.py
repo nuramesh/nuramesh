@@ -1,4 +1,4 @@
-"""R2.13 PR 1 (spec/rbac section 3, case RB-15): roles, permissions and rank, by hand."""
+"""R2.13 PR 1 (section 3, case RB-15): roles, permissions and rank, by hand."""
 
 from __future__ import annotations
 

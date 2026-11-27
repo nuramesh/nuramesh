@@ -1,4 +1,4 @@
-"""Verifier calibration runs and standings (R2.08, spec/r208/README.md).
+"""Verifier calibration runs and standings (R2.08).
 
 A run asks ONE verifier agent to judge every sample of a suite through the same prompt builder the
 real gate uses, one metered `call_model` call per sample, scores the answers and records ONE

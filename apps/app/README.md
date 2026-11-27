@@ -1,6 +1,6 @@
 # NuraMesh app
 
-The NuraMesh web app: React + TypeScript + Vite single-page app (graph builder, later run views).
+The NuraMesh web app: React + TypeScript + Vite single-page app (workflow builder, later run views).
 
 ```bash
 cd apps/app
@@ -16,7 +16,7 @@ corepack pnpm@10.34.7 audit --audit-level low
   implements the same rules as `validate_org`; `src/model/validate.test.ts` runs every fixture in
   the internal specification (shared with pytest); `src/model/org.test.ts` runs the internal specification
   (field-level parsing, which must agree with pydantic `OrgFields`).
-- **Graph builder (`src/builder/`, PLAN A.1–A.5):** document `{schema_version: 1, org, layout: {positions}}`;
+- **Workflow builder (`src/builder/`, PLAN A.1–A.5):** document `{schema_version: 1, org, layout: {positions}}`;
   `org` is exactly the Python `OrgGraph` JSON, `layout.positions` holds only positions the user chose.
   Pure edits in `ops.ts`, undo/redo in `history.ts` (every edit goes through `store.edit`), copy/paste in
   `clipboard.ts`, ELK layout mapping in `layout.ts` (ELK runs in its own Web Worker, `layout-engine.ts`),

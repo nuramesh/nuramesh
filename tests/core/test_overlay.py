@@ -1,4 +1,4 @@
-"""The overlay (E13): the cases O1 to O40 of `spec/autonomy/README.md` section 9.5 that are decided
+"""The overlay (E13): the cases O1 to O40 of section 9.5 that are decided
 by the pure function; the engine, server and blind cases are in their own files."""
 
 from collections.abc import Sequence

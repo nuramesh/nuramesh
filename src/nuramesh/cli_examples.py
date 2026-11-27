@@ -117,12 +117,14 @@ EXAMPLES: dict[str, tuple[str, ...]] = {
     "auth tokens rename": ("nuramesh auth tokens rename ci-nightly ci-main --team my-team",),
     "auth tokens delete": ("nuramesh auth tokens delete ci-nightly --team my-team",),
     "auth tokens scrub-erased": ("nuramesh auth tokens scrub-erased --team my-team",),
-    "agents credentials list": ("nuramesh agents credentials list --agent dana --team my-team",),
+    "agents credentials list": (
+        "nuramesh agents credentials list --agent developer --team my-team",
+    ),
     "agents credentials revoke": (
         "nuramesh agents credentials revoke CREDENTIAL_ID --team my-team",
     ),
     "agents credentials revoke-all": (
-        "nuramesh agents credentials revoke-all --agent dana --team my-team",
+        "nuramesh agents credentials revoke-all --agent developer --team my-team",
     ),
     "anchor keygen": ("nuramesh anchor keygen --private anchor.key --public anchor.pub",),
     "anchor export": ("nuramesh anchor export --repo ../anchors --key anchor.key --team my-team",),
@@ -131,8 +133,8 @@ EXAMPLES: dict[str, tuple[str, ...]] = {
     ),
     "anchor verify": ("nuramesh anchor verify my-team --repo ../anchors --pubkey anchor.pub",),
     "init": ("nuramesh init my-team --template dev-team",),
-    "eval run": ("nuramesh eval run --suite dev-basics --agent dana --fake --team my-team",),
-    "eval status": ("nuramesh eval status --agent dana --team my-team",),
+    "eval run": ("nuramesh eval run --suite dev-basics --agent developer --fake --team my-team",),
+    "eval status": ("nuramesh eval status --agent developer --team my-team",),
     "calibrate run": ("nuramesh calibrate run --suite SUITE --verifier V --fake --team my-team",),
     "calibrate status": ("nuramesh calibrate status --verifier V --team my-team",),
     "models catalog": ("nuramesh models catalog --team my-team",),

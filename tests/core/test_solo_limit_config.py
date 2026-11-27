@@ -1,4 +1,4 @@
-"""SA-9: `policies.solo_approvals_per_hour` (spec/rbac/solo-approval.md; cases B39 and B60). The
+"""SA-9: `policies.solo_approvals_per_hour` (the design notes; cases B39 and B60). The
 key is absent or an integer from 1 to 30; it can only lower the limit; nothing is clamped or
 converted. A configuration without the key keeps the hash it had before the key existed."""
 
@@ -25,7 +25,12 @@ def raw(**policies: Any) -> dict[str, Any]:
             ],
             "agents": [
                 {"id": "chief", "name": "Chief of Staff", "role": "cos"},
-                {"id": "dana", "name": "Dana", "role": "developer", "reports_to": "chief"},
+                {
+                    "id": "developer",
+                    "name": "Developer",
+                    "role": "developer",
+                    "reports_to": "chief",
+                },
             ],
         },
         "policies": {

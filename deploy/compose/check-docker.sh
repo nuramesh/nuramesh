@@ -14,6 +14,10 @@
 #   Rootless Docker keeps the bridge in the daemon's namespace: the inspect checks plus a host-side
 #   probe (no route to, and no TCP answer from, 172.29.40.10) replace the bridge-address check;
 #   PASS on rootless is therefore weaker than on a rootful Linux host.
+#   No container of the project may mount a container socket (docker.sock, podman.sock,
+#   containerd.sock, anything under /run/user/): the real-models spec R49. Checked first, on what
+#   `docker inspect` reports for every container of the project; if the containers cannot be
+#   listed or read, the check FAILS.
 # Exit 0 when everything required holds, else 1 with a message naming what is missing.
 set -u
 
@@ -50,6 +54,157 @@ fail() {
 command -v docker >/dev/null 2>&1 || fail "docker was not found on PATH"
 docker compose version >/dev/null 2>&1 || fail "Docker Compose v2 ('docker compose') is required"
 [ "$preflight" = 1 ] && exit 0
+
+# R49 (real-models spec): a container that mounts a container socket controls the host's engine.
+containers=$(docker ps -a -q --filter "label=com.docker.compose.project=$project" 2>/dev/null) ||
+  fail "the containers of project $project cannot be listed, so 'no container socket is mounted' cannot be proved (R49)"
+docker_root=$(docker info --format '{{.DockerRootDir}}' 2>/dev/null) || docker_root=
+case $docker_root in
+  /*) docker_root=${docker_root%/} ;;
+  *) fail "the engine's root folder (DockerRootDir) cannot be read, so 'no engine data folder is mounted' cannot be proved (R49)" ;;
+esac
+[ -n "$docker_root" ] || fail "the engine's root folder is /, which no mount may hold (R49)"
+
+# refuse_source RAW: one bind source (or a volume's device) through the normalising and the rules
+refuse_source() {
+  # normalise first (pure shell): squeeze repeated slashes, drop /./ and a trailing /. or /
+  src=$1
+  while :; do
+    case $src in
+      *//*) src="${src%%//*}/${src#*//}" ;;
+      */./*) src="${src%%/./*}/${src#*/./}" ;;
+      */.) src=${src%/.} ;;
+      */) src=${src%/} ;;
+      *) break ;;
+    esac
+  done
+  [ -n "$src" ] || src=/
+  # the engine's own root folder (docker info DockerRootDir), every folder above it and
+  # everything below it except a named volume's own folder (volumes/<name>/_data)
+  case $src in
+    "$docker_root"/volumes/*/_data | "$docker_root"/volumes/*/_data/*) ;;
+    "$docker_root" | "$docker_root"/*)
+      fail "a container mounts $1, which is inside the engine's root folder $docker_root and gives the control a container socket gives ($mounted): refused (R49)"
+      ;;
+  esac
+  case $docker_root/ in
+    "$src"/*)
+      fail "a container mounts $1, which holds the engine's root folder $docker_root and gives the control a container socket gives ($mounted): refused (R49)"
+      ;;
+  esac
+  # every engine's data folder, whichever engine runs (R49, #1164): podman storage, another
+  # user's rootless docker folder, and /var/lib/docker, wholesale (children included) except a
+  # named volume's own volumes/<name>/_data folder
+  # the volume exception is exactly volumes/<one name>/_data: the name cannot hold a slash
+  vrest=${src#*/volumes/}
+  vname=${vrest%%/*}
+  vol_ok=0
+  case $vrest in
+    "$vname"/_data | "$vname"/_data/*) vol_ok=1 ;;
+  esac
+  case $src in
+    /var/lib/docker | /var/lib/containers/storage | \
+      /home/*/.local/share/docker | /root/.local/share/docker | \
+      /home/*/.local/share/containers/storage | /root/.local/share/containers/storage)
+      fail "a container mounts $1, which is an engine's data folder and gives the control a container socket gives ($mounted): refused (R49)"
+      ;;
+    /var/lib/docker/* | /var/lib/containers/storage/* | \
+      /home/*/.local/share/docker/* | /root/.local/share/docker/* | \
+      /home/*/.local/share/containers/storage/* | /root/.local/share/containers/storage/*)
+      case $src in
+        /var/lib/docker/volumes/* | /var/lib/containers/storage/volumes/* | \
+          /home/*/.local/share/docker/volumes/* | /root/.local/share/docker/volumes/* | \
+          /home/*/.local/share/containers/storage/volumes/* | \
+          /root/.local/share/containers/storage/volumes/*)
+          [ "$vol_ok" = 1 ] && vol_ok=2
+          ;;
+      esac
+      [ "$vol_ok" = 2 ] ||
+        fail "a container mounts $1, which is inside an engine's data folder and gives the control a container socket gives ($mounted): refused (R49)"
+      ;;
+  esac
+  case $src in
+    / | /run | /var | /var/run | /run/user | /var/run/user | \
+      /run/docker | /run/docker/* | /run/containerd | /run/containerd/* | \
+      /run/podman | /run/podman/* | /run/crio | /run/crio/* | \
+      /var/run/docker | /var/run/docker/* | /var/run/containerd | /var/run/containerd/* | \
+      /var/run/podman | /var/run/podman/* | /var/run/crio | /var/run/crio/* | *crio.sock | \
+      /run/k3s | /run/k3s/* | /var/run/k3s | /var/run/k3s/* | /run/*.sock | /var/run/*.sock | \
+      /run/user/* | /var/run/user/*)
+      fail "a container mounts $1, which is or contains a container socket ($mounted): refused (R49)"
+      ;;
+    # the host's process tree (/proc/1/root is the host's root) and the engine's own data
+    # folders give the same control as a container socket: the rootful default data folder
+    # (/var/lib/docker, /var/lib/containers, containerd), the folders that hold every
+    # volume, container and layer, and the rootless data folders (~/.local/share/docker and
+    # /containers). A named volume's own folder BELOW them (.../volumes/<name>/_data) is an
+    # ordinary mount and passes.
+    /proc | /proc/* | /var/lib | /var/lib/docker | /var/lib/containers | \
+      /var/lib/docker/volumes | /var/lib/docker/containers | /var/lib/docker/overlay2 | \
+      /var/lib/docker/overlay2/* | /var/lib/docker/containers/* | /var/lib/containers/storage | \
+      /var/lib/containerd | /var/lib/containerd/* | \
+      /home/*/.local/share/docker | /home/*/.local/share/containers | \
+      /root/.local/share/docker | /root/.local/share/containers | \
+      /home/*/.local/share/docker/volumes | /home/*/.local/share/docker/overlay2 | \
+      /home/*/.local/share/docker/overlay2/* | /root/.local/share/docker/volumes | \
+      /root/.local/share/docker/overlay2 | /root/.local/share/docker/overlay2/* | \
+      /var/lib/containers/storage/overlay | /var/lib/containers/storage/overlay/* | \
+      /var/lib/containers/storage/volumes | \
+      /var/lib/docker/image | /var/lib/docker/image/* | /var/lib/docker/buildkit | \
+      /var/lib/docker/buildkit/* | /var/lib/docker/plugins | /var/lib/docker/plugins/* | \
+      /var/lib/docker/swarm | /var/lib/docker/swarm/*)
+      fail "a container mounts $1, which gives the control a container socket gives ($mounted): refused (R49)"
+      ;;
+    # a `..` segment can climb out of any allowed folder (a name such as a..b is no segment)
+    */../* | */..)
+      fail "a container mounts $1, which gives the control a container socket gives ($mounted): refused (R49)"
+      ;;
+  esac
+}
+
+# a local volume whose driver_opts bind a host path (type none, o bind, device) shows only
+# .../volumes/<name>/_data in the mounts, so the device is read from the volume itself
+check_volume() {
+  vinfo=$(docker volume inspect -f '{{.Driver}}|{{with .Options}}{{index . "device"}}{{end}}' "$1" 2>/dev/null) ||
+    fail "the volume $1 cannot be inspected, so 'no container socket is mounted' cannot be proved (R49)"
+  [ "${vinfo%%|*}" = "local" ] ||
+    fail "the volume $1 uses the driver '${vinfo%%|*}', not 'local': its host path cannot be proved (R49)"
+  device=${vinfo#*|}
+  case $device in
+    "") ;;
+    /*) refuse_source "$device" ;;
+    *) fail "the volume $1 has the relative device '$device' (a bind of a path the engine resolves from its own folder, so it cannot be proved safe): refused (R49)" ;;
+  esac
+}
+
+for c in $containers; do
+  # one mount per line, "source|destination": a tmpfs mount has an EMPTY source, so a
+  # whitespace-separated list would shift every following pair
+  mounted=$(docker inspect -f '{{.Name}}{{range .Mounts}}{{"\n"}}{{.Source}}|{{.Destination}}{{end}}' "$c" 2>/dev/null) ||
+    fail "the mounts of container $c cannot be read, so 'no container socket is mounted' cannot be proved (R49)"
+  case $mounted in
+    *docker.sock* | *podman.sock* | *containerd.sock* | *crio.sock* | *"|/run/user/"* | *"|/var/run/user/"* | */run/user/*)
+      fail "a container mounts a container socket or a path under /run/user ($mounted): refused (R49)"
+      ;;
+  esac
+  # a bind source that is the socket's directory (or a parent of it) gives the same control
+  first=1
+  while IFS='|' read -r rawsrc _dest; do
+    if [ "$first" = 1 ]; then
+      first=0
+      continue
+    fi
+    [ -n "$rawsrc" ] || continue # tmpfs or other source-less mount
+    refuse_source "$rawsrc"
+  done <<EOF_MOUNTS
+$mounted
+EOF_MOUNTS
+  volumes=$(docker inspect -f '{{range .Mounts}}{{if eq .Type "volume"}}{{.Name}}{{"\n"}}{{end}}{{end}}' "$c" 2>/dev/null) ||
+    fail "the volumes of container $c cannot be read (R49)"
+  for v in $volumes; do
+    check_volume "$v"
+  done
+done
 
 net="${project}_app"
 info=$(docker network inspect -f '{{.Internal}}|{{with index .Options "com.docker.network.bridge.gateway_mode_ipv4"}}{{.}}{{end}}|{{.Id}}|{{with index .Options "com.docker.network.bridge.name"}}{{.}}{{end}}' "$net" 2>/dev/null) ||

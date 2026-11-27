@@ -1,4 +1,4 @@
-"""Token names (#634, spec/auth/token-lifecycle.md R3, R13, ST5, ST12): the input rules, the
+"""Token names (#634, R3, R13, ST5, ST12): the input rules, the
 replacement name, the model patterns and the keyed retired-name hash. Pure functions, no store."""
 
 from datetime import UTC, datetime, timedelta

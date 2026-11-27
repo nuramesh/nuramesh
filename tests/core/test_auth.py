@@ -1,4 +1,4 @@
-"""Users, password hashes and the setup token (R1.22 PR 1, T64; spec/auth/README.md)."""
+"""Users, password hashes and the setup token (R1.22 PR 1, T64; the design notes)."""
 
 import base64
 import hashlib

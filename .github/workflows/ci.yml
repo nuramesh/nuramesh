@@ -1,25 +1,30 @@
 name: CI
 
+# Public CI (ND481): the full open-core suite on GitHub-hosted runners for pushes to main and for
+# pull requests (including external ones). Read-only token, no secrets, only the pull_request trigger.
+# Repository settings the owner keeps (not files): Actions > General > "Fork pull request workflows
+# from outside collaborators" = "Require approval for all outside collaborators" (must stay ON) and
+# "Workflow permissions" = "Read repository contents permission".
+
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  python:
-    name: Python (lint, types, tests)
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    permissions:
-      contents: read
+  lint:
+    name: Lint and types
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - name: Check out the repository
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
@@ -43,8 +48,6 @@ jobs:
       - name: Format check
         run: uv run ruff format --check .
 
-      # This tree ships no tests/ folder, so there is no pytest step here: type checks and an
-      # install-and-run smoke check instead.
       - name: Type check
         run: uv run mypy src verifier
 
@@ -52,3 +55,67 @@ jobs:
         run: |
           uv run python -c "import nuramesh"
           uv run nuramesh --version
+
+  tests:
+    name: Tests (full open-core suite)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - name: Install dependencies with every optional extra (exact versions from uv.lock)
+        run: uv sync --all-extras --locked
+
+      # The store and auth tests start a throwaway local PostgreSQL 16 (initdb, pg_ctl, from the
+      # runner image; tests/pg_throwaway.py) and the canon search tests need the pgvector
+      # extension. The tests read no connection string from the environment, so a service
+      # container would go unused: the server is the runner's own PostgreSQL 16 binaries.
+      - name: Install pgvector for PostgreSQL 16
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends postgresql-16-pgvector
+          test -f /usr/share/postgresql/16/extension/vector.control
+          /usr/lib/postgresql/16/bin/initdb --version
+
+      # Tests marked docker or host_privileged need a Docker daemon or setuid bits and are left out.
+      # NURAMESH_REQUIRE_POSTGRES makes the Postgres fixture fail (never skip) when the server or
+      # psycopg is missing; -rs prints every skip so the next step can refuse a skipped store test.
+      - name: Run the tests
+        shell: bash
+        env:
+          NURAMESH_REQUIRE_POSTGRES: "1"
+        run: >
+          uv run pytest -q -rs -n auto --dist loadfile --tb=short -p no:cacheprovider
+          -m 'not docker and not host_privileged' tests 2>&1 | tee pytest-output.txt
+
+      - name: Fail if a Postgres, store or auth test was skipped
+        run: |
+          if grep -E '^SKIPPED .*(tests/stores/|tests/server/|tests/core/test_auth|[Pp]ostgres|psycopg)' pytest-output.txt | grep -v 'NURAMESH_QUIET_LANE'; then
+            echo "::error::a Postgres, store or auth test was skipped; these must all run"
+            exit 1
+          fi
+
+  ci-ok:
+    name: ci-ok
+    needs: [lint, tests]
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require every job to have succeeded
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "job results: $RESULTS"
+          for r in $RESULTS; do
+            [ "$r" = success ] || { echo "a job did not succeed: $r"; exit 1; }
+          done

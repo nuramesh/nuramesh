@@ -1,4 +1,4 @@
-"""The solo share of the organization status, the pure part (spec/rbac/solo-approval.md SA-18
+"""The solo share of the organization status, the pure part (SA-18
 item 4): which organization-stream entries removed an active decide-holder, and the counts over
 the approval rows. The expected values are written from the spec; all data is made up."""
 
@@ -146,7 +146,7 @@ def row(n: int, decided: float | None, mode: str | None = "solo", status: str = 
     return Approval(
         id=f"apr-{n}",
         run_id="r1",
-        agent_id="omar",
+        agent_id="devops",
         action=Action(kind=ActionKind.WRITE_FILE, target="notes.md"),
         requested_at=at(-5000 * DAY),
         status=state,

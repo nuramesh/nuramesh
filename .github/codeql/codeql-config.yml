@@ -1,0 +1,6 @@
+# CodeQL configuration. Test code is not shipped product code, so it is not scanned.
+# The security query suites stay exactly as the default; no query is turned off here.
+name: NuraMesh CodeQL configuration
+paths-ignore:
+  - tests/
+  - apps/**/*.test.ts

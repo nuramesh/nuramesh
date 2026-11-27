@@ -3,15 +3,16 @@
 This path is **local only**: you install NuraMesh from a wheel file, create a team, run it on the
 **fake model** (no keys, no cost, and no network connection during the run, which a test checks) and check that the ledger is intact.
 
-> **Install from a wheel.** You get a wheel by building it from a checkout of this repository
-> (`uv build`).
+> **The package is published.** The simplest install is `pip install "nuramesh[local]"` in a
+> virtual environment (see the README). This guide installs a wheel built from a checkout of this
+> repository (`uv build`) instead, so you can follow it from a clone.
 
 ## Before you start
 
 - A Mac or Linux shell with **Python 3.12 or newer** and [`uv`](https://docs.astral.sh/uv/).
 - A wheel file in a folder called `dist/` next to where you work (`dist/nuramesh-<version>-py3-none-any.whl`).
 - The fake-model demo runs the project's tests on your machine, so this guide uses
-  `--allow-unsandboxed` (see "What is not included"). Use a throwaway folder.
+  `--allow-unsandboxed` (see "What is not included"). With Podman or Docker installed the sandbox runs without the flag (macOS and Linux); without one, add `--allow-unsandboxed`: the commands then run on this machine without isolation, printed and recorded in the ledger (never a default). Use a throwaway folder.
 
 Every command below is run by an internal test against a freshly built wheel, so the
 guide cannot drift from the product.
@@ -126,6 +127,50 @@ nuramesh breakers list --team my-team
 2. Fix the cause: bring the store back, or repair the failing rule or remove it (a dry-run rule is evaluated too), then restart the server (the config is read at start). If one rule is the cause, a person can instead disable it in the app: it is skipped, the next tick succeeds, and no restart is needed. Repair or remove it too, because it stays off until a person enables it.
 3. A person resumes the organization in the app or with `POST /v1/org/resume`. It works at once, fixed or not; if the fault is still there the next failed tick halts again, so fix first.
 
+## 9. Get a first approval into the app
+
+So far the approval was scripted (`--approve-as`). Here a run waits for a person, and you see the request on the app's **Approvals** page. You need the `server` and `content` extras (install the wheel as `"$WHEEL[yaml,server,content]"`), the web app and step 4 done: `try` also records the team's budgets, and a run without a budget is refused.
+
+Terminal 1, the API with sign-in on and a runner for runs started through it (fake model only; `NURAMESH_REFRESH_GRACE_SECONDS=0` turns off the refresh grace window, which otherwise needs a server key):
+
+```sh first-approval
+NURAMESH_REFRESH_GRACE_SECONDS=0 nuramesh serve my-team --auth --with-runner
+```
+
+Terminal 2, the first owner's setup token (shown once, on a terminal only):
+
+```sh first-approval
+nuramesh auth new-setup-token --team my-team
+```
+
+Open the app, paste the token on the setup page, choose your email and password and sign in. Then open **Runs**, press **Start a run** and **Start**. The dialog is filled with this plan (one task for the DevOps role, whose policy says `merge: ask`):
+
+```json first-approval
+{
+  "data_class": "synthetic",
+  "tasks": [
+    {
+      "ref": "deploy",
+      "role": "devops",
+      "title": "Deploy the fix to staging",
+      "definition_of_done": "The deploy targets staging and a person approved it"
+    }
+  ]
+}
+```
+
+The same from a terminal on the host: save the plan as `first-approval.json` and name yourself (your id, `human:u_...`, is `user.id` in the answer of the sign-in, `POST /v1/auth/login`; only an active owner may):
+
+```sh first-approval
+nuramesh start my-team --plan first-approval.json --human "$NURAMESH_HUMAN"
+```
+
+Within a few seconds the run reads "Waiting for you" and **Approvals** shows one pending request: the DevOps engineer asks to `merge` to `staging` (`GET /v1/approvals` lists it with `"status": "pending"`).
+
+- **Deciding your own run.** You are the organization's only person who can decide, so approving this request is a solo approval: the app asks you to acknowledge it, and the API needs `acknowledge_solo: true` and the `action_digest` it showed you (without them, 403 `acknowledge_required`; denying needs neither). Once a second person holds the approver, admin or owner role, you cannot decide a request of a run you started: Approve and Deny both answer 403 `self_approval`, "you cannot approve your own work", and that other person decides it (Settings, Invites; [api.md](api.md)).
+- There is no approve command: a decision is made by a signed-in person, in the app or with `POST /v1/approvals/{id}/approve` or `/reject`.
+- A refused start is visible, not silent: the dialog (or `nuramesh start`) names the code, for example `run_budget_missing` (step 4 was skipped) or `engine_unavailable` (no `--with-runner`).
+
 ## Give an agent its own credential
 
 An agent that calls the API from outside the process can have a credential of its own (`nma_...`), so the ledger and a revoke apply to that agent alone. Only an owner signed in to the app (Agents, Access, Issue) or through `POST /v1/agents/<id>/credentials` can make one; the CLI cannot issue or renew it. The secret is shown once. Send it as `Authorization: Bearer nma_...`. It may read runs and, with the `run` scope, stop a run the agent takes part in; nothing else. To look or end one from a terminal:
@@ -140,7 +185,7 @@ An agent you remove from the configuration (or change: role, model, checks, repo
 
 ## Safe retries with an Idempotency-Key (API)
 
-When you call the API yourself (a script, a proxy that retries), add `Idempotency-Key: <16 to 128 characters (letters, digits, `.`, `_`, `-`), one new value per operation>` to a POST or PUT that changes something, such as a run stop, an approval or a model connection. If the answer is lost, send the **same request with the same key**: you get the first answer back (header `Idempotent-Replayed: true`) and nothing runs twice. A different request with the same key is refused (422), and a key is forgotten after 24 hours. The key needs the server's `content` extra and key ring; the command line and the app do not send one. Details: `docs/api.md`.
+When you call the API yourself (a script, a proxy that retries), add `Idempotency-Key: <16 to 128 characters (letters, digits, `.`, `_`, `-`), one new value per operation>` to a POST or PUT that changes something, such as a run stop, an approval or a model connection. If the answer is lost, send the **same request with the same key**: you get the first answer back (header `Idempotent-Replayed: true`) and nothing runs twice. A different request with the same key is refused (422), and a key is forgotten after 24 hours. The key needs the server's `content` extra and key ring; the app sends one on its state-changing calls (run start and stop, approvals, gate decisions, halt, resume and breakers), the command line sends none. Details: `docs/api.md`.
 
 ## Where files live
 
@@ -165,8 +210,6 @@ None of these belong in Git; `nuramesh init` never writes secrets, and NuraMesh 
   credentials and spends money.
 - **No container sandbox in this guide.** Install Podman or Colima and drop `--allow-unsandboxed`
   to run the test gate isolated.
-- **No published package.** Installing from an index (`pip install nuramesh`) is not supported:
-  do not run it, because a package of that name on an index would not be this one.
 
 ## Next
 

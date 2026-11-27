@@ -1,4 +1,4 @@
-"""Loads `spec/e3-otel/cases.json` and turns its events and expectations into test inputs."""
+"""Loads the design notes and turns its events and expectations into test inputs."""
 
 import json
 from collections import defaultdict

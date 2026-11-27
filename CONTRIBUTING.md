@@ -1,24 +1,28 @@
 # Contributing to NuraMesh
 
-Thank you for your interest in NuraMesh. We welcome bug fixes, documentation improvements, examples and new integrations.
+Thanks for looking. NuraMesh is the open core of a platform for agent teams whose work is verified.
+We welcome bug reports and discussion in issues. Please open an issue before sending a pull request;
+we review pull requests when we can and may decline changes that do not fit the project's scope, with
+no promise of a response time. Please follow `CODE_OF_CONDUCT.md`. Report a security problem as `SECURITY.md` describes, never in an issue.
 
-To learn how to set up, test and send a change, follow the [contribution guide](https://docs.nuramesh.com/contributing/).
+## Set up
 
-## Pull request requirements
+```
+uv sync --locked --all-extras
+```
 
-NuraMesh is the AI control plane for agent teams. Changes touch the checks, budgets and ledger that people rely on, so we review carefully and ask for the same care in return.
+## Before you send a change
 
-- Every pull request must link to an issue or discussion where a maintainer has agreed on the approach. Small fixes such as typos and broken links are the exception.
-- Every pull request must fill in the pull request template.
-- A pull request should show real understanding of the problem. If it takes more effort to review than it took to write, please do not send it.
-- You may use AI tools, but you are responsible for every line. Bulk or automated low-effort pull requests and issues will be closed without comment.
+- Say how to reproduce the problem and how you checked that your change fixes it.
+- Run the checks: `uv run ruff check . --fix && uv run ruff format .` and `uv run mypy` (the web
+  app has its own `pnpm` checks under `apps/app`).
+- The public repository ships the tests of the core, config, verifier and telemetry packages in its tests
+  folder; the rest of the suite is not part of this repository. Our tests use
+  the fake model and never call a real model API, and test data is never key-shaped.
+- Keep the open core small: `nuramesh.core` imports only the standard library and pydantic.
 
-Maintainers may close pull requests that do not meet these requirements.
+## Licence
 
-## Security
-
-Never report a security problem in an issue. Follow [SECURITY.md](SECURITY.md).
-
-## License
-
-NuraMesh is licensed under the [Apache License 2.0](LICENSE). By sending a change, you agree that your contribution is licensed under the same terms.
+NuraMesh is licensed under the Apache License 2.0 (`LICENSE`). By submitting a contribution you agree
+it is licensed under the Apache License 2.0 (section 5 of the licence), and you confirm you have the
+right to submit it.

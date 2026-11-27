@@ -1,4 +1,4 @@
-"""A small world for the R1.42 output-cap cases (spec/r142 section 9)."""
+"""A small world for the R1.42 output-cap cases (section 9)."""
 
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field

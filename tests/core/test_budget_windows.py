@@ -1,4 +1,4 @@
-"""Time-window budgets and the org scope: the pure rules (T56, spec/budgets/windows.md)."""
+"""Time-window budgets and the org scope: the pure rules (T56)."""
 
 import random
 from datetime import UTC, datetime, timedelta, timezone

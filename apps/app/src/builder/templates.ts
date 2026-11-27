@@ -126,10 +126,10 @@ const BASE_TEMPLATES: readonly Template[] = [
         ],
         agents: [
           agent("chief", "Chief of Staff", "cos", null),
-          agent("dana", "Dana (developer)", "developer", "chief"),
-          agent("theo", "Theo (tester)", "tester", "chief"),
-          agent("rhea", "Rhea (reviewer)", "reviewer", "chief"),
-          agent("omar", "Omar (DevOps)", "devops", "chief"),
+          agent("developer", "Developer", "developer", "chief"),
+          agent("tester", "Tester", "tester", "chief"),
+          agent("reviewer", "Reviewer", "reviewer", "chief"),
+          agent("devops", "DevOps engineer", "devops", "chief"),
         ],
       },
       config: emptyConfig(),
@@ -710,14 +710,14 @@ function enrich(template: Template): Template {
       reviewer: "openai/gpt-4.1-mini",
       devops: "anthropic/claude-sonnet-5-5",
     });
-    for (const id of ["dana", "theo", "omar"]) doc = addCheck(doc, "rhea", id);
+    for (const id of ["developer", "tester", "devops"]) doc = addCheck(doc, "reviewer", id);
     doc = addRule(doc, "cos", { action: "delegate", decision: "allow", target: "*" });
     doc = addRule(doc, "developer", { action: "write_file", decision: "allow", target: "src/*" });
     doc = addRule(doc, "developer", { action: "merge", decision: "ask", target: "*" });
     doc = addRule(doc, "tester", { action: "run_command", decision: "allow", target: "pytest **" });
     doc = addRule(doc, "reviewer", { action: "call_model", decision: "allow", target: "*" });
     doc = addRule(doc, "devops", { action: "merge", decision: "ask", target: "*" });
-    doc = setAgentBudget(setAgentBudget(doc, "dana", "5.00"), "rhea", "5.00");
+    doc = setAgentBudget(setAgentBudget(doc, "developer", "5.00"), "reviewer", "5.00");
   } else if (template.id === "code-review") {
     doc = withModels(doc, {
       "chief-of-staff": "anthropic/claude-opus-5-5",

@@ -1,4 +1,4 @@
-"""The gateway decision pipeline over fakes (spec/mcp-gateway rules 1 to 9 and 21 to 32).
+"""The gateway decision pipeline over fakes (the design notes rules 1 to 9 and 21 to 32).
 
 Nothing here opens a socket or starts a process: the transport is an in-memory fake server.
 """

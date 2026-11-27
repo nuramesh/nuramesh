@@ -1,4 +1,4 @@
-"""Which organization a ledger stream belongs to, and who may see it (spec/auth/org-scope.md).
+"""Which organization a ledger stream belongs to, and who may see it.
 
 **One helper for every route.** `OrgScope.visible(org, stream)` is the only place that decides
 whether a caller of organization `org` may see a stream; the routes call it and answer the

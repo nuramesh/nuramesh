@@ -10,8 +10,8 @@ import { AgentsPage } from "./agents-page";
 import { credential } from "./test-data";
 
 const ERASED = [
-  credential({ id: "agc_" + "1".repeat(24), agent: "dana", scopes: ["read", "run"], issuerErased: true }),
-  credential({ id: "agc_" + "2".repeat(24), agent: "theo", issuerErased: true }),
+  credential({ id: "agc_" + "1".repeat(24), agent: "developer", scopes: ["read", "run"], issuerErased: true }),
+  credential({ id: "agc_" + "2".repeat(24), agent: "tester", issuerErased: true }),
 ];
 
 function page(role: "owner" | "approver" | "viewer", credentials: AgentCredential[] = ERASED) {
@@ -52,12 +52,12 @@ describe("credentials without an issuer (P16, P17)", () => {
     const user = userEvent.setup();
     page("owner");
     await screen.findAllByText(TEXT);
-    const dev = await screen.findByRole("group", { name: "Access for dana" });
+    const dev = await screen.findByRole("group", { name: "Access for developer" });
     await user.click(within(dev).getByRole("button", { name: /^Rotate agc_/ }));
     await user.click(await screen.findByRole("button", { name: "Rotate" }));
     await user.click(await screen.findByRole("button", { name: "Done" }));
     expect((await screen.findAllByText(/^1 agent credential was issued by a person who has been erased/)).length).toBeGreaterThan(0);
-    const tester = screen.getByRole("group", { name: "Access for theo" });
+    const tester = screen.getByRole("group", { name: "Access for tester" });
     await user.click(within(tester).getByRole("button", { name: /^Revoke agc_/ }));
     await user.click(await screen.findByRole("button", { name: "Revoke" }));
     await waitFor(() => { expect(screen.queryByText(/issued by a person who has been erased/)).not.toBeInTheDocument(); });

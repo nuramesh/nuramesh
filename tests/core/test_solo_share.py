@@ -1,4 +1,4 @@
-"""The solo share in the scorecard and the proposal (spec/rbac/solo-approval.md SA-18 items 1 and
+"""The solo share in the scorecard and the proposal (SA-18 items 1 and
 2; cases B40, B41, B42 and B61 of section 8). A decision "is solo" when its `approval.decided`
 entry has `approval_mode: solo`; an entry with no mode (written before the change) is never solo
 and is counted in the totals. The expected values are written from the spec."""

@@ -8,9 +8,9 @@ import { renderSafety } from "@/org-safety/test-utils";
 import { credential } from "./test-data";
 import { AgentsPage } from "./agents-page";
 
-const LIVE = credential({ id: "agc_" + "a".repeat(24), agent: "dana" });
-const GONE = credential({ id: "agc_" + "b".repeat(24), agent: "dana", state: "revoked", revokedAt: "2026-10-27T00:00:00Z" });
-const OLD = credential({ id: "agc_" + "c".repeat(24), agent: "dana", state: "expired", expiresAt: "2026-01-01T00:00:00Z" });
+const LIVE = credential({ id: "agc_" + "a".repeat(24), agent: "developer" });
+const GONE = credential({ id: "agc_" + "b".repeat(24), agent: "developer", state: "revoked", revokedAt: "2026-10-27T00:00:00Z" });
+const OLD = credential({ id: "agc_" + "c".repeat(24), agent: "developer", state: "expired", expiresAt: "2026-01-01T00:00:00Z" });
 
 function dump(storage: Storage): string {
   return Array.from({ length: storage.length }, (_, i) => `${storage.key(i) ?? ""}=${storage.getItem(storage.key(i) ?? "") ?? ""}`).join("\n");
@@ -19,7 +19,7 @@ function dump(storage: Storage): string {
 async function panel(options: Parameters<typeof createFixtureClient>[0] = {}) {
   const client = createFixtureClient({ agentAccess: { credentials: [LIVE, GONE, OLD] }, ...options });
   renderSafety(<AgentsPage />, client);
-  return screen.findByRole("group", { name: "Access for dana" });
+  return screen.findByRole("group", { name: "Access for developer" });
 }
 
 describe("Access panel (the agent identity notes section 10)", () => {
@@ -52,7 +52,7 @@ describe("Access panel (the agent identity notes section 10)", () => {
     const user = userEvent.setup();
     const p = await panel();
     await user.click(await within(p).findByRole("button", { name: `Revoke ${LIVE.id}` }));
-    expect(await screen.findByRole("heading", { name: `Revoke aaaaaa of dana?` })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: `Revoke aaaaaa of developer?` })).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Cancel" }));
     await user.click(within(p).getByRole("button", { name: "Revoke all for this agent" }));
     await user.click(await screen.findByRole("button", { name: "Revoke all" }));

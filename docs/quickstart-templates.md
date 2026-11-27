@@ -39,8 +39,11 @@ nuramesh init dev-team --template dev-team
 ```text
 created dev-team from the 'dev-team' template. Next:
   nuramesh validate dev-team/nuramesh.yaml
-  nuramesh try dev-team --fake --approve-as human:you --run-id first-run
-    (no Podman/Docker/Colima: add --allow-unsandboxed, see the sandbox guide)
+  nuramesh try dev-team --fake --approve-as human:you --allow-unsandboxed --run-id first-run
+    (no container runtime (Podman or Docker) answered here, so the tests run on
+    this machine without isolation: --allow-unsandboxed prints a warning and
+    records it in the ledger; it is never a default. Start Podman or Docker to
+    leave it out.)
   nuramesh serve dev-team
 ```
 
@@ -63,25 +66,29 @@ nuramesh try dev-team --fake --approve-as human:you --allow-unsandboxed --run-id
 ```text
 Run first-run
 Tasks: 3 done
-  [done] first-run-fix-add (dana, attempts 1): Fix the failing add() test in calc.py
+  [done] first-run-fix-add (developer, attempts 1): Fix the failing add() test in calc.py
       gate has-fix (rule): passed by gate:rule
       gate tests (test_command): passed by gate:test_command
-      gate review (verifier): passed by agent:rhea
-  [done] first-run-test-suite (theo, attempts 1): Run the whole test suite on the fix
+      gate review (verifier): passed by agent:reviewer
+  [done] first-run-test-suite (tester, attempts 1): Run the whole test suite on the fix
       gate green (rule): passed by gate:rule
-  [done] first-run-deploy (omar, attempts 1): Deploy the fix to staging
+  [done] first-run-deploy (devops, attempts 1): Deploy the fix to staging
+      gate deploy-plan (rule): passed by gate:rule
       gate approve-deploy (human): passed by human:you
 Budgets:
-  dana-monthly (agent dana): spent 0.001335 of 5.00, reserved 0.000000
+  developer-monthly (agent developer): spent 0.001335 of 5.00, reserved 0.000000
+  devops-monthly (agent devops): spent 0 of 5.00, reserved 0
   rb-486e135495bd (run first-run): spent 0.003471 of 2.00, reserved 0.000000
-  rhea-monthly (agent rhea): spent 0.002136 of 5.00, reserved 0.000000
+  reviewer-monthly (agent reviewer): spent 0.002136 of 5.00, reserved 0.000000
 Spend: $0.003471 (2 calls)
-Ledger: run:first-run seq 46, head 1cc85316aa5130c2… (verified)
+Ledger: run:first-run seq …, head 0e0e09a53cda237a… (verified)
 ```
+
+Numbers in your run may differ: the sequence number and the event counts change from run to run and are shown as `…`.
 
 `--approve-as` is a scripted approval so the run finishes alone (the ledger records that);
 `--allow-unsandboxed` is local only, see [quickstart.md](quickstart.md) step 4. Nothing is done
-until its gates have recorded results, and rhea, the reviewer, never sees dana's reasoning.
+until its gates have recorded results, and the reviewer never sees the developer's reasoning.
 
 The other templates run the same way. Here each is created, validated and run, and only the
 summary lines are shown:
@@ -145,7 +152,7 @@ nuramesh report first-run --team dev-team | grep -E '^(Run|Tasks|Ledger)'
 ```text
 Run first-run
 Tasks: 3 done
-Ledger: run:first-run seq 46, head 1cc85316aa5130c2… (verified)
+Ledger: run:first-run seq …, head 0e0e09a53cda237a… (verified)
 ```
 
 (Drop the `grep` to see every gate and budget; add `--output json` for JSON.)
@@ -157,8 +164,8 @@ nuramesh ledger verify --team dev-team
 ```
 
 ```text
-org:dev-team: 3 events, head 7739aed20d44ab90… ok
-run:first-run: 46 events, head 1cc85316aa5130c2… ok
+org:dev-team: … events, head 65ea1778e19fbcf9… ok
+run:first-run: … events, head 0e0e09a53cda237a… ok
 2 streams, 0 broken
 ```
 
@@ -175,11 +182,11 @@ python3 verifier/nuramesh_verify.py ledger.json
 ```
 
 ```text
-exported 49 events to ledger.json
+exported … events to ledger.json
 check offline with: python3 verifier/nuramesh_verify.py ledger.json
 mode: chain
-org:dev-team: 3 events, head 7739aed20d44ab90..., chain ok
-run:first-run: 46 events, head 1cc85316aa5130c2..., chain ok
+org:dev-team: … events, head 65ea1778e19fbcf9..., chain ok
+run:first-run: … events, head 0e0e09a53cda237a..., chain ok
 RESULT: no problems found (mode: chain; see docs/auditor-guide.md for what that does not prove)
 ```
 
@@ -197,17 +204,17 @@ nuramesh models check --team dev-team --data synthetic
 
 ```text
 no catalog
-SUBJECT      MODEL            FROM
-agent=chief  -                none
-agent=dana   fake/dev-1       role config
-agent=theo   fake/dev-1       role config
-agent=rhea   fake/reviewer-1  role config
-agent=omar   fake/dev-1       role config
+SUBJECT          MODEL            FROM
+agent=chief      -                none
+agent=developer  fake/dev-1       role config
+agent=tester     fake/dev-1       role config
+agent=reviewer   fake/reviewer-1  role config
+agent=devops     fake/dev-1       role config
 all models resolve for synthetic data
-  agent=dana  fake/dev-1  -  local  -  local  book
-  agent=theo  fake/dev-1  -  local  -  local  book
-  agent=rhea  fake/reviewer-1  -  local  -  local  book
-  agent=omar  fake/dev-1  -  local  -  local  book
+  agent=developer  fake/dev-1  -  local  -  local  book
+  agent=tester  fake/dev-1  -  local  -  local  book
+  agent=reviewer  fake/reviewer-1  -  local  -  local  book
+  agent=devops  fake/dev-1  -  local  -  local  book
 ```
 
 `models check` is the "would a run start?" answer (`--data customer` applies the stricter customer-data

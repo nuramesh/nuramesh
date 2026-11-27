@@ -121,6 +121,18 @@ does not list, or this page lists one the code no longer reads. Variables for to
 | `NURAMESH_HALT_REFUSAL_WINDOW_SECONDS` | `3600` | the window in which repeated starts refused under a halted (erased) organization are coalesced into one summary ledger entry; a whole number from 1 to 86400, anything else is refused (fail closed) | no | engine |
 | `NURAMESH_LOCAL_MODEL` | `qwen3:8b` | Compose `local-model` profile: the Ollama model tag that is pulled and verified (for example `qwen3:4b` on a low-RAM host) | no | Compose |
 | `NURAMESH_LOCAL_MODEL_PROCESSING` | unset | Compose `local-model` profile: the host region for the local model connection (`canada`, `global` for synthetic data only, or `region:<id>`); never guessed (`docs/self-hosting.md`) | no | Compose, server |
+| `NURAMESH_SANDBOX_SOCKET` | unset | path of the sandbox service's Unix socket (Compose: `/run/sandbox/sandbox.sock`); set and not empty, the runner runs gate commands through the sandbox service; read by the `runner` and by the `sandbox` service, which listens there | no | light runner, sandbox service |
+| `NURAMESH_SANDBOX_UID` | unset | the only user id the runner accepts as the peer on the sandbox socket (Compose: `10002`); unset, no peer passes | no | light runner |
+| `NURAMESH_SANDBOX_CLIENT_UID` | unset | the only user id the sandbox service answers on its socket (Compose: `10001`, the runner's user) | no | sandbox service |
+| `NURAMESH_SANDBOX_WORKSPACE_MAX_MB` | `256` (Compose) | largest workspace, in MiB, the sandbox service copies for one command | no | sandbox service |
+| `NURAMESH_SANDBOX_BWRAP` | `bwrap` | command line of the bubblewrap program the sandbox service uses; changed only for tests | no | sandbox service |
+| `NURAMESH_SANDBOX_WORK` | `/work` | folder for the workspace copies (memory-backed in Compose) | no | sandbox service |
+| `NURAMESH_SANDBOX_IMAGES` | `/images` | colon-separated folders holding the unpacked images (Compose: the read-only `sandbox-images` volume) | no | sandbox service |
+| `NURAMESH_SANDBOX_SELFTEST_ROOTFS` | `/opt/nuramesh/selftest-rootfs` | root folder used by the sandbox service's start-up self-test | no | sandbox service |
+| `NURAMESH_SANDBOX_CGROUP` | `/sys/fs/cgroup` | cgroup folder the sandbox service reads its limits from; changed only for tests | no | sandbox service |
+| `NURAMESH_SANDBOX_PROC_SELF` | `/proc/self` | path used to inspect the sandbox service's own process; changed only for tests | no | sandbox service |
+
+Licence grace: a licence keeps granting for 30 days after its `expires_at`; only a file expired past that grace is refused.
 
 ## Email (R1.39)
 

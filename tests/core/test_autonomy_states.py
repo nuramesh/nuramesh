@@ -1,4 +1,4 @@
-"""Grant states, demotion and void derivation: spec/autonomy section 9.6 (D cases) and the void
+"""Grant states, demotion and void derivation: section 9.6 (D cases) and the void
 cases G35 to G51 (6.2, 6.3, 6.5). Expected values come from the spec's tables."""
 
 from datetime import datetime, timedelta

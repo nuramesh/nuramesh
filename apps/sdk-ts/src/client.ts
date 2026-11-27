@@ -1,5 +1,6 @@
 import { NuraMeshError } from "./errors.js";
 import { GeneratedApi } from "./generated.js";
+import { fillPath } from "./path.js";
 import type { RequestOptions } from "./transport.js";
 
 export interface ClientOptions {
@@ -45,9 +46,7 @@ export class NuraMeshClient extends GeneratedApi {
     options: RequestOptions | undefined,
   ): Promise<T> {
     const pathValues = (args?.path ?? {}) as Record<string, unknown>;
-    const filled = path.replace(/\{([^}]+)\}/g, (_, name: string) =>
-      encodeURIComponent(plain(pathValues[name])),
-    );
+    const filled = fillPath(path, (name) => encodeURIComponent(plain(pathValues[name])));
     const params = new URLSearchParams();
     for (const [k, v] of Object.entries((args?.query ?? {}) as Record<string, unknown>)) {
       if (v !== undefined && v !== null) params.append(k, plain(v));

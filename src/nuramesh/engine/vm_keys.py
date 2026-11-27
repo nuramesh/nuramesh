@@ -1,4 +1,4 @@
-"""Merge Gate signer keys in the engine (spec `spec/verified-merge` SV-4, SV-6, SV-14, GT-17,
+"""Merge Gate signer keys in the engine (SV-4, SV-6, SV-14, GT-17,
 GT-20 a, LA-2, LY-1; Fable fixes F-17 strict verification, F-12 throwaway shadow keys).
 
 Custody option A: the signer's private key is a 64-hex Ed25519 seed in a file with mode **0400**

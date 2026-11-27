@@ -1,4 +1,4 @@
-"""R2.08 calibration, pure core: the spec's CAL cases (spec/r208/README.md section 6)."""
+"""R2.08 calibration, pure core: the spec's CAL cases (section 6)."""
 
 from datetime import UTC, datetime
 from decimal import Decimal

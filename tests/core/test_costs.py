@@ -1,4 +1,4 @@
-"""The pure cost arithmetic (spec/costs section 2, 3.3, 5.4)."""
+"""The pure cost arithmetic (section 2, 3.3, 5.4)."""
 
 from datetime import UTC, datetime
 from decimal import Decimal

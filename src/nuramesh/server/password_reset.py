@@ -1,4 +1,4 @@
-"""Password reset (R1.41; `spec/identity/password-reset.md`): the self-service request, the
+"""Password reset (R1.41; the design notes): the self-service request, the
 redeem, the owner and CLI reset and the API-token revoke links.
 
 A `ResetService` sits over the `AuthService` of one organization (client limiter and lockout,

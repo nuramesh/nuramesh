@@ -49,11 +49,19 @@ class LicenceReport:
     expires_at: datetime | None = None
     granted: tuple[str, ...] = ()
     ignored: tuple[str, ...] = ()
+    in_grace: bool = False
+    grace_ends_at: datetime | None = None
 
     @property
     def notice(self) -> str | None:
         """The one line to print, or None when there is nothing to say."""
         if self.problem is None:
+            if self.in_grace and self.expires_at is not None:
+                expired = self.expires_at.strftime("%Y-%m-%d")
+                tail = ""
+                if self.grace_ends_at is not None:
+                    tail = f": paid features stop on {self.grace_ends_at.strftime('%Y-%m-%d')}"
+                return f"licence: in_grace: licence expired on {expired}{tail} (30-day grace)"
             return None
         return f"licence: {self.problem}: {self.detail}"
 
@@ -152,6 +160,7 @@ def load_licence(
     claims = result.claims
     assert claims is not None  # a valid result always carries them
     source = LicenceEntitlements(claims.features, claims.not_before, claims.expires_at, now)
+    in_grace = source.in_grace
     report = LicenceReport(
         configured=True,
         problem=None,
@@ -161,6 +170,8 @@ def load_licence(
         expires_at=claims.expires_at,
         granted=tuple(sorted(source.granted)),
         ignored=tuple(sorted(source.ignored)),
+        in_grace=in_grace,
+        grace_ends_at=source.grace_ends_at if in_grace else None,
     )
     return report, source
 

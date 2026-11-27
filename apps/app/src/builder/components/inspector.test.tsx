@@ -25,33 +25,33 @@ function mount(select: string[]) {
 
 describe("Inspector", () => {
   it("renders an agent's settings (every section) without looping", () => {
-    mount(["dana"]);
+    mount(["developer"]);
     for (const heading of ["Identity", "Model", "Budget", "Permissions", "Gates", "Evals"]) {
       expect(screen.getByRole("heading", { name: heading })).toBeInTheDocument();
     }
-    expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue("Dana (developer)");
+    expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue("Developer");
     expect(screen.getByText("Default: deny")).toBeInTheDocument();
   });
 
   it("shows the verification line for a verifier", () => {
-    mount(["rhea"]);
+    mount(["reviewer"]);
     expect(screen.getByRole("heading", { name: "Verifies" })).toBeInTheDocument();
-    expect(screen.getByText("Dana (developer)")).toBeInTheDocument();
+    expect(screen.getAllByText("Developer").length).toBeGreaterThan(0);
   });
 
   it("switches to the YAML tab and follows edits made elsewhere", async () => {
-    const store = mount(["dana"]);
+    const store = mount(["developer"]);
     await userEvent.click(screen.getByRole("tab", { name: "YAML" }));
     const yaml = screen.getByRole<HTMLTextAreaElement>("textbox", { name: /YAML for/ });
-    expect(yaml.value).toContain("name: Dana (developer)");
+    expect(yaml.value).toContain("name: Developer");
     act(() => {
-      store.getState().edit("Rename", (d) => ({ ...d, org: { ...d.org, agents: d.org.agents.map((a) => (a.id === "dana" ? { ...a, name: "Ada" } : a)) } }));
+      store.getState().edit("Rename", (d) => ({ ...d, org: { ...d.org, agents: d.org.agents.map((a) => (a.id === "developer" ? { ...a, name: "Ada" } : a)) } }));
     });
     expect(yaml.value).toContain("name: Ada");
   });
 
   it("adds a gate only once its settings are given (issue #1407)", async () => {
-    const store = mount(["dana"]);
+    const store = mount(["developer"]);
     expect(screen.getByText(/No gates: this role's work is not checked/)).toBeInTheDocument();
     await userEvent.selectOptions(screen.getByRole("combobox", { name: "Add a gate" }), "verifier");
     // choosing a kind writes nothing: the settings come first
@@ -73,12 +73,12 @@ describe("Inspector", () => {
   });
 
   it("does not carry a half-filled add-gate form over to another role (issue #1407)", async () => {
-    const store = mount(["dana"]);
+    const store = mount(["developer"]);
     await userEvent.selectOptions(screen.getByRole("combobox", { name: "Add a gate" }), "verifier");
     await userEvent.type(screen.getByRole("textbox", { name: "Settings for the Independent verifier (YAML)" }), "verifier: reviewer");
     expect(screen.getByRole("button", { name: "Add gate" })).toBeEnabled();
     act(() => {
-      store.getState().setSelection(["rhea"]);
+      store.getState().setSelection(["reviewer"]);
     });
     expect(screen.queryByRole("button", { name: "Add gate" })).not.toBeInTheDocument();
     expect(screen.queryByRole("textbox", { name: /Settings for the/ })).not.toBeInTheDocument();
@@ -86,7 +86,7 @@ describe("Inspector", () => {
   });
 
   it("marks a gate that has no settings (from an older saved file)", () => {
-    const store = mount(["dana"]);
+    const store = mount(["developer"]);
     act(() => {
       store.getState().edit("Old file", (d) => ({
         ...d,

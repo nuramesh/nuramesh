@@ -17,16 +17,16 @@ const base = (id: string, agent: string, over: Partial<AgentCredential>): AgentC
 });
 
 const MIXED = [
-  base("a", "dana", { scopes: ["read", "run"] }),
-  base("b", "dana", { state: "revoked", revokedAt: "2026-10-27T09:00:00Z" }),
-  base("c", "dana", { state: "expired", expiresAt: "2026-10-20T12:00:00Z" }),
-  base("d", "theo", {}),
+  base("a", "developer", { scopes: ["read", "run"] }),
+  base("b", "developer", { state: "revoked", revokedAt: "2026-10-27T09:00:00Z" }),
+  base("c", "developer", { state: "expired", expiresAt: "2026-10-20T12:00:00Z" }),
+  base("d", "tester", {}),
 ];
 
 const ERASED = [
-  base("e", "dana", { scopes: ["read", "run"], issuerErased: true }),
-  base("f", "theo", { issuerErased: true }),
-  base("a", "rhea", {}),
+  base("e", "developer", { scopes: ["read", "run"], issuerErased: true }),
+  base("f", "tester", { issuerErased: true }),
+  base("a", "reviewer", {}),
 ];
 
 export const AGENT_ACCESS_SCENARIOS: readonly AgentAccessScenario[] = ["mixed", "erased", "empty", "approver", "viewer"];

@@ -1,4 +1,4 @@
-"""A model's identity is (provider, endpoint_id, model); the zero-price rule (spec/openai-compatible
+"""A model's identity is (provider, endpoint_id, model); the zero-price rule (the design notes
 2.1, 12.2, 16a). Core only: no engine, no network."""
 
 from datetime import UTC, datetime

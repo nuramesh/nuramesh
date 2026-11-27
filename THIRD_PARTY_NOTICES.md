@@ -299,6 +299,16 @@ zstandard 0.25.0
   Licence: BSD-3-Clause
   Licence text: see T57 below.
 
+Vendored files
+--------------
+
+moby/profiles seccomp/v0.2.4 (the default seccomp profile of Docker Engine 29.9.2, unmodified)
+  File: src/nuramesh/sandboxd/seccomp-default.moby-profiles-v0.2.4.json
+  SHA-256: 785b2429264afba4d594320337cb17f144f3c7d51585f9805eef72e28f4f9334
+  Source: https://github.com/moby/profiles (tag seccomp/v0.2.4, seccomp/default.json)
+  Licence: Apache-2.0
+  Licence text: the Apache License 2.0, see LICENSE; the project ships no NOTICE file.
+
 Licence texts
 -------------
 

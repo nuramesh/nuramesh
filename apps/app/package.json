@@ -2,7 +2,7 @@
   "name": "@nuramesh/app",
   "version": "0.1.0",
   "private": true,
-  "description": "NuraMesh web app: graph builder and run views (React + Vite single-page app).",
+  "description": "NuraMesh web app: workflow builder and run views (React + Vite single-page app).",
   "license": "Apache-2.0",
   "type": "module",
   "packageManager": "pnpm@10.34.7",

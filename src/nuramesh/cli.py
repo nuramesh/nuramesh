@@ -6,8 +6,8 @@
     nuramesh report <id> --team examples/dev-team
     nuramesh ledger verify --team examples/dev-team
     nuramesh ledger export --team examples/dev-team --out ledger.jsonl  # then nuramesh_verify.py
-    nuramesh eval run --team examples/dev-team --suite dev-basics --agent dana --fake
-    nuramesh eval status --team examples/dev-team --agent dana
+    nuramesh eval run --team examples/dev-team --suite dev-basics --agent developer --fake
+    nuramesh eval status --team examples/dev-team --agent developer
 
 A team folder keeps its store (the ledger and state) in `.nuramesh/runs.db` unless `--store`
 says otherwise. Exit codes: 0 when everything is fine (all tasks done; ledger intact), 1 when the
@@ -794,15 +794,23 @@ def cmd_run(args: argparse.Namespace) -> int:
     if store is not None:
         _reconcile_run_start(store, config.org.id)  # writes: last, after every refusal above
 
+    sandbox_refused: list[bool] = []  # the refusal is printed once per run
     opened: list[Any] = []  # sandboxes this run opened: Stop kills what they are running
     engines: list[RunEngine] = []  # (filled below) to ask whether the stop hooks already ran
 
     def sandbox() -> Any:
+        from nuramesh.core.sandbox import SandboxUnavailable
         from nuramesh.engine.sandbox import Mode, open_sandbox
 
-        box = open_sandbox(
-            store, run_id=run_id, mode=Mode.LOCAL, allow_unsandboxed=args.allow_unsandboxed
-        )
+        try:
+            box = open_sandbox(
+                store, run_id=run_id, mode=Mode.LOCAL, allow_unsandboxed=args.allow_unsandboxed
+            )
+        except SandboxUnavailable as exc:  # say why on the terminal, then fail closed as before
+            if not sandbox_refused:
+                sandbox_refused.append(True)
+                print(f"the test gate cannot run: {exc}", file=sys.stderr)
+            raise
         opened.append(box)
         if engines and engines[0].stop_hooks_fired and hasattr(box, "cancel"):
             box.cancel()  # opened after the stop: it must not run anything
@@ -2021,8 +2029,21 @@ def cmd_init(args: argparse.Namespace) -> int:
 
     quoted = shlex.quote(str(target))
     print(f"  nuramesh validate {shlex.quote(str(target) + '/nuramesh.yaml')}")
-    print(f"  nuramesh try {quoted} --fake --approve-as human:you --run-id first-run")
-    print("    (no Podman/Docker/Colima: add --allow-unsandboxed, see the sandbox guide)")
+    base = f"nuramesh try {quoted} --fake --approve-as human:you"
+    if args.template != "dev-team":  # the only template whose test gate needs a sandbox
+        print(f"  {base} --run-id first-run")
+        print("    (no Podman/Docker/Colima: add --allow-unsandboxed, see the sandbox guide)")
+    else:
+        from nuramesh import cli_doctor
+
+        if cli_doctor.container_runtime() is None:
+            print(f"  {base} --allow-unsandboxed --run-id first-run")
+            print("    (no container runtime (Podman or Docker) answered here, so the tests run on")
+            print("    this machine without isolation: --allow-unsandboxed prints a warning and")
+            print("    records it in the ledger; it is never a default. Start Podman or Docker to")
+            print("    leave it out.)")
+        else:
+            print(f"  {base} --run-id first-run")
     print(f"  nuramesh serve {quoted}")
     return OK
 
@@ -3294,14 +3315,18 @@ def team_engine_factory(
     module: Any,
     store: Store,
     content: Any,
+    sandbox: Any = None,
     *,
     real: bool = False,
     runner_calls: bool = False,
     credentials: Any = None,
 ) -> Callable[[str, str], RunEngine]:
     """The engine factory of `nuramesh worker`: one engine per call over a team folder, on the
-    team's fake model, with **no sandbox** (a test-command gate fails with a clear message and the
-    task goes to a human: command execution is closed in hosted mode, ND24/ND29).
+    team's fake model. Without `sandbox` (the Temporal worker) there is **no sandbox**: a
+    test-command gate fails with a clear message and the task goes to a human (command execution
+    is closed in hosted mode, ND24/ND29). The light runner passes the sandbox it chose at its
+    start (`engine.runner_sandbox`, real-models spec R40): each run's team opens it with a
+    watcher for that run's stop request and the organization's halt (R27).
 
     `real` (the light runner started without `--fake`): the provider
     of each call is built from the connection the resolver chose (`GovernedProviders`), and a
@@ -3321,6 +3346,13 @@ def team_engine_factory(
 
         if credentials is None:
             credentials = CredentialSource(stored_off_reason="no_secret_dir")
+
+    def run_sandbox(org_id: str, run_id: str) -> Callable[[], Any]:
+        """The sandbox hook of one run's team: a stop request of the run or a recorded halt of
+        the organization (an unreadable state is one) closes a command in flight (R27, R43)."""
+        from nuramesh.engine.run_control import StopWatch
+
+        return lambda: sandbox.open(stop=StopWatch(store, run_id, org_id).requested)
 
     teams: OrderedDict[tuple[str, str], Any] = OrderedDict()
     teams_lock = threading.Lock()  # guards `teams` and `setting_up` only, never held in `setup`
@@ -3353,7 +3385,7 @@ def team_engine_factory(
                     store=store,
                     run_id=run_id,
                     fake=not real,
-                    sandbox=no_sandbox,
+                    sandbox=no_sandbox if sandbox is None else run_sandbox(org_id, run_id),
                 )
                 team = setup_team(module, env)
                 if not real and not isinstance(team.fake_provider, FakeModel):
@@ -3456,8 +3488,9 @@ def _cmd_worker_light(args: argparse.Namespace) -> int:
     needs no Temporal. With `--fake` it is fake-only: a team with a real model exits 2 and a real
     plan is refused `real_model_not_supported`. Without `--fake` it is real-capable
     (the real-models rules): the admission checks of R10 decide per plan, and the fake
-    model keeps working. It has no sandbox yet (a plan with a command gate is refused
-    `sandbox_unavailable`). It reads stored keys through the secret store of
+    model keeps working. Its sandbox is chosen once at start (R40): the sandbox service, a
+    container runtime of the host, or none (a plan with a command gate is then refused
+    `sandbox_unavailable`, R10 check 7). It reads stored keys through the secret store of
     `NURAMESH_SECRET_DIR` (R32); without one a `stored` connection is refused
     `model_key_unavailable`."""
     from nuramesh.engine.admission import RunnerAdmission, customer_data_enabled
@@ -3467,6 +3500,13 @@ def _cmd_worker_light(args: argparse.Namespace) -> int:
     team_dir = args.team or os.environ.get("NURAMESH_TEAM_DIR", "")
     if not team_dir:
         print("name the team folder: a TEAM argument or NURAMESH_TEAM_DIR", file=sys.stderr)
+        return USAGE
+    from nuramesh.engine import runner_sandbox
+
+    try:  # R40: chosen once, at start; a socket value that is not an absolute path is exit 2
+        chosen = runner_sandbox.choose(os.environ)
+    except runner_sandbox.RunnerSandboxError as exc:
+        print(f"refusing to start: {exc}", file=sys.stderr)
         return USAGE
     try:
         os.environ.setdefault("NURAMESH_RUN_ENGINE", LIGHT)
@@ -3527,17 +3567,27 @@ def _cmd_worker_light(args: argparse.Namespace) -> int:
     real = not args.fake
     # R4: the one change for a `--fake` runner is R12, so the runner's call rules and the key
     # readers (R32) are for a real-capable runner only: a fake-only runner opens no secret store.
-    # The sandbox choice (R40) is not wired yet: no sandbox (fails closed in admission)
+    # The sandbox is the one chosen at start (R40); check 7 asks `chosen.ready` at admission
+    # time (R41), never a value frozen at start
     credentials, key_current = (
         runner_credentials(store, content, config.org.id) if real else (None, None)
     )
     factory = team_engine_factory(
-        root, config, module, store, content, real=real, runner_calls=real, credentials=credentials
+        root,
+        config,
+        module,
+        store,
+        content,
+        sandbox=chosen,
+        real=real,
+        runner_calls=real,
+        credentials=credentials,
     )
     admission = RunnerAdmission(
         fake_only=args.fake,
         customer_enabled=customer_data_enabled(os.environ),  # the runner's own flag (R10.2)
-        sandbox="none",
+        sandbox=chosen.kind,
+        sandbox_ready=chosen.ready,
         key_current=key_current,  # None without a usable secret store (R10 check 4)
     )
     runner = LightRunner(
@@ -3549,10 +3599,16 @@ def _cmd_worker_light(args: argparse.Namespace) -> int:
         admission=admission,
     )
     mode = "real models on" if real else "fake model only"
-    print(f"NuraMesh light runner for organization {config.org.id} ({mode})", flush=True)
+    print(
+        f"NuraMesh light runner for organization {config.org.id} ({mode}, sandbox: {chosen.kind})",
+        flush=True,
+    )
+    probing = threading.Event()
+    chosen.probe_every(probing)  # R52: at start and every 30 s (the service sandbox only)
     try:
         return runner.serve()
     finally:
+        probing.set()
         store.close()
 
 

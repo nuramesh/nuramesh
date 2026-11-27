@@ -2,7 +2,7 @@
 #
 #   sh deploy/compose/init-secrets.sh       # first: generates secrets/ (never committed)
 #   cp deploy/compose/env.example deploy/compose/.env   # then edit NURAMESH_COMPOSE_TEAM_PATH
-#   sh scripts/images/build.sh api worker && sh deploy/compose/build-web.sh
+#   sh scripts/images/build.sh api worker sandbox && sh deploy/compose/build-web.sh
 #   docker compose -f deploy/compose/compose.yml up -d --wait
 #   open https://127.0.0.1:8443        (self-signed certificate: docs/self-hosting.md)
 #
@@ -133,10 +133,14 @@ services:
       # the host's region for the optional local-model profile (ND266 section 3): read only by
       # `nuramesh models local-model`; empty means "not set" (that command then refuses)
       NURAMESH_LOCAL_MODEL_PROCESSING: ${NURAMESH_LOCAL_MODEL_PROCESSING:-}
+      NURAMESH_SECRET_DIR: /secret-store
     secrets: [nuramesh_app_password, refresh_successor_key]
     volumes:
       - team:/data/team:ro
       - keys:/keys
+      # the stored model keys (real-models spec R36): read-write here only (the key routes and
+      # the key sweeper run in this process); `runner` reads the same volume read-only
+      - secret-store:/secret-store
     networks:
       db: {}
       app:
@@ -153,36 +157,6 @@ services:
       timeout: 5s
       retries: 12
       start_period: 15s
-
-  runner:
-    <<: *nuramesh-common
-    image: nuramesh-worker:${NURAMESH_COMPOSE_IMAGE_TAG:-local}
-    entrypoint: ["nuramesh-env", "nuramesh"]
-    # the light engine's runner (ND347, ND399 OD-3): the one process that runs the team's code for
-    # runs started through the API; it needs no Temporal. Never scale it: one runner per database
-    # (a second one waits as a standby and takes over only after the 60 s lease), no horizontal
-    # scaling, no automatic failover. Fake model only until the sandbox work lands.
-    command: ["worker", "--engine", "light", "--fake"]
-    environment:
-      <<: *nuramesh-env
-      NURAMESH_DB_USER: nuramesh_app
-      NURAMESH_RUN_ENGINE: light
-    secrets: [nuramesh_app_password]
-    volumes:
-      - team:/data/team:ro
-      - keys:/keys
-    networks: [db]
-    stop_grace_period: 45s
-    depends_on:
-      migrate: {condition: service_completed_successfully}
-    # no runner heartbeat endpoint: the image check proves the engine code loads; whether a runner
-    # holds the lease is `light_engine` in GET /v1/health
-    healthcheck:
-      test: ["CMD", "python", "-c", "import nuramesh.engine.light"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
 
   worker:
     # the Temporal worker: opt-in profile `temporal` (not the default engine, ND399 OD-3)
@@ -214,6 +188,99 @@ services:
     # no worker heartbeat exists: the health is the image's own HEALTHCHECK
     healthcheck:
       test: ["CMD", "python", "-c", "import nuramesh.temporal.worker"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # --- the sandbox service (real-models spec 7.2, ND400): runs the command of a command gate, one
+  # at a time, each in its own bubblewrap namespaces. It has no network at all, no secret, no
+  # database, no team folder; only `runner` can reach it, through the socket in `sandbox-sock`.
+  # On a host without user-namespace remapping (rootful Docker, Colima, Docker Desktop) it
+  # answers `sandbox_rootful` and runs nothing (OQ3 option (b)); the Sandbox guide.
+  sandbox:
+    image: nuramesh-sandbox:${NURAMESH_COMPOSE_IMAGE_TAG:-local}
+    pull_policy: never
+    user: "10002:10003"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt:
+      - "no-new-privileges:true"
+      # Exception (R46) 1 of 2: not the engine's built-in seccomp profile but this file, which is
+      # the pinned default profile plus unshare, clone with namespace flags, mount, umount2 and
+      # pivot_root (R47; tests compare it with the pin). Nested namespaces need these calls.
+      - "seccomp=./sandbox-seccomp.json"
+      # Exception (R46) 2 of 2: /proc is not masked, because the command's own PID namespace
+      # needs a fresh /proc mounted (the kernel refuses that under a masked one).
+      - "systempaths=unconfined"
+    network_mode: none
+    restart: unless-stopped
+    environment:
+      NURAMESH_SANDBOX_CLIENT_UID: "10001" # the runner's user: the only peer answered (R59)
+      NURAMESH_SANDBOX_WORKSPACE_MAX_MB: "256"
+    volumes:
+      - sandbox-sock:/run/sandbox
+      - sandbox-images:/images:ro
+    tmpfs:
+      # the workspace copies: exec (a workspace script must be runnable); size = max + 16 MiB
+      - /work:rw,exec,nosuid,nodev,mode=0700,uid=10002,gid=10003,size=272m
+      - /tmp:rw,noexec,nosuid,nodev,size=16m
+    # every limit is set (the service refuses to run with any missing: sandbox_unlimited); the
+    # tmpfs pages count against the memory limit
+    mem_limit: 2g
+    memswap_limit: 2g
+    cpus: "2"
+    pids_limit: 512
+    stop_grace_period: 15s
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import os,stat,sys; sys.exit(not stat.S_ISSOCK(os.stat('/run/sandbox/sandbox.sock').st_mode))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  # --- the runner of the built-in (light) engine (ND347, ND399 OD-3; real-models spec R36, R48,
+  # R60, R63): the one process that runs the team's code for runs started through the API, and
+  # the one process that calls model providers; it needs no Temporal. Real-capable (no `--fake`):
+  # the admission checks decide per plan. Never scale it: one runner per database (a second one
+  # waits as a standby and takes over only after the 60 s lease), no horizontal scaling, no
+  # automatic failover. Networks: `db` and `egress` (its way out); never `app`, no published
+  # port. Same user as `api`, so the key files' owner check holds.
+  runner:
+    <<: *nuramesh-common
+    image: nuramesh-worker:${NURAMESH_COMPOSE_IMAGE_TAG:-local}
+    entrypoint: ["nuramesh-env", "nuramesh"]
+    command: ["worker", "--engine", "light", "/data/team"]
+    group_add: ["10003"] # the group of the sandbox socket (R48)
+    environment:
+      <<: *nuramesh-env
+      NURAMESH_DB_USER: nuramesh_app
+      NURAMESH_RUN_ENGINE: light
+      NURAMESH_SANDBOX_SOCKET: /run/sandbox/sandbox.sock
+      NURAMESH_SANDBOX_UID: "10002" # the only peer the runner accepts on that socket (R59)
+      NURAMESH_SECRET_DIR: /secret-store
+      # R62: private, loopback and link-local provider addresses stay refused unless the owner
+      # turns this on (ledgered at each start)
+      NURAMESH_ALLOW_PRIVATE_NETWORK: ${NURAMESH_ALLOW_PRIVATE_NETWORK:-0}
+    secrets: [nuramesh_app_password]
+    volumes:
+      - team:/data/team:ro
+      - keys:/keys
+      - secret-store:/secret-store:ro
+      - sandbox-sock:/run/sandbox
+    networks: [db, egress]
+    stop_grace_period: 45s
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      sandbox: {condition: service_healthy}
+    # no runner heartbeat endpoint: the image check proves the engine code loads; whether a runner
+    # holds the lease is `light_engine` in GET /v1/health
+    healthcheck:
+      test: ["CMD", "python", "-c", "import nuramesh.engine.light"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -396,6 +463,25 @@ services:
     tmpfs: ["/tmp"]
     networks: [edge]
 
+  # --- optional `sandbox-pull` profile (real-models spec R50): adds one image, by digest, to the
+  # sandbox image store. Run by hand, never by `docker compose up`, never in CI:
+  #   docker compose --profile sandbox-pull run --rm sandbox-pull NAME@sha256:<64 hex>
+  # It has a route out (`edge`), mounts only the store, has no secret and exits. The sandbox
+  # service itself never downloads anything.
+  sandbox-pull:
+    profiles: [sandbox-pull]
+    image: nuramesh-sandbox-pull:${NURAMESH_COMPOSE_IMAGE_TAG:-local}
+    pull_policy: never
+    user: "10002:10003"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: "no"
+    volumes:
+      - sandbox-images:/images
+    tmpfs: ["/tmp"]
+    networks: [edge]
+
 secrets:
   postgres_password: {file: ./secrets/postgres_password}
   nuramesh_owner_password: {file: ./secrets/nuramesh_owner_password}
@@ -409,6 +495,11 @@ volumes:
   pgdata: {}
   temporal-pgdata: {}
   keys: {}
+  # the stored model keys (R36): `api` read-write, `runner` read-only, nobody else
+  secret-store: {}
+  # the sandbox socket (only `sandbox` and `runner`) and the sandbox image store (R44, R50)
+  sandbox-sock: {}
+  sandbox-images: {}
   # the optional local-model profile's weights (pulled by hand, never in the repository)
   ollama-models: {}
   # the team configuration folder: a bind mount of the operator's folder (NURAMESH_COMPOSE_TEAM_PATH)
@@ -434,3 +525,5 @@ networks:
   # carries only the loopback publish of `web`: Docker publishes nothing for a container that is
   # on internal networks only (7.8)
   edge: {}
+  # the runner's way to the model provider (R60): not internal, and only `runner` is on it
+  egress: {}

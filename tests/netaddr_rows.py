@@ -1,4 +1,4 @@
-"""The rows of spec/network-guard section 9.1, shared by the classifier and net_guard tests."""
+"""The rows of section 9.1, shared by the classifier and net_guard tests."""
 
 from nuramesh.core.netaddr import AddressClass
 

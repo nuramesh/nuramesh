@@ -4,7 +4,7 @@ One function, used by BOTH the engine (`RunEngine.run`, `resume`, `begin_run`) a
 (`nuramesh try`, `nuramesh eval`), so a halted start leaves the same footprint whichever way it
 was started, and nothing else (no run stream, seed, reconcile, budget or task).
 
-**Bounded growth (T154, `spec/t154/README.md`):** the first refusal of a halt episode (the seq of
+**Bounded growth (T154):** the first refusal of a halt episode (the seq of
 the governing `org.halted`) appends the one `model.blocked` record (`reason` `org_halted`, `stage`
 `start`, the run id, the time, the `episode`). Later refusals are only counted in two mutable
 security-log rows (ND60): a marker (`org_halted_episode`) and a pending counter

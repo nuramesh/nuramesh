@@ -1,4 +1,4 @@
-"""What the runner knows about one provider call in flight (spec/real-models R20.8, R27).
+"""What the runner knows about one provider call in flight (R20.8, R27).
 
 Two facts decide what a failed or stopped call costs on the durable runner, and neither can be
 seen from outside the HTTP client:
@@ -137,7 +137,7 @@ def current() -> CallSignal | None:
 
 
 def retry_wait(seconds: float) -> None:
-    """The wait before the one retry of a stored-key read (`spec/real-models` R33, R38.10). In a
+    """The wait before the one retry of a stored-key read (R33, R38.10). In a
     runner's provider call a stop cuts it short and raises `CancelledBeforeSend`: the store is
     not asked again, no key is read and the call ends as "not sent" (released). Anywhere else
     (no call signal: the CLI path) it is a plain sleep."""

@@ -1,4 +1,4 @@
-"""Build a store, a configuration and a client from the cost spec's cases (spec/costs)."""
+"""Build a store, a configuration and a client from the cost spec's cases."""
 
 import json
 from collections.abc import Callable, Mapping, Sequence
@@ -287,7 +287,7 @@ def quote_case_store(case: Mapping[str, Any]) -> tuple[Store, NuraMeshConfig]:
             )
         if run["ended"] is not None:
             writer.end(rid, utc(run["ended"]), aborted=run["aborted"])
-        for late in run.get("late", []):  # entries written after `run.ended` (spec/costs 7)
+        for late in run.get("late", []):  # entries written after `run.ended` (7)
             writer.late(rid, utc(late["at"]))
     prices = []
     for key, day in case["current_prices"].items():

@@ -172,7 +172,7 @@
   "body": {
    "already": false,
    "assignment": {
-    "id": "dana",
+    "id": "developer",
     "model": "azure-openai/gpt-5.4-mini",
     "scope": "agent"
    },
@@ -229,40 +229,40 @@
      "subject": "agent=chief"
     },
     {
-     "id": "dana",
+     "id": "developer",
      "level": "role",
      "ref": "fake/dev-1",
      "role": "developer",
      "scope": "agent",
      "source": "config",
-     "subject": "agent=dana"
+     "subject": "agent=developer"
     },
     {
-     "id": "theo",
+     "id": "tester",
      "level": "role",
      "ref": "fake/dev-1",
      "role": "tester",
      "scope": "agent",
      "source": "config",
-     "subject": "agent=theo"
+     "subject": "agent=tester"
     },
     {
-     "id": "rhea",
+     "id": "reviewer",
      "level": "role",
      "ref": "fake/reviewer-1",
      "role": "reviewer",
      "scope": "agent",
      "source": "config",
-     "subject": "agent=rhea"
+     "subject": "agent=reviewer"
     },
     {
-     "id": "omar",
+     "id": "devops",
      "level": "role",
      "ref": "fake/dev-1",
      "role": "devops",
      "scope": "agent",
      "source": "config",
-     "subject": "agent=omar"
+     "subject": "agent=devops"
     }
    ]
   },
@@ -281,40 +281,40 @@
      "subject": "agent=chief"
     },
     {
-     "id": "dana",
+     "id": "developer",
      "level": "agent",
      "ref": "azure-openai/gpt-5.4-mini",
      "role": "developer",
      "scope": "agent",
      "source": "ledger",
-     "subject": "agent=dana"
+     "subject": "agent=developer"
     },
     {
-     "id": "theo",
+     "id": "tester",
      "level": "role",
      "ref": "fake/dev-1",
      "role": "tester",
      "scope": "agent",
      "source": "config",
-     "subject": "agent=theo"
+     "subject": "agent=tester"
     },
     {
-     "id": "rhea",
+     "id": "reviewer",
      "level": "role",
      "ref": "fake/reviewer-1",
      "role": "reviewer",
      "scope": "agent",
      "source": "config",
-     "subject": "agent=rhea"
+     "subject": "agent=reviewer"
     },
     {
-     "id": "omar",
+     "id": "devops",
      "level": "role",
      "ref": "fake/dev-1",
      "role": "devops",
      "scope": "agent",
      "source": "config",
-     "subject": "agent=omar"
+     "subject": "agent=devops"
     }
    ]
   },
@@ -950,7 +950,7 @@
      "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
      "at": "2026-10-25T12:00:22+00:00",
      "payload": {
-      "id": "dana",
+      "id": "developer",
       "model": "azure-openai/gpt-5.4-mini",
       "previous": "fake/dev-1",
       "scope": "agent",
@@ -1238,7 +1238,7 @@
   "body": {
    "already": false,
    "assignment": {
-    "id": "theo",
+    "id": "tester",
     "model": "openai-compatible/local-one/llama3.1",
     "scope": "agent"
    },
@@ -1263,40 +1263,40 @@
      "subject": "agent=chief"
     },
     {
-     "id": "dana",
+     "id": "developer",
      "level": "agent",
      "ref": "azure-openai/gpt-5.4-mini",
      "role": "developer",
      "scope": "agent",
      "source": "ledger",
-     "subject": "agent=dana"
+     "subject": "agent=developer"
     },
     {
-     "id": "theo",
+     "id": "tester",
      "level": "agent",
      "ref": "openai-compatible/local-one/llama3.1",
      "role": "tester",
      "scope": "agent",
      "source": "ledger",
-     "subject": "agent=theo"
+     "subject": "agent=tester"
     },
     {
-     "id": "rhea",
+     "id": "reviewer",
      "level": "role",
      "ref": "fake/reviewer-1",
      "role": "reviewer",
      "scope": "agent",
      "source": "config",
-     "subject": "agent=rhea"
+     "subject": "agent=reviewer"
     },
     {
-     "id": "omar",
+     "id": "devops",
      "level": "role",
      "ref": "fake/dev-1",
      "role": "devops",
      "scope": "agent",
      "source": "config",
-     "subject": "agent=omar"
+     "subject": "agent=devops"
     }
    ]
   },
@@ -1876,7 +1876,7 @@
      "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
      "at": "2026-10-25T12:00:22+00:00",
      "payload": {
-      "id": "dana",
+      "id": "developer",
       "model": "azure-openai/gpt-5.4-mini",
       "previous": "fake/dev-1",
       "scope": "agent",
@@ -2083,7 +2083,7 @@
      "actor": "human:u_0a0a0a0a0a0a0a0a0a0a",
      "at": "2026-10-25T12:00:22+00:00",
      "payload": {
-      "id": "theo",
+      "id": "tester",
       "model": "openai-compatible/local-one/llama3.1",
       "previous": "fake/dev-1",
       "scope": "agent",
@@ -2143,7 +2143,7 @@
  "oc_pause": {
   "body": {
    "affected": [
-    "agent=theo"
+    "agent=tester"
    ],
    "already": false,
    "entry": {
@@ -2233,10 +2233,10 @@
  "oc_remove_in_use": {
   "body": {
    "code": "in_use",
-   "detail": "'openai-compatible/local-one/llama3.1' is still assigned to agent=theo; reassign them first",
+   "detail": "'openai-compatible/local-one/llama3.1' is still assigned to agent=tester; reassign them first",
    "problems": [
     {
-     "message": "'openai-compatible/local-one/llama3.1' is still assigned to agent=theo; reassign them first",
+     "message": "'openai-compatible/local-one/llama3.1' is still assigned to agent=tester; reassign them first",
      "path": "$"
     }
    ],
@@ -2249,7 +2249,7 @@
  "oc_retire": {
   "body": {
    "affected": [
-    "agent=theo"
+    "agent=tester"
    ],
    "already": false,
    "entry": {
@@ -2281,7 +2281,7 @@
  "pause_assigned": {
   "body": {
    "affected": [
-    "agent=dana"
+    "agent=developer"
    ],
    "already": false,
    "entry": {
@@ -2426,10 +2426,10 @@
  "remove_in_use": {
   "body": {
    "code": "in_use",
-   "detail": "'azure-openai/gpt-5.4-mini' is still assigned to agent=dana; reassign them first",
+   "detail": "'azure-openai/gpt-5.4-mini' is still assigned to agent=developer; reassign them first",
    "problems": [
     {
-     "message": "'azure-openai/gpt-5.4-mini' is still assigned to agent=dana; reassign them first",
+     "message": "'azure-openai/gpt-5.4-mini' is still assigned to agent=developer; reassign them first",
      "path": "$"
     }
    ],
@@ -2490,14 +2490,14 @@
   "body": {
    "blocks": [
     {
-     "agent": "dana",
+     "agent": "developer",
      "detail": "'azure-openai/gpt-5.4-mini' is paused in the approved catalog",
      "model": "gpt-5.4-mini",
      "provider": "azure-openai",
      "reason": "model_paused",
      "role": "developer",
-     "subject": "agent=dana",
-     "text": "model blocked [model_paused] agent=dana: 'azure-openai/gpt-5.4-mini' is paused in the approved catalog"
+     "subject": "agent=developer",
+     "text": "model blocked [model_paused] agent=developer: 'azure-openai/gpt-5.4-mini' is paused in the approved catalog"
     }
    ],
    "ok": false,
@@ -2509,14 +2509,14 @@
   "body": {
    "blocks": [
     {
-     "agent": "dana",
+     "agent": "developer",
      "detail": "'azure-openai/gpt-5.4-mini' is processed in global and may not receive customer data: this deployment may process data outside Canada (global): it accepts only synthetic, non-customer data; customer data must go to a Canadian or customer-chosen region",
      "model": "gpt-5.4-mini",
      "provider": "azure-openai",
      "reason": "residency_refused",
      "role": "developer",
-     "subject": "agent=dana",
-     "text": "model blocked [residency_refused] agent=dana: 'azure-openai/gpt-5.4-mini' is processed in global and may not receive customer data: this deployment may process data outside Canada (global): it accepts only synthetic, non-customer data; customer data must go to a Canadian or customer-chosen region"
+     "subject": "agent=developer",
+     "text": "model blocked [residency_refused] agent=developer: 'azure-openai/gpt-5.4-mini' is processed in global and may not receive customer data: this deployment may process data outside Canada (global): it accepts only synthetic, non-customer data; customer data must go to a Canadian or customer-chosen region"
     }
    ],
    "ok": false,
@@ -2538,7 +2538,7 @@
      "ref": "fake/dev-1",
      "set_at": null,
      "set_by": null,
-     "subject": "agent=dana"
+     "subject": "agent=developer"
     },
     {
      "connection_seq": null,
@@ -2549,7 +2549,7 @@
      "ref": "fake/dev-1",
      "set_at": null,
      "set_by": null,
-     "subject": "agent=theo"
+     "subject": "agent=tester"
     },
     {
      "connection_seq": null,
@@ -2560,7 +2560,7 @@
      "ref": "fake/reviewer-1",
      "set_at": null,
      "set_by": null,
-     "subject": "agent=rhea"
+     "subject": "agent=reviewer"
     },
     {
      "connection_seq": null,
@@ -2571,7 +2571,7 @@
      "ref": "fake/dev-1",
      "set_at": null,
      "set_by": null,
-     "subject": "agent=omar"
+     "subject": "agent=devops"
     }
    ]
   },
@@ -2591,7 +2591,7 @@
      "ref": "azure-openai/gpt-5.4-mini",
      "set_at": "2026-10-25T12:00:00+00:00",
      "set_by": "human:u_0a0a0a0a0a0a0a0a0a0a",
-     "subject": "agent=dana"
+     "subject": "agent=developer"
     },
     {
      "connection_seq": null,
@@ -2602,7 +2602,7 @@
      "ref": "fake/dev-1",
      "set_at": null,
      "set_by": null,
-     "subject": "agent=theo"
+     "subject": "agent=tester"
     },
     {
      "connection_seq": null,
@@ -2613,7 +2613,7 @@
      "ref": "fake/reviewer-1",
      "set_at": null,
      "set_by": null,
-     "subject": "agent=rhea"
+     "subject": "agent=reviewer"
     },
     {
      "connection_seq": null,
@@ -2624,7 +2624,7 @@
      "ref": "fake/dev-1",
      "set_at": null,
      "set_by": null,
-     "subject": "agent=omar"
+     "subject": "agent=devops"
     }
    ]
   },
@@ -2769,40 +2769,40 @@
      "subject": "agent=chief"
     },
     {
-     "id": "dana",
+     "id": "developer",
      "level": "agent",
      "ref": "azure-openai/gpt-5.4-mini",
      "role": "developer",
      "scope": "agent",
      "source": "ledger",
-     "subject": "agent=dana"
+     "subject": "agent=developer"
     },
     {
-     "id": "theo",
+     "id": "tester",
      "level": "role",
      "ref": "fake/dev-1",
      "role": "tester",
      "scope": "agent",
      "source": "config",
-     "subject": "agent=theo"
+     "subject": "agent=tester"
     },
     {
-     "id": "rhea",
+     "id": "reviewer",
      "level": "role",
      "ref": "fake/reviewer-1",
      "role": "reviewer",
      "scope": "agent",
      "source": "config",
-     "subject": "agent=rhea"
+     "subject": "agent=reviewer"
     },
     {
-     "id": "omar",
+     "id": "devops",
      "level": "role",
      "ref": "fake/dev-1",
      "role": "devops",
      "scope": "agent",
      "source": "config",
-     "subject": "agent=omar"
+     "subject": "agent=devops"
     }
    ]
   },

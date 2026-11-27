@@ -19,7 +19,7 @@ roles:
   - {id: developer, name: Developer}
 agents:
   - {id: cos, name: Casey, role: chief-of-staff}
-  - {id: dev-1, name: Dana, role: developer, reports_to: cos}
+  - {id: dev-1, name: Developer, role: developer, reports_to: cos}
 """
 
 

@@ -401,7 +401,7 @@ def output_cap_payload(
     available: Money | None,
     extra: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """A `model.output_capped` payload (spec/r142 section 6)."""
+    """A `model.output_capped` payload (section 6)."""
     return {
         "stage": stage,
         "reservation": reservation_id,
@@ -438,7 +438,7 @@ def reserve_for_call_capped(
     actor: str,
     details: Mapping[str, Any] | None = None,
 ) -> CappedReservation:
-    """`reserve_for_call` for a call that may have an output cap (R1.42, spec/r142 section 4).
+    """`reserve_for_call` for a call that may have an output cap (R1.42, section 4).
 
     The decision is made inside the reservation transaction, from the balances read there (after
     the window roll). With no cap configured it is exactly `reserve_for_call` of the worst case of

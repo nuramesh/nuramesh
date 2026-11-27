@@ -13,8 +13,8 @@ org:
     - id: chief
       name: Chief
       role: cos
-    - id: dana
-      name: Dana
+    - id: developer
+      name: Developer
       role: dev
       reports_to: chief
 `;
