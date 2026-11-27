@@ -112,9 +112,3 @@ explains each step, including how to run the sample team's tests in a container.
 - [Self-hosting preview](https://docs.nuramesh.com/guides/self-hosting/) (coming soon, not yet supported)
 - [Contributing](CONTRIBUTING.md), [Code of conduct](CODE_OF_CONDUCT.md) and [Discussions](https://github.com/nuramesh/nuramesh/discussions)
 - Security: report vulnerabilities to security@nuramesh.com as [SECURITY.md](SECURITY.md) describes, not in a public issue.
-
-## Licence
-
-Apache License 2.0: see `LICENSE` and `NOTICE`. The name and logo are covered by `TRADEMARKS.md`.
-Enterprise features (single sign-on, SCIM, custom roles, streaming audit export) are a separate
-commercial product and are not in this repository.
