@@ -26,3 +26,19 @@ uv sync --locked --all-extras
 NuraMesh is licensed under the Apache License 2.0 (`LICENSE`). By submitting a contribution you agree
 it is licensed under the Apache License 2.0 (section 5 of the licence), and you confirm you have the
 right to submit it.
+
+## Repository layout
+
+Where each part of NuraMesh lives in this repository:
+
+| Part | Where | What it does |
+| --- | --- | --- |
+| Core | [`src/nuramesh/core/`](src/nuramesh/core/) | The domain model: organization graph, tasks, gates, budgets, policies, ledger, money. Imports only the standard library and pydantic. |
+| Engine | [`src/nuramesh/engine/`](src/nuramesh/engine/) | Runs a team: gates and verifiers, budgets, policy checks, canon, evals, anchors, sandbox. |
+| Stores | [`src/nuramesh/stores/`](src/nuramesh/stores/) | Memory, SQLite and PostgreSQL behind one interface. |
+| Adapters | [`src/nuramesh/adapters/`](src/nuramesh/adapters/) | Thin framework adapters. LangGraph is the first. |
+| Server | [`src/nuramesh/server/`](src/nuramesh/server/) | The REST API. Sign-in is on by default. |
+| Command line | [`src/nuramesh/cli.py`](src/nuramesh/cli.py) | The `nuramesh` command. |
+| Web app | [`apps/app/`](apps/app/) | The web app with the Workflow builder and approvals. |
+| TypeScript SDK | [`apps/sdk-ts/`](apps/sdk-ts/) | A typed client for the API. |
+| Ledger verifier | [`verifier/`](verifier/) | One standard-library file that checks a ledger export against signed anchors, sharing no code with NuraMesh. |
